@@ -1,0 +1,7 @@
+.progressbar-container {
+  display: flex;
+  height: 100%;
+}
+.progressbar-step-box {
+  height: 100%;
+}
