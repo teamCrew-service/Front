@@ -13,7 +13,7 @@ function Home(): JSX.Element {
 
   const goNextStep = (): void => {
     if (step === 3) {
-      navigate('/main');
+      navigate('/login');
       return;
     }
     setStep(prev => prev + 1);
