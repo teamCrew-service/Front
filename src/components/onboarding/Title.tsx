@@ -1,5 +1,11 @@
 import React from 'react';
-import './onboarding.css';
+import styled from 'styled-components';
+
+const OnBoardingTitle = styled.p`
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 22px;
+`;
 
 function Title({
   step,
@@ -19,8 +25,7 @@ function Title({
     '소통을 통해 진짜 크루가 되어봐요!',
   ];
   return (
-    <p
-      className="onboarding-title"
+    <OnBoardingTitle
       style={{
         marginTop: `${margin.top}px`,
         marginBottom: `${margin.bottom}px`,
@@ -29,7 +34,7 @@ function Title({
       }}
     >
       {contextList[step - 1]}
-    </p>
+    </OnBoardingTitle>
   );
 }
 

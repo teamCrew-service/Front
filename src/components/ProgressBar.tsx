@@ -1,6 +1,18 @@
 import React from 'react';
-import './ProgressBar.css';
+import styled from 'styled-components';
 import colors from '../style/color';
+
+const ProgressbarContainer = styled.div`
+  display: flex;
+  height: 100%;
+  background-color: ${colors.lightGray};
+`;
+
+const ProgressbarStepBox = styled.div`
+  width: 33.33%;
+  height: 100%;
+  background-color: ${colors.blue};
+`;
 
 function ProgressBar({ step }: { step: number }): JSX.Element {
   const stepArray: number[] = [];
@@ -9,18 +21,11 @@ function ProgressBar({ step }: { step: number }): JSX.Element {
     stepArray.push(i);
   }
   return (
-    <div className="progressbar-container">
+    <ProgressbarContainer>
       {stepArray.map(item => (
-        <div
-          key={item}
-          className="progressbar-step-box"
-          style={{
-            width: `33.33%`,
-            backgroundColor: `${colors.blue}`,
-          }}
-        />
+        <ProgressbarStepBox key={item} />
       ))}
-    </div>
+    </ProgressbarContainer>
   );
 }
 

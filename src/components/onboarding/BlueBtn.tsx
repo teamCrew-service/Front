@@ -1,13 +1,27 @@
 import React from 'react';
-import './onboarding.css';
+import styled from 'styled-components';
 import colors from '../../style/color';
+
+const OnBoardingBtn = styled.button`
+  width: 343px;
+  height: 56px;
+  border-radius: 8px;
+  border: none;
+  margin-top: auto;
+  margin-bottom: 60px;
+  color: white;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 22px;
+  letter-spacing: -0.408px;
+`;
 
 function BlueBtn({ step, onClick }: { step: number; onClick: () => void }): JSX.Element {
   const contextList = ['다음', '다음', '시작하기'];
   return (
-    <button onClick={onClick} className="onboarding-btn" type="button" style={{ backgroundColor: `${colors.blue}` }}>
+    <OnBoardingBtn onClick={onClick} type="button" style={{ backgroundColor: `${colors.blue}` }}>
       {contextList[step - 1]}
-    </button>
+    </OnBoardingBtn>
   );
 }
 

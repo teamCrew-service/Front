@@ -1,6 +1,24 @@
 import React from 'react';
-import './login.css';
+import { styled } from 'styled-components';
 import colors from '../../style/color';
+
+const LoginAbsoluteDiv = styled.div`
+  position: absolute;
+  display: flex;
+  width: 52px;
+  height: 52px;
+  top: 2px;
+  left: 8px;
+`;
+
+const LoginContainer = styled.div`
+  text-align: center;
+  line-height: 56px;
+  position: relative;
+  width: 343px;
+  height: 56px;
+  border-radius: 8px;
+`;
 
 function Btn({ context, icon: Icon }: { context: string; icon: React.FC<React.SVGProps<SVGSVGElement>> }): JSX.Element {
   let style = {};
@@ -18,12 +36,12 @@ function Btn({ context, icon: Icon }: { context: string; icon: React.FC<React.SV
       break;
   }
   return (
-    <div id="main-login-container" style={style}>
-      <div id="main-absolute-div">
+    <LoginContainer style={style}>
+      <LoginAbsoluteDiv>
         <Icon />
-      </div>
+      </LoginAbsoluteDiv>
       <p>{context}로 로그인</p>
-    </div>
+    </LoginContainer>
   );
 }
 
