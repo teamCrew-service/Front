@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Home.css';
+import './OnBoarding.css';
 import icons from '../../icons';
 import Title from '../../components/onboarding/Title';
 import ProgressBar from '../../components/ProgressBar';
 import BlueBtn from '../../components/onboarding/BlueBtn';
 import Img from '../../components/onboarding/Img';
 
-function Home(): JSX.Element {
+function OnBoarding(): JSX.Element {
   const navigate = useNavigate();
   const [step, setStep] = useState<number>(1);
 
@@ -39,4 +39,4 @@ function Home(): JSX.Element {
   );
 }
 
-export default Home;
+export default OnBoarding;
