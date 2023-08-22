@@ -1,13 +1,20 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
+import './App.css';
+import OnBoarding from './pages/onboarding/OnBoarding';
+import Login from './pages/login/Login';
+import Main from './pages/main/Main';
 
 function App(): JSX.Element {
   return (
-    <div>
-      <Routes>
-        <Route path="/" element=<Home /> />
-      </Routes>
+    <div id="total">
+      <div className="container">
+        <Routes>
+          <Route path="/" element=<OnBoarding /> />
+          <Route path="/login" element=<Login /> />
+          <Route path="/main" element=<Main /> />
+        </Routes>
+      </div>
     </div>
   );
 }
