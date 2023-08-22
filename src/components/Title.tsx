@@ -1,11 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
-
-const OnBoardingTitle = styled.p`
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 22px;
-`;
+import TitleParagraph from '../styledComponent/styledP/TitleParagraph';
 
 function Title({
   step,
@@ -25,7 +19,7 @@ function Title({
     '소통을 통해 진짜 크루가 되어봐요!',
   ];
   return (
-    <OnBoardingTitle
+    <TitleParagraph
       style={{
         marginTop: `${margin.top}px`,
         marginBottom: `${margin.bottom}px`,
@@ -34,7 +28,7 @@ function Title({
       }}
     >
       {contextList[step - 1]}
-    </OnBoardingTitle>
+    </TitleParagraph>
   );
 }
 

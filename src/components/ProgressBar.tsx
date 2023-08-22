@@ -1,18 +1,19 @@
 import React from 'react';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 import colors from '../style/color';
+import ProgressbarDiv from '../styledComponent/styledDiv/ProgressbarDiv';
 
-const ProgressbarContainer = styled.div`
-  display: flex;
-  height: 100%;
-  background-color: ${colors.lightGray};
-`;
+// const ProgressbarContainer = styled.div`
+//   display: flex;
+//   height: 100%;
+//   background-color: ${colors.lightGray};
+// `;
 
-const ProgressbarStepBox = styled.div`
-  width: 33.33%;
-  height: 100%;
-  background-color: ${colors.blue};
-`;
+// const ProgressbarStepBox = styled.div`
+//   width: 33.33%;
+//   height: 100%;
+//   background-color: ${colors.blue};
+// `;
 
 function ProgressBar({ step }: { step: number }): JSX.Element {
   const stepArray: number[] = [];
@@ -21,11 +22,11 @@ function ProgressBar({ step }: { step: number }): JSX.Element {
     stepArray.push(i);
   }
   return (
-    <ProgressbarContainer>
+    <ProgressbarDiv $width="100%" $display="flex">
       {stepArray.map(item => (
-        <ProgressbarStepBox key={item} />
+        <ProgressbarDiv $width="33.33%" $color={colors.blue} key={item} />
       ))}
-    </ProgressbarContainer>
+    </ProgressbarDiv>
   );
 }
 
