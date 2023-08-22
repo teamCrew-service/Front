@@ -1,16 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import icons from '../../icons';
+import icons from '../../assets/icons';
 import './Login.css';
-import IconWithBtn from '../../components/IconWithBtn';
+import IconWithBtn from '../../components/molecules/IconWithBtn';
 
-function Main(): JSX.Element {
+function Login(): JSX.Element {
   return (
-    <div className="container main-container">
-      <div className="main-logo">
+    <div className="container login-container">
+      <div className="login-logo">
         <icons.TeamLogo />
       </div>
-      <div className="main-btn-list">
+      <div className="login-btn-list">
         <IconWithBtn context="카카오" icon={icons.Kakao} />
         <IconWithBtn context="네이버" icon={icons.Naver} />
         <IconWithBtn context="Google" icon={icons.Google} />
@@ -20,4 +20,4 @@ function Main(): JSX.Element {
   );
 }
 
-export default Main;
+export default Login;

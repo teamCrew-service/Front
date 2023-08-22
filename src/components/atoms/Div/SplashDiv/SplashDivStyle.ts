@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const SplashDiv = styled.div`
+const SplashDivStyle = styled.div`
   position: absolute;
   top: 0;
   left: 0;
@@ -29,4 +29,4 @@ const SplashDiv = styled.div`
   }
 `;
 
-export default SplashDiv;
+export default SplashDivStyle;

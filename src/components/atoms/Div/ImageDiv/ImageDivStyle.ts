@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const ImageDiv = styled.div<{ $imageURL: string }>`
+const ImageDivStyle = styled.div<{ $imageURL: string }>`
   width: 307px;
   height: 234px;
   background-image: url(${props => props.$imageURL});
@@ -9,4 +9,4 @@ const ImageDiv = styled.div<{ $imageURL: string }>`
   background-repeat: no-repeat;
 `;
 
-export default ImageDiv;
+export default ImageDivStyle;

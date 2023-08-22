@@ -1,19 +1,6 @@
 import React from 'react';
-// import styled from 'styled-components';
-import colors from '../style/color';
-import ProgressbarDiv from '../styledComponent/styledDiv/ProgressbarDiv';
-
-// const ProgressbarContainer = styled.div`
-//   display: flex;
-//   height: 100%;
-//   background-color: ${colors.lightGray};
-// `;
-
-// const ProgressbarStepBox = styled.div`
-//   width: 33.33%;
-//   height: 100%;
-//   background-color: ${colors.blue};
-// `;
+import colors from '../../assets/styles/color';
+import ProgressbarDiv from '../atoms/Div/ProgressbarDiv/ProgressbarDivStyle';
 
 function ProgressBar({ step }: { step: number }): JSX.Element {
   const stepArray: number[] = [];

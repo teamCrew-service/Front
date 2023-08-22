@@ -1,9 +1,9 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
-import OnBoarding from './pages/onboarding/OnBoarding';
-import Login from './pages/login/Login';
-import Main from './pages/main/Main';
+import OnBoarding from './pages/Onbaording/OnBoarding';
+import Login from './pages/Login/Login';
+import Main from './pages/Main/Main';
 
 function App(): JSX.Element {
   return (

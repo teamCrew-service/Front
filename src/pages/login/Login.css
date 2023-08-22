@@ -1,7 +1,7 @@
-.main-container {
+.login-container {
   justify-content: space-between;
 }
-.main-logo {
+.login-logo {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,7 +9,7 @@
   height: 84px;
   margin-top: 73px;
 }
-.main-btn-list {
+.login-btn-list {
   display: flex;
   flex-direction: column;
   justify-content: center;
