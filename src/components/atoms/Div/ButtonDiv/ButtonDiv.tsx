@@ -13,7 +13,7 @@ function ButtonDiv({
   fontColor?: string;
   divColor?: string;
   borderStyle?: string;
-  onClick?: () => void;
+  onClick: () => void;
 }): JSX.Element {
   return (
     <ButtonDivStyle onClick={onClick} $color={fontColor} $backgroundColor={divColor} $border={borderStyle}>
@@ -26,7 +26,6 @@ ButtonDiv.defaultProps = {
   fontColor: 'white',
   divColor: `${colors.blue}`,
   borderStyle: 'none',
-  onClick: () => {},
 };
 
 export default ButtonDiv;
