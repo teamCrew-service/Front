@@ -43,11 +43,7 @@ function OnBoardingContainer(): JSX.Element {
       <TitleParagraph context={titleList[step - 1]} margin={{ top: 68 }} />
       <ImageDiv imageURL={imgList[step - 1]} />
       <div style={{ marginTop: 'auto', marginBottom: '60px' }}>
-        <ButtonDiv
-          onClick={() => {
-            goNextStep();
-          }}
-        >
+        <ButtonDiv onClick={goNextStep}>
           <ButtonDivParagraph>{buttonContext[step - 1]}</ButtonDivParagraph>
         </ButtonDiv>
       </div>
