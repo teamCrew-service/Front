@@ -25,6 +25,7 @@ function OnBoardingContainer(): JSX.Element {
   ];
 
   const goNextStep = (): void => {
+    alert('click');
     if (step === 3) {
       navigate('/login');
       return;
