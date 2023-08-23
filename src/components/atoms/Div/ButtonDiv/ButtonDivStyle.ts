@@ -13,6 +13,11 @@ const ButtonDivStyle = styled.div<{ $color?: string; $backgroundColor?: string; 
   background-color: ${props => props.$backgroundColor};
   border: ${props => props.$border};
   color: ${props => props.$color};
+  &:hover {
+    background-color: white;
+    border: 1px solid blue;
+    color: blue;
+  }
 `;
 
 export default ButtonDivStyle;

@@ -15,7 +15,6 @@ const SplashDivStyle = styled.div`
   animation-fill-mode: forwards;
   animation-iteration-count: 1;
   z-index: 9999;
-  border: 1px solid black;
   @keyframes fade-out {
     0% {
       opacity: 1;
