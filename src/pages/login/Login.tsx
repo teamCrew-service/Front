@@ -14,7 +14,7 @@ function Login(): JSX.Element {
         <IconWithBtn context="카카오" icon={icons.Kakao} />
         <IconWithBtn context="네이버" icon={icons.Naver} />
         <IconWithBtn context="Google" icon={icons.Google} />
-        <Link to="/main">가입 전에 일단 둘러보기</Link>
+        <Link to="/home">가입 전에 일단 둘러보기</Link>
       </div>
     </div>
   );

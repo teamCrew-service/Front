@@ -5,7 +5,7 @@ const ProgressbarDivStyle = styled.div`
   width: 100%;
   height: 5px;
   display: flex;
-  background-color: ${colors.lightGray};
+  background-color: ${colors.Gray50};
 `;
 
 export default ProgressbarDivStyle;

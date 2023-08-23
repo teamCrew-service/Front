@@ -3,7 +3,8 @@ import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import OnBoarding from './pages/Onbaording/OnBoarding';
 import Login from './pages/Login/Login';
-import Main from './pages/Main/Main';
+import Home from './pages/Home/Home';
+import FindCrew from './pages/FindCrew/FindCrew';
 
 function App(): JSX.Element {
   return (
@@ -12,7 +13,8 @@ function App(): JSX.Element {
         <Routes>
           <Route path="/" element=<OnBoarding /> />
           <Route path="/login" element=<Login /> />
-          <Route path="/main" element=<Main /> />
+          <Route path="/home" element=<Home /> />
+          <Route path="/findcrew" element=<FindCrew /> />
         </Routes>
       </div>
     </div>
