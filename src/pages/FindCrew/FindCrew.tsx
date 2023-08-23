@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import './FindCrew.css';
+import './FindCrewStyle.css';
 
 function FindCrew(): JSX.Element {
   useEffect(() => {

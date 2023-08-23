@@ -1,5 +1,5 @@
 import React from 'react';
-import './Home.css';
+import './HomeStyle.css';
 import LargeCard from '../../components/molecules/LargeCard/LargeCard';
 import HeadLineParagraph from '../../components/atoms/P/HeadlineParagraph/HeadLineParagraph';
 import SmallCardDiv from '../../components/atoms/Div/SmallCardDiv/SmallCardDiv';
