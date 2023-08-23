@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './OnBoardingContainerStyle.css';
-import icons from '../assets/icons';
+// import icons from '../assets/icons';
 import TitleParagraph from '../components/atoms/P/TitleParagraph/TitleParagraph';
 import ProgressBar from '../components/molecules/ProgressBar';
 import ButtonDiv from '../components/atoms/Div/ButtonDiv/ButtonDiv';
 import ImageDiv from '../components/atoms/Div/ImageDiv/ImageDiv';
-import SplashDiv from '../components/atoms/Div/SplashDiv/SplashDiv';
+// import SplashDiv from '../components/atoms/Div/SplashDiv/SplashDiv';
 import ButtonDivParagraph from '../components/atoms/P/ButtonDivParagraph/ButtonDivParagraph';
 
 function OnBoardingContainer(): JSX.Element {
@@ -34,9 +34,9 @@ function OnBoardingContainer(): JSX.Element {
 
   return (
     <>
-      <SplashDiv>
+      {/* <SplashDiv>
         <icons.TeamLogo className="double-logo" />
-      </SplashDiv>
+      </SplashDiv> */}
       <header>
         <ProgressBar step={step} />
       </header>
