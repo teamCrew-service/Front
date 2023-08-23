@@ -30,7 +30,7 @@ function IconWithBtn({
       break;
   }
   return (
-    <ButtonDiv divColor={color} fontColor={fontColor} borderStyle={style}>
+    <ButtonDiv onClick={() => {}} divColor={color} fontColor={fontColor} borderStyle={style}>
       <AbsoluteDiv icon={icon} left="8px" />
       <ButtonDivParagraph>{context}로 로그인</ButtonDivParagraph>
     </ButtonDiv>

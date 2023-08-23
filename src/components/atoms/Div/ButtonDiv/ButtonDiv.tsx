@@ -1,6 +1,6 @@
 import React from 'react';
-import ButtonDivStyle from './ButtonDivStyle';
 import colors from '../../../../assets/styles/color';
+import ButtonDivStyle from './ButtonDivStyle';
 
 function ButtonDiv({
   children,
@@ -13,10 +13,10 @@ function ButtonDiv({
   fontColor?: string;
   divColor?: string;
   borderStyle?: string;
-  onClick?: () => void;
+  onClick: () => void;
 }): JSX.Element {
   return (
-    <ButtonDivStyle onTouchStart={onClick} $color={fontColor} $backgroundColor={divColor} $border={borderStyle}>
+    <ButtonDivStyle onClick={onClick} $color={fontColor} $backgroundColor={divColor} $border={borderStyle}>
       {children}
     </ButtonDivStyle>
   );
@@ -26,7 +26,6 @@ ButtonDiv.defaultProps = {
   fontColor: 'white',
   divColor: `${colors.blue}`,
   borderStyle: 'none',
-  onClick: () => {},
 };
 
 export default ButtonDiv;
