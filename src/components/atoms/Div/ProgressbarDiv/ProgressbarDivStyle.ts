@@ -1,15 +1,11 @@
 import styled from 'styled-components';
 import colors from '../../../../assets/styles/color';
 
-const ProgressbarDivStyle = styled.div<{ $width?: string; $display?: string; $color?: string }>`
-  width: ${props => props.$width};
+const ProgressbarDivStyle = styled.div`
+  width: 100%;
   height: 5px;
-  display: ${props => props.$display};
-  background-color: ${props => props.$color};
+  display: flex;
+  background-color: ${colors.lightGray};
 `;
-
-ProgressbarDivStyle.defaultProps = {
-  $color: `${colors.lightGray}`,
-};
 
 export default ProgressbarDivStyle;
