@@ -16,7 +16,7 @@ function ButtonDiv({
   onClick?: () => void;
 }): JSX.Element {
   return (
-    <ButtonDivStyle onClick={onClick} $color={fontColor} $backgroundColor={divColor} $border={borderStyle}>
+    <ButtonDivStyle onTouchStart={onClick} $color={fontColor} $backgroundColor={divColor} $border={borderStyle}>
       {children}
     </ButtonDivStyle>
   );
