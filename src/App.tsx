@@ -1,9 +1,10 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
-import OnBoarding from './pages/onboarding/OnBoarding';
+import OnBoarding from './pages/onboarding/Onboarding';
 import Login from './pages/login/Login';
-import Main from './pages/main/Main';
+import Home from './pages/home/Home';
+import FindCrew from './pages/findcrew/FindCrew';
 
 function App(): JSX.Element {
   return (
@@ -12,7 +13,8 @@ function App(): JSX.Element {
         <Routes>
           <Route path="/" element=<OnBoarding /> />
           <Route path="/login" element=<Login /> />
-          <Route path="/main" element=<Main /> />
+          <Route path="/home" element=<Home /> />
+          <Route path="/findcrew" element=<FindCrew /> />
         </Routes>
       </div>
     </div>
