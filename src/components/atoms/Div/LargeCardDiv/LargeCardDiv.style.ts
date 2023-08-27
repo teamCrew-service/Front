@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import colors from '../../../../assets/styles/color';
+import colors from 'assets/styles/color';
 
 const LargeCardDivStyle = styled.div`
   width: 168px;

@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './FindCrewStyle.css';
+import spots from './mockData';
 
 function FindCrew(): JSX.Element {
   const mapDiv = useRef<HTMLDivElement | null>(null);
@@ -12,11 +13,36 @@ function FindCrew(): JSX.Element {
       const mapOption = {
         center: new naver.maps.LatLng(latitude, longitude),
         maxZoom: 14,
-        zoom: 11,
+        zoom: 7,
+        minZoom: 7,
         scaleControl: false,
       };
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const map = new naver.maps.Map(mapDiv.current, mapOption);
+      const markers = [];
+      for (let i = 0; i < spots.length; i += 1) {
+        const markerOption = {
+          position: new naver.maps.LatLng(spots[i].lat, spots[i].lng),
+          map,
+          title: spots[i].title,
+        };
+        const marker = new naver.maps.Marker(markerOption);
+        const infowindow = new naver.maps.InfoWindow({
+          content: spots[i].title,
+        });
+
+        // 마커에 마우스 호버 시에 정보를 표시하는 이벤트 리스너 추가
+        naver.maps.Event.addListener(marker, 'mouseover', () => {
+          infowindow.open(map, marker);
+        });
+
+        // 마커에 마우스가 벗어날 때 인포윈도우 닫기
+        naver.maps.Event.addListener(marker, 'mouseout', () => {
+          infowindow.close();
+        });
+
+        markers.push(marker);
+      }
     }
   }, []);
 
