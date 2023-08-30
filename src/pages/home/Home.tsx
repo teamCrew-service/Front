@@ -34,7 +34,7 @@ function Home(): JSX.Element {
   ];
   return (
     <>
-      <div style={{ marginTop: '14px' }}>
+      <div style={{ marginTop: '14px', width: '100%', padding: '0 14px' }}>
         <NoticeCardDiv>
           <Body3Paragraph content="다가오는 일정" color={colors.blue} />
           <HeadLineParagraph content="8월 16일 (수) 오후 8시 30분" />

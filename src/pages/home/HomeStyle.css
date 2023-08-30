@@ -5,6 +5,7 @@
   height: 204px;
   gap: 9px;
   margin-top: 14px;
+  padding: 0 14px;
 }
 
 .category-grid-box {
