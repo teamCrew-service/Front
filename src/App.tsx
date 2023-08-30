@@ -5,6 +5,7 @@ import OnBoarding from './pages/onboarding/Onboarding';
 import Login from './pages/login/Login';
 import Home from './pages/home/Home';
 import FindCrew from './pages/findcrew/FindCrew';
+import Join from './pages/member/Join';
 
 function App(): JSX.Element {
   return (
@@ -13,6 +14,7 @@ function App(): JSX.Element {
         <Routes>
           <Route path="/" element=<OnBoarding /> />
           <Route path="/login" element=<Login /> />
+          <Route path="/join" element=<Join /> />
           <Route path="/home" element=<Home /> />
           <Route path="/findcrew" element=<FindCrew /> />
         </Routes>
