@@ -82,6 +82,7 @@ function FindCrew(): JSX.Element {
 
   let map: naver.maps.Map;
 
+  // 현재 위치 가져왔을 시 실행되는 코드
   useEffect(() => {
     if (myLatLng.lat !== 0 && myLatLng.lng !== 0) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -105,16 +106,14 @@ function FindCrew(): JSX.Element {
       });
       // 드래그 완료 시 해당 bound에 해당하는 marker 데이터만 보여주기
       naver.maps.Event.addListener(map, 'dragend', () => {
-        if (map !== undefined) {
-          const currentBound = map.getBounds();
-          setList([]);
+        const currentBound = map.getBounds();
+        setList([]);
 
-          spots.forEach(spot => {
-            if (currentBound.hasPoint(new naver.maps.LatLng(spot.lat, spot.lng))) {
-              setList(prev => [...prev, spot]);
-            }
-          });
-        }
+        spots.forEach(spot => {
+          if (currentBound.hasPoint(new naver.maps.LatLng(spot.lat, spot.lng))) {
+            setList(prev => [...prev, spot]);
+          }
+        });
       });
       // zoom 레벨 변경 시 해당 bound에 해당하는 marker 데이터만 보여주기
       naver.maps.Event.addListener(map, 'zoom_changed', () => {
