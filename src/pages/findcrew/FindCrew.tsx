@@ -53,8 +53,17 @@ function FindCrew(): JSX.Element {
   // 위치 정보 로딩 여부
   const [loading, setLoading] = useState<boolean>(false);
   // // 현재 위치 정보
-  const [myLatLng, setMyLatLng] = useState<{ lat: number; lng: number }>({ lat: 0, lng: 0 });
-  // const [list, setList] = useState<any[]>([]);
+  // const [myLatLng, setMyLatLng] = useState<{ lat: number; lng: number }>({ lat: 0, lng: 0 });
+  const [myLatLng] = useState<{ lat: number; lng: number }>(() => {
+    const latlng = { lat: 0, lng: 0 };
+    navigator.geolocation.getCurrentPosition(position => {
+      latlng.lat = position.coords.latitude;
+      latlng.lng = position.coords.longitude;
+      setLoading(true);
+    });
+    return latlng;
+  });
+  const [list, setList] = useState<any[]>([]);
   const [categoryOpen, setCategoryOpen] = useState<boolean>(false);
   const [category, setCategory] = useState<string>('관심사');
 
@@ -74,16 +83,6 @@ function FindCrew(): JSX.Element {
   let map: naver.maps.Map;
 
   useEffect(() => {
-    const setMyPosition = (): void => {
-      navigator.geolocation.getCurrentPosition(position => {
-        setMyLatLng({ lat: position.coords.latitude, lng: position.coords.longitude });
-        setLoading(true);
-      });
-    };
-    setMyPosition();
-  }, []);
-
-  useEffect(() => {
     if (myLatLng.lat !== 0 && myLatLng.lng !== 0) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       map = new window.naver.maps.Map('map', {
@@ -95,23 +94,45 @@ function FindCrew(): JSX.Element {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const newCluster = useMarkerClustering(map);
 
-      // 추가 필요 : 드래그 시 해당 bound에 해당하는 marker 데이터만 보여주기
-      // naver.maps.Event.addListener(map, 'dragend', () => {
-      //   if (map !== undefined) {
-      //     const currentBound = map.getBounds();
+      // map 초기화 시 한 번만 발생하는 이벤트
+      naver.maps.Event.once(map, 'init', () => {
+        const currentBound = map.getBounds();
+        spots.forEach(spot => {
+          if (currentBound.hasPoint(new naver.maps.LatLng(spot.lat, spot.lng))) {
+            setList(prev => [...prev, spot]);
+          }
+        });
+      });
+      // 드래그 완료 시 해당 bound에 해당하는 marker 데이터만 보여주기
+      naver.maps.Event.addListener(map, 'dragend', () => {
+        if (map !== undefined) {
+          const currentBound = map.getBounds();
+          setList([]);
 
-      //     spots.forEach(spot => {
-      //       if (currentBound.hasPoint(new naver.maps.LatLng(spot.lat, spot.lng))) {
-      //         setList(prev => [...prev, spot]);
-      //       }
-      //     });
-      //   }
-      // });
+          spots.forEach(spot => {
+            if (currentBound.hasPoint(new naver.maps.LatLng(spot.lat, spot.lng))) {
+              setList(prev => [...prev, spot]);
+            }
+          });
+        }
+      });
+      // zoom 레벨 변경 시 해당 bound에 해당하는 marker 데이터만 보여주기
+      naver.maps.Event.addListener(map, 'zoom_changed', () => {
+        const currentBound = map.getBounds();
+        setList([]);
+
+        spots.forEach(spot => {
+          if (currentBound.hasPoint(new naver.maps.LatLng(spot.lat, spot.lng))) {
+            setList(prev => [...prev, spot]);
+          }
+        });
+      });
     }
-  }, [myLatLng]);
+  }, [loading]);
 
   return loading ? (
-    <div id="map" style={{ position: 'relative', width: '100%', height: '100%', border: 'none' }}>
+    <div style={{ position: 'relative', width: '100%', height: '100%', border: 'none' }}>
+      <div id="map" style={{ width: '100%', height: '65%', border: 'none' }} />
       {categoryOpen && <CategoryModal categorySelectClose={categorySelectClose} selectCategory={selectCategory} />}
       <div
         style={{
@@ -150,8 +171,8 @@ function FindCrew(): JSX.Element {
             overflowX: 'hidden',
           }}
         >
-          {spots.length !== 0 ? (
-            spots.map(spot => (
+          {list.length !== 0 ? (
+            list.map(spot => (
               <CrewCard>
                 <div style={{ display: 'flex', gap: '4px' }}>
                   <TagDiv $color={colors.Gray300}>
