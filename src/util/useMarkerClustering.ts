@@ -44,6 +44,8 @@ function useMarkerClustering(map?: naver.maps.Map): any {
     return () => {
       if (map !== undefined) {
         infoWindow.open(map, marker);
+      } else {
+        infoWindow.close();
       }
     };
   }
