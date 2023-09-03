@@ -1,7 +1,7 @@
 import { makeMarkerClustering } from 'pages/findcrew/MarkerClustering';
 import spots from 'pages/findcrew/mockData';
 
-function useMarkerClustering(map?: naver.maps.Map): any {
+function useMarkerClustering(map?: naver.maps.Map, category?: string): any {
   const MarkerClustering = makeMarkerClustering(window.naver);
 
   const htmlMarker1 = {
@@ -35,7 +35,7 @@ function useMarkerClustering(map?: naver.maps.Map): any {
     anchor: new window.naver.maps.Point(20, 20),
   };
 
-  const data = spots;
+  const data = category !== undefined ? spots.filter(spot => spot.category === category) : spots;
 
   const markers: naver.maps.Marker[] = [];
   const infoWindows: naver.maps.InfoWindow[] = [];

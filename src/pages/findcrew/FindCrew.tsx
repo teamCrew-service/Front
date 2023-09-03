@@ -67,6 +67,10 @@ function FindCrew(): JSX.Element {
   const [categoryOpen, setCategoryOpen] = useState<boolean>(false);
   const [category, setCategory] = useState<string>('관심사');
 
+  let map: naver.maps.Map;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  let newCluster: any;
+
   const categorySelectOpen = (): void => {
     setCategoryOpen(true);
   };
@@ -77,10 +81,10 @@ function FindCrew(): JSX.Element {
 
   const selectCategory = (input: string): void => {
     setCategory(input);
+    setList(spots.filter(spot => spot.category === input));
+    newCluster = useMarkerClustering(map, input);
     setCategoryOpen(false);
   };
-
-  let map: naver.maps.Map;
 
   // 현재 위치 가져왔을 시 실행되는 코드
   useEffect(() => {
@@ -93,13 +97,21 @@ function FindCrew(): JSX.Element {
         scaleControl: false,
       });
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const newCluster = useMarkerClustering(map);
+      if (category === '관심사') {
+        newCluster = useMarkerClustering(map);
+      } else {
+        newCluster = useMarkerClustering(map, category);
+      }
 
       // map 초기화 시 한 번만 발생하는 이벤트
       naver.maps.Event.once(map, 'init', () => {
         const currentBound = map.getBounds();
+        setList([]);
         spots.forEach(spot => {
-          if (currentBound.hasPoint(new naver.maps.LatLng(spot.lat, spot.lng))) {
+          if (
+            (category === '관심사' || spot.category === category) &&
+            currentBound.hasPoint(new naver.maps.LatLng(spot.lat, spot.lng))
+          ) {
             setList(prev => [...prev, spot]);
           }
         });
@@ -110,7 +122,10 @@ function FindCrew(): JSX.Element {
         setList([]);
 
         spots.forEach(spot => {
-          if (currentBound.hasPoint(new naver.maps.LatLng(spot.lat, spot.lng))) {
+          if (
+            (category === '관심사' || spot.category === category) &&
+            currentBound.hasPoint(new naver.maps.LatLng(spot.lat, spot.lng))
+          ) {
             setList(prev => [...prev, spot]);
           }
         });
@@ -121,13 +136,16 @@ function FindCrew(): JSX.Element {
         setList([]);
 
         spots.forEach(spot => {
-          if (currentBound.hasPoint(new naver.maps.LatLng(spot.lat, spot.lng))) {
+          if (
+            (category === '관심사' || spot.category === category) &&
+            currentBound.hasPoint(new naver.maps.LatLng(spot.lat, spot.lng))
+          ) {
             setList(prev => [...prev, spot]);
           }
         });
       });
     }
-  }, [loading]);
+  }, [loading, category]);
 
   return loading ? (
     <div style={{ position: 'relative', width: '100%', height: '100%', border: 'none' }}>
