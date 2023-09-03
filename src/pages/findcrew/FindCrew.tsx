@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import useMarkerClustering from 'util/useMarkerClustering';
 import { styled } from 'styled-components';
 import useCalDate from 'util/useCalDate';
+import icons from 'assets/icons';
+import CategoryModal from './CategoryModal';
 import spots from './mockData';
 
 const CrewCard = styled.div`
@@ -38,6 +40,8 @@ const ImageBox = styled.div`
 
 const CategoryDiv = styled.div`
   display: flex;
+  align-items: center;
+  gap: 2px;
   width: fit-content;
   border: 1px solid ${colors.Gray300};
   border-radius: 8px;
@@ -51,6 +55,21 @@ function FindCrew(): JSX.Element {
   // // 현재 위치 정보
   const [myLatLng, setMyLatLng] = useState<{ lat: number; lng: number }>({ lat: 0, lng: 0 });
   // const [list, setList] = useState<any[]>([]);
+  const [categoryOpen, setCategoryOpen] = useState<boolean>(false);
+  const [category, setCategory] = useState<string>('관심사');
+
+  const categorySelectOpen = (): void => {
+    setCategoryOpen(true);
+  };
+
+  const categorySelectClose = (): void => {
+    setCategoryOpen(false);
+  };
+
+  const selectCategory = (input: string): void => {
+    setCategory(input);
+    setCategoryOpen(false);
+  };
 
   let map: naver.maps.Map;
 
@@ -93,6 +112,7 @@ function FindCrew(): JSX.Element {
 
   return loading ? (
     <div id="map" style={{ position: 'relative', width: '100%', height: '100%', border: 'none' }}>
+      {categoryOpen && <CategoryModal categorySelectClose={categorySelectClose} selectCategory={selectCategory} />}
       <div
         style={{
           position: 'absolute',
@@ -111,8 +131,13 @@ function FindCrew(): JSX.Element {
         }}
       >
         <HeadLineParagraph content="내 주변 크루" />
-        <CategoryDiv>
-          <p style={{ fontSize: '12px', lineHeight: '18px', letterSpacing: '-0.4px', fontWeight: 700 }}>관심사</p>
+        <CategoryDiv
+          onClick={() => {
+            categorySelectOpen();
+          }}
+        >
+          <p style={{ fontSize: '12px', lineHeight: '18px', letterSpacing: '-0.4px', fontWeight: 700 }}>{category}</p>
+          <icons.chevronDown />
         </CategoryDiv>
         <div
           style={{
@@ -127,12 +152,7 @@ function FindCrew(): JSX.Element {
         >
           {spots.length !== 0 ? (
             spots.map(spot => (
-              <CrewCard
-                onClick={() => {
-                  // 특정 marker로 이동하도록 하는 함수
-                  map.morph(new naver.maps.LatLng(spot.lat, spot.lng));
-                }}
-              >
+              <CrewCard>
                 <div style={{ display: 'flex', gap: '4px' }}>
                   <TagDiv $color={colors.Gray300}>
                     <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot.category}</p>
@@ -150,14 +170,40 @@ function FindCrew(): JSX.Element {
                 <div>{spot.imageList !== undefined ? <ImageBox>image</ImageBox> : <ImageBox>no image</ImageBox>}</div>
                 <div>
                   {spot.dueDate !== undefined && (
-                    <p style={{ fontSize: '12px', lineHeight: '18px', letterSpacing: '-0.2px' }}>
-                      {useCalDate(spot.dueDate)}
-                    </p>
+                    <div style={{ display: 'flex', gap: '2px' }}>
+                      <icons.Calendar />
+                      <p style={{ fontSize: '12px', lineHeight: '18px', letterSpacing: '-0.2px' }}>
+                        {useCalDate(spot.dueDate)}
+                      </p>
+                    </div>
                   )}
-                  <p style={{ fontSize: '12px', lineHeight: '18px', letterSpacing: '-0.2px' }}>{spot.location} 근처</p>
+                  <div style={{ display: 'flex', gap: '2px' }}>
+                    <icons.Location />
+                    <p style={{ fontSize: '12px', lineHeight: '18px', letterSpacing: '-0.2px' }}>
+                      {spot.location} 근처
+                    </p>
+                  </div>
                 </div>
-                <div style={{ position: 'absolute', bottom: '16px', right: '16px', zIndex: 102 }}>{spot.current}/8</div>
-                <div style={{ position: 'absolute', top: '16px', right: '16px', zIndex: 102 }}>heart</div>
+                <div
+                  style={{
+                    position: 'absolute',
+                    bottom: '16px',
+                    right: '16px',
+                    display: 'flex',
+                    gap: '4px',
+                    zIndex: 101,
+                    textAlign: 'center',
+                    backgroundColor: `${colors.blueGray300}`,
+                    padding: '4px 10px',
+                    borderRadius: '200px',
+                  }}
+                >
+                  <icons.users />
+                  <p style={{ fontSize: '12px', lineHeight: '18px', letterSpacing: '-0.2px' }}>{spot.current}/8</p>
+                </div>
+                <div style={{ position: 'absolute', top: '16px', right: '16px', zIndex: 102 }}>
+                  <icons.heart style={{ cursor: 'pointer' }} />
+                </div>
               </CrewCard>
             ))
           ) : (

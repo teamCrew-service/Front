@@ -62,6 +62,16 @@ const spots: Array<{
     location: '소공동',
     current: 8,
   },
+  {
+    lat: 37.566535,
+    lng: 126.9779692,
+    title: '서울',
+    subTitle: 'seoul',
+    category: '댄스',
+    crewType: '정모',
+    location: '서울역',
+    current: 8,
+  },
 ];
 
 export default spots;
