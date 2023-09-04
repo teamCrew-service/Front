@@ -245,7 +245,23 @@ function FindCrew(): JSX.Element {
               </CrewCard>
             ))
           ) : (
-            <CrewCard>데이터 없음</CrewCard>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100%',
+                color: `${colors.Gray200}`,
+              }}
+            >
+              <p style={{ fontWeight: 700, fontSize: '16px', lineHeight: '22px', letterSpacing: '-0.4px' }}>
+                이 지역에 결과가 없습니다.
+              </p>
+              <p style={{ fontWeight: 700, fontSize: '12px', lineHeight: '18px', letterSpacing: '-0.4px' }}>
+                지도를 축소해서 재검색 해주세요
+              </p>
+            </div>
           )}
         </div>
       </div>
