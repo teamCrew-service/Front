@@ -1,14 +1,14 @@
 import React from 'react';
 import './HomeStyle.css';
-import LargeCard from 'components/molecules/LargeCard/LargeCard';
-import HeadLineParagraph from 'components/atoms/P/HeadlineParagraph/HeadLineParagraph';
-import SmallCardDiv from 'components/atoms/Div/SmallCardDiv/SmallCardDiv';
-import SubHead1Paragraph from 'components/atoms/P/SubHead1Paragraph/SubHead1Paragraph';
-import NoticeCardDiv from 'components/atoms/Div/NoticeCardDiv/NoticeCardDiv';
-import Body3Paragraph from 'components/atoms/P/Body3Paragraph/Body3Paragraph';
-import colors from 'assets/styles/color';
 import SmallImageDiv from 'components/atoms/Div/SmallImageDiv/SmallImageDiv';
 import FooterDiv from 'components/atoms/Div/FooterDiv/FooterDiv';
+import colors from 'assets/styles/color';
+import Body3Paragraph from 'components/atoms/P/Body3Paragraph/Body3Paragraph';
+import NoticeCardDiv from 'components/atoms/Div/NoticeCardDiv/NoticeCardDiv';
+import SubHead1Paragraph from 'components/atoms/P/SubHead1Paragraph/SubHead1Paragraph';
+import SmallCardDiv from 'components/atoms/Div/SmallCardDiv/SmallCardDiv';
+import HeadLineParagraph from 'components/atoms/P/HeadlineParagraph/HeadLineParagraph';
+import LargeCard from 'components/molecules/LargeCard/LargeCard';
 
 function Home(): JSX.Element {
   const UrlList: Array<{ number: number; url: string }> = [
