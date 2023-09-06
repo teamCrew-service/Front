@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import icons from '../../assets/icons';
+import icons from 'assets/icons';
 import './LoginStyle.css';
-import IconWithBtn from '../../components/molecules/IconWithBtn';
+import IconWithBtn from 'components/molecules/IconWithBtn';
 
 function Login(): JSX.Element {
   return (

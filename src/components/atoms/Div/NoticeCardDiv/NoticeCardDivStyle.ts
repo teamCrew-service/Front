@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import colors from '../../../../assets/styles/color';
+import colors from 'assets/styles/color';
 
 const NoticeCardDivStyle = styled.div`
   display: flex;
   flex-direction: column;
-  width: 343px;
+  width: 100%;
   height: fit-content;
   gap: 4px;
   padding: 12px;

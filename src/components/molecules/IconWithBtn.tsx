@@ -1,8 +1,8 @@
 import React from 'react';
-import colors from '../../assets/styles/color';
-import ButtonDiv from '../atoms/Div/ButtonDiv/ButtonDiv';
-import AbsoluteDiv from '../atoms/Div/AbsoluteDiv/AbsoluteDiv';
-import ButtonDivParagraph from '../atoms/P/ButtonDivParagraph/ButtonDivParagraph';
+import colors from 'assets/styles/color';
+import ButtonDiv from 'components/atoms/Div/ButtonDiv/ButtonDiv';
+import AbsoluteDiv from 'components/atoms/Div/AbsoluteDiv/AbsoluteDiv';
+import ButtonDivParagraph from 'components/atoms/P/ButtonDivParagraph/ButtonDivParagraph';
 
 function IconWithBtn({
   context,

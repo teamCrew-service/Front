@@ -1,14 +1,14 @@
 import React from 'react';
 import './HomeStyle.css';
-import LargeCard from '../../components/molecules/LargeCard/LargeCard';
-import HeadLineParagraph from '../../components/atoms/P/HeadlineParagraph/HeadLineParagraph';
-import SmallCardDiv from '../../components/atoms/Div/SmallCardDiv/SmallCardDiv';
-import SubHead1Paragraph from '../../components/atoms/P/SubHead1Paragraph/SubHead1Paragraph';
-import NoticeCardDiv from '../../components/atoms/Div/NoticeCardDiv/NoticeCardDiv';
-import Body3Paragraph from '../../components/atoms/P/Body3Paragraph/Body3Paragraph';
-import colors from '../../assets/styles/color';
-import SmallImageDiv from '../../components/atoms/Div/SmallImageDiv/SmallImageDiv';
-import FooterDiv from '../../components/atoms/Div/FooterDiv/FooterDiv';
+import SmallImageDiv from 'components/atoms/Div/SmallImageDiv/SmallImageDiv';
+import FooterDiv from 'components/atoms/Div/FooterDiv/FooterDiv';
+import colors from 'assets/styles/color';
+import Body3Paragraph from 'components/atoms/P/Body3Paragraph/Body3Paragraph';
+import NoticeCardDiv from 'components/atoms/Div/NoticeCardDiv/NoticeCardDiv';
+import SubHead1Paragraph from 'components/atoms/P/SubHead1Paragraph/SubHead1Paragraph';
+import SmallCardDiv from 'components/atoms/Div/SmallCardDiv/SmallCardDiv';
+import HeadLineParagraph from 'components/atoms/P/HeadlineParagraph/HeadLineParagraph';
+import LargeCard from 'components/molecules/LargeCard/LargeCard';
 
 function Home(): JSX.Element {
   const UrlList: Array<{ number: number; url: string }> = [
@@ -34,7 +34,7 @@ function Home(): JSX.Element {
   ];
   return (
     <>
-      <div style={{ marginTop: '14px' }}>
+      <div style={{ marginTop: '14px', width: '100%', padding: '0 14px' }}>
         <NoticeCardDiv>
           <Body3Paragraph content="다가오는 일정" color={colors.blue} />
           <HeadLineParagraph content="8월 16일 (수) 오후 8시 30분" />

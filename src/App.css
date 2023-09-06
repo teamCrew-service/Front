@@ -4,19 +4,23 @@
   width: 100vw;
   height: 100vh;
 }
-
-.container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-}
-
-/* 768px 이상일경우 width값 고정 모바일일 경우 디바이스 width값을 알수 없기때문에 유동적으로 100%를 사용한다. */
-@media (min-width: 768px) {
+@media screen and (max-width: 768px) {
   .container {
-    width: 375px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+}
+@media screen and (min-width: 768px) {
+  .container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 768px;
+    height: 812px;
   }
 }
