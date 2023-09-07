@@ -1,14 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './HomeStyle.css';
 import SmallImageDiv from 'components/atoms/Div/SmallImageDiv/SmallImageDiv';
 import FooterDiv from 'components/atoms/Div/FooterDiv/FooterDiv';
 import colors from 'assets/styles/color';
 import Body3Paragraph from 'components/atoms/P/Body3Paragraph/Body3Paragraph';
 import NoticeCardDiv from 'components/atoms/Div/NoticeCardDiv/NoticeCardDiv';
-import SubHead1Paragraph from 'components/atoms/P/SubHead1Paragraph/SubHead1Paragraph';
-import SmallCardDiv from 'components/atoms/Div/SmallCardDiv/SmallCardDiv';
 import HeadLineParagraph from 'components/atoms/P/HeadlineParagraph/HeadLineParagraph';
 import LargeCard from 'components/molecules/LargeCard/LargeCard';
+import CategoryGrid from 'components/molecules/CategoryGrid';
 
 function Home(): JSX.Element {
   const UrlList: Array<{ number: number; url: string }> = [
@@ -18,20 +17,12 @@ function Home(): JSX.Element {
     { number: 4, url: '' },
     { number: 5, url: '' },
   ];
-  const categoryList = [
-    { code: 1, name: '친목' },
-    { code: 2, name: '음료' },
-    { code: 3, name: '여행' },
-    { code: 4, name: '운동' },
-    { code: 5, name: '책/글' },
-    { code: 6, name: '커리어' },
-    { code: 7, name: '공연/축제' },
-    { code: 8, name: '음악' },
-    { code: 9, name: '만들기' },
-    { code: 10, name: '사진' },
-    { code: 11, name: '반려동물' },
-    { code: 12, name: '자유주제' },
-  ];
+  useEffect(() => {
+    const cookie = window.location.href.split('token=')[1];
+    if (cookie !== undefined) {
+      document.cookie = `authorization=${cookie};path=/`;
+    }
+  }, []);
   return (
     <>
       <div style={{ marginTop: '14px', width: '100%', padding: '0 14px' }}>
@@ -53,12 +44,8 @@ function Home(): JSX.Element {
       <div id="home-headline-style">
         <HeadLineParagraph content="관심사별 모임 찾기" />
       </div>
-      <div className="category-grid-box">
-        {categoryList.map(item => (
-          <SmallCardDiv key={item.code}>
-            <SubHead1Paragraph content={item.name} />
-          </SmallCardDiv>
-        ))}
+      <div style={{ width: '100%' }}>
+        <CategoryGrid />
       </div>
       <FooterDiv>Footer</FooterDiv>
     </>

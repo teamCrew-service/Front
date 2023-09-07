@@ -1,5 +1,5 @@
 import ProgressBar from 'components/molecules/ProgressBar';
-import React from 'react';
+import React, { useEffect } from 'react';
 import icons from 'assets/icons';
 import './CategoryStyle.css';
 import HeadLineParagraph from 'components/atoms/P/HeadlineParagraph/HeadLineParagraph';
@@ -11,6 +11,12 @@ import ButtonDiv from 'components/atoms/Div/ButtonDiv/ButtonDiv';
 import ButtonDivParagraph from 'components/atoms/P/ButtonDivParagraph/ButtonDivParagraph';
 
 function Category(): JSX.Element {
+  useEffect(() => {
+    const cookie = window.location.href.split('token=')[1];
+    if (cookie !== undefined) {
+      document.cookie = `authorization=${cookie};path=/`;
+    }
+  }, []);
   return (
     <>
       <header>

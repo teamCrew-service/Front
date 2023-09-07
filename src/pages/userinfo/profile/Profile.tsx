@@ -24,6 +24,13 @@ const StyledInput = styled.input`
   }
 `;
 
+const StyledP = styled.p`
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: -0.4px;
+`;
+
 function Profile(): JSX.Element {
   const [image, setImage] = useState<string>('');
 
@@ -42,9 +49,12 @@ function Profile(): JSX.Element {
         <ProgressBar step={5} totalSteps={7} />
       </header>
       <main id="category-main">
-        <section style={{ width: 'fit-content', height: 'fit-content' }}>
+        <section style={{ display: 'flex', justifyContent: 'space-between', width: '100%', height: 'fit-content' }}>
           <Link to="/login/gender">
             <icons.chevronLeft style={{ cursor: 'pointer' }} />
+          </Link>
+          <Link to="/login/profile">
+            <StyledP>건너뛰기</StyledP>
           </Link>
         </section>
         <section>
