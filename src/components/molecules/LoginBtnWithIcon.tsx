@@ -21,7 +21,8 @@ function LoginBtnWithIcon({
   switch (context) {
     case '카카오':
       color = `${colors.kakaoYellow}`;
-      link = `${process.env.REACT_APP_SERVER_URL}/api/auth/kakao`;
+      // link = `${process.env.REACT_APP_SERVER_URL}/api/auth/kakao`;
+      link = 'http://localhost:3000/login/category';
       break;
     case '네이버':
       color = `${colors.naverGreen}`;

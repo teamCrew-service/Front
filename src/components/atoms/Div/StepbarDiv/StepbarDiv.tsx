@@ -1,8 +1,8 @@
 import React from 'react';
 import StepbarDivStyle from './StepbarDivStyle';
 
-function StepbarDiv({ width }: { width: string }): JSX.Element {
-  return <StepbarDivStyle $width={width} />;
+function StepbarDiv({ totalSteps }: { totalSteps: number }): JSX.Element {
+  return <StepbarDivStyle $totalSteps={totalSteps} />;
 }
 
 export default StepbarDiv;

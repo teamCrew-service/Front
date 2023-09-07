@@ -6,6 +6,7 @@ const colors = {
   Gray200: '#DDDDDD',
   Gray300: '#BDBDBD',
   Gray500: '#757575',
+  Gray600: '#424242',
   kakaoYellow: '#FFCA42',
   naverGreen: '#5AC451',
   blueGray100: '#ECEFF2',

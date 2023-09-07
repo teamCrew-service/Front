@@ -1,22 +1,19 @@
+/* eslint-disable react/require-default-props */
 import React from 'react';
 import AbsoluteDivStyle from './AbsoluteDivStyle';
 
 function AbsoluteDiv({
   icon: Icon,
-  left,
+  left = '0',
 }: {
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
   left?: string;
 }): JSX.Element {
   return (
-    <AbsoluteDivStyle $left={left}>
+    <AbsoluteDivStyle style={{ left }}>
       <Icon />
     </AbsoluteDivStyle>
   );
 }
-
-AbsoluteDiv.defaultProps = {
-  left: '0',
-};
 
 export default AbsoluteDiv;

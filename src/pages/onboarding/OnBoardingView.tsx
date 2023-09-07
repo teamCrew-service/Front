@@ -25,7 +25,7 @@ function OnBoardingView({
         <icons.TeamLogo className="double-logo" />
       </SplashDiv> */}
       <header>
-        <ProgressBar step={step} />
+        <ProgressBar step={step} totalSteps={3} />
       </header>
       <TitleParagraph context={title} margin={{ top: 68 }} />
       <ImageDiv imageURL={image} />
