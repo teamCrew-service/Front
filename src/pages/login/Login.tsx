@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import icons from 'assets/icons';
 import './LoginStyle.css';
-import IconWithBtn from 'components/molecules/IconWithBtn';
+import LoginBtnWithIcon from 'components/molecules/LoginBtnWithIcon';
 
 function Login(): JSX.Element {
   return (
@@ -11,9 +11,9 @@ function Login(): JSX.Element {
         <icons.TeamLogo />
       </div>
       <div className="login-btn-list">
-        <IconWithBtn context="카카오" icon={icons.Kakao} />
-        <IconWithBtn context="네이버" icon={icons.Naver} />
-        <IconWithBtn context="Google" icon={icons.Google} />
+        <LoginBtnWithIcon context="카카오" icon={icons.Kakao} />
+        <LoginBtnWithIcon context="네이버" icon={icons.Naver} />
+        <LoginBtnWithIcon context="Google" icon={icons.Google} />
         <Link to="/home">가입 전에 일단 둘러보기</Link>
       </div>
     </div>
