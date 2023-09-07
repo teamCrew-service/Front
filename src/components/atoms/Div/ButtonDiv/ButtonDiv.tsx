@@ -1,10 +1,11 @@
+/* eslint-disable react/require-default-props */
 import React from 'react';
 import colors from 'assets/styles/color';
 import ButtonDivStyle from './ButtonDivStyle';
 
 function ButtonDiv({
   children,
-  onClick,
+  onClick = () => {},
   fontColor,
   divColor,
   borderStyle,
@@ -13,7 +14,7 @@ function ButtonDiv({
   fontColor?: string;
   divColor?: string;
   borderStyle?: string;
-  onClick: () => void;
+  onClick?: () => void;
 }): JSX.Element {
   return (
     <ButtonDivStyle onClick={onClick} style={{ color: fontColor, backgroundColor: divColor, border: borderStyle }}>

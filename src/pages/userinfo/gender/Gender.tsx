@@ -1,33 +1,33 @@
-import ProgressBar from 'components/molecules/ProgressBar';
 import React from 'react';
+import ProgressBar from 'components/molecules/ProgressBar';
+import { Link } from 'react-router-dom';
 import icons from 'assets/icons';
-import './CategoryStyle.css';
 import HeadLineParagraph from 'components/atoms/P/HeadlineParagraph/HeadLineParagraph';
 import BodyLong3Paragraph from 'components/atoms/P/BodyLong3Paragraph/BodyLong3Paragraph';
-import colors from 'assets/styles/color';
-import CategoryGrid from 'components/molecules/CategoryGrid';
-import { Link } from 'react-router-dom';
 import ButtonDiv from 'components/atoms/Div/ButtonDiv/ButtonDiv';
+import colors from 'assets/styles/color';
 import ButtonDivParagraph from 'components/atoms/P/ButtonDivParagraph/ButtonDivParagraph';
+import SmallCardDiv from 'components/atoms/Div/SmallCardDiv/SmallCardDiv';
 
-function Category(): JSX.Element {
+function Gender(): JSX.Element {
   return (
     <>
       <header>
-        <ProgressBar step={1} totalSteps={7} />
+        <ProgressBar step={4} totalSteps={7} />
       </header>
       <main id="category-main">
         <section style={{ width: 'fit-content', height: 'fit-content' }}>
-          <Link to="/login">
+          <Link to="/login/birthday">
             <icons.chevronLeft style={{ cursor: 'pointer' }} />
           </Link>
         </section>
         <section>
-          <HeadLineParagraph content="관심있는 주제" />
-          <BodyLong3Paragraph content="관심있는 주제를 3가지 이상 선택해 주세요" color={colors.Gray600} />
+          <HeadLineParagraph content="성별" />
+          <BodyLong3Paragraph content="성별을 선택해주세요" color={colors.Gray600} />
         </section>
-        <section>
-          <CategoryGrid />
+        <section style={{ display: 'flex', gap: '12px' }}>
+          <SmallCardDiv>여성</SmallCardDiv>
+          <SmallCardDiv>남성</SmallCardDiv>
         </section>
         <section style={{ marginTop: 'auto', marginBottom: '60px' }}>
           <ButtonDiv onClick={() => {}} divColor={colors.blue}>
@@ -41,7 +41,7 @@ function Category(): JSX.Element {
                 color: 'inherit',
                 textDecoration: 'none',
               }}
-              to="/login/nickname"
+              to="/login/profile"
             >
               <ButtonDivParagraph>다음</ButtonDivParagraph>
             </Link>
@@ -52,4 +52,4 @@ function Category(): JSX.Element {
   );
 }
 
-export default Category;
+export default Gender;
