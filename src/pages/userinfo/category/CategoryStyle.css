@@ -1,13 +1,12 @@
 header {
   width: 100%;
 }
-main {
+#category-main {
   display: flex;
   flex-direction: column;
   gap: 20px;
   width: 100%;
   height: calc(100% - 5px);
-  border: 1px solid black;
   padding: 0px 16px;
   padding-top: 32px;
 }

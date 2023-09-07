@@ -27,17 +27,19 @@ function OnBoardingView({
       <header>
         <ProgressBar step={step} totalSteps={3} />
       </header>
-      <TitleParagraph context={title} margin={{ top: 68 }} />
-      <ImageDiv imageURL={image} />
-      <div style={{ marginTop: 'auto', marginBottom: '60px' }}>
-        <ButtonDiv
-          onClick={() => {
-            goNextStep();
-          }}
-        >
-          <ButtonDivParagraph>{btnContext}</ButtonDivParagraph>
-        </ButtonDiv>
-      </div>
+      <main id="onboarding-main">
+        <TitleParagraph context={title} margin={{ top: 68 }} />
+        <ImageDiv imageURL={image} />
+        <div style={{ width: '100%', marginTop: 'auto', marginBottom: '60px' }}>
+          <ButtonDiv
+            onClick={() => {
+              goNextStep();
+            }}
+          >
+            <ButtonDivParagraph>{btnContext}</ButtonDivParagraph>
+          </ButtonDiv>
+        </div>
+      </main>
     </>
   );
 }

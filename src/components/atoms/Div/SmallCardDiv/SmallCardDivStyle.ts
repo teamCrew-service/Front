@@ -9,6 +9,7 @@ const SmallCardDivStyle = styled.div`
   height: 80px;
   border-radius: 22px;
   background-color: ${colors.blueGray100};
+  cursor: pointer;
   &:hover {
     background-color: ${colors.blue};
     color: white;

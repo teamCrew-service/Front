@@ -6,7 +6,7 @@ import LoginBtnWithIcon from 'components/molecules/LoginBtnWithIcon';
 
 function Login(): JSX.Element {
   return (
-    <div className="container login-container">
+    <div className="container" id="login-container">
       <div className="login-logo">
         <icons.TeamLogo />
       </div>

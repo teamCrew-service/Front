@@ -16,7 +16,7 @@ function Category(): JSX.Element {
       <header>
         <ProgressBar step={1} totalSteps={7} />
       </header>
-      <main>
+      <main id="category-main">
         <section>
           <icons.chevronLeft style={{ cursor: 'pointer' }} />
         </section>

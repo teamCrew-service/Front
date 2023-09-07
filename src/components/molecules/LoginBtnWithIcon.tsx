@@ -40,12 +40,22 @@ function LoginBtnWithIcon({
   return (
     <ButtonDiv onClick={onClick} divColor={color} fontColor={fontColor} borderStyle={style}>
       <AbsoluteDiv icon={icon} left="8px" />
-      <ButtonDivParagraph>
-        {/* passport kakao 구현 시 anchor tag를 이용해서 로그인 해야됨 */}
-        <a style={{ textDecoration: 'none', color: 'inherit' }} href={link}>
-          {context}로 로그인
-        </a>
-      </ButtonDivParagraph>
+      {/* passport kakao 구현 시 anchor tag를 이용해서 로그인 해야됨 */}
+      <a
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100%',
+          height: '100%',
+          textDecoration: 'none',
+          color: 'inherit',
+          borderRadius: '8px',
+        }}
+        href={link}
+      >
+        <ButtonDivParagraph>{context}로 로그인</ButtonDivParagraph>
+      </a>
     </ButtonDiv>
   );
 }
