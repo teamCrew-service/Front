@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import './HomeStyle.css';
-import SmallImageDiv from 'components/atoms/Div/SmallImageDiv/SmallImageDiv';
-import FooterDiv from 'components/atoms/Div/FooterDiv/FooterDiv';
-import colors from 'assets/styles/color';
-import Body3Paragraph from 'components/atoms/P/Body3Paragraph/Body3Paragraph';
-import NoticeCardDiv from 'components/atoms/Div/NoticeCardDiv/NoticeCardDiv';
-import HeadLineParagraph from 'components/atoms/P/HeadlineParagraph/HeadLineParagraph';
-import LargeCard from 'components/molecules/LargeCard/LargeCard';
-import CategoryGrid from 'components/molecules/CategoryGrid';
+import NoticeCardDiv from '../../components/atoms/Div/NoticeCardDiv/NoticeCardDiv';
+import HeadLineParagraph from '../../components/atoms/P/HeadlineParagraph/HeadLineParagraph';
+import LargeCard from '../../components/molecules/LargeCard/LargeCard';
+import CategoryGrid from '../../components/molecules/CategoryGrid';
+import SmallImageDiv from '../../components/atoms/Div/SmallImageDiv/SmallImageDiv';
+import FooterDiv from '../../components/atoms/Div/FooterDiv/FooterDiv';
+import colors from '../../assets/styles/color';
+import Body3Paragraph from '../../components/atoms/P/Body3Paragraph/Body3Paragraph';
 
 function Home(): JSX.Element {
   const UrlList: Array<{ number: number; url: string }> = [

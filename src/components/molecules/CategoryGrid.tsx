@@ -1,7 +1,7 @@
-import GridDiv from 'components/atoms/Div/GridDiv/GridDiv';
-import SmallCardDiv from 'components/atoms/Div/SmallCardDiv/SmallCardDiv';
-import SubHead1Paragraph from 'components/atoms/P/SubHead1Paragraph/SubHead1Paragraph';
 import React from 'react';
+import SmallCardDiv from '../atoms/Div/SmallCardDiv/SmallCardDiv';
+import SubHead1Paragraph from '../atoms/P/SubHead1Paragraph/SubHead1Paragraph';
+import GridDiv from '../atoms/Div/GridDiv/GridDiv';
 
 function CategoryGrid(): JSX.Element {
   const categoryList = [

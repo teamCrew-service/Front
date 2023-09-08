@@ -1,6 +1,6 @@
 /* eslint-disable react/require-default-props */
 import React from 'react';
-import colors from 'assets/styles/color';
+import colors from '../../../../assets/styles/color';
 import ButtonDivStyle from './ButtonDivStyle';
 
 function ButtonDiv({

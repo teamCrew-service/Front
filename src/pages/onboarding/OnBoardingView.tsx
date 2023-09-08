@@ -1,10 +1,10 @@
 import React from 'react';
 import './OnBoardingStyle.css';
-import ProgressBar from 'components/molecules/ProgressBar';
-import TitleParagraph from 'components/atoms/P/TitleParagraph/TitleParagraph';
-import ImageDiv from 'components/atoms/Div/ImageDiv/ImageDiv';
-import ButtonDiv from 'components/atoms/Div/ButtonDiv/ButtonDiv';
-import ButtonDivParagraph from 'components/atoms/P/ButtonDivParagraph/ButtonDivParagraph';
+import ProgressBar from '../../components/molecules/ProgressBar';
+import TitleParagraph from '../../components/atoms/P/TitleParagraph/TitleParagraph';
+import ImageDiv from '../../components/atoms/Div/ImageDiv/ImageDiv';
+import ButtonDiv from '../../components/atoms/Div/ButtonDiv/ButtonDiv';
+import ButtonDivParagraph from '../../components/atoms/P/ButtonDivParagraph/ButtonDivParagraph';
 
 function OnBoardingView({
   step,

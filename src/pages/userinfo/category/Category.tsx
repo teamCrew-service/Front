@@ -1,14 +1,14 @@
-import ProgressBar from 'components/molecules/ProgressBar';
 import React, { useEffect } from 'react';
-import icons from 'assets/icons';
-import './CategoryStyle.css';
-import HeadLineParagraph from 'components/atoms/P/HeadlineParagraph/HeadLineParagraph';
-import BodyLong3Paragraph from 'components/atoms/P/BodyLong3Paragraph/BodyLong3Paragraph';
-import colors from 'assets/styles/color';
-import CategoryGrid from 'components/molecules/CategoryGrid';
 import { Link } from 'react-router-dom';
-import ButtonDiv from 'components/atoms/Div/ButtonDiv/ButtonDiv';
-import ButtonDivParagraph from 'components/atoms/P/ButtonDivParagraph/ButtonDivParagraph';
+import ProgressBar from '../../../components/molecules/ProgressBar';
+import icons from '../../../assets/icons';
+import './CategoryStyle.css';
+import HeadLineParagraph from '../../../components/atoms/P/HeadlineParagraph/HeadLineParagraph';
+import BodyLong3Paragraph from '../../../components/atoms/P/BodyLong3Paragraph/BodyLong3Paragraph';
+import colors from '../../../assets/styles/color';
+import CategoryGrid from '../../../components/molecules/CategoryGrid';
+import ButtonDiv from '../../../components/atoms/Div/ButtonDiv/ButtonDiv';
+import ButtonDivParagraph from '../../../components/atoms/P/ButtonDivParagraph/ButtonDivParagraph';
 
 function Category(): JSX.Element {
   useEffect(() => {

@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import colors from 'assets/styles/color';
-import HeadLineParagraph from 'components/atoms/P/HeadlineParagraph/HeadLineParagraph';
-import useMarkerClustering from 'util/useMarkerClustering';
-import useCalDate from 'util/useCalDate';
-import icons from 'assets/icons';
+import HeadLineParagraph from '../../components/atoms/P/HeadlineParagraph/HeadLineParagraph';
+import useMarkerClustering from '../../util/useMarkerClustering';
+import useCalDate from '../../util/useCalDate';
+import icons from '../../assets/icons';
+import colors from '../../assets/styles/color';
 import CategoryModal from './CategoryModal';
 import spots from './mockData';
 

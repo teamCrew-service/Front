@@ -1,16 +1,16 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import 'App.css';
-import OnBoarding from 'pages/onboarding/Onboarding';
-import Login from 'pages/login/Login';
-import Home from 'pages/home/Home';
-import FindCrew from 'pages/findcrew/FindCrew';
-import Category from 'pages/userinfo/category/Category';
-import Join from 'pages/member/Join';
-import Nickname from 'pages/userinfo/nickname/Nickname';
-import Birthday from 'pages/userinfo/birthday/Birthday';
-import Gender from 'pages/userinfo/gender/Gender';
-import Profile from 'pages/userinfo/profile/Profile';
+import './App.css';
+import OnBoarding from './pages/onboarding/Onboarding';
+import Login from './pages/login/Login';
+import Home from './pages/home/Home';
+import FindCrew from './pages/findcrew/FindCrew';
+import Category from './pages/userinfo/category/Category';
+import Join from './pages/member/Join';
+import Nickname from './pages/userinfo/nickname/Nickname';
+import Birthday from './pages/userinfo/birthday/Birthday';
+import Gender from './pages/userinfo/gender/Gender';
+import Profile from './pages/userinfo/profile/Profile';
 
 function App(): JSX.Element {
   return (

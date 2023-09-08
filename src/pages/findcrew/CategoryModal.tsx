@@ -1,7 +1,7 @@
 import React from 'react';
-import HeadLineParagraph from 'components/atoms/P/HeadlineParagraph/HeadLineParagraph';
-import icons from 'assets/icons';
-import SmallCardDiv from 'components/atoms/Div/SmallCardDiv/SmallCardDiv';
+import HeadLineParagraph from '../../components/atoms/P/HeadlineParagraph/HeadLineParagraph';
+import icons from '../../assets/icons';
+import SmallCardDiv from '../../components/atoms/Div/SmallCardDiv/SmallCardDiv';
 
 function CategoryModal({
   categorySelectClose,

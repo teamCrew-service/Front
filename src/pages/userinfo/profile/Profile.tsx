@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import ProgressBar from 'components/molecules/ProgressBar';
-import { Link } from 'react-router-dom';
-import icons from 'assets/icons';
-import HeadLineParagraph from 'components/atoms/P/HeadlineParagraph/HeadLineParagraph';
-import BodyLong3Paragraph from 'components/atoms/P/BodyLong3Paragraph/BodyLong3Paragraph';
-import ButtonDiv from 'components/atoms/Div/ButtonDiv/ButtonDiv';
-import colors from 'assets/styles/color';
-import ButtonDivParagraph from 'components/atoms/P/ButtonDivParagraph/ButtonDivParagraph';
 import { styled } from 'styled-components';
+import { Link } from 'react-router-dom';
+import ProgressBar from '../../../components/molecules/ProgressBar';
+import icons from '../../../assets/icons';
+import HeadLineParagraph from '../../../components/atoms/P/HeadlineParagraph/HeadLineParagraph';
+import BodyLong3Paragraph from '../../../components/atoms/P/BodyLong3Paragraph/BodyLong3Paragraph';
+import ButtonDiv from '../../../components/atoms/Div/ButtonDiv/ButtonDiv';
+import colors from '../../../assets/styles/color';
+import ButtonDivParagraph from '../../../components/atoms/P/ButtonDivParagraph/ButtonDivParagraph';
 
 const StyledInput = styled.input`
   border: none;
