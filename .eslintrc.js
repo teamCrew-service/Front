@@ -35,5 +35,6 @@ module.exports = {
         "@typescript-eslint"
     ],
     "rules": {
+        "react/require-default-props" : 0
     }
 }

@@ -3,7 +3,7 @@ import SmallCardDiv from '../atoms/Div/SmallCardDiv/SmallCardDiv';
 import SubHead1Paragraph from '../atoms/P/SubHead1Paragraph/SubHead1Paragraph';
 import GridDiv from '../atoms/Div/GridDiv/GridDiv';
 
-function CategoryGrid(): JSX.Element {
+function CategoryGrid({ onClick = () => {} }: { onClick?: (event: any) => void }): JSX.Element {
   const categoryList = [
     { code: 1, name: '친목' },
     { code: 2, name: '음료' },
@@ -21,7 +21,7 @@ function CategoryGrid(): JSX.Element {
   return (
     <GridDiv row="1fr 1fr 1fr" col="1fr 1fr 1fr 1fr">
       {categoryList.map(item => (
-        <SmallCardDiv key={item.code}>
+        <SmallCardDiv onClick={onClick} key={item.code}>
           <SubHead1Paragraph content={item.name} />
         </SmallCardDiv>
       ))}

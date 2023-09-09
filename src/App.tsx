@@ -6,7 +6,6 @@ import Login from './pages/login/Login';
 import Home from './pages/home/Home';
 import FindCrew from './pages/findcrew/FindCrew';
 import Category from './pages/userinfo/category/Category';
-import Join from './pages/member/Join';
 import Nickname from './pages/userinfo/nickname/Nickname';
 import Birthday from './pages/userinfo/birthday/Birthday';
 import Gender from './pages/userinfo/gender/Gender';
@@ -24,7 +23,6 @@ function App(): JSX.Element {
           <Route path="/login/birthday" element=<Birthday /> />
           <Route path="/login/gender" element=<Gender /> />
           <Route path="/login/profile" element=<Profile /> />
-          <Route path="/join" element=<Join /> />
           <Route path="/home" element=<Home /> />
           <Route path="/findcrew" element=<FindCrew /> />
         </Routes>

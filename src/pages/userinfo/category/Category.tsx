@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ProgressBar from '../../../components/molecules/ProgressBar';
 import icons from '../../../assets/icons';
@@ -11,6 +11,23 @@ import ButtonDiv from '../../../components/atoms/Div/ButtonDiv/ButtonDiv';
 import ButtonDivParagraph from '../../../components/atoms/P/ButtonDivParagraph/ButtonDivParagraph';
 
 function Category(): JSX.Element {
+  const [selectedCategoryList, setSelectedCategoryList] = useState<string[]>([]);
+  const selectCategory = (event: any): void => {
+    const { currentTarget } = event;
+    const currentBackColor = currentTarget.style.backgroundColor;
+    if (currentBackColor === '') {
+      currentTarget.style.backgroundColor = colors.blue;
+      currentTarget.style.color = 'white';
+      setSelectedCategoryList(prev => [...prev, currentTarget.children[0].innerText]);
+    } else {
+      currentTarget.style.backgroundColor = '';
+      currentTarget.style.color = '';
+      setSelectedCategoryList(selectedCategoryList.filter(item => item !== currentTarget.children[0].innerText));
+    }
+  };
+  const saveSelectedCategory = (): void => {
+    sessionStorage.setItem('category', JSON.stringify(selectedCategoryList));
+  };
   useEffect(() => {
     const cookie = window.location.href.split('token=')[1];
     if (cookie !== undefined) {
@@ -33,25 +50,31 @@ function Category(): JSX.Element {
           <BodyLong3Paragraph content="관심있는 주제를 3가지 이상 선택해 주세요" color={colors.Gray600} />
         </section>
         <section>
-          <CategoryGrid />
+          <CategoryGrid onClick={selectCategory} />
         </section>
         <section style={{ marginTop: 'auto', marginBottom: '60px' }}>
-          <ButtonDiv onClick={() => {}} divColor={colors.blue}>
-            <Link
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '100%',
-                height: '100%',
-                color: 'inherit',
-                textDecoration: 'none',
-              }}
-              to="/login/nickname"
-            >
-              <ButtonDivParagraph>다음</ButtonDivParagraph>
-            </Link>
-          </ButtonDiv>
+          {selectedCategoryList.length >= 3 ? (
+            <ButtonDiv onClick={saveSelectedCategory} divColor={colors.blue}>
+              <Link
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '100%',
+                  height: '100%',
+                  color: 'inherit',
+                  textDecoration: 'none',
+                }}
+                to="/login/nickname"
+              >
+                <ButtonDivParagraph>다음</ButtonDivParagraph>
+              </Link>
+            </ButtonDiv>
+          ) : (
+            <ButtonDiv divColor={colors.Gray200} fontColor={colors.Gray500}>
+              <ButtonDivParagraph>3개 이상 선택</ButtonDivParagraph>
+            </ButtonDiv>
+          )}
         </section>
       </main>
     </>

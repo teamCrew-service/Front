@@ -41,12 +41,12 @@ function Birthday(): JSX.Element {
           <BodyLong3Paragraph content="정확한 생년월일을 선택해주세요" color={colors.Gray600} />
         </section>
         <section>
-          <ButtonDiv onClick={() => {}}>
-            <StyledInput required type="date" />
+          <ButtonDiv>
+            <StyledInput required maxLength={4} type="text" />
           </ButtonDiv>
         </section>
         <section style={{ marginTop: 'auto', marginBottom: '60px' }}>
-          <ButtonDiv onClick={() => {}} divColor={colors.blue}>
+          <ButtonDiv divColor={colors.blue}>
             <Link
               style={{
                 display: 'flex',

@@ -97,7 +97,6 @@ function FindCrew(): JSX.Element {
   useEffect(() => {
     // type Guard
     if (mapDiv.current === null) return;
-    console.log('create map');
     setMap(
       new window.naver.maps.Map(mapDiv.current, {
         center: new window.naver.maps.LatLng(myLatLng.lat, myLatLng.lng),
@@ -120,14 +119,12 @@ function FindCrew(): JSX.Element {
       });
 
       listener.current = naver.maps.Event.addListener(map, 'dragend', () => {
-        console.log('drag end');
         const currentBound = map.getBounds();
         setList(data.filter(spot => currentBound.hasPoint(new naver.maps.LatLng(spot.lat, spot.lng))));
       });
 
       // zoom 레벨 변경 시 해당 bound에 해당하는 marker 데이터만 보여주기
       naver.maps.Event.addListener(map, 'zoom_changed', () => {
-        console.log('zoom level changed');
         const currentBound = map.getBounds();
         setList(data.filter(spot => currentBound.hasPoint(new naver.maps.LatLng(spot.lat, spot.lng))));
       });
@@ -136,21 +133,16 @@ function FindCrew(): JSX.Element {
       if (newCluster.current === null) {
         newCluster.current = useMarkerClustering(data, map);
       } else {
-        console.log('category Changed');
-
         newCluster.current.setMap(null);
-
         newCluster.current = useMarkerClustering(data, map);
       }
     }
     return () => {
       if (map !== null) {
         if (naver.maps.Event.hasListener(map, 'dragend')) {
-          console.log('yes, dragend');
           naver.maps.Event.removeListener(listener.current);
         }
         if (naver.maps.Event.hasListener(map, 'zoom_changed')) {
-          console.log('yes, zoomchanged');
           naver.maps.Event.clearListeners(map, 'zoom_changed');
         }
       }
