@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import HeadLineParagraph from '../../components/atoms/P/HeadlineParagraph/HeadLineParagraph';
 import useMarkerClustering from '../../util/useMarkerClustering';
 import useCalDate from '../../util/useCalDate';
@@ -151,6 +152,25 @@ function FindCrew(): JSX.Element {
 
   return loading ? (
     <div style={{ position: 'relative', width: '100%', height: '100%', border: 'none' }}>
+      <Link
+        to="/home"
+        style={{
+          position: 'absolute',
+          top: '21px',
+          left: '21px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '40px',
+          height: '40px',
+          borderRadius: '50%',
+          backgroundColor: 'rgba(255,255,255,0.8)',
+          zIndex: 102,
+        }}
+      >
+        <icons.chevronLeft />
+      </Link>
+
       <div ref={mapDiv} style={{ width: '100%', height: '65%', border: 'none' }} />
       {categoryOpen && <CategoryModal categorySelectClose={categorySelectClose} selectCategory={selectCategory} />}
       <div

@@ -3,14 +3,10 @@ import colors from '../../../../assets/styles/color';
 
 const LargeCardDivStyle = styled.div`
   width: 100%;
-  height: 204px;
+  aspect-ratio: 1;
   border-radius: 22px;
   padding: 18px 14px;
-  background-color: ${colors.blueGray100};
-  &:hover {
-    background-color: ${colors.blue};
-    color: white;
-  }
+  background-color: ${colors.primary100};
 `;
 
 export default LargeCardDivStyle;

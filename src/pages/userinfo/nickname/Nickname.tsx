@@ -11,7 +11,7 @@ import ButtonDivParagraph from '../../../components/atoms/P/ButtonDivParagraph/B
 
 const StyledInput = styled.input`
   border: none;
-  background-color: ${colors.Gray100};
+  background-color: ${colors.primary100};
   width: 100%;
   height: 100%;
   border-radius: 8px;

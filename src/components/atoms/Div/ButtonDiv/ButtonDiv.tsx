@@ -5,15 +5,15 @@ import ButtonDivStyle from './ButtonDivStyle';
 function ButtonDiv({
   children,
   onClick = () => {},
-  fontColor,
-  divColor,
-  borderStyle,
+  fontColor = 'white',
+  divColor = `${colors.primary}`,
+  borderStyle = 'none',
 }: {
   children: any;
   fontColor?: string;
   divColor?: string;
   borderStyle?: string;
-  onClick?: () => void;
+  onClick?: (event: any) => void;
 }): JSX.Element {
   return (
     <ButtonDivStyle onClick={onClick} style={{ color: fontColor, backgroundColor: divColor, border: borderStyle }}>
@@ -21,11 +21,5 @@ function ButtonDiv({
     </ButtonDivStyle>
   );
 }
-
-ButtonDiv.defaultProps = {
-  fontColor: 'white',
-  divColor: `${colors.blue}`,
-  borderStyle: 'none',
-};
 
 export default ButtonDiv;

@@ -9,7 +9,7 @@ const NoticeCardDivStyle = styled.div`
   gap: 4px;
   padding: 12px;
   border-radius: 22px;
-  background-color: ${colors.blueGray100};
+  background-color: ${colors.primary100};
 `;
 
 export default NoticeCardDivStyle;

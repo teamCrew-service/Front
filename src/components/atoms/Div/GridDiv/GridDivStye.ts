@@ -2,8 +2,10 @@ import styled from 'styled-components';
 
 const GridDivStyle = styled.div`
   display: grid;
+  justify-content: center;
   width: 100%;
-  gap: 9px;
+  height: 100%;
+  gap: 8px;
 `;
 
 export default GridDivStyle;

@@ -16,7 +16,7 @@ function Category(): JSX.Element {
     const { currentTarget } = event;
     const currentBackColor = currentTarget.style.backgroundColor;
     if (currentBackColor === '') {
-      currentTarget.style.backgroundColor = colors.blue;
+      currentTarget.style.backgroundColor = colors.primary;
       currentTarget.style.color = 'white';
       setSelectedCategoryList(prev => [...prev, currentTarget.children[0].innerText]);
     } else {
@@ -49,12 +49,12 @@ function Category(): JSX.Element {
           <HeadLineParagraph content="관심있는 주제" />
           <BodyLong3Paragraph content="관심있는 주제를 3가지 이상 선택해 주세요" color={colors.Gray600} />
         </section>
-        <section>
+        <section id="category-grid-container">
           <CategoryGrid onClick={selectCategory} />
         </section>
         <section style={{ marginTop: 'auto', marginBottom: '60px' }}>
           {selectedCategoryList.length >= 3 ? (
-            <ButtonDiv onClick={saveSelectedCategory} divColor={colors.blue}>
+            <ButtonDiv onClick={saveSelectedCategory} divColor={colors.primary}>
               <Link
                 style={{
                   display: 'flex',
