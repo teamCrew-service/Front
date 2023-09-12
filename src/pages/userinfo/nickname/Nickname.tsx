@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import ProgressBar from '../../../components/molecules/ProgressBar';
 import icons from '../../../assets/icons';
@@ -8,6 +8,7 @@ import BodyLong3Paragraph from '../../../components/atoms/P/BodyLong3Paragraph/B
 import ButtonDiv from '../../../components/atoms/Div/ButtonDiv/ButtonDiv';
 import colors from '../../../assets/styles/color';
 import ButtonDivParagraph from '../../../components/atoms/P/ButtonDivParagraph/ButtonDivParagraph';
+import { login } from '../../../api';
 
 const StyledInput = styled.input`
   border: none;
@@ -25,17 +26,27 @@ const StyledInput = styled.input`
 `;
 
 function Nickname(): JSX.Element {
+  const navigate = useNavigate();
   const [userNickname, setUserNickname] = useState<string>('');
   const setNickname = (event: any): void => {
     setUserNickname(event.target.value);
   };
   const saveUserNickname = (): void => {
-    sessionStorage.setItem('nickname', userNickname);
+    login.nickCheck(userNickname).then(
+      data => {
+        console.log(data);
+        sessionStorage.setItem('nickname', userNickname);
+        navigate('/login/birthday');
+      },
+      error => {
+        alert(error.response.data.message);
+      },
+    );
   };
   return (
     <>
       <header>
-        <ProgressBar step={2} totalSteps={7} />
+        <ProgressBar step={1} totalSteps={7} />
       </header>
       <main id="category-main">
         <section style={{ width: 'fit-content', height: 'fit-content' }}>
@@ -55,20 +66,7 @@ function Nickname(): JSX.Element {
         <section style={{ marginTop: 'auto', marginBottom: '60px' }}>
           {userNickname !== '' ? (
             <ButtonDiv onClick={saveUserNickname}>
-              <Link
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  width: '100%',
-                  height: '100%',
-                  color: 'inherit',
-                  textDecoration: 'none',
-                }}
-                to="/login/birthday"
-              >
-                <ButtonDivParagraph>다음</ButtonDivParagraph>
-              </Link>
+              <ButtonDivParagraph>다음</ButtonDivParagraph>
             </ButtonDiv>
           ) : (
             <ButtonDiv divColor={colors.Gray200} fontColor={colors.Gray500}>

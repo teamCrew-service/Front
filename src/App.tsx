@@ -10,6 +10,8 @@ import Nickname from './pages/userinfo/nickname/Nickname';
 import Birthday from './pages/userinfo/birthday/Birthday';
 import Gender from './pages/userinfo/gender/Gender';
 import Profile from './pages/userinfo/profile/Profile';
+import Introduction from './pages/userinfo/introduction/Introduction';
+import Location from './pages/userinfo/location/Location';
 
 function App(): JSX.Element {
   return (
@@ -23,6 +25,8 @@ function App(): JSX.Element {
           <Route path="/login/birthday" element=<Birthday /> />
           <Route path="/login/gender" element=<Gender /> />
           <Route path="/login/profile" element=<Profile /> />
+          <Route path="/login/introduction" element=<Introduction /> />
+          <Route path="/login/location" element=<Location /> />
           <Route path="/home" element=<Home /> />
           <Route path="/findcrew" element=<FindCrew /> />
         </Routes>

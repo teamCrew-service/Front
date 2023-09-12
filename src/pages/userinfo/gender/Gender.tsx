@@ -49,7 +49,7 @@ function Gender(): JSX.Element {
   return (
     <>
       <header>
-        <ProgressBar step={4} totalSteps={7} />
+        <ProgressBar step={3} totalSteps={7} />
       </header>
       <main id="category-main">
         <section style={{ width: 'fit-content', height: 'fit-content' }}>

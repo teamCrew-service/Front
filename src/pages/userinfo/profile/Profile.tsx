@@ -48,7 +48,7 @@ function Profile(): JSX.Element {
   return (
     <>
       <header>
-        <ProgressBar step={5} totalSteps={7} />
+        <ProgressBar step={4} totalSteps={7} />
       </header>
       <main id="category-main">
         <section style={{ display: 'flex', justifyContent: 'space-between', width: '100%', height: 'fit-content' }}>
@@ -56,7 +56,7 @@ function Profile(): JSX.Element {
             <icons.chevronLeft style={{ cursor: 'pointer' }} />
           </Link>
           {!isProfileSet ? (
-            <Link onClick={saveProfile} to="/login/profile" style={{ textDecoration: 'none' }}>
+            <Link onClick={saveProfile} to="/login/introduction" style={{ textDecoration: 'none' }}>
               <StyledP>건너뛰기</StyledP>
             </Link>
           ) : (
@@ -64,8 +64,15 @@ function Profile(): JSX.Element {
           )}
         </section>
         <section>
-          <HeadLineParagraph content="프로필 사진" />
-          <BodyLong3Paragraph content="나만의 개성과 취향이 잘 드러나는 사진을 등록해주세요" color={colors.Gray600} />
+          <HeadLineParagraph content={!isProfileSet ? '프로필 사진' : '프로필 미리보기'} />
+          <BodyLong3Paragraph
+            content={
+              !isProfileSet
+                ? '나만의 개성과 취향이 잘 드러나는 사진을 등록해주세요'
+                : '다른 친구들이 내 프로필을 클릭했을 때 보게될 프로필입니다'
+            }
+            color={colors.Gray600}
+          />
         </section>
         <section
           style={{ display: 'flex', width: '100%', height: '27.09%', justifyContent: 'center', marginTop: '4.93%' }}
@@ -102,7 +109,7 @@ function Profile(): JSX.Element {
                   color: 'inherit',
                   textDecoration: 'none',
                 }}
-                to="/login/profile"
+                to="/login/introduction"
               >
                 <ButtonDivParagraph>다음</ButtonDivParagraph>
               </Link>

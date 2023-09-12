@@ -9,6 +9,8 @@ import { ReactComponent as heart } from './heart.svg';
 import { ReactComponent as Calendar } from './Calendar.svg';
 import { ReactComponent as Location } from './Location.svg';
 import { ReactComponent as users } from './users.svg';
+import { ReactComponent as Mappin } from './Mappin.svg';
+import { ReactComponent as NavigationArrow } from './NavigationArrow.svg';
 
 const icons = {
   TeamLogo,
@@ -22,6 +24,8 @@ const icons = {
   Calendar,
   Location,
   users,
+  Mappin,
+  NavigationArrow,
 };
 
 export default icons;

@@ -37,7 +37,7 @@ function Category(): JSX.Element {
   return (
     <>
       <header>
-        <ProgressBar step={1} totalSteps={7} />
+        <ProgressBar step={0} totalSteps={7} />
       </header>
       <main id="category-main">
         <section style={{ width: 'fit-content', height: 'fit-content' }}>

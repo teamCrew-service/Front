@@ -5,4 +5,10 @@ const instance: Axios = axios.create({
   withCredentials: true,
 });
 
+instance.interceptors.request.use(config => {
+  // eslint-disable-next-line no-param-reassign
+  config.headers.authorization = `Bearer ${document.cookie.split('authorization=')[1]}`;
+  return config;
+});
+
 export default instance;
