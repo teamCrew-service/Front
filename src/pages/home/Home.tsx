@@ -1,14 +1,23 @@
-import React from 'react';
-import './HomeStyle.css';
-import SmallImageDiv from 'components/atoms/Div/SmallImageDiv/SmallImageDiv';
-import FooterDiv from 'components/atoms/Div/FooterDiv/FooterDiv';
-import colors from 'assets/styles/color';
-import Body3Paragraph from 'components/atoms/P/Body3Paragraph/Body3Paragraph';
-import NoticeCardDiv from 'components/atoms/Div/NoticeCardDiv/NoticeCardDiv';
-import SubHead1Paragraph from 'components/atoms/P/SubHead1Paragraph/SubHead1Paragraph';
-import SmallCardDiv from 'components/atoms/Div/SmallCardDiv/SmallCardDiv';
-import HeadLineParagraph from 'components/atoms/P/HeadlineParagraph/HeadLineParagraph';
-import LargeCard from 'components/molecules/LargeCard/LargeCard';
+import React, { useEffect } from 'react';
+import styled from 'styled-components';
+import './style.css';
+import ScheduleCard from '../../styledComponent/ScheduleCard';
+import HeadLineParagraph from '../../styledComponent/heading/HeadLineParagraph';
+import LargeCardLink from '../../styledComponent/LargeCardLink';
+import InterestMatrix from '../../components/common/InterestMatrix';
+import colors from '../../assets/styles/color';
+import Body3Paragraph from '../../styledComponent/heading/Body3Paragrpah';
+
+const SmallImageDiv = styled.div<{ $URL: string }>`
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-image: url(${props => props.$URL});
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: 1px solid black;
+`;
 
 function Home(): JSX.Element {
   const UrlList: Array<{ number: number; url: string }> = [
@@ -18,50 +27,41 @@ function Home(): JSX.Element {
     { number: 4, url: '' },
     { number: 5, url: '' },
   ];
-  const categoryList = [
-    { code: 1, name: '친목' },
-    { code: 2, name: '음료' },
-    { code: 3, name: '여행' },
-    { code: 4, name: '운동' },
-    { code: 5, name: '책/글' },
-    { code: 6, name: '커리어' },
-    { code: 7, name: '공연/축제' },
-    { code: 8, name: '음악' },
-    { code: 9, name: '만들기' },
-    { code: 10, name: '사진' },
-    { code: 11, name: '반려동물' },
-    { code: 12, name: '자유주제' },
-  ];
+  useEffect(() => {
+    const cookie = window.location.href.split('token=')[1];
+    if (cookie !== undefined) {
+      document.cookie = `authorization=${cookie};path=/`;
+    }
+  }, []);
   return (
-    <>
-      <div style={{ marginTop: '14px', width: '100%', padding: '0 14px' }}>
-        <NoticeCardDiv>
-          <Body3Paragraph content="다가오는 일정" color={colors.blue} />
-          <HeadLineParagraph content="8월 16일 (수) 오후 8시 30분" />
-          <Body3Paragraph content="퇴근 후 40분 걷기" color={colors.Gray500} />
+    <main>
+      <section style={{ marginTop: '14px', width: '100%' }}>
+        <ScheduleCard>
+          <Body3Paragraph style={{ color: `${colors.blue}` }}>다가오는 일정</Body3Paragraph>
+          <HeadLineParagraph>8월 16일 (수) 오후 8시 30분</HeadLineParagraph>
+          <Body3Paragraph style={{ color: `${colors.Gray500}` }}>퇴근 후 40분 걷기</Body3Paragraph>
           <div id="profile-list-box">
             {UrlList.map(item => (
-              <SmallImageDiv key={item.number} Url={item.url} />
+              <SmallImageDiv key={item.number} $URL={item.url} />
             ))}
           </div>
-        </NoticeCardDiv>
-      </div>
-      <div className="large-card-box">
-        <LargeCard goPage="/findcrew" content="내 주변 모임 찾기" />
-        <LargeCard goPage="/" content="모임 생성" />
-      </div>
-      <div id="home-headline-style">
-        <HeadLineParagraph content="관심사별 모임 찾기" />
-      </div>
-      <div className="category-grid-box">
-        {categoryList.map(item => (
-          <SmallCardDiv key={item.code}>
-            <SubHead1Paragraph content={item.name} />
-          </SmallCardDiv>
-        ))}
-      </div>
-      <FooterDiv>Footer</FooterDiv>
-    </>
+        </ScheduleCard>
+      </section>
+      <section className="large-card-box">
+        <LargeCardLink to="/findcrew">
+          <HeadLineParagraph>내 주변 모임 찾기</HeadLineParagraph>
+        </LargeCardLink>
+        <LargeCardLink to="#">
+          <HeadLineParagraph>모임 생성</HeadLineParagraph>
+        </LargeCardLink>
+      </section>
+      <section id="home-headline-style">
+        <HeadLineParagraph>관심사별 모임 찾기</HeadLineParagraph>
+      </section>
+      <section style={{ display: 'flex', justifyContent: 'center', width: '100%', aspectRatio: '4/3' }}>
+        <InterestMatrix />
+      </section>
+    </main>
   );
 }
 

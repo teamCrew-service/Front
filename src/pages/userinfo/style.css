@@ -1,0 +1,23 @@
+header {
+  width: 100%;
+}
+#userinfo-main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  height: calc(100% - 5px);
+  padding: 0px 16px;
+  padding-top: 32px;
+}
+#progressbar {
+  width: 100%;
+  height: fit-content;
+  border: 1px solid black;
+}
+#category-grid-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 4/3;
+}

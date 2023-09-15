@@ -1,0 +1,60 @@
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import colors from '../../assets/styles/color';
+
+const CrewCard = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  height: fit-content;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: ${colors.Gray100};
+`;
+
+const TagDiv = styled.div<{ $color: string }>`
+  width: fit-content;
+  height: 18px;
+  background-color: ${props => props.$color};
+  padding: 2px 8px;
+  border-radius: 200px;
+`;
+
+const ImageBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  border: 1px solid black;
+`;
+
+const CategoryDiv = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  width: fit-content;
+  border: 1px solid ${colors.Gray300};
+  border-radius: 8px;
+  padding: 4px 6px;
+  cursor: pointer;
+`;
+
+const BackLink = styled(Link)`
+  position: absolute;
+  top: 21px;
+  left: 21px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 102;
+`;
+
+export { CrewCard, TagDiv, ImageBox, CategoryDiv, BackLink };

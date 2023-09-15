@@ -1,0 +1,25 @@
+header {
+  width: 100%;
+  height: 5px;
+}
+
+#onboarding-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: calc(100% - 5px);
+  padding: 0 16px;
+}
+
+@keyframes double {
+  0% {
+    scale: 1;
+  }
+  50% {
+    scale: 2;
+  }
+  100% {
+    scale: 1;
+  }
+}

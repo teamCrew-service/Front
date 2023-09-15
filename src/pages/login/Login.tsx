@@ -1,20 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import icons from 'assets/icons';
-import './LoginStyle.css';
-import IconWithBtn from 'components/molecules/IconWithBtn';
+import icons from '../../assets/icons';
+import './style.css';
+import LoginBtnWithIcon from '../../components/LoginBtnWithIcon';
+import colors from '../../assets/styles/color';
 
 function Login(): JSX.Element {
   return (
-    <div className="container login-container">
+    <div className="container" id="login-container">
       <div className="login-logo">
         <icons.TeamLogo />
       </div>
       <div className="login-btn-list">
-        <IconWithBtn context="카카오" icon={icons.Kakao} />
-        <IconWithBtn context="네이버" icon={icons.Naver} />
-        <IconWithBtn context="Google" icon={icons.Google} />
-        <Link to="/home">가입 전에 일단 둘러보기</Link>
+        <LoginBtnWithIcon context="카카오" icon={icons.Kakao} />
+        <LoginBtnWithIcon context="네이버" icon={icons.Naver} />
+        <LoginBtnWithIcon context="Google" icon={icons.Google} />
+        <div style={{ display: 'flex', alignItems: 'center', height: '56px' }}>
+          <Link style={{ color: `${colors.Gray400}`, textDecoration: 'none' }} to="/home">
+            둘러보기
+          </Link>
+        </div>
       </div>
     </div>
   );
