@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import './style.css';
 import ScheduleCard from '../../styledComponent/ScheduleCard';
 import HeadLineParagraph from '../../styledComponent/heading/HeadLineParagraph';
@@ -38,6 +39,7 @@ function Home(): JSX.Element {
       <section style={{ marginTop: '14px', width: '100%' }}>
         <ScheduleCard>
           <Body3Paragraph style={{ color: `${colors.blue}` }}>다가오는 일정</Body3Paragraph>
+          <Link to="/upcomingschedule">{'>'}</Link>
           <HeadLineParagraph>8월 16일 (수) 오후 8시 30분</HeadLineParagraph>
           <Body3Paragraph style={{ color: `${colors.Gray500}` }}>퇴근 후 40분 걷기</Body3Paragraph>
           <div id="profile-list-box">

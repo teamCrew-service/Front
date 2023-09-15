@@ -12,6 +12,7 @@ import Gender from './pages/userinfo/4.gender/Gender';
 import Profile from './pages/userinfo/5.profile/Profile';
 import Introduction from './pages/userinfo/6.introduction/Introduction';
 import Location from './pages/userinfo/7.location/Location';
+import UpcomingSchedule from './pages/upcomingschedule/UpcomingSchedule';
 
 function App(): JSX.Element {
   return (
@@ -29,6 +30,7 @@ function App(): JSX.Element {
           <Route path="/login/location" element=<Location /> />
           <Route path="/home" element=<Home /> />
           <Route path="/findcrew" element=<FindCrew /> />
+          <Route path="/upcomingschedule" element=<UpcomingSchedule /> />
         </Routes>
       </div>
     </div>
