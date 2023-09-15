@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import icons from '../../assets/icons';
-import './LoginStyle.css';
-import LoginBtnWithIcon from '../../components/molecules/LoginBtnWithIcon';
+import './style.css';
+import LoginBtnWithIcon from '../../components/LoginBtnWithIcon';
+import colors from '../../assets/styles/color';
 
 function Login(): JSX.Element {
   return (
@@ -14,7 +15,11 @@ function Login(): JSX.Element {
         <LoginBtnWithIcon context="카카오" icon={icons.Kakao} />
         <LoginBtnWithIcon context="네이버" icon={icons.Naver} />
         <LoginBtnWithIcon context="Google" icon={icons.Google} />
-        <Link to="/home">가입 전에 일단 둘러보기</Link>
+        <div style={{ display: 'flex', alignItems: 'center', height: '56px' }}>
+          <Link style={{ color: `${colors.Gray400}`, textDecoration: 'none' }} to="/home">
+            둘러보기
+          </Link>
+        </div>
       </div>
     </div>
   );

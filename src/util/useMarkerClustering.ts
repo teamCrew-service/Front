@@ -1,4 +1,4 @@
-import { makeMarkerClustering } from '../pages/findcrew/MarkerClustering';
+import { makeMarkerClustering } from './MarkerClustering';
 
 function useMarkerClustering(spots: any[], map?: naver.maps.Map): any {
   const MarkerClustering = makeMarkerClustering(window.naver);
