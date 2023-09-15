@@ -6,12 +6,13 @@ import TitleParagraph from '../../styledComponent/heading/TitleParagraph';
 import ButtonDiv from '../../styledComponent/ButtonDiv';
 
 const ImageDiv = styled.div<{ $imageURL: string }>`
-  width: 89.5%;
-  height: 28.82%;
+  width: 100%;
+  height: 100%;
   background-image: url(${props => props.$imageURL});
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  margin-top: 24px;
 `;
 
 function OnBoardingView({
@@ -33,17 +34,15 @@ function OnBoardingView({
         <ProgressBar step={step} totalSteps={3} />
       </header>
       <main id="onboarding-main">
-        <TitleParagraph>{title}</TitleParagraph>
-        <ImageDiv $imageURL={image} />
-        <div style={{ width: '100%', marginTop: 'auto', marginBottom: '60px' }}>
-          <ButtonDiv
-            onClick={() => {
-              goNextStep();
-            }}
-          >
-            {btnContext}
-          </ButtonDiv>
-        </div>
+        <section style={{ marginTop: '68px' }}>
+          <TitleParagraph>{title}</TitleParagraph>
+        </section>
+        <section style={{ width: '81.87%', height: '30.79%' }}>
+          <ImageDiv $imageURL={image} />
+        </section>
+        <section style={{ width: '100%', marginTop: 'auto', marginBottom: '60px' }}>
+          <ButtonDiv onClick={goNextStep}>{btnContext}</ButtonDiv>
+        </section>
       </main>
     </>
   );

@@ -1,9 +1,3 @@
-.double-logo {
-  animation-iteration-count: 1;
-  animation-duration: 3s;
-  animation-name: double;
-  animation-fill-mode: forwards;
-}
 header {
   width: 100%;
   height: 5px;
