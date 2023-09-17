@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import colors from '../../assets/styles/color';
 
-const CrewCard = styled.div`
+const CrewCard = styled(Link)`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -12,6 +12,8 @@ const CrewCard = styled.div`
   border-radius: 8px;
   padding: 16px;
   background-color: ${colors.Gray100};
+  text-decoration: none;
+  color: inherit;
 `;
 
 const TagDiv = styled.div<{ $color: string }>`

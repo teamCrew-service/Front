@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import ProgressBar from '../../../components/common/ProgressBar';
 import icons from '../../../assets/icons';
-import HeadLineParagraph from '../../../styledComponent/heading/HeadLineParagraph';
+import HeadLine from '../../../styledComponent/heading/HeadLine';
 import BodyLong3Paragraph from '../../../styledComponent/heading/BodyLong3Paragraph';
 import colors from '../../../assets/styles/color';
 import ButtonDiv from '../../../styledComponent/ButtonDiv';
@@ -44,7 +44,7 @@ function Introduction(): JSX.Element {
           </Link>
         </section>
         <section>
-          <HeadLineParagraph>자기 소개</HeadLineParagraph>
+          <HeadLine>자기 소개</HeadLine>
           <BodyLong3Paragraph style={{ color: `${colors.Gray600}` }}>
             어떤 취미를 가지고 있는지 나에 대해 간단히 소개해 주세요
           </BodyLong3Paragraph>

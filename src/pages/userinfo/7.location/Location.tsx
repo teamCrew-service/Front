@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { login } from '../../../api/index';
 import ProgressBar from '../../../components/common/ProgressBar';
 import icons from '../../../assets/icons';
-import HeadLineParagraph from '../../../styledComponent/heading/HeadLineParagraph';
+import HeadLine from '../../../styledComponent/heading/HeadLine';
 import BodyLong3Paragraph from '../../../styledComponent/heading/BodyLong3Paragraph';
 import colors from '../../../assets/styles/color';
 import ButtonDiv from '../../../styledComponent/ButtonDiv';
@@ -124,7 +124,7 @@ function Location(): JSX.Element {
           </Link>
         </section>
         <section>
-          <HeadLineParagraph>모임 지역</HeadLineParagraph>
+          <HeadLine>모임 지역</HeadLine>
           <BodyLong3Paragraph style={{ color: `${colors.Gray600}` }}>
             선호하는 모임 지역을 선택해주세요 (위치 변경은 프로필에서 가능합니다)
           </BodyLong3Paragraph>

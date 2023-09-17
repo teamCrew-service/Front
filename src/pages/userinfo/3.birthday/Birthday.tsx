@@ -5,7 +5,7 @@ import { Mousewheel } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import ProgressBar from '../../../components/common/ProgressBar';
 import icons from '../../../assets/icons';
-import HeadLineParagraph from '../../../styledComponent/heading/HeadLineParagraph';
+import HeadLine from '../../../styledComponent/heading/HeadLine';
 import BodyLong3Paragraph from '../../../styledComponent/heading/BodyLong3Paragraph';
 import ButtonDiv from '../../../styledComponent/ButtonDiv';
 import colors from '../../../assets/styles/color';
@@ -64,7 +64,7 @@ function Birthday(): JSX.Element {
           </Link>
         </section>
         <section>
-          <HeadLineParagraph>연령대</HeadLineParagraph>
+          <HeadLine>연령대</HeadLine>
           <BodyLong3Paragraph style={{ color: `${colors.Gray600}` }}>정확한 생년월일을 선택해주세요</BodyLong3Paragraph>
         </section>
         <section>

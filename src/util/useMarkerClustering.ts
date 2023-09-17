@@ -1,4 +1,5 @@
 import { makeMarkerClustering } from './MarkerClustering';
+import type { Spot } from '../assets/interfaces';
 
 function useMarkerClustering(spots: any[], map?: naver.maps.Map): any {
   const MarkerClustering = makeMarkerClustering(window.naver);
@@ -34,7 +35,7 @@ function useMarkerClustering(spots: any[], map?: naver.maps.Map): any {
     anchor: new window.naver.maps.Point(20, 20),
   };
 
-  const data = spots;
+  const data: Spot[] = spots;
 
   const markers: naver.maps.Marker[] = [];
   const infoWindows: naver.maps.InfoWindow[] = [];
@@ -51,12 +52,12 @@ function useMarkerClustering(spots: any[], map?: naver.maps.Map): any {
 
   for (let i = 0, ii = data.length; i < ii; i += 1) {
     const spot = data[i];
-    const latlng = new window.naver.maps.LatLng(spot.lat, spot.lng);
+    const latlng = new window.naver.maps.LatLng(spot.latitude, spot.longtitude);
     const marker = new window.naver.maps.Marker({
       position: latlng,
     });
     const infoWindow = new window.naver.maps.InfoWindow({
-      content: spot.title,
+      content: spot.crewTitle,
     });
     markers.push(marker);
     infoWindows.push(infoWindow);

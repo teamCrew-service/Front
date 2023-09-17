@@ -1,11 +1,12 @@
 import React from 'react';
 import './style.css';
-import HeadLineParagraph from '../../styledComponent/heading/HeadLineParagraph';
+import HeadLine from '../../styledComponent/heading/HeadLine';
 import { CrewCard, TagDiv, ImageBox, CategoryDiv, BackLink } from './styled';
 import useCalDate from '../../util/useCalDate';
 import icons from '../../assets/icons';
 import colors from '../../assets/styles/color';
 import CategoryModal from '../../components/modal/CategoryModal';
+import type { Spot } from '../../assets/interfaces';
 
 interface PropsType {
   loading: boolean;
@@ -15,7 +16,7 @@ interface PropsType {
   categorySelectOpen: () => void;
   selectCategory: (event: any) => void;
   mapDiv: any;
-  list: any[];
+  list: Spot[];
 }
 
 function FindCrewView({
@@ -28,6 +29,7 @@ function FindCrewView({
   mapDiv,
   list,
 }: PropsType): JSX.Element {
+  console.log('re-render');
   return loading ? (
     <main>
       {categoryOpen && <CategoryModal categorySelectClose={categorySelectClose} selectCategory={selectCategory} />}
@@ -37,7 +39,7 @@ function FindCrewView({
       <section ref={mapDiv} id="findcrew-map" />
       <section id="findcrew-absolute-div">
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-          <HeadLineParagraph>내 주변 크루</HeadLineParagraph>
+          <HeadLine>내 주변 크루</HeadLine>
           <div
             style={{
               width: 'fit-content',
@@ -72,35 +74,35 @@ function FindCrewView({
         >
           {list.length !== 0 ? (
             list.map(spot => (
-              <CrewCard key={spot.title}>
+              <CrewCard to={`/detail/${spot.crewId}`} key={spot.crewTitle}>
                 <div style={{ display: 'flex', gap: '4px' }}>
                   <TagDiv $color={colors.Gray300}>
                     <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot.category}</p>
                   </TagDiv>
-                  <TagDiv $color={spot.crewType === '정모' ? colors.blue : colors.red}>
+                  {/* <TagDiv $color={spot.crewType === '정모' ? colors.blue : colors.red}>
                     <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot.crewType}</p>
-                  </TagDiv>
+                  </TagDiv> */}
                 </div>
                 <div>
                   <p style={{ fontSize: '14px', fontWeight: 700, lineHeight: '24px', letterSpacing: '-0.4px' }}>
-                    {spot.title}
+                    {spot.crewTitle}
                   </p>
-                  <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot.subTitle}</p>
+                  {/* <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot.subTitle}</p> */}
                 </div>
-                <div>{spot.imageList !== undefined ? <ImageBox>image</ImageBox> : <ImageBox>no image</ImageBox>}</div>
+                <div>{spot.thumbnail !== undefined ? <ImageBox>image</ImageBox> : <ImageBox>no image</ImageBox>}</div>
                 <div>
-                  {spot.dueDate !== undefined && (
+                  {spot.crewDDay !== undefined && (
                     <div style={{ display: 'flex', gap: '2px' }}>
                       <icons.Calendar />
                       <p style={{ fontSize: '12px', lineHeight: '18px', letterSpacing: '-0.2px' }}>
-                        {useCalDate(spot.dueDate)}
+                        {useCalDate(new Date(spot.crewDDay))}
                       </p>
                     </div>
                   )}
                   <div style={{ display: 'flex', gap: '2px' }}>
                     <icons.Location />
                     <p style={{ fontSize: '12px', lineHeight: '18px', letterSpacing: '-0.2px' }}>
-                      {spot.location} 근처
+                      {spot.crewAddress} 근처
                     </p>
                   </div>
                 </div>
@@ -119,7 +121,7 @@ function FindCrewView({
                   }}
                 >
                   <icons.users />
-                  <p style={{ fontSize: '12px', lineHeight: '18px', letterSpacing: '-0.2px' }}>{spot.current}/8</p>
+                  {/* <p style={{ fontSize: '12px', lineHeight: '18px', letterSpacing: '-0.2px' }}>{spot.current}/8</p> */}
                 </div>
                 <div style={{ position: 'absolute', top: '16px', right: '16px', zIndex: 102 }}>
                   <icons.heart style={{ cursor: 'pointer' }} />

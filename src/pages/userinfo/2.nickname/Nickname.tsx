@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
-import HeadLineParagraph from '../../../styledComponent/heading/HeadLineParagraph';
+import HeadLine from '../../../styledComponent/heading/HeadLine';
 import BodyLong3Paragraph from '../../../styledComponent/heading/BodyLong3Paragraph';
 import ButtonDiv from '../../../styledComponent/ButtonDiv';
 
@@ -57,7 +57,7 @@ function Nickname(): JSX.Element {
           </Link>
         </section>
         <section>
-          <HeadLineParagraph>닉네임</HeadLineParagraph>
+          <HeadLine>닉네임</HeadLine>
           <BodyLong3Paragraph style={{ color: `${colors.Gray600}` }}>
             친구들에게 불리고 싶은 닉네임을 입력해주세요
           </BodyLong3Paragraph>

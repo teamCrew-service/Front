@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ProgressBar from '../../../components/common/ProgressBar';
 import icons from '../../../assets/icons';
-import HeadLineParagraph from '../../../styledComponent/heading/HeadLineParagraph';
+import HeadLine from '../../../styledComponent/heading/HeadLine';
 import BodyLong3Paragraph from '../../../styledComponent/heading/BodyLong3Paragraph';
 import ButtonDiv from '../../../styledComponent/ButtonDiv';
 import colors from '../../../assets/styles/color';
@@ -57,7 +57,7 @@ function Gender(): JSX.Element {
           </Link>
         </section>
         <section>
-          <HeadLineParagraph>성별</HeadLineParagraph>
+          <HeadLine>성별</HeadLine>
           <BodyLong3Paragraph style={{ color: `${colors.Gray600}` }}>성별을 선택해주세요</BodyLong3Paragraph>
         </section>
         <section style={{ display: 'flex', gap: '12px', width: '44.8%', aspectRatio: '2/1' }}>

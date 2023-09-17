@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ProgressBar from '../../../components/common/ProgressBar';
 import icons from '../../../assets/icons';
-import HeadLineParagraph from '../../../styledComponent/heading/HeadLineParagraph';
+import HeadLine from '../../../styledComponent/heading/HeadLine';
 import BodyLong3Paragraph from '../../../styledComponent/heading/BodyLong3Paragraph';
 import colors from '../../../assets/styles/color';
 import InterestMatrix from '../../../components/common/InterestMatrix';
@@ -44,7 +44,7 @@ function Category(): JSX.Element {
           </Link>
         </section>
         <section>
-          <HeadLineParagraph>관심있는 주제</HeadLineParagraph>
+          <HeadLine>관심있는 주제</HeadLine>
           <BodyLong3Paragraph style={{ color: `${colors.Gray600}` }}>
             관심있는 주제를 3가지 이상 선택해 주세요
           </BodyLong3Paragraph>

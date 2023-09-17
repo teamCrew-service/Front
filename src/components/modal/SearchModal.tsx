@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import colors from '../../assets/styles/color';
-import HeadLineParagraph from '../../styledComponent/heading/HeadLineParagraph';
+import HeadLine from '../../styledComponent/heading/HeadLine';
 import BodyLong3Paragraph from '../../styledComponent/heading/BodyLong3Paragraph';
 
 declare global {
@@ -107,7 +107,7 @@ function SearchModal({ closeModal }: { closeModal: (lng?: string, lat?: string) 
         >
           x
         </StyledDiv3>
-        <HeadLineParagraph>모임 지역</HeadLineParagraph>
+        <HeadLine>모임 지역</HeadLine>
         <BodyLong3Paragraph style={{ color: `${colors.Gray600}` }}>
           선호하는 모임 지역을 선택해주세요 (위치 변경은 프로필에서 가능합니다)
         </BodyLong3Paragraph>

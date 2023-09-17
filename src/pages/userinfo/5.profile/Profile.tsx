@@ -3,7 +3,7 @@ import { styled } from 'styled-components';
 import { Link } from 'react-router-dom';
 import ProgressBar from '../../../components/common/ProgressBar';
 import icons from '../../../assets/icons';
-import HeadLineParagraph from '../../../styledComponent/heading/HeadLineParagraph';
+import HeadLine from '../../../styledComponent/heading/HeadLine';
 import BodyLong3Paragraph from '../../../styledComponent/heading/BodyLong3Paragraph';
 import ButtonDiv from '../../../styledComponent/ButtonDiv';
 import colors from '../../../assets/styles/color';
@@ -63,7 +63,7 @@ function Profile(): JSX.Element {
           )}
         </section>
         <section>
-          <HeadLineParagraph>{!isProfileSet ? '프로필 사진' : '프로필 미리보기'}</HeadLineParagraph>
+          <HeadLine>{!isProfileSet ? '프로필 사진' : '프로필 미리보기'}</HeadLine>
           <BodyLong3Paragraph style={{ color: `${colors.Gray600}` }}>
             {!isProfileSet
               ? '나만의 개성과 취향이 잘 드러나는 사진을 등록해주세요'
@@ -88,7 +88,7 @@ function Profile(): JSX.Element {
               <img src={profile} alt="profile" width="100%" height="100%" style={{ borderRadius: '50%' }} />
             </ImageDiv>
             <div style={{ marginTop: '11.36%' }}>
-              <HeadLineParagraph>김크루</HeadLineParagraph>
+              <HeadLine>김크루</HeadLine>
             </div>
           </div>
         </section>
