@@ -55,6 +55,9 @@ const notice = {
 const meet = {
   makeCrew: async (payload: MakeCrew) => {
     const { data } = await instance.post('/api/crew/create', { payload });
+
+    console.log(data);
+
     return data;
   },
 };

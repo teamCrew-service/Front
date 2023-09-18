@@ -51,7 +51,7 @@ function Home(): JSX.Element {
         <LargeCardLink to="/findcrew">
           <TitleLargeMedium>내 주변 모임 찾기</TitleLargeMedium>
         </LargeCardLink>
-        <LargeCardLink to="#">
+        <LargeCardLink to="/makecrew">
           <TitleLargeMedium>모임 생성</TitleLargeMedium>
         </LargeCardLink>
       </section>

@@ -15,6 +15,7 @@ import Profile from './pages/userinfo/5.profile/Profile';
 import Introduction from './pages/userinfo/6.introduction/Introduction';
 import Location from './pages/userinfo/7.location/Location';
 import Detail from './pages/detail/Detail';
+import MakeCrew from './pages/makecrew/MakeCrew';
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ function App(): JSX.Element {
             <Route path="/home" element=<Home /> />
             <Route path="/findcrew" element=<FindCrew /> />
             <Route path="/detail/:id" element=<Detail /> />
+            <Route path="/makecrew" element=<MakeCrew /> />
           </Routes>
         </div>
       </div>
