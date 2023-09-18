@@ -4,7 +4,7 @@ import colors from '../assets/styles/color';
 
 const LargeCardLink = styled(Link)`
   width: 50%;
-  height: 100%;
+  aspect-ratio: 1.14;
   border-radius: 22px;
   text-decoration: none;
   color: black;

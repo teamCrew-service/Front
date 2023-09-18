@@ -1,11 +1,12 @@
 import React from 'react';
 import './style.css';
-import HeadLineParagraph from '../../styledComponent/heading/HeadLineParagraph';
+import TitleLargeMedium from '../../styledComponent/heading/TitleLargeMedium';
 import { CrewCard, TagDiv, ImageBox, CategoryDiv, BackLink } from './styled';
 import useCalDate from '../../util/useCalDate';
 import icons from '../../assets/icons';
 import colors from '../../assets/styles/color';
 import CategoryModal from '../../components/modal/CategoryModal';
+import type { Spot } from '../../assets/interfaces';
 
 interface PropsType {
   loading: boolean;
@@ -15,7 +16,7 @@ interface PropsType {
   categorySelectOpen: () => void;
   selectCategory: (event: any) => void;
   mapDiv: any;
-  list: any[];
+  list: Spot[];
 }
 
 function FindCrewView({
@@ -28,6 +29,7 @@ function FindCrewView({
   mapDiv,
   list,
 }: PropsType): JSX.Element {
+  console.log('re-render');
   return loading ? (
     <main>
       {categoryOpen && <CategoryModal categorySelectClose={categorySelectClose} selectCategory={selectCategory} />}
@@ -37,12 +39,12 @@ function FindCrewView({
       <section ref={mapDiv} id="findcrew-map" />
       <section id="findcrew-absolute-div">
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-          <HeadLineParagraph>내 주변 크루</HeadLineParagraph>
+          <TitleLargeMedium>내 주변 크루</TitleLargeMedium>
           <div
             style={{
               width: 'fit-content',
               height: 'fit-const first = useContext(second)',
-              backgroundColor: `${colors.Gray200}`,
+              backgroundColor: `${colors.gray200}`,
               textAlign: 'center',
               borderRadius: '200px',
               padding: '2px 8px',
@@ -72,35 +74,41 @@ function FindCrewView({
         >
           {list.length !== 0 ? (
             list.map(spot => (
-              <CrewCard key={spot.title}>
+              <CrewCard to={`/detail/${spot.crew_crewId}`} key={spot.crew_crewId}>
                 <div style={{ display: 'flex', gap: '4px' }}>
-                  <TagDiv $color={colors.Gray300}>
-                    <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot.category}</p>
+                  <TagDiv $color={colors.gray200}>
+                    <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot.crew_category}</p>
                   </TagDiv>
-                  <TagDiv $color={spot.crewType === '정모' ? colors.blue : colors.red}>
+                  {/* <TagDiv $color={spot.crewType === '정모' ? colors.blue : colors.red}>
                     <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot.crewType}</p>
-                  </TagDiv>
+                  </TagDiv> */}
                 </div>
                 <div>
                   <p style={{ fontSize: '14px', fontWeight: 700, lineHeight: '24px', letterSpacing: '-0.4px' }}>
-                    {spot.title}
+                    {spot.crew_crewTitle}
                   </p>
-                  <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot.subTitle}</p>
+                  {/* <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot.subTitle}</p> */}
                 </div>
-                <div>{spot.imageList !== undefined ? <ImageBox>image</ImageBox> : <ImageBox>no image</ImageBox>}</div>
                 <div>
-                  {spot.dueDate !== undefined && (
+                  {spot.crew_thumbnail !== undefined ? (
+                    <ImageBox image={spot.crew_thumbnail} />
+                  ) : (
+                    <ImageBox image="">no image</ImageBox>
+                  )}
+                </div>
+                <div>
+                  {spot.crew_crewDDay !== undefined && (
                     <div style={{ display: 'flex', gap: '2px' }}>
                       <icons.Calendar />
                       <p style={{ fontSize: '12px', lineHeight: '18px', letterSpacing: '-0.2px' }}>
-                        {useCalDate(spot.dueDate)}
+                        {useCalDate(new Date(spot.crew_crewDDay))}
                       </p>
                     </div>
                   )}
                   <div style={{ display: 'flex', gap: '2px' }}>
                     <icons.Location />
                     <p style={{ fontSize: '12px', lineHeight: '18px', letterSpacing: '-0.2px' }}>
-                      {spot.location} 근처
+                      {spot.crew_crewAddress} 근처
                     </p>
                   </div>
                 </div>
@@ -113,13 +121,15 @@ function FindCrewView({
                     gap: '4px',
                     zIndex: 101,
                     textAlign: 'center',
-                    backgroundColor: `${colors.blueGray300}`,
+                    backgroundColor: `${colors.gray200}`,
                     padding: '4px 10px',
                     borderRadius: '200px',
                   }}
                 >
                   <icons.users />
-                  <p style={{ fontSize: '12px', lineHeight: '18px', letterSpacing: '-0.2px' }}>{spot.current}/8</p>
+                  <p style={{ fontSize: '12px', lineHeight: '18px', letterSpacing: '-0.2px' }}>
+                    {spot.crewAttendedMember}/{spot.crew_crewMaxMember}
+                  </p>
                 </div>
                 <div style={{ position: 'absolute', top: '16px', right: '16px', zIndex: 102 }}>
                   <icons.heart style={{ cursor: 'pointer' }} />
@@ -134,7 +144,7 @@ function FindCrewView({
                 justifyContent: 'center',
                 alignItems: 'center',
                 height: '100%',
-                color: `${colors.Gray200}`,
+                color: `${colors.gray200}`,
               }}
             >
               <p style={{ fontWeight: 700, fontSize: '16px', lineHeight: '22px', letterSpacing: '-0.4px' }}>

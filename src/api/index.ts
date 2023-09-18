@@ -1,17 +1,9 @@
+import type { AxiosResponse } from 'axios';
+import type * as myInterface from '../assets/interfaces';
 import instance from './instance';
 
 interface LoginMessage {
   message: string;
-}
-
-interface Information {
-  interestTopic: string | null;
-  nickname: string | null;
-  age: string | null;
-  gender: string | null;
-  profileImage: string | null;
-  myMessage: string | null;
-  location: string | null;
 }
 
 interface MakeCrew {
@@ -33,7 +25,7 @@ interface MakeCrew {
 }
 
 const login = {
-  firstLogin: async <T = LoginMessage>(information: Information): Promise<T> => {
+  firstLogin: async <T = LoginMessage>(information: myInterface.Information): Promise<T> => {
     const { data } = await instance.put<T>('api/auth/info', information);
     return data;
   },
@@ -43,12 +35,28 @@ const login = {
   },
 };
 
+const navermap = {
+  findcrew: async (): Promise<myInterface.Spot[]> => {
+    const { data } = await instance.get<myInterface.Spot[]>('api/home/map');
+    return data;
+  },
+};
+
+const crewDetail = {
+  getDetail: async <T = myInterface.Detail>(crewId: string): Promise<AxiosResponse<T>> =>
+    instance.get<T>(`api/crew/${crewId}`),
+};
+
+const notice = {
+  getNoticeList: async <T = myInterface.Notice[]>(): Promise<AxiosResponse<T>> =>
+    instance.get<T>('api/notice/comingDate'),
+};
+
 const meet = {
   makeCrew: async (payload: MakeCrew) => {
     const { data } = await instance.post('/api/crew/create', { payload });
     return data;
   },
 };
-const naverMap = {};
 
-export { login, naverMap, meet };
+export { login, navermap, crewDetail, notice, meet };

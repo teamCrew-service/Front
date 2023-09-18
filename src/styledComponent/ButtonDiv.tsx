@@ -13,10 +13,6 @@ const ButtonDiv = styled.button`
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  font-weight: 600;
-  font-size: 17px;
-  line-height: 22px;
-  letter-spacing: -0.408px;
 `;
 
 export default ButtonDiv;
