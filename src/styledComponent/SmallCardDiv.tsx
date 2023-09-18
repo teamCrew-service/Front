@@ -9,6 +9,10 @@ const SmallCardDiv = styled.div`
   height: 100%;
   border-radius: 22px;
   background-color: ${colors.primary100};
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 0.01em;
   cursor: pointer;
 `;
 
