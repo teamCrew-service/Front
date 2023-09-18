@@ -1,13 +1,15 @@
 // 장소
 interface Spot {
-  category: string;
-  crewAddress: string;
-  crewDDay: Date;
-  crewId: number;
-  crewTitle: string;
-  latitude: number;
-  longtitude: number;
-  thumbnail: string;
+  crewAttendedMember: number;
+  crew_category: string;
+  crew_crewAddress: string;
+  crew_crewDDay: Date;
+  crew_crewId: number;
+  crew_crewMaxMember: number;
+  crew_crewTitle: string;
+  crew_latitude: number;
+  crew_longtitude: number;
+  crew_thumbnail: string;
 }
 
 // 최초 로그인 정보

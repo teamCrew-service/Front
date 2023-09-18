@@ -5,12 +5,13 @@ import { Mousewheel } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import ProgressBar from '../../../components/common/ProgressBar';
 import icons from '../../../assets/icons';
-import HeadLine from '../../../styledComponent/heading/HeadLine';
-import BodyLong3Paragraph from '../../../styledComponent/heading/BodyLong3Paragraph';
+import BodySmallMedium from '../../../styledComponent/heading/BodySmallMedium';
 import ButtonDiv from '../../../styledComponent/ButtonDiv';
 import colors from '../../../assets/styles/color';
 
 import '../style.css';
+import TitleLargeBold from '../../../styledComponent/heading/TitleLargeBold';
+import BodyLargeBold from '../../../styledComponent/heading/BodyLargeBold';
 
 const StyledContainer = styled.div`
   position: relative;
@@ -25,9 +26,13 @@ const SelectedDiv = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  border-top: 1px solid ${colors.Gray400};
-  border-bottom: 1px solid ${colors.Gray400};
+  border-top: 0.3px solid ${colors.gray400};
+  border-bottom: 0.3px solid ${colors.gray400};
   color: ${colors.primary};
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: -0.4px;
 `;
 
 const StyleOption = styled.div`
@@ -41,7 +46,7 @@ const StyleOption = styled.div`
 function Birthday(): JSX.Element {
   const yearList = [1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000];
   const [open, setOpen] = useState<boolean>(false);
-  const [birthYear, setBirthYear] = useState<string>('1987');
+  const [birthYear, setBirthYear] = useState<string>('');
 
   const openSelectWindow = (): void => {
     setOpen(true);
@@ -64,8 +69,8 @@ function Birthday(): JSX.Element {
           </Link>
         </section>
         <section>
-          <HeadLine>연령대</HeadLine>
-          <BodyLong3Paragraph style={{ color: `${colors.Gray600}` }}>정확한 생년월일을 선택해주세요</BodyLong3Paragraph>
+          <TitleLargeBold>연령대</TitleLargeBold>
+          <BodySmallMedium style={{ color: `${colors.gray700}` }}>정확한 생년월일을 선택해주세요</BodySmallMedium>
         </section>
         <section>
           <ButtonDiv onClick={openSelectWindow} style={{ backgroundColor: `${colors.primary100}`, color: 'black' }}>
@@ -87,13 +92,13 @@ function Birthday(): JSX.Element {
                 }}
                 to="/login/gender"
               >
-                다음
+                <BodyLargeBold>다음</BodyLargeBold>
               </Link>
             </ButtonDiv>
           )}
           {!open && birthYear === '' && (
-            <ButtonDiv style={{ backgroundColor: `${colors.Gray200}`, color: `${colors.Gray500}` }}>
-              생년월일을 선택해주세요
+            <ButtonDiv style={{ backgroundColor: `${colors.gray200}`, color: `${colors.gray400}` }}>
+              <BodyLargeBold>생년월일을 선택해주세요</BodyLargeBold>
             </ButtonDiv>
           )}
         </section>
@@ -130,6 +135,11 @@ function Birthday(): JSX.Element {
                     style={{
                       width: '100%',
                       height: '32px',
+                      color: `${colors.gray200}`,
+                      fontSize: '16px',
+                      fontWeight: 700,
+                      lineHeight: '28px',
+                      letterSpacing: '-0.4px',
                     }}
                     key={item}
                   >

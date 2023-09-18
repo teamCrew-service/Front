@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ProgressBar from '../../../components/common/ProgressBar';
 import icons from '../../../assets/icons';
-import HeadLine from '../../../styledComponent/heading/HeadLine';
-import BodyLong3Paragraph from '../../../styledComponent/heading/BodyLong3Paragraph';
 import ButtonDiv from '../../../styledComponent/ButtonDiv';
 import colors from '../../../assets/styles/color';
 import SmallCardDiv from '../../../styledComponent/SmallCardDiv';
+import BodyLargeBold from '../../../styledComponent/heading/BodyLargeBold';
+import TitleLargeBold from '../../../styledComponent/heading/TitleLargeBold';
 
 function Gender(): JSX.Element {
   const [gender, setGender] = useState<string>('');
@@ -57,8 +57,8 @@ function Gender(): JSX.Element {
           </Link>
         </section>
         <section>
-          <HeadLine>성별</HeadLine>
-          <BodyLong3Paragraph style={{ color: `${colors.Gray600}` }}>성별을 선택해주세요</BodyLong3Paragraph>
+          <TitleLargeBold>성별</TitleLargeBold>
+          <BodyLargeBold style={{ color: `${colors.gray500}` }}>성별을 선택해주세요</BodyLargeBold>
         </section>
         <section style={{ display: 'flex', gap: '12px', width: '44.8%', aspectRatio: '2/1' }}>
           <SmallCardDiv onClick={changeClickedDivStyle}>여성</SmallCardDiv>
@@ -79,12 +79,12 @@ function Gender(): JSX.Element {
                 }}
                 to="/login/profile"
               >
-                다음
+                <BodyLargeBold>다음</BodyLargeBold>
               </Link>
             </ButtonDiv>
           ) : (
-            <ButtonDiv style={{ backgroundColor: `${colors.Gray200}`, color: `${colors.Gray500}` }}>
-              성별을 선택해주세요
+            <ButtonDiv style={{ backgroundColor: `${colors.gray200}`, color: `${colors.gray400}` }}>
+              <BodyLargeBold>성별을 선택해주세요</BodyLargeBold>
             </ButtonDiv>
           )}
         </section>

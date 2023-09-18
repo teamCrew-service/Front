@@ -20,8 +20,10 @@ function FindCrew(): JSX.Element {
       .then(res => {
         spots.current = [...res];
         // --- 임시 데이터 설정 : 향후 삭제 필요
-        spots.current[0].latitude = 35.057;
-        spots.current[0].longtitude = 128.965;
+        spots.current[0].crew_latitude = 35.057;
+        spots.current[0].crew_longtitude = 128.965;
+        spots.current[1].crew_latitude = 35.057;
+        spots.current[1].crew_longtitude = 128.95;
         // ---
         console.log(res);
       })
@@ -76,7 +78,7 @@ function FindCrew(): JSX.Element {
   const selectCategory = (event: any): void => {
     const selected = event.target.innerText;
     setCategory(selected);
-    setList(spots.current.filter(spot => spot.category === selected));
+    setList(spots.current.filter(spot => spot.crew_category === selected));
     setCategoryOpen(false);
   };
 
@@ -102,7 +104,7 @@ function FindCrew(): JSX.Element {
   useEffect(() => {
     console.log(spots.current, map, category);
     // category 설정에 따른 data 값 변경
-    const data = category === '관심사' ? spots.current : spots.current.filter(spot => spot.category === category);
+    const data = category === '관심사' ? spots.current : spots.current.filter(spot => spot.crew_category === category);
     console.log(data);
 
     if (map !== null) {
@@ -110,21 +112,27 @@ function FindCrew(): JSX.Element {
       naver.maps.Event.once(map, 'init', () => {
         console.log('first-event');
         const currentBound = map.getBounds();
-        setList(data.filter(spot => currentBound.hasPoint(new naver.maps.LatLng(spot.latitude, spot.longtitude))));
+        setList(
+          data.filter(spot => currentBound.hasPoint(new naver.maps.LatLng(spot.crew_latitude, spot.crew_longtitude))),
+        );
       });
 
       // 네이버 이벤트 2 : 드래그 완료 시
       listener.current = naver.maps.Event.addListener(map, 'dragend', () => {
         const currentBound = map.getBounds();
         console.log('dragend');
-        setList(data.filter(spot => currentBound.hasPoint(new naver.maps.LatLng(spot.latitude, spot.longtitude))));
+        setList(
+          data.filter(spot => currentBound.hasPoint(new naver.maps.LatLng(spot.crew_latitude, spot.crew_longtitude))),
+        );
       });
 
       // 네이버 이벤트 3 : 줌 레벨 변경 시
       naver.maps.Event.addListener(map, 'zoom_changed', () => {
         const currentBound = map.getBounds();
         console.log('zoomchanged');
-        setList(data.filter(spot => currentBound.hasPoint(new naver.maps.LatLng(spot.latitude, spot.longtitude))));
+        setList(
+          data.filter(spot => currentBound.hasPoint(new naver.maps.LatLng(spot.crew_latitude, spot.crew_longtitude))),
+        );
       });
 
       // 클러스터 설정

@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import colors from '../../assets/styles/color';
-import HeadLine from '../../styledComponent/heading/HeadLine';
-import BodyLong3Paragraph from '../../styledComponent/heading/BodyLong3Paragraph';
+import TitleLargeMedium from '../../styledComponent/heading/TitleLargeMedium';
+import BodySmallMedium from '../../styledComponent/heading/BodySmallMedium';
 
 declare global {
   interface Window {
@@ -107,10 +107,10 @@ function SearchModal({ closeModal }: { closeModal: (lng?: string, lat?: string) 
         >
           x
         </StyledDiv3>
-        <HeadLine>모임 지역</HeadLine>
-        <BodyLong3Paragraph style={{ color: `${colors.Gray600}` }}>
+        <TitleLargeMedium>모임 지역</TitleLargeMedium>
+        <BodySmallMedium style={{ color: `${colors.gray500}` }}>
           선호하는 모임 지역을 선택해주세요 (위치 변경은 프로필에서 가능합니다)
-        </BodyLong3Paragraph>
+        </BodySmallMedium>
         <form onSubmit={searchKeyword}>
           <StyledInput onChange={changeKeyword} type="text" />
           <input

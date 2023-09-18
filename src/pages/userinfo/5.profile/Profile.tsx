@@ -3,18 +3,18 @@ import { styled } from 'styled-components';
 import { Link } from 'react-router-dom';
 import ProgressBar from '../../../components/common/ProgressBar';
 import icons from '../../../assets/icons';
-import HeadLine from '../../../styledComponent/heading/HeadLine';
-import BodyLong3Paragraph from '../../../styledComponent/heading/BodyLong3Paragraph';
-import ButtonDiv from '../../../styledComponent/ButtonDiv';
+import BodySmallMedium from '../../../styledComponent/heading/BodySmallMedium';
 import colors from '../../../assets/styles/color';
 import defaultImage from '../../../assets/images/profile.jpg';
+import TitleLargeBold from '../../../styledComponent/heading/TitleLargeBold';
+import GoPageBtn from '../components/GoPageBtn';
 
 const StyledP = styled.p`
   font-size: 16px;
   font-weight: 700;
   line-height: 22px;
   letter-spacing: -0.4px;
-  color: ${colors.primary};
+  color: ${colors.gray400};
   cursor: pointer;
 `;
 
@@ -54,21 +54,19 @@ function Profile(): JSX.Element {
           <Link to="/login/gender">
             <icons.chevronLeft style={{ cursor: 'pointer' }} />
           </Link>
-          {!isProfileSet ? (
+          {!isProfileSet && (
             <Link onClick={saveProfile} to="/login/introduction" style={{ textDecoration: 'none' }}>
               <StyledP>건너뛰기</StyledP>
             </Link>
-          ) : (
-            <StyledP onClick={changeProfile}>수정하기</StyledP>
           )}
         </section>
         <section>
-          <HeadLine>{!isProfileSet ? '프로필 사진' : '프로필 미리보기'}</HeadLine>
-          <BodyLong3Paragraph style={{ color: `${colors.Gray600}` }}>
+          <TitleLargeBold>{!isProfileSet ? '프로필 사진' : '프로필 미리보기'}</TitleLargeBold>
+          <BodySmallMedium style={{ color: `${colors.gray700}` }}>
             {!isProfileSet
               ? '나만의 개성과 취향이 잘 드러나는 사진을 등록해주세요'
               : '다른 친구들이 내 프로필을 클릭했을 때 보게될 프로필입니다'}
-          </BodyLong3Paragraph>
+          </BodySmallMedium>
         </section>
         <section
           style={{ display: 'flex', width: '100%', height: '27.09%', justifyContent: 'center', marginTop: '4.93%' }}
@@ -84,36 +82,23 @@ function Profile(): JSX.Element {
               borderRadius: '12px',
             }}
           >
-            <ImageDiv>
+            <ImageDiv onClick={changeProfile}>
               <img src={profile} alt="profile" width="100%" height="100%" style={{ borderRadius: '50%' }} />
             </ImageDiv>
             <div style={{ marginTop: '11.36%' }}>
-              <HeadLine>김크루</HeadLine>
+              <TitleLargeBold>김크루</TitleLargeBold>
             </div>
           </div>
         </section>
-        <section style={{ marginTop: 'auto', marginBottom: '60px' }}>
-          {isProfileSet ? (
-            <ButtonDiv onClick={saveProfile}>
-              <Link
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  width: '100%',
-                  height: '100%',
-                  color: 'inherit',
-                  textDecoration: 'none',
-                }}
-                to="/login/introduction"
-              >
-                다음
-              </Link>
-            </ButtonDiv>
-          ) : (
-            <ButtonDiv onClick={changeProfile}>라이브러리에서 선택</ButtonDiv>
-          )}
-        </section>
+        <GoPageBtn
+          judge={isProfileSet}
+          path="/login/introduction"
+          prevTitle="라이브러리에서 선택"
+          prevColor=""
+          prevFontColor=""
+          prevAction={changeProfile}
+          action={saveProfile}
+        />
       </main>
     </>
   );

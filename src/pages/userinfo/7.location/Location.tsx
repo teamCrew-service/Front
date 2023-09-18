@@ -4,11 +4,11 @@ import styled from 'styled-components';
 import { login } from '../../../api/index';
 import ProgressBar from '../../../components/common/ProgressBar';
 import icons from '../../../assets/icons';
-import HeadLine from '../../../styledComponent/heading/HeadLine';
-import BodyLong3Paragraph from '../../../styledComponent/heading/BodyLong3Paragraph';
+import BodySmallMedium from '../../../styledComponent/heading/BodySmallMedium';
 import colors from '../../../assets/styles/color';
 import ButtonDiv from '../../../styledComponent/ButtonDiv';
 import SearchModal from '../../../components/modal/SearchModal';
+import TitleLargeBold from '../../../styledComponent/heading/TitleLargeBold';
 
 declare global {
   interface Window {
@@ -124,10 +124,10 @@ function Location(): JSX.Element {
           </Link>
         </section>
         <section>
-          <HeadLine>모임 지역</HeadLine>
-          <BodyLong3Paragraph style={{ color: `${colors.Gray600}` }}>
+          <TitleLargeBold>모임 지역</TitleLargeBold>
+          <BodySmallMedium style={{ color: `${colors.gray700}` }}>
             선호하는 모임 지역을 선택해주세요 (위치 변경은 프로필에서 가능합니다)
-          </BodyLong3Paragraph>
+          </BodySmallMedium>
         </section>
         <section>
           <StyledDiv>
@@ -151,6 +151,12 @@ function Location(): JSX.Element {
             overflow: 'hidden',
           }}
         />
+        {/* 
+            닉네임 부분과 동일하게 설정 
+            1. api 요청
+            2. 성공 시 : home으로 이동
+            3. 실패 시 : 조치 취하기
+         */}
         <section style={{ marginTop: 'auto', marginBottom: '60px' }}>
           <ButtonDiv onClick={saveLocation}>
             <Link

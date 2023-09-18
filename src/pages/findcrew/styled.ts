@@ -11,7 +11,7 @@ const CrewCard = styled(Link)`
   height: fit-content;
   border-radius: 8px;
   padding: 16px;
-  background-color: ${colors.Gray100};
+  background-color: ${colors.gray100};
   text-decoration: none;
   color: inherit;
 `;
@@ -24,7 +24,7 @@ const TagDiv = styled.div<{ $color: string }>`
   border-radius: 200px;
 `;
 
-const ImageBox = styled.div`
+const ImageBox = styled.div<{ image: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,6 +32,9 @@ const ImageBox = styled.div`
   height: 56px;
   border-radius: 8px;
   border: 1px solid black;
+  background-image: url(${props => props.image});
+  background-size: cover;
+  background-repeat: no-repeat;
 `;
 
 const CategoryDiv = styled.div`
@@ -39,7 +42,7 @@ const CategoryDiv = styled.div`
   align-items: center;
   gap: 2px;
   width: fit-content;
-  border: 1px solid ${colors.Gray300};
+  border: 1px solid ${colors.gray200};
   border-radius: 8px;
   padding: 4px 6px;
   cursor: pointer;

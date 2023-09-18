@@ -6,11 +6,11 @@ import styled from 'styled-components';
 import { crewDetail } from '../../api';
 import icons from '../../assets/icons';
 import colors from '../../assets/styles/color';
-import SubHead1 from '../../styledComponent/heading/SubHead1';
-import Title from '../../styledComponent/heading/Title';
+import BodyLargeBold from '../../styledComponent/heading/BodyLargeBold';
+import TitleLargeBold from '../../styledComponent/heading/TitleLargeBold';
 
 import './style.css';
-import SubHead3 from '../../styledComponent/heading/SubHead3';
+import BodySmallBold from '../../styledComponent/heading/BodySmallBold';
 import NoticeContent from './NoticeContent';
 
 const DetailMenuLi = styled.li`
@@ -23,7 +23,7 @@ const DetailMenuLi = styled.li`
   font-weight: 500;
   line-height: 20px;
   letter-spacing: -0.08px;
-  color: ${colors.Gray400};
+  color: ${colors.gray400};
 `;
 
 const CrewInfoContext = styled.h3`
@@ -35,7 +35,7 @@ const CrewInfoContext = styled.h3`
   letter-spacing: -0.2px;
 `;
 
-const SubTitle = styled(SubHead1)`
+const SubTitle = styled(BodyLargeBold)`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -93,7 +93,7 @@ function Detail(): JSX.Element {
         <Link to="/findcrew">
           <icons.chevronLeft />
         </Link>
-        <SubHead1>{data?.crew.crewType}</SubHead1>
+        <BodyLargeBold>{data?.crew.crewType}</BodyLargeBold>
         <div style={{ width: '24px', height: '24px' }} />
       </header>
       <main id="detail-main">
@@ -123,7 +123,7 @@ function Detail(): JSX.Element {
           {page === '모임정보' && (
             <>
               <div id="detail-main-content-crewinfo">
-                <Title>{data?.crew.crewTitle}</Title>
+                <TitleLargeBold>{data?.crew.crewTitle}</TitleLargeBold>
                 <CrewInfoContext>
                   <icons.users />
                   {data?.crew.crewSignup}/{data?.crew.crewMaxMember}
@@ -151,7 +151,7 @@ function Detail(): JSX.Element {
                 <div id="detail-main-content-schedule">
                   <SubTitle>
                     일정
-                    <SubHead3 style={{ cursor: 'pointer' }}>전체보기</SubHead3>
+                    <BodySmallBold style={{ cursor: 'pointer' }}>전체보기</BodySmallBold>
                   </SubTitle>
                   <ScheduleCard />
                 </div>
@@ -161,12 +161,12 @@ function Detail(): JSX.Element {
           {page === '공지' && <NoticeContent />}
           {page === '일정' && (
             <div>
-              <Title>{data?.crew.crewId}</Title>
+              <TitleLargeBold>{data?.crew.crewId}</TitleLargeBold>
             </div>
           )}
           {page === '크루챗' && (
             <div>
-              <Title>3</Title>
+              <TitleLargeBold>3</TitleLargeBold>
             </div>
           )}
         </section>

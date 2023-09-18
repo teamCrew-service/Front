@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
-import HeadLine from '../../../styledComponent/heading/HeadLine';
-import BodyLong3Paragraph from '../../../styledComponent/heading/BodyLong3Paragraph';
+import BodySmallMedium from '../../../styledComponent/heading/BodySmallMedium';
 import ButtonDiv from '../../../styledComponent/ButtonDiv';
 
 import ProgressBar from '../../../components/common/ProgressBar';
@@ -11,6 +10,8 @@ import icons from '../../../assets/icons';
 import colors from '../../../assets/styles/color';
 
 import { login } from '../../../api';
+import TitleLargeBold from '../../../styledComponent/heading/TitleLargeBold';
+import BodyLargeBold from '../../../styledComponent/heading/BodyLargeBold';
 
 const StyledInput = styled.input`
   border: none;
@@ -34,16 +35,13 @@ function Nickname(): JSX.Element {
     setUserNickname(event.target.value);
   };
   const saveUserNickname = (): void => {
-    login.nickCheck(userNickname).then(
-      data => {
-        console.log(data);
+    login
+      .nickCheck(userNickname)
+      .then(() => {
         sessionStorage.setItem('nickname', userNickname);
         navigate('/login/birthday');
-      },
-      error => {
-        alert(error.response.data.message);
-      },
-    );
+      })
+      .catch(() => {});
   };
   return (
     <>
@@ -57,10 +55,10 @@ function Nickname(): JSX.Element {
           </Link>
         </section>
         <section>
-          <HeadLine>닉네임</HeadLine>
-          <BodyLong3Paragraph style={{ color: `${colors.Gray600}` }}>
+          <TitleLargeBold>닉네임</TitleLargeBold>
+          <BodySmallMedium style={{ color: `${colors.gray700}` }}>
             친구들에게 불리고 싶은 닉네임을 입력해주세요
-          </BodyLong3Paragraph>
+          </BodySmallMedium>
         </section>
         <section>
           <ButtonDiv>
@@ -69,10 +67,12 @@ function Nickname(): JSX.Element {
         </section>
         <section style={{ marginTop: 'auto', marginBottom: '60px' }}>
           {userNickname !== '' ? (
-            <ButtonDiv onClick={saveUserNickname}>다음</ButtonDiv>
+            <ButtonDiv onClick={saveUserNickname}>
+              <BodyLargeBold>다음</BodyLargeBold>
+            </ButtonDiv>
           ) : (
-            <ButtonDiv style={{ backgroundColor: `${colors.Gray200}`, color: `${colors.Gray500}` }}>
-              닉네임을 입력해주세요
+            <ButtonDiv style={{ backgroundColor: `${colors.gray200}`, color: `${colors.gray400}` }}>
+              <BodyLargeBold>닉네임을 입력해주세요</BodyLargeBold>
             </ButtonDiv>
           )}
         </section>

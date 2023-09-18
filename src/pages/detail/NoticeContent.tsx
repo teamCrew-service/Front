@@ -1,14 +1,14 @@
 import React from 'react';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
-import HeadLine from '../../styledComponent/heading/HeadLine';
+import TitleLargeMedium from '../../styledComponent/heading/TitleLargeMedium';
 import { notice } from '../../api';
 import colors from '../../assets/styles/color';
 
 const NoticeCard = styled.div`
   width: 100%;
   height: 21.62%;
-  background-color: ${colors.Gray50};
+  background-color: ${colors.gray50};
   padding: 12px;
 `;
 
@@ -37,7 +37,7 @@ function NoticeContent(): JSX.Element {
       {data !== undefined ? (
         data.map(card => (
           <NoticeCard key={card.noticeTitle}>
-            <HeadLine>{card?.noticeTitle}</HeadLine>
+            <TitleLargeMedium>{card?.noticeTitle}</TitleLargeMedium>
           </NoticeCard>
         ))
       ) : (

@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import SubHead1 from '../../styledComponent/heading/SubHead1';
 import SmallCardDiv from '../../styledComponent/SmallCardDiv';
 
 const GridDiv = styled.div`
@@ -32,7 +31,7 @@ function InterestMatrix({ onClick = () => {} }: { onClick?: (event: any) => void
     <GridDiv>
       {categoryList.map(item => (
         <SmallCardDiv onClick={onClick} key={item.code}>
-          <SubHead1>{item.name}</SubHead1>
+          {item.name}
         </SmallCardDiv>
       ))}
     </GridDiv>

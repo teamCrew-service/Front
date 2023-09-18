@@ -52,12 +52,12 @@ function useMarkerClustering(spots: any[], map?: naver.maps.Map): any {
 
   for (let i = 0, ii = data.length; i < ii; i += 1) {
     const spot = data[i];
-    const latlng = new window.naver.maps.LatLng(spot.latitude, spot.longtitude);
+    const latlng = new window.naver.maps.LatLng(spot.crew_latitude, spot.crew_longtitude);
     const marker = new window.naver.maps.Marker({
       position: latlng,
     });
     const infoWindow = new window.naver.maps.InfoWindow({
-      content: spot.crewTitle,
+      content: spot.crew_crewTitle,
     });
     markers.push(marker);
     infoWindows.push(infoWindow);

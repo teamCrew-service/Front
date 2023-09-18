@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import './style.css';
 import ProgressBar from '../../components/common/ProgressBar';
-import Title from '../../styledComponent/heading/Title';
+import TitleLargeBold from '../../styledComponent/heading/TitleLargeBold';
 import ButtonDiv from '../../styledComponent/ButtonDiv';
 
 const ImageDiv = styled.div<{ $imageURL: string }>`
@@ -35,7 +35,7 @@ function OnBoardingView({
       </header>
       <main id="onboarding-main">
         <section style={{ marginTop: '68px' }}>
-          <Title>{title}</Title>
+          <TitleLargeBold>{title}</TitleLargeBold>
         </section>
         <section style={{ width: '81.87%', height: '30.79%' }}>
           <ImageDiv $imageURL={image} />

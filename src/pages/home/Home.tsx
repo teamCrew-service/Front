@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import './style.css';
 import ScheduleCard from '../../styledComponent/ScheduleCard';
-import HeadLine from '../../styledComponent/heading/HeadLine';
+import TitleLargeMedium from '../../styledComponent/heading/TitleLargeMedium';
 import LargeCardLink from '../../styledComponent/LargeCardLink';
 import InterestMatrix from '../../components/common/InterestMatrix';
 import colors from '../../assets/styles/color';
-import Body3Paragraph from '../../styledComponent/heading/Body3Paragrpah';
+import BodySmallBold from '../../styledComponent/heading/BodySmallBold';
 
 const SmallImageDiv = styled.div<{ $URL: string }>`
   width: 28px;
@@ -37,9 +37,9 @@ function Home(): JSX.Element {
     <main id="home-main">
       <section style={{ marginTop: '14px', width: '100%' }}>
         <ScheduleCard>
-          <Body3Paragraph style={{ color: `${colors.blue}` }}>다가오는 일정</Body3Paragraph>
-          <HeadLine>8월 16일 (수) 오후 8시 30분</HeadLine>
-          <Body3Paragraph style={{ color: `${colors.Gray500}` }}>퇴근 후 40분 걷기</Body3Paragraph>
+          <BodySmallBold style={{ color: `${colors.blue}` }}>다가오는 일정</BodySmallBold>
+          <TitleLargeMedium>8월 16일 (수) 오후 8시 30분</TitleLargeMedium>
+          <BodySmallBold style={{ color: `${colors.gray500}` }}>퇴근 후 40분 걷기</BodySmallBold>
           <div id="profile-list-box">
             {UrlList.map(item => (
               <SmallImageDiv key={item.number} $URL={item.url} />
@@ -49,14 +49,14 @@ function Home(): JSX.Element {
       </section>
       <section className="large-card-box">
         <LargeCardLink to="/findcrew">
-          <HeadLine>내 주변 모임 찾기</HeadLine>
+          <TitleLargeMedium>내 주변 모임 찾기</TitleLargeMedium>
         </LargeCardLink>
         <LargeCardLink to="#">
-          <HeadLine>모임 생성</HeadLine>
+          <TitleLargeMedium>모임 생성</TitleLargeMedium>
         </LargeCardLink>
       </section>
       <section id="home-headline-style">
-        <HeadLine>관심사별 모임 찾기</HeadLine>
+        <TitleLargeMedium>관심사별 모임 찾기</TitleLargeMedium>
       </section>
       <section style={{ display: 'flex', justifyContent: 'center', width: '100%', aspectRatio: '4/3' }}>
         <InterestMatrix />

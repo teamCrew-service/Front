@@ -1,5 +1,5 @@
 import React from 'react';
-import HeadLine from '../../styledComponent/heading/HeadLine';
+import TitleLargeMedium from '../../styledComponent/heading/TitleLargeMedium';
 import icons from '../../assets/icons';
 import InterestMatrix from '../common/InterestMatrix';
 
@@ -37,7 +37,7 @@ function CategoryModal({
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <HeadLine>관심사</HeadLine>
+          <TitleLargeMedium>관심사</TitleLargeMedium>
           <icons.close
             style={{ cursor: 'pointer' }}
             onClick={() => {
