@@ -7,21 +7,26 @@ interface LoginMessage {
 }
 
 interface MakeCrew {
-  userId: number;
-  crewType: string;
-  category: string;
-  crewAddress: string;
-  crewMemberInfo: string;
-  crewTimeInfo: string;
-  crewAgeInfo: string;
-  crewSignup: boolean;
-  crewTitle: string;
-  crewContent: string;
-  crewMaxMember: number;
-  latitude: number;
-  longtitude: number;
-  question1: string;
-  question2: string;
+  createCrewDto: {
+    category: string;
+    crewAddress: string;
+    crewType: string;
+    crewDDay: string;
+    crewMemberInfo: string;
+    crewTimeInfo: string;
+    crewAgeInfo: string;
+    crewSignup: boolean;
+    crewTitle: string;
+    crewContent: string;
+    thumbnail: string;
+    crewMaxMember: number;
+    crewLatitude: number;
+    crewLongtitude: number;
+  };
+  createSignupFormDto: {
+    question1: string;
+    question2: string;
+  };
 }
 
 const login = {
@@ -54,9 +59,7 @@ const notice = {
 
 const meet = {
   makeCrew: async (payload: MakeCrew) => {
-    const { data } = await instance.post('/api/crew/create', { payload });
-
-    console.log(data);
+    const { data } = await instance.post('/api/crew/createcrew', payload);
 
     return data;
   },
