@@ -37,7 +37,7 @@ function Home(): JSX.Element {
 
   const navigate = useNavigate();
   const handelInterestClick = (event: any): void => {
-    navigate('/searchinterest', { state: { interest: event.target.innerText } });
+    navigate('/searchbycategory', { state: { interest: event.target.innerText } });
   };
 
   return (

@@ -1,0 +1,22 @@
+main {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+#search-by-category-absolute-div {
+  /* position: absolute; */
+  bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  height: 40%;
+  background-color: white;
+  z-index: 101;
+  border-top-left-radius: 32px;
+  border-top-right-radius: 32px;
+  padding: 0px 16px;
+  padding-top: 27px;
+}

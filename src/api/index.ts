@@ -1,3 +1,5 @@
+import type { AxiosResponse } from 'axios';
+import type * as myInterface from '../assets/interfaces';
 import instance from './instance';
 
 interface LoginMessage {
@@ -27,4 +29,14 @@ const login = {
 
 const naverMap = {};
 
-export { login, naverMap };
+const notice = {
+  getNoticeList: async <T = myInterface.Notice[]>(): Promise<AxiosResponse<T>> =>
+    instance.get<T>('api/notice/comingDate'),
+};
+
+const searchByCategory = {
+  getSearchByCategory: async <T = myInterface.SearchByCategory[]>(category: string): Promise<AxiosResponse<T>> =>
+    instance.get<T>(`api/home/${category}`),
+};
+
+export { login, naverMap, notice, searchByCategory };
