@@ -5,7 +5,6 @@ import ScheduleCard from '../../styledComponent/ScheduleCard';
 import HeadLineParagraph from '../../styledComponent/heading/HeadLineParagraph';
 import colors from '../../assets/styles/color';
 import Body3Paragraph from '../../styledComponent/heading/Body3Paragrpah';
-import ButtonDiv from '../../styledComponent/ButtonDiv';
 
 const SmallImageDiv = styled.div<{ $URL: string }>`
   width: 28px;
@@ -91,41 +90,56 @@ function UpcomingSchedule(): JSX.Element {
   return (
     <main>
       <section style={{ marginTop: '14px', width: '100%' }}>
-        <div style={{ display: 'flex' }}>
-          <ButtonDiv
+        <div className="sorting-button-container">
+          <button
+            type="button"
+            className={selectedFilter === 'All' ? 'on' : 'off'}
             onClick={() => {
               setSelectedFilter('All');
             }}
           >
-            All
-          </ButtonDiv>
-          <ButtonDiv
+            <text className="_SegmentedPicker-option">All</text>
+          </button>
+          <button
+            type="button"
+            className={selectedFilter === 'Upcoming' ? 'on' : 'off'}
             onClick={() => {
               setSelectedFilter('Upcoming');
             }}
           >
-            Upcoming
-          </ButtonDiv>
-          <ButtonDiv
+            <text className="_SegmentedPicker-option">Upcoming</text>
+          </button>
+          <button
+            type="button"
+            className={selectedFilter === 'Completed' ? 'on' : 'off'}
             onClick={() => {
               setSelectedFilter('Completed');
             }}
           >
-            Completed
-          </ButtonDiv>
-          <ButtonDiv
+            <text className="_SegmentedPicker-option">Completed</text>
+          </button>
+          <button
+            type="button"
+            className={selectedFilter === 'Canceled' ? 'on' : 'off'}
             onClick={() => {
               setSelectedFilter('Canceled');
             }}
           >
-            Canceled
-          </ButtonDiv>
+            <text className="_SegmentedPicker-option">Canceled</text>
+          </button>
         </div>
       </section>
       <section style={{ marginTop: '14px', width: '100%' }}>
         {filteredEvents.map(item => (
           <ScheduleCard style={{ margin: '12px 0px' }}>
             <div key={item.noticeTitle}>
+              {selectedFilter === 'All' && (
+                <div className="event-label">
+                  {item.isCanceled && <span>취소된 일정</span>}
+                  {!item.isCanceled && item.noticeDDay > currentDate && <span>다가오는 일정</span>}
+                  {!item.isCanceled && item.noticeDDay <= currentDate && <span>지난 일정</span>}
+                </div>
+              )}
               <HeadLineParagraph>
                 {item.noticeDDay.toLocaleDateString('ko-KR', {
                   year: 'numeric',
