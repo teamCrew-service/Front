@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import HeadLineParagraph from '../../styledComponent/heading/HeadLineParagraph';
 import colors from '../../assets/styles/color';
 import icons from '../../assets/icons';
+import './style.css';
 import { CrewCard, TagDiv, ImageBox } from './styled';
 
 function SearchByCategory(): JSX.Element {
@@ -75,7 +75,7 @@ function SearchByCategory(): JSX.Element {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredList, setFilteredList] = useState(list);
-  const [crewTypeFilter, setCrewTypeFilter] = useState('');
+  const [crewTypeFilter, setCrewTypeFilter] = useState('전체');
 
   useEffect(() => {
     let crews = list;
@@ -97,18 +97,21 @@ function SearchByCategory(): JSX.Element {
 
   return (
     <main>
-      <section id="search-by-category-in-search-and-sorting">
-        <input
-          value={searchTerm}
-          onChange={e => {
-            setSearchTerm(e.target.value);
-          }}
-          placeholder="Search by title..."
-        />
-
-        <div className="sorting-button-container" style={{ display: 'flex', justifyContent: 'left' }}>
+      <section className="search-by-category-in-search-and-sorting">
+        <div className="search-field">
+          <input
+            className="search-input"
+            value={searchTerm}
+            onChange={e => {
+              setSearchTerm(e.target.value);
+            }}
+            placeholder=""
+          />
+        </div>
+        <div className="sorting-button-container">
           <button
             type="button"
+            className={crewTypeFilter === '전체' ? 'on' : 'off'}
             onClick={() => {
               setCrewTypeFilter('전체');
             }}
@@ -117,6 +120,7 @@ function SearchByCategory(): JSX.Element {
           </button>
           <button
             type="button"
+            className={crewTypeFilter === '정모' ? 'on' : 'off'}
             onClick={() => {
               setCrewTypeFilter('정모');
             }}
@@ -125,6 +129,7 @@ function SearchByCategory(): JSX.Element {
           </button>
           <button
             type="button"
+            className={crewTypeFilter === '번개' ? 'on' : 'off'}
             onClick={() => {
               setCrewTypeFilter('번개');
             }}
@@ -133,22 +138,7 @@ function SearchByCategory(): JSX.Element {
           </button>
         </div>
       </section>
-      <section id="search-by-category-absolute-div">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-          <HeadLineParagraph>관심사별 모임 찾기</HeadLineParagraph>
-          <div
-            style={{
-              width: 'fit-content',
-              height: 'fit-const first = useContext(second)',
-              backgroundColor: `${colors.Gray200}`,
-              textAlign: 'center',
-              borderRadius: '200px',
-              padding: '2px 8px',
-            }}
-          >
-            + {filteredList.length}
-          </div>
-        </div>
+      <section className="search-by-category-card-div">
         <div
           style={{
             display: 'flex',
