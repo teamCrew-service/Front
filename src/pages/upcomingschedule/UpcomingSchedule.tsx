@@ -5,6 +5,7 @@ import ScheduleCard from '../../styledComponent/ScheduleCard';
 import HeadLineParagraph from '../../styledComponent/heading/HeadLineParagraph';
 import colors from '../../assets/styles/color';
 import Body3Paragraph from '../../styledComponent/heading/Body3Paragrpah';
+import MockData from './mockdata';
 
 const SmallImageDiv = styled.div<{ $URL: string }>`
   width: 28px;
@@ -20,49 +21,7 @@ const SmallImageDiv = styled.div<{ $URL: string }>`
 function UpcomingSchedule(): JSX.Element {
   const currentDate = new Date();
 
-  const ScheduleList: Array<{
-    noticeTitle: string;
-    noticeDDay: Date;
-    UrlList: Array<{ number: number; url: string }>;
-    isCanceled: boolean;
-  }> = [
-    {
-      noticeTitle: 'Future Event 1',
-      noticeDDay: new Date(new Date().getTime() + 86400000),
-      UrlList: [
-        { number: 1, url: '' },
-        { number: 2, url: '' },
-        { number: 3, url: '' },
-        { number: 4, url: '' },
-        { number: 5, url: '' },
-      ],
-      isCanceled: false,
-    },
-    {
-      noticeTitle: 'Past Event 1',
-      noticeDDay: new Date(new Date().getTime() - 86400000),
-      UrlList: [
-        { number: 1, url: '' },
-        { number: 2, url: '' },
-        { number: 3, url: '' },
-        { number: 4, url: '' },
-        { number: 5, url: '' },
-      ],
-      isCanceled: false,
-    },
-    {
-      noticeTitle: 'Canceled Event 1',
-      noticeDDay: new Date(new Date().getTime() + 10000),
-      UrlList: [
-        { number: 1, url: '' },
-        { number: 2, url: '' },
-        { number: 3, url: '' },
-        { number: 4, url: '' },
-        { number: 5, url: '' },
-      ],
-      isCanceled: true,
-    },
-  ];
+  const ScheduleList = MockData;
 
   const upcomingEvents = ScheduleList.filter(item => !item.isCanceled && item.noticeDDay > currentDate);
   const completedEvents = ScheduleList.filter(item => !item.isCanceled && item.noticeDDay <= currentDate);
