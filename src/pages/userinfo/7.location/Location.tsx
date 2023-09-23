@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { login } from '../../../api/index';
 import ProgressBar from '../../../components/common/ProgressBar';
@@ -9,6 +9,7 @@ import colors from '../../../assets/styles/color';
 import ButtonDiv from '../../../styledComponent/ButtonDiv';
 import SearchModal from '../../../components/modal/SearchModal';
 import TitleLargeBold from '../../../styledComponent/heading/TitleLargeBold';
+import type { Information } from '../../../assets/interfaces';
 
 declare global {
   interface Window {
@@ -31,6 +32,7 @@ const StyledDiv = styled.div`
 `;
 
 function Location(): JSX.Element {
+  const navigate = useNavigate();
   const [myLatLng, setMyLatLng] = useState<{ lat: number; lng: number }>({ lat: 0, lng: 0 });
   const [myAddress, setMyAddress] = useState<string>('');
   // const [staticURL, setStaticURL] = useState<string>('');
@@ -54,18 +56,23 @@ function Location(): JSX.Element {
 
   const saveLocation = (): void => {
     sessionStorage.setItem('location', myAddress);
-    const information = {
-      interestTopic: sessionStorage.getItem('category'),
-      nickname: sessionStorage.getItem('nickname'),
-      age: sessionStorage.getItem('birthyear'),
-      gender: sessionStorage.getItem('gender'),
-      profileImage: sessionStorage.getItem('profile'),
-      myMessage: sessionStorage.getItem('introduction'),
-      location: sessionStorage.getItem('location'),
+    const information: Information = {
+      addUserInfoDto: {
+        nickname: sessionStorage.getItem('nickname'),
+        age: sessionStorage.getItem('birthyear'),
+        gender: sessionStorage.getItem('gender'),
+        profileImage: sessionStorage.getItem('profile'),
+        myMessage: sessionStorage.getItem('introduction'),
+        location: sessionStorage.getItem('location'),
+      },
+      topicDto: {
+        interestTopic: sessionStorage.getItem('category'),
+      },
     };
     login.firstLogin(information).then(
       data => {
         console.log(data);
+        navigate('/home');
       },
       error => {
         console.log(error);

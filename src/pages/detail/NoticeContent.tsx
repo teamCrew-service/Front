@@ -1,48 +1,38 @@
 import React from 'react';
 import { useQuery } from 'react-query';
-import styled from 'styled-components';
-import TitleLargeMedium from '../../styledComponent/heading/TitleLargeMedium';
 import { notice } from '../../api';
-import colors from '../../assets/styles/color';
+import type { MemberDetail } from '../../assets/interfaces';
 
-const NoticeCard = styled.div`
-  width: 100%;
-  height: 21.62%;
-  background-color: ${colors.gray50};
-  padding: 12px;
-`;
-
-function NoticeContent(): JSX.Element {
-  const { status, data } = useQuery(
-    'getNoticeList',
+function NoticeContent({ crewInfo }: { crewInfo: MemberDetail }): JSX.Element {
+  const {
+    data: noticeInfo,
+    isLoading,
+    isError,
+  } = useQuery(
+    ['notice'],
     async () => {
-      const result = await notice.getNoticeList();
-      return result.data;
+      const result = await notice.getNotice(crewInfo.crew.crew_crewId);
+      return result;
     },
     {
-      onSuccess: res => {
-        console.log(res);
+      onSuccess: result => {
+        console.log(result);
       },
-      refetchOnWindowFocus: false,
     },
   );
-  if (status === 'loading') {
+  if (isLoading) {
     return <div>loading</div>;
   }
-  if (status === 'error') {
+
+  if (isError) {
     return <div>something wrong!</div>;
   }
   return (
     <div id="detail-main-content-notice">
-      {data !== undefined ? (
-        data.map(card => (
-          <NoticeCard key={card.noticeTitle}>
-            <TitleLargeMedium>{card?.noticeTitle}</TitleLargeMedium>
-          </NoticeCard>
-        ))
-      ) : (
-        <div>no notice</div>
-      )}
+      {noticeInfo!.voteForm.map(item => (
+        // eslint-disable-next-line react/no-array-index-key
+        <div key={item.voteFormId}>{item.voteTitle}</div>
+      ))}
     </div>
   );
 }

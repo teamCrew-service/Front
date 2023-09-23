@@ -1,5 +1,5 @@
 // 장소
-interface Spot {
+export interface Spot {
   crewAttendedMember: number;
   crew_category: string;
   crew_crewAddress: string;
@@ -13,8 +13,7 @@ interface Spot {
 }
 
 // 최초 로그인 정보
-interface Information {
-  interestTopic: string | null;
+export interface AddUserInfoDto {
   nickname: string | null;
   age: string | null;
   gender: string | null;
@@ -22,35 +21,85 @@ interface Information {
   myMessage: string | null;
   location: string | null;
 }
-
-interface Crew {
-  crewId: number;
-  userId: number;
-  category: string;
-  crewAddress: string;
-  crewType: string;
-  crewDDay: string;
-  crewMemberInfo: string;
-  crewAgeInfo: string;
-  crewSignup: number;
-  crewTitle: string;
-  crewContent: string;
-  thumbnail: string;
-  crewMaxMember: number;
-  latitude: number;
-  longtitude: number;
-  deletedAt: null;
+export interface Information {
+  addUserInfoDto: AddUserInfoDto;
+  topicDto: {
+    interestTopic: string | null;
+  };
 }
 
-interface Detail {
+// 크루 상세정보
+export interface Crew {
+  captainId: number;
+  captainLocation: string;
+  captainNickname: string;
+  captainProfileImage: string;
+  crewAttendedMember: string;
+  crew_category: string;
+  crew_createdAt: string;
+  crew_crewAddress: string;
+  crew_crewAgeInfo: string;
+  crew_crewContent: string;
+  crew_crewDDay: string;
+  crew_crewId: string;
+  crew_crewMaxMember: number;
+  crew_crewMemberInfo: string;
+  crew_crewSignup: number;
+  crew_crewTitle: string;
+  crew_crewType: string;
+  crew_deletedAt: null;
+  crew_latitude: number;
+  crew_longtitude: number;
+  crew_thumbnail: string;
+}
+export interface Member {
+  member_memberId: number;
+  member_userId: number;
+  users_nickname: string;
+  users_profileImage: string;
+  users_location: string;
+}
+// 일정
+export interface Schedule {
+  scheduleTitle: string;
+  scheduleContent: string;
+  scheduleDDay: Date;
+  scheduleAddress: string;
+  scheduleLatitude: number;
+  scheduleLongitude: number;
+}
+export interface GuestDetail {
+  createdCrewPeriod: number;
   crew: Crew;
-  member: number[];
+  member: Member[];
+  personType: string;
+}
+export interface MemberDetail extends GuestDetail {
+  schedule: Schedule[];
 }
 
-interface Notice {
+// 공지
+export interface VoteForm {
+  // createdAt: string;
+  // deleteAt: null | string;
+  // updatedAt: string;
+  voteContent: string;
+  voteEndDate: string;
+  voteFormId: number;
+  // voteOption1: string;
+  // voteOption2: string;
+  // voteOption3: string;
+  // voteOption4: string;
+  voteTitle: string;
+  crewId: number;
+}
+export interface Notice {
   noticeTitle: string;
-  noticeDDay: string | null;
-  profileImage: string[] | null;
+  noticeContent: string;
+  noticeAddress: string;
+  noticeDDay: string;
 }
-
-export type { Spot, Information, Crew, Detail, Notice };
+export interface TotalNotice {
+  notice: Notice[];
+  voteForm: VoteForm[];
+}

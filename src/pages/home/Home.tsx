@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import './style.css';
 import ScheduleCard from '../../styledComponent/ScheduleCard';
-import TitleLargeMedium from '../../styledComponent/heading/TitleLargeMedium';
 import LargeCardLink from '../../styledComponent/LargeCardLink';
 import InterestMatrix from '../../components/common/InterestMatrix';
 import colors from '../../assets/styles/color';
-import BodySmallBold from '../../styledComponent/heading/BodySmallBold';
+import TitleLargeBold from '../../styledComponent/heading/TitleLargeBold';
+import BodySmallMedium from '../../styledComponent/heading/BodySmallMedium';
+import Footer from '../../components/common/Footer';
 
 const SmallImageDiv = styled.div<{ $URL: string }>`
   width: 28px;
@@ -34,34 +35,39 @@ function Home(): JSX.Element {
     }
   }, []);
   return (
-    <main id="home-main">
-      <section style={{ marginTop: '14px', width: '100%' }}>
-        <ScheduleCard>
-          <BodySmallBold style={{ color: `${colors.blue}` }}>다가오는 일정</BodySmallBold>
-          <TitleLargeMedium>8월 16일 (수) 오후 8시 30분</TitleLargeMedium>
-          <BodySmallBold style={{ color: `${colors.gray500}` }}>퇴근 후 40분 걷기</BodySmallBold>
-          <div id="profile-list-box">
-            {UrlList.map(item => (
-              <SmallImageDiv key={item.number} $URL={item.url} />
-            ))}
-          </div>
-        </ScheduleCard>
-      </section>
-      <section className="large-card-box">
-        <LargeCardLink to="/findcrew">
-          <TitleLargeMedium>내 주변 모임 찾기</TitleLargeMedium>
-        </LargeCardLink>
-        <LargeCardLink to="#">
-          <TitleLargeMedium>모임 생성</TitleLargeMedium>
-        </LargeCardLink>
-      </section>
-      <section id="home-headline-style">
-        <TitleLargeMedium>관심사별 모임 찾기</TitleLargeMedium>
-      </section>
-      <section style={{ display: 'flex', justifyContent: 'center', width: '100%', aspectRatio: '4/3' }}>
-        <InterestMatrix />
-      </section>
-    </main>
+    <>
+      <main id="home-main">
+        <section style={{ marginTop: '14px', width: '100%' }}>
+          <ScheduleCard>
+            <BodySmallMedium style={{ color: `${colors.blue}` }}>다가오는 일정</BodySmallMedium>
+            <TitleLargeBold>8월 16일 (수) 오후 8시 30분</TitleLargeBold>
+            <BodySmallMedium style={{ color: `${colors.gray500}` }}>퇴근 후 40분 걷기</BodySmallMedium>
+            <div id="profile-list-box">
+              {UrlList.map(item => (
+                <SmallImageDiv key={item.number} $URL={item.url} />
+              ))}
+            </div>
+          </ScheduleCard>
+        </section>
+        <section className="large-card-box">
+          <LargeCardLink to="/findcrew">
+            <TitleLargeBold>내 주변 모임 찾기</TitleLargeBold>
+          </LargeCardLink>
+          <LargeCardLink to="#">
+            <TitleLargeBold>모임 생성</TitleLargeBold>
+          </LargeCardLink>
+        </section>
+        <section id="home-headline-style">
+          <TitleLargeBold>관심사별 모임 찾기</TitleLargeBold>
+        </section>
+        <section style={{ display: 'flex', justifyContent: 'center', width: '100%', aspectRatio: '4/3' }}>
+          <InterestMatrix />
+        </section>
+      </main>
+      <footer id="home-footer">
+        <Footer />
+      </footer>
+    </>
   );
 }
 

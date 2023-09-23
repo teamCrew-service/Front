@@ -18,6 +18,10 @@
   overflow-y: auto;
 }
 
+#detail-main::-webkit-scrollbar {
+  display: none;
+}
+
 /* 메인 - 썸네일 */
 #detail-main-thumbnail {
   width: 100%;
@@ -44,8 +48,8 @@
 /* 481px */
 #detail-main-content {
   width: 100%;
-  height: 67.84%;
   padding: 0px 16px;
+  padding-bottom: 16px;
 }
 
 #detail-main-content-crewinfo {
@@ -58,7 +62,7 @@
 
 #detail-main-content-intro {
   width: 100%;
-  height: 4.99%;
+  height: fit-content;
   border-bottom: 0.3px solid #dddddd;
   margin-top: 26px;
 }
