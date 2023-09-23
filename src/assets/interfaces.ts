@@ -53,4 +53,14 @@ interface Notice {
   profileImage: string[] | null;
 }
 
-export type { Spot, Information, Crew, Detail, Notice };
+interface SearchByCategory {
+  crewId: string;
+  category: string | null;
+  crewTitle: string | null;
+  profileImage: string[] | null;
+  crewDDay: Date | null;
+  crewAddress: string | null;
+  current: number | null;
+}
+
+export type { Spot, Information, Crew, Detail, Notice, SearchByCategory  };

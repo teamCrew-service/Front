@@ -14,6 +14,8 @@ import Gender from './pages/userinfo/4.gender/Gender';
 import Profile from './pages/userinfo/5.profile/Profile';
 import Introduction from './pages/userinfo/6.introduction/Introduction';
 import Location from './pages/userinfo/7.location/Location';
+import UpcomingSchedule from './pages/upcomingschedule/UpcomingSchedule';
+import SearchByCategory from './pages/searchbycategory/SearchByCategory';
 import Detail from './pages/detail/Detail';
 
 const queryClient = new QueryClient();
@@ -36,6 +38,8 @@ function App(): JSX.Element {
             <Route path="/home" element=<Home /> />
             <Route path="/findcrew" element=<FindCrew /> />
             <Route path="/detail/:id" element=<Detail /> />
+            <Route path="/upcomingschedule" element=<UpcomingSchedule /> />
+            <Route path="/searchbycategory" element=<SearchByCategory /> />
           </Routes>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { Link, useNavigate } from 'react-router-dom';
 import './style.css';
 import ScheduleCard from '../../styledComponent/ScheduleCard';
 import TitleLargeMedium from '../../styledComponent/heading/TitleLargeMedium';
@@ -33,11 +34,20 @@ function Home(): JSX.Element {
       document.cookie = `authorization=${cookie};path=/`;
     }
   }, []);
+
+  const navigate = useNavigate();
+  const handelInterestClick = (event: any): void => {
+    navigate('/searchbycategory', { state: { interest: event.target.innerText } });
+  };
+
   return (
     <main id="home-main">
       <section style={{ marginTop: '14px', width: '100%' }}>
         <ScheduleCard>
           <BodySmallBold style={{ color: `${colors.blue}` }}>다가오는 일정</BodySmallBold>
+            <Link to="/upcomingschedule" style={{ textDecoration: 'none' }}>
+              {'>'}
+            </Link>
           <TitleLargeMedium>8월 16일 (수) 오후 8시 30분</TitleLargeMedium>
           <BodySmallBold style={{ color: `${colors.gray500}` }}>퇴근 후 40분 걷기</BodySmallBold>
           <div id="profile-list-box">
@@ -59,7 +69,7 @@ function Home(): JSX.Element {
         <TitleLargeMedium>관심사별 모임 찾기</TitleLargeMedium>
       </section>
       <section style={{ display: 'flex', justifyContent: 'center', width: '100%', aspectRatio: '4/3' }}>
-        <InterestMatrix />
+        <InterestMatrix onClick={handelInterestClick} />
       </section>
     </main>
   );

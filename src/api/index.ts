@@ -34,4 +34,9 @@ const notice = {
     instance.get<T>('api/notice/comingDate'),
 };
 
-export { login, navermap, crewDetail, notice };
+const searchByCategory = {
+  getSearchByCategory: async <T = myInterface.SearchByCategory[]>(category: string): Promise<AxiosResponse<T>> =>
+    instance.get<T>(`api/home/${category}`),
+};
+
+export { login, navermap, crewDetail, notice, searchByCategory };
