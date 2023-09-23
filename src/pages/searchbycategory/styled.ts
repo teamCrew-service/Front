@@ -11,7 +11,7 @@ const CrewCard = styled.div`
   height: fit-content;
   border-radius: 8px;
   padding: 16px;
-  background-color: ${colors.Gray100};
+  background-color: ${colors.gray100};
 `;
 
 const TagDiv = styled.div<{ $color: string }>`
@@ -37,7 +37,7 @@ const CategoryDiv = styled.div`
   align-items: center;
   gap: 2px;
   width: fit-content;
-  border: 1px solid ${colors.Gray300};
+  border: 1px solid ${colors.gray400};
   border-radius: 8px;
   padding: 4px 6px;
   cursor: pointer;

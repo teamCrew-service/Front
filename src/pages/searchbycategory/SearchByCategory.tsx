@@ -91,10 +91,10 @@ function SearchByCategory(): JSX.Element {
             filteredList.map(spot => (
               <CrewCard key={spot.title}>
                 <div style={{ display: 'flex', gap: '4px' }}>
-                  <TagDiv $color={colors.Gray300}>
+                  <TagDiv $color={colors.gray400}>
                     <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot.category}</p>
                   </TagDiv>
-                  <TagDiv $color={spot.crewType === '정모' ? colors.blue : colors.red}>
+                  <TagDiv $color={spot.crewType === '정모' ? colors.blue : colors.blue}>
                     <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot.crewType}</p>
                   </TagDiv>
                 </div>
@@ -122,7 +122,7 @@ function SearchByCategory(): JSX.Element {
                     gap: '4px',
                     zIndex: 101,
                     textAlign: 'center',
-                    backgroundColor: `${colors.blueGray300}`,
+                    backgroundColor: `${colors.gray400}`,
                     padding: '4px 10px',
                     borderRadius: '200px',
                   }}
@@ -143,7 +143,7 @@ function SearchByCategory(): JSX.Element {
                 justifyContent: 'center',
                 alignItems: 'center',
                 height: '100%',
-                color: `${colors.Gray200}`,
+                color: `${colors.gray400}`,
               }}
             >
               <p style={{ fontWeight: 700, fontSize: '16px', lineHeight: '22px', letterSpacing: '-0.4px' }}>

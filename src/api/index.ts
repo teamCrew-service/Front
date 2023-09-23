@@ -39,4 +39,4 @@ const searchByCategory = {
     instance.get<T>(`api/home/${category}`),
 };
 
-export { login, naverMap, crewDetail, notice, searchByCategory }
+export { login, navermap, crewDetail, notice, searchByCategory };

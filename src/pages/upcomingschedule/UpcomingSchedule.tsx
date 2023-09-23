@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import './style.css';
 import ScheduleCard from '../../styledComponent/ScheduleCard';
-import HeadLineParagraph from '../../styledComponent/heading/HeadLineParagraph';
+import TitleLargeMedium from '../../styledComponent/heading/TitleLargeMedium';
 import colors from '../../assets/styles/color';
-import Body3Paragraph from '../../styledComponent/heading/Body3Paragrpah';
+import BodySmallBold from '../../styledComponent/heading/BodySmallBold';
 import MockData from './mockdata';
 
 const SmallImageDiv = styled.div<{ $URL: string }>`
@@ -99,7 +99,7 @@ function UpcomingSchedule(): JSX.Element {
                   {!item.isCanceled && item.noticeDDay <= currentDate && <span>지난 일정</span>}
                 </div>
               )}
-              <HeadLineParagraph>
+              <TitleLargeMedium>
                 {item.noticeDDay.toLocaleDateString('ko-KR', {
                   year: 'numeric',
                   month: 'long',
@@ -110,8 +110,8 @@ function UpcomingSchedule(): JSX.Element {
                   hour: '2-digit',
                   minute: '2-digit',
                 })}
-              </HeadLineParagraph>
-              <Body3Paragraph style={{ color: `${colors.Gray500}` }}>{item.noticeTitle}</Body3Paragraph>
+              </TitleLargeMedium>
+              <BodySmallBold style={{ color: `${colors.gray400}` }}>{item.noticeTitle}</BodySmallBold>
               <div id="profile-list-box">
                 {item.UrlList.map(urlItem => (
                   <SmallImageDiv key={urlItem.number} $URL={urlItem.url} />
