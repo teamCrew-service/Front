@@ -6,18 +6,8 @@ interface LoginMessage {
   message: string;
 }
 
-interface Information {
-  interestTopic: string | null;
-  nickname: string | null;
-  age: string | null;
-  gender: string | null;
-  profileImage: string | null;
-  myMessage: string | null;
-  location: string | null;
-}
-
 const login = {
-  firstLogin: async <T = LoginMessage>(information: Information): Promise<T> => {
+  firstLogin: async <T = LoginMessage>(information: myInterface.Information): Promise<T> => {
     const { data } = await instance.put<T>('api/auth/info', information);
     return data;
   },
@@ -27,7 +17,17 @@ const login = {
   },
 };
 
-const naverMap = {};
+const navermap = {
+  findcrew: async (): Promise<myInterface.Spot[]> => {
+    const { data } = await instance.get<myInterface.Spot[]>('api/home/map');
+    return data;
+  },
+};
+
+const crewDetail = {
+  getDetail: async <T = myInterface.Detail>(crewId: string): Promise<AxiosResponse<T>> =>
+    instance.get<T>(`api/crew/${crewId}`),
+};
 
 const notice = {
   getNoticeList: async <T = myInterface.Notice[]>(): Promise<AxiosResponse<T>> =>
@@ -39,4 +39,4 @@ const searchByCategory = {
     instance.get<T>(`api/home/${category}`),
 };
 
-export { login, naverMap, notice, searchByCategory };
+export { login, naverMap, crewDetail, notice, searchByCategory }

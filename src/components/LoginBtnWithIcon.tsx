@@ -1,7 +1,7 @@
 /* eslint-disable react/require-default-props */
 import React from 'react';
-import colors from '../assets/styles/color';
 import ButtonDiv from '../styledComponent/ButtonDiv';
+import BodyBaseMedium from '../styledComponent/heading/BodyBaseMedium';
 
 function LoginBtnWithIcon({
   context,
@@ -18,13 +18,12 @@ function LoginBtnWithIcon({
   let link;
   switch (context) {
     case '카카오':
-      bgColor = `${colors.kakaoYellow}`;
+      bgColor = '#FED707';
       fontColor = 'black';
       link = `${process.env.REACT_APP_SERVER_URL}/api/auth/kakao`;
       break;
     case '네이버':
-      bgColor = `${colors.naverGreen}`;
-
+      bgColor = '#4DC743';
       link = `${process.env.REACT_APP_SERVER_URL}/api/auth/naver`;
       break;
     case 'Google':
@@ -55,7 +54,7 @@ function LoginBtnWithIcon({
         }}
         href={link}
       >
-        {context}로 로그인
+        <BodyBaseMedium>{context}로 로그인</BodyBaseMedium>
       </a>
     </ButtonDiv>
   );

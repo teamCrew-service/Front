@@ -11,12 +11,12 @@ function Login(): JSX.Element {
       <div className="login-logo">
         <icons.TeamLogo />
       </div>
-      <div className="login-btn-list">
+      <div className="login-btn-list body-base-m">
         <LoginBtnWithIcon context="카카오" icon={icons.Kakao} />
         <LoginBtnWithIcon context="네이버" icon={icons.Naver} />
         <LoginBtnWithIcon context="Google" icon={icons.Google} />
         <div style={{ display: 'flex', alignItems: 'center', height: '56px' }}>
-          <Link style={{ color: `${colors.Gray400}`, textDecoration: 'none' }} to="/home">
+          <Link style={{ color: `${colors.gray400}`, textDecoration: 'none' }} to="/home">
             둘러보기
           </Link>
         </div>

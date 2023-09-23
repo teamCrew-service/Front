@@ -1,0 +1,82 @@
+/* 헤더 */
+/* 56px */
+#detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 7.32%;
+  padding: 8px 16px;
+}
+
+/* 메인 */
+/* 709px */
+#detail-main {
+  width: 100%;
+  height: 92.68%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* 메인 - 썸네일 */
+#detail-main-thumbnail {
+  width: 100%;
+  height: 25.39%;
+  background-color: Highlight;
+}
+
+/* 메인 - 메뉴 */
+#detail-main-menu {
+  width: 100%;
+  height: 6.77%;
+  padding: 0px 16px;
+  border-bottom: 0.3px solid #dadada;
+}
+
+#detail-main-menu-ul {
+  display: flex;
+  height: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 메인 - 내용 */
+/* 481px */
+#detail-main-content {
+  width: 100%;
+  height: 67.84%;
+  padding: 0px 16px;
+}
+
+#detail-main-content-crewinfo {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 4px;
+  padding-top: 16px;
+}
+
+#detail-main-content-intro {
+  width: 100%;
+  height: 4.99%;
+  border-bottom: 0.3px solid #dddddd;
+  margin-top: 26px;
+}
+
+/* 282px */
+#detail-main-content-schedule {
+  width: 100%;
+  height: 68.95%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+#detail-main-content-notice {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  gap: 10px;
+}

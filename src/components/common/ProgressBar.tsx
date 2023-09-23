@@ -6,7 +6,7 @@ const ProgressbarDiv = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  background-color: ${colors.Gray50};
+  background-color: ${colors.gray50};
 `;
 
 const StepbarDiv = styled.div<{ $totalSteps: number }>`
