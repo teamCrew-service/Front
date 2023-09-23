@@ -35,8 +35,15 @@ const notice = {
 };
 
 const searchByCategory = {
-  getSearchByCategory: async <T = myInterface.SearchByCategory[]>(category: string): Promise<AxiosResponse<T>> =>
-    instance.get<T>(`api/home/${category}`),
+  getSearchByCategory: async (category: string): Promise<myInterface.SearchByCategory[]> => {
+    try {
+      const response: AxiosResponse = await instance.get(`api/home/${category}`);
+      const searchData: myInterface.SearchByCategory[] = response.data;
+      return searchData;
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export { login, navermap, crewDetail, notice, searchByCategory };

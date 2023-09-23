@@ -54,13 +54,15 @@ interface Notice {
 }
 
 interface SearchByCategory {
-  crewId: string;
-  category: string | null;
-  crewTitle: string | null;
-  profileImage: string[] | null;
-  crewDDay: Date | null;
-  crewAddress: string | null;
-  current: number | null;
+  crew_crewId: string;
+  crew_category: string;
+  crew_crewAddress: string;
+  crew_crewType: string;
+  crew_crewDDay: string;
+  crew_crewTitle: string;
+  crew_thumbnail: string;
+  crew_crewMaxMember: string;
+  crewAttendedMember: string;
 }
 
-export type { Spot, Information, Crew, Detail, Notice, SearchByCategory  };
+export type { Spot, Information, Crew, Detail, Notice, SearchByCategory };
