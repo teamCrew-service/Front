@@ -4,32 +4,52 @@ import colors from '../../assets/styles/color';
 import icons from '../../assets/icons';
 import './style.css';
 import { CrewCard, TagDiv, ImageBox } from './styled';
-import MockData from './mockdata';
+import { searchByCategory } from '../../api';
+import type { SearchByCategory as CategoryInterface } from '../../assets/interfaces';
 
 function SearchByCategory(): JSX.Element {
   const location = useLocation();
   const { interest } = location.state ?? {};
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [filteredList, setFilteredList] = useState(MockData); // mock data 사용 api 연결 후 수정
+  const [filteredList, setFilteredList] = useState<Partial<CategoryInterface[]>>([]);
   const [crewTypeFilter, setCrewTypeFilter] = useState('전체');
 
+  async function fetchData(
+    search: string,
+    typeFilter: string,
+    category: string,
+  ): Promise<Partial<CategoryInterface[]>> {
+    try {
+      let crews = await searchByCategory.getSearchByCategory(category);
+
+      if (search !== '') {
+        crews = crews.filter(crew => crew.crew_crewTitle.includes(search));
+      }
+
+      if (typeFilter !== '') {
+        crews = crews.filter(crew => crew.crew_crewType === typeFilter || typeFilter === '전체');
+      }
+
+      if (category !== '') {
+        crews = crews.filter(crew => crew.crew_category === category);
+      }
+
+      return crews;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      throw error;
+    }
+  }
+
   useEffect(() => {
-    let crews = MockData; // mock data 사용 api 연결 후 수정
-
-    if (searchTerm !== '') {
-      crews = crews.filter(crew => crew.title.includes(searchTerm));
-    }
-
-    if (crewTypeFilter !== '') {
-      crews = crews.filter(crew => crew.crewType === crewTypeFilter || crewTypeFilter === '전체');
-    }
-
-    if (interest !== '') {
-      crews = crews.filter(crew => crew.category === interest);
-    }
-
-    setFilteredList(crews);
+    fetchData(searchTerm, crewTypeFilter, interest)
+      .then(crews => {
+        setFilteredList(crews);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }, [searchTerm, crewTypeFilter, interest]);
 
   return (
@@ -89,27 +109,29 @@ function SearchByCategory(): JSX.Element {
         >
           {filteredList.length !== 0 ? (
             filteredList.map(spot => (
-              <CrewCard key={spot.title}>
+              <CrewCard key={spot?.crew_crewTitle}>
                 <div style={{ display: 'flex', gap: '4px' }}>
                   <TagDiv $color={colors.gray400}>
-                    <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot.category}</p>
+                    <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot?.crew_category}</p>
                   </TagDiv>
-                  <TagDiv $color={spot.crewType === '정모' ? colors.blue : colors.blue}>
-                    <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot.crewType}</p>
+                  <TagDiv $color={spot?.crew_crewType === '정모' ? colors.blue : colors.blue}>
+                    <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot?.crew_crewType}</p>
                   </TagDiv>
                 </div>
                 <div>
                   <p style={{ fontSize: '14px', fontWeight: 700, lineHeight: '24px', letterSpacing: '-0.4px' }}>
-                    {spot.title}
+                    {spot?.crew_crewTitle}
                   </p>
-                  <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot.subTitle}</p>
+                  <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot?.crew_category}</p>
                 </div>
-                <div>{spot.imageList !== undefined ? <ImageBox>image</ImageBox> : <ImageBox>no image</ImageBox>}</div>
+                <div>
+                  {spot?.crew_thumbnail !== undefined ? <ImageBox>image</ImageBox> : <ImageBox>no image</ImageBox>}
+                </div>
                 <div>
                   <div style={{ display: 'flex', gap: '2px' }}>
                     <icons.Location />
                     <p style={{ fontSize: '12px', lineHeight: '18px', letterSpacing: '-0.2px' }}>
-                      {spot.location} 근처
+                      {spot?.crew_crewAddress} 근처
                     </p>
                   </div>
                 </div>
@@ -128,7 +150,9 @@ function SearchByCategory(): JSX.Element {
                   }}
                 >
                   <icons.users />
-                  <p style={{ fontSize: '12px', lineHeight: '18px', letterSpacing: '-0.2px' }}>{spot.current}/8</p>
+                  <p style={{ fontSize: '12px', lineHeight: '18px', letterSpacing: '-0.2px' }}>
+                    {spot?.crewAttendedMember}/{spot?.crew_crewMaxMember}
+                  </p>
                 </div>
                 <div style={{ position: 'absolute', top: '16px', right: '16px', zIndex: 102 }}>
                   <icons.heart style={{ cursor: 'pointer' }} />
