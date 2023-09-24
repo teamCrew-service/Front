@@ -44,10 +44,15 @@ function Home(): JSX.Element {
     <main id="home-main">
       <section style={{ marginTop: '14px', width: '100%' }}>
         <ScheduleCard>
-          <BodySmallBold style={{ color: `${colors.blue}` }}>다가오는 일정</BodySmallBold>
-          <Link to="/upcomingschedule" style={{ textDecoration: 'none' }}>
-            {'>'}
-          </Link>
+          <BodySmallBold
+            style={{ color: `${colors.blue}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+          >
+            <div>다가오는 일정</div>
+            <Link to="/upcomingschedule" style={{ textDecoration: 'none' }}>
+              {'>'}
+            </Link>
+          </BodySmallBold>
+
           <TitleLargeMedium>8월 16일 (수) 오후 8시 30분</TitleLargeMedium>
           <BodySmallBold style={{ color: `${colors.gray500}` }}>퇴근 후 40분 걷기</BodySmallBold>
           <div id="profile-list-box">
