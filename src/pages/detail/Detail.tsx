@@ -383,44 +383,46 @@ function Detail(): JSX.Element {
           {page === '크루챗' && <Chat />}
         </section>
       </main>
-      <footer style={{ position: 'relative', width: '100%', border: '1px solid black' }}>
-        {page === '일정' && (
-          <button
-            type="button"
-            style={{
-              position: 'absolute',
-              top: '-74px',
-              right: '21px',
-              width: '48px',
-              aspectRatio: 1,
-              borderRadius: '50%',
-              backgroundColor: `${colors.primary}`,
-              border: 'none',
-              color: 'white',
-            }}
-          >
-            &#43;
-          </button>
-        )}
-        {page === '공지' && (
-          <button
-            type="button"
-            style={{
-              position: 'absolute',
-              top: '-74px',
-              right: '21px',
-              width: '48px',
-              aspectRatio: 1,
-              borderRadius: '50%',
-              backgroundColor: `${colors.primary}`,
-              border: 'none',
-              color: 'white',
-            }}
-          >
-            &#43;
-          </button>
-        )}
-      </footer>
+      {crewInfo?.result.personType === 'captain' && (
+        <footer style={{ position: 'relative', width: '100%', border: '1px solid black' }}>
+          {page === '일정' && (
+            <button
+              type="button"
+              style={{
+                position: 'absolute',
+                top: '-74px',
+                right: '21px',
+                width: '48px',
+                aspectRatio: 1,
+                borderRadius: '50%',
+                backgroundColor: `${colors.primary}`,
+                border: 'none',
+                color: 'white',
+              }}
+            >
+              &#43;
+            </button>
+          )}
+          {page === '공지' && (
+            <button
+              type="button"
+              style={{
+                position: 'absolute',
+                top: '-74px',
+                right: '21px',
+                width: '48px',
+                aspectRatio: 1,
+                borderRadius: '50%',
+                backgroundColor: `${colors.primary}`,
+                border: 'none',
+                color: 'white',
+              }}
+            >
+              &#43;
+            </button>
+          )}
+        </footer>
+      )}
     </>
   );
 }
