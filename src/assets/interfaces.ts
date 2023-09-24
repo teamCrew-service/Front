@@ -51,6 +51,7 @@ interface Notice {
   noticeTitle: string;
   noticeDDay: string | null;
   profileImage: string[] | null;
+  isCanceled: boolean | null;
 }
 
 interface SearchByCategory {

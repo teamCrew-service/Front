@@ -5,7 +5,8 @@ import ScheduleCard from '../../styledComponent/ScheduleCard';
 import TitleLargeMedium from '../../styledComponent/heading/TitleLargeMedium';
 import colors from '../../assets/styles/color';
 import BodySmallBold from '../../styledComponent/heading/BodySmallBold';
-import MockData from './mockdata';
+import { notice } from '../../api';
+import type { Notice as NoticeInterface } from '../../assets/interfaces';
 
 const SmallImageDiv = styled.div<{ $URL: string }>`
   width: 28px;
@@ -21,11 +22,36 @@ const SmallImageDiv = styled.div<{ $URL: string }>`
 function UpcomingSchedule(): JSX.Element {
   const currentDate = new Date();
 
-  const ScheduleList = MockData;
+  const [ScheduleList, setScheduleList] = useState<Partial<NoticeInterface[]>>([]);
 
-  const upcomingEvents = ScheduleList.filter(item => !item.isCanceled && item.noticeDDay > currentDate);
-  const completedEvents = ScheduleList.filter(item => !item.isCanceled && item.noticeDDay <= currentDate);
-  const canceledEvents = ScheduleList.filter(item => item.isCanceled);
+  async function fetchData(): Promise<Partial<NoticeInterface[]>> {
+    try {
+      const noticeData = await notice.getUpcomingList();
+      return noticeData;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      throw error;
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+      .then(list => {
+        setScheduleList(list);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
+
+  const upcomingEvents = ScheduleList.filter(
+    item => item?.isCanceled !== true && item?.noticeDDay != null && new Date(item.noticeDDay) > currentDate,
+  );
+
+  const completedEvents = ScheduleList.filter(
+    item => item?.isCanceled !== true && item?.noticeDDay != null && new Date(item.noticeDDay) <= currentDate,
+  );
+  const canceledEvents = ScheduleList.filter(item => item?.isCanceled);
   const [selectedFilter, setSelectedFilter] = useState('All');
 
   let filteredEvents;
@@ -38,13 +64,6 @@ function UpcomingSchedule(): JSX.Element {
   } else {
     filteredEvents = ScheduleList;
   }
-
-  useEffect(() => {
-    const cookie = window.location.href.split('token=')[1];
-    if (cookie !== undefined) {
-      document.cookie = `authorization=${cookie};path=/`;
-    }
-  }, []);
 
   return (
     <main>
@@ -89,37 +108,56 @@ function UpcomingSchedule(): JSX.Element {
         </div>
       </section>
       <section style={{ marginTop: '14px', width: '100%' }}>
-        {filteredEvents.map(item => (
-          <ScheduleCard style={{ margin: '12px 0px' }}>
-            <div key={item.noticeTitle}>
-              {selectedFilter === 'All' && (
-                <div className="event-label">
-                  {item.isCanceled && <span>취소된 일정</span>}
-                  {!item.isCanceled && item.noticeDDay > currentDate && <span>다가오는 일정</span>}
-                  {!item.isCanceled && item.noticeDDay <= currentDate && <span>지난 일정</span>}
+        {filteredEvents.length !== 0 ? (
+          filteredEvents.map(item => (
+            <ScheduleCard style={{ margin: '12px 0px' }}>
+              <div key={item?.noticeTitle}>
+                {selectedFilter === 'All' && (
+                  <div className="event-label">
+                    {item?.isCanceled === true && <span>취소된 일정</span>}
+                    {item?.isCanceled !== true &&
+                      item?.noticeDDay != null &&
+                      new Date(item.noticeDDay) > currentDate && <span>다가오는 일정</span>}
+                    {item?.isCanceled !== true &&
+                      item?.noticeDDay != null &&
+                      new Date(item.noticeDDay) <= currentDate && <span>지난 일정</span>}
+                  </div>
+                )}
+                <TitleLargeMedium>
+                  {new Date(item?.noticeDDay as string).toLocaleDateString('ko-KR', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    weekday: 'long',
+                  })}{' '}
+                  {new Date(item?.noticeDDay as string).toLocaleTimeString('ko-KR', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                </TitleLargeMedium>
+                <BodySmallBold style={{ color: `${colors.gray400}` }}>{item?.noticeTitle}</BodySmallBold>
+                <div id="profile-list-box">
+                  {item?.profileImage?.map(urlItem => <SmallImageDiv key={urlItem} $URL={urlItem} />)}
                 </div>
-              )}
-              <TitleLargeMedium>
-                {item.noticeDDay.toLocaleDateString('ko-KR', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                  weekday: 'long',
-                })}{' '}
-                {item.noticeDDay.toLocaleTimeString('ko-KR', {
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })}
-              </TitleLargeMedium>
-              <BodySmallBold style={{ color: `${colors.gray400}` }}>{item.noticeTitle}</BodySmallBold>
-              <div id="profile-list-box">
-                {item.UrlList.map(urlItem => (
-                  <SmallImageDiv key={urlItem.number} $URL={urlItem.url} />
-                ))}
               </div>
-            </div>
-          </ScheduleCard>
-        ))}
+            </ScheduleCard>
+          ))
+        ) : (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '100%',
+              color: `${colors.gray400}`,
+            }}
+          >
+            <p style={{ fontWeight: 700, fontSize: '16px', lineHeight: '22px', letterSpacing: '-0.4px' }}>
+              일정이 없습니다.
+            </p>
+          </div>
+        )}
       </section>
     </main>
   );
