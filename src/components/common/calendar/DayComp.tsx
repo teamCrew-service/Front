@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
+import type { Schedule } from '../../../assets/interfaces';
 
 interface Props {
   year: number;
@@ -8,43 +9,69 @@ interface Props {
   date: number;
   day: number;
   today: Date;
-  eventDate?: Date[] | null;
-  getDate?: boolean;
+  showEvent?: boolean;
+  schedule?: Schedule[] | null;
+  eventAction?: boolean;
+  onClick?: () => void;
+  eventHandler?: (input: any) => void;
 }
 
-function DayComp({ year, month, date, day, today, eventDate = null, getDate = false }: Props): JSX.Element {
+function DayComp({
+  year,
+  month,
+  date,
+  day,
+  today,
+  // 이벤트 날짜 표시 유/무
+  showEvent = false,
+  // 이벤트 날짜 입력 값
+  schedule = null,
+  // 날짜 컴포넌트 클릭 시 실행되는 함수
+  onClick = () => {},
+  // 이벤트 표시 부분 클릭 시 함수 실행 여부
+  eventAction = false,
+  // 이벤트 표시 부분 클릭 시 실행되는 함수
+  eventHandler = () => {},
+}: Props): JSX.Element {
   const newDate = new Date(year, month, date);
   const check = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 
-  const hasEvent = (): boolean => {
-    if (eventDate === null) return false;
+  // 이벤트 표시 함수
+  const hasEvent = (): { result: boolean; eventSchedule: any } => {
     let result = false;
+    let eventSchedule: any = '';
+    if (schedule === null) return { result, eventSchedule };
+
     // eslint-disable-next-line array-callback-return
-    eventDate.map(event => {
+    schedule.map(item => {
       if (
-        event.getFullYear() === newDate.getFullYear() &&
-        event.getMonth() === newDate.getMonth() &&
-        event.getDate() === newDate.getDate()
+        new Date(item.scheduleDDay).getFullYear() === newDate.getFullYear() &&
+        new Date(item.scheduleDDay).getMonth() === newDate.getMonth() &&
+        new Date(item.scheduleDDay).getDate() === newDate.getDate()
       ) {
+        eventSchedule = item;
         result = true;
       }
     });
-    return result;
+    return { result, eventSchedule };
   };
-
-  const onClick = getDate
-    ? () => {
-        console.log(newDate);
-      }
-    : () => {};
 
   // 오늘 이전 날짜
   if (newDate < check) {
     // 이벤트가 있는 날짜
-    if (hasEvent()) {
+    if (showEvent && hasEvent().result) {
       return (
-        <div className="day" onClick={onClick}>
-          <span style={{ color: '#DDDDDD', border: '1px solid #DDDDDD' }}>{date}</span>
+        <div
+          className="day"
+          onClick={
+            eventAction
+              ? () => {
+                  eventHandler(hasEvent().eventSchedule);
+                }
+              : onClick
+          }
+        >
+          <span style={{ color: '#DDDDDD', border: '1px solid #DDDDDD', cursor: 'pointer' }}>{date}</span>
         </div>
       );
     }
@@ -56,10 +83,19 @@ function DayComp({ year, month, date, day, today, eventDate = null, getDate = fa
   }
 
   // 이벤트가 있는 날짜
-  if (hasEvent()) {
+  if (showEvent && hasEvent().result) {
     return (
-      <div className="day" onClick={onClick}>
-        <span style={{ color: '#0A84FF', border: '2px solid #0A84FF' }}>{date}</span>
+      <div
+        className="day"
+        onClick={
+          eventAction
+            ? () => {
+                eventHandler(hasEvent().eventSchedule);
+              }
+            : onClick
+        }
+      >
+        <span style={{ color: '#0A84FF', border: '2px solid #0A84FF', cursor: 'pointer' }}>{date}</span>
       </div>
     );
   }

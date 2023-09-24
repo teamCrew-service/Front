@@ -12,7 +12,7 @@ const FooterLi = styled.li`
   height: 48px;
 `;
 
-function Footer({ children }: { children?: any }): JSX.Element {
+function Footer(): JSX.Element {
   return (
     <nav
       style={{
@@ -26,7 +26,6 @@ function Footer({ children }: { children?: any }): JSX.Element {
         borderTop: `0.3px solid ${colors.gray200}`,
       }}
     >
-      {children}
       <FooterLi>
         <CaptionXS>홈</CaptionXS>
       </FooterLi>

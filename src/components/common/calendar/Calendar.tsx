@@ -7,7 +7,7 @@ import './style.css';
 import DayComp from './DayComp';
 import type { Schedule } from '../../../assets/interfaces';
 
-function Calendar({ schedule }: { schedule: Schedule[] }): JSX.Element {
+function Calendar({ schedule, onClick }: { schedule: Schedule[]; onClick?: (input: any) => void }): JSX.Element {
   const today = new Date();
   const [year, setYear] = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth());
@@ -100,9 +100,6 @@ function Calendar({ schedule }: { schedule: Schedule[] }): JSX.Element {
     calendarArray[j] = { date: i, day };
   }
 
-  // const eventDate = [new Date(2023, 8, 4), new Date(2023, 8, 11), new Date(2023, 8, 19)];
-  const eventDate = schedule.map(item => new Date(item.scheduleDDay));
-
   return (
     <section id="calendar-container">
       <div id="calendar">
@@ -137,7 +134,10 @@ function Calendar({ schedule }: { schedule: Schedule[] }): JSX.Element {
                 date={item.date}
                 day={item.day}
                 today={today}
-                eventDate={eventDate}
+                showEvent
+                schedule={schedule}
+                eventAction
+                eventHandler={onClick}
               />
             );
           })}

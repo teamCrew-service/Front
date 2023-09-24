@@ -41,11 +41,4 @@ const schedule = {
   },
 };
 
-const notice = {
-  getNotice: async <T = myInterface.TotalNotice>(crewId: string): Promise<T> => {
-    const { data } = await instance.get<T>(`api/notice/${crewId}`);
-    return data;
-  },
-};
-
-export { login, navermap, crew, schedule, notice };
+export { login, navermap, crew, schedule };

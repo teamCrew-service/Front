@@ -22,12 +22,28 @@ import MemberBox from './MemberBox';
 import ScheduleContent from './ScheduleContent';
 import Chat from './Chat';
 import ScheduleCard from './ScheduleCard';
-import Footer from '../../components/common/Footer';
+import type { Schedule } from '../../assets/interfaces';
 
 function Detail(): JSX.Element {
   const [page, setPage] = useState<string>('모임정보');
+  // 소개 부분 접었다 펴기
   const [infoOpen, setInfoOpen] = useState<boolean>(true);
+  const [showCalendarEvent, setShowCalendarEvent] = useState<boolean>(false);
+
+  const [eventInfo, setEventInfo] = useState<Schedule | null>(null);
+
   const { id } = useParams();
+
+  const findRecentEvent = (sorted: Schedule[]): any => {
+    const today = new Date();
+    // eslint-disable-next-line array-callback-return, consistent-return
+    for (let i = 0; i < sorted.length; i += 1) {
+      if (new Date(sorted[i].scheduleDDay).getTime() > today.getTime()) {
+        return sorted[i];
+      }
+    }
+    return null;
+  };
 
   const {
     status,
@@ -37,7 +53,14 @@ function Detail(): JSX.Element {
     'crewDetail',
     async () => {
       const result = await crew.getDetail(id!);
-      return result;
+      if (result.personType !== 'person') {
+        const sortedArray = result.schedule.sort(
+          (a, b) => new Date(a.scheduleDDay).getTime() - new Date(b.scheduleDDay).getTime(),
+        );
+        const recentSchedule = findRecentEvent(sortedArray);
+        return { result, recentSchedule };
+      }
+      return { result };
     },
     {
       onSuccess: res => {
@@ -49,7 +72,7 @@ function Detail(): JSX.Element {
 
   const signUpCrew = useMutation(
     async () => {
-      const result = await crew.signUp(crewInfo!.crew.crew_crewId);
+      const result = await crew.signUp(crewInfo!.result.crew.crew_crewId);
       return result;
     },
     {
@@ -64,7 +87,7 @@ function Detail(): JSX.Element {
   );
 
   const changePage = (goPage: string): void => {
-    if (goPage !== '모임정보' && crewInfo?.personType === 'person') {
+    if (goPage !== '모임정보' && crewInfo?.result.personType === 'person') {
       alert('크루 멤버만 볼 수 있는 페이지 입니다.');
       return;
     }
@@ -78,6 +101,11 @@ function Detail(): JSX.Element {
 
   const closeInfoWindow = (): void => {
     setInfoOpen(false);
+  };
+
+  const openCalendarEvent = (input: any): void => {
+    setEventInfo(input);
+    setShowCalendarEvent(true);
   };
 
   const saveAddress = (address: string): void => {
@@ -99,23 +127,27 @@ function Detail(): JSX.Element {
 
   return (
     <>
+      {/* 헤더 */}
       <header id="detail-header">
         <Link to="/findcrew">
           <icons.chevronLeft />
         </Link>
-        <BodyLargeBold>{crewInfo?.crew.crew_crewType}</BodyLargeBold>
+        <BodyLargeBold>{crewInfo?.result.crew.crew_crewType}</BodyLargeBold>
         <div style={{ width: '24px', height: '24px' }} />
       </header>
       <main id="detail-main">
+        {/* 썸네일 */}
         <section
           id="detail-main-thumbnail"
           style={{
-            backgroundImage: `url(${crewInfo?.crew.crew_thumbnail})`,
+            backgroundImage: `url(${crewInfo?.result.crew.crew_thumbnail})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
           }}
         />
+
+        {/* 메뉴 */}
         <nav id="detail-main-menu">
           <ul id="detail-main-menu-ul">
             {['모임정보', '공지', '일정', '크루챗'].map(item => {
@@ -142,24 +174,33 @@ function Detail(): JSX.Element {
             })}
           </ul>
         </nav>
+
+        {/* 메인 콘텐츠 */}
         <section id="detail-main-content">
+          {/* 모임정보 */}
           {page === '모임정보' && (
             <>
               <div id="detail-main-content-crewinfo">
-                <TitleLargeBold>{crewInfo?.crew.crew_crewTitle}</TitleLargeBold>
+                <TitleLargeBold>{crewInfo?.result.crew.crew_crewTitle}</TitleLargeBold>
                 <CrewInfoContext>
                   <icons.users />
-                  {crewInfo?.crew.crewAttendedMember}/{crewInfo?.crew.crew_crewMaxMember}
+                  {crewInfo?.result.crew.crewAttendedMember}/{crewInfo?.result.crew.crew_crewMaxMember}
                 </CrewInfoContext>
                 <CrewInfoContext>
                   <icons.CrewDuration />
-                  모임이 생긴지 <span style={{ fontWeight: 700 }}>{crewInfo?.createdCrewPeriod}</span>일
+                  모임이 생긴지 <span style={{ fontWeight: 700 }}>{crewInfo?.result.createdCrewPeriod}</span>일
                 </CrewInfoContext>
                 <CrewInfoContext>
                   <icons.MeetCount />
-                  지난달 정모 횟수 <span style={{ fontWeight: 700 }}>{crewInfo?.schedule.length}</span>번
+                  지난달 정모 횟수{' '}
+                  <span style={{ fontWeight: 700 }}>
+                    {crewInfo?.result.personType !== 'person' ? crewInfo?.result.schedule.length : 0}
+                  </span>
+                  번
                 </CrewInfoContext>
               </div>
+
+              {/* 소개 */}
               <div id="detail-main-content-intro">
                 <SubTitle>
                   <BodyLargeBold>소개</BodyLargeBold>
@@ -183,29 +224,40 @@ function Detail(): JSX.Element {
                   >
                     <div>
                       <BodyBaseMedium>&nbsp;&nbsp;&middot; 우리 모임 사람들의 특징은?</BodyBaseMedium>
-                      <BodyBaseMedium>{crewInfo?.crew.crew_crewMemberInfo}</BodyBaseMedium>
+                      <BodyBaseMedium>{crewInfo?.result.crew.crew_crewMemberInfo}</BodyBaseMedium>
                     </div>
                     <div>
                       <BodyBaseMedium>&nbsp;&nbsp;&middot; 우리 모임 사람들의 연령대는?</BodyBaseMedium>
-                      <BodyBaseMedium>{crewInfo?.crew.crew_crewAgeInfo}</BodyBaseMedium>
+                      <BodyBaseMedium>{crewInfo?.result.crew.crew_crewAgeInfo}</BodyBaseMedium>
                     </div>
                   </div>
-                  <BodyBaseMedium style={{ padding: '10px 0px' }}>{crewInfo?.crew.crew_crewContent}</BodyBaseMedium>
+                  <BodyBaseMedium style={{ padding: '10px 0px' }}>
+                    {crewInfo?.result.crew.crew_crewContent}
+                  </BodyBaseMedium>
                 </>
               )}
               <div id="detail-main-content-schedule">
-                <SubTitle>
-                  <BodyLargeBold>일정</BodyLargeBold>
-                  <BodySmallBold
-                    onClick={() => {
-                      changePage('일정');
-                    }}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    전체보기
-                  </BodySmallBold>
-                </SubTitle>
-                <ScheduleCard crewInfo={crewInfo!}>{crewInfo!.schedule[0]}</ScheduleCard>
+                {/* 일정 */}
+                {crewInfo?.result.personType !== 'person' && crewInfo?.recentSchedule !== null ? (
+                  <>
+                    <SubTitle>
+                      <BodyLargeBold>일정</BodyLargeBold>
+                      <BodySmallBold
+                        onClick={() => {
+                          changePage('일정');
+                        }}
+                        style={{ cursor: 'pointer' }}
+                      >
+                        전체보기
+                      </BodySmallBold>
+                    </SubTitle>
+                    <ScheduleCard crewInfo={crewInfo!.result}>{crewInfo!.recentSchedule}</ScheduleCard>
+                  </>
+                ) : (
+                  <div>no schedule</div>
+                )}
+
+                {/* 위치 */}
                 <SubTitle>
                   <BodyLargeBold>위치</BodyLargeBold>
                 </SubTitle>
@@ -213,13 +265,13 @@ function Detail(): JSX.Element {
                   <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <icons.Mappin />
                     <div>
-                      <BodyLargeBold>{crewInfo?.crew.crew_crewAddress}</BodyLargeBold>
+                      <BodyLargeBold>{crewInfo?.result.crew.crew_crewAddress}</BodyLargeBold>
                       <CaptionXS>서울시 마포구 당인동 1</CaptionXS>
                     </div>
                   </div>
                   <SaveBtn
                     onClick={() => {
-                      saveAddress(crewInfo!.crew.crew_crewAddress);
+                      saveAddress(crewInfo!.result.crew.crew_crewAddress);
                     }}
                   >
                     <BodySmallBold style={{ color: `${colors.errorRed}` }}>주소 복사</BodySmallBold>
@@ -230,12 +282,52 @@ function Detail(): JSX.Element {
                 >
                   카카오 정적 맵
                 </div>
-                <SubTitle>
-                  <BodyLargeBold>캘린더</BodyLargeBold>
-                </SubTitle>
-                <div style={{ width: '100%', aspectRatio: 1.25 }}>
-                  <Calendar schedule={crewInfo!.schedule} />
-                </div>
+
+                {/* 캘린더 */}
+                {crewInfo?.result.personType !== 'person' && (
+                  <>
+                    <SubTitle>
+                      <BodyLargeBold>캘린더</BodyLargeBold>
+                    </SubTitle>
+                    <div style={{ position: 'relative', width: '100%', height: 'fit-content' }}>
+                      {/* 달력 이벤트 모달 */}
+                      {showCalendarEvent && (
+                        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+                        <div
+                          onClick={() => {
+                            setShowCalendarEvent(false);
+                          }}
+                          style={{
+                            position: 'absolute',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: '100%',
+                            height: '100%',
+                            top: '0px',
+                            left: '0px',
+                            backgroundColor: 'rgba(0,0,0,0.25)',
+                          }}
+                        >
+                          <div
+                            style={{
+                              width: '50%',
+                              height: '50%',
+                              backgroundColor: 'white',
+                            }}
+                          >
+                            <p>{eventInfo!.scheduleTitle}</p>
+                            <p>{eventInfo!.scheduleContent}</p>
+                          </div>
+                        </div>
+                      )}
+                      {/* 달력 */}
+                      <Calendar schedule={crewInfo!.result.schedule} onClick={openCalendarEvent} />
+                    </div>
+                  </>
+                )}
+
+                {/* 사진첩 */}
                 <SubTitle>
                   <BodyLargeBold>사진첩</BodyLargeBold>
                   <BodySmallBold style={{ cursor: 'pointer' }}>전체보기</BodySmallBold>
@@ -246,24 +338,25 @@ function Detail(): JSX.Element {
                   <div style={{ width: '25%', height: '100%', border: '1px solid black' }}>사진첩</div>
                   <div style={{ width: '25%', height: '100%', border: '1px solid black' }}>사진첩</div>
                 </div>
+
                 <SubTitle>
                   <BodyLargeBold>호스트</BodyLargeBold>
                   <BodySmallBold style={{ cursor: 'pointer' }}>가입신청서</BodySmallBold>
                 </SubTitle>
                 <div>
                   <MemberBox
-                    key={crewInfo!.crew.captainId}
-                    url={crewInfo!.crew.captainProfileImage}
-                    name={crewInfo!.crew.captainNickname}
-                    address={crewInfo!.crew.captainLocation}
+                    key={crewInfo!.result.crew.captainId}
+                    url={crewInfo!.result.crew.captainProfileImage}
+                    name={crewInfo!.result.crew.captainNickname}
+                    address={crewInfo!.result.crew.captainLocation}
                   />
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1%' }}>
                   <BodyLargeBold>참여자</BodyLargeBold>
-                  <BodySmallBold>{crewInfo?.member.length}명</BodySmallBold>
+                  <BodySmallBold>{crewInfo?.result.member.length}명</BodySmallBold>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', width: '100%', gap: '7px' }}>
-                  {crewInfo?.member.map(person => (
+                  {crewInfo?.result.member.map(person => (
                     <MemberBox
                       key={person.member_memberId}
                       url={person.users_profileImage}
@@ -272,7 +365,7 @@ function Detail(): JSX.Element {
                     />
                   ))}
                 </div>
-                {crewInfo?.personType === 'person' && (
+                {crewInfo?.result.personType === 'person' && (
                   <button
                     onClick={() => {
                       signUpCrew.mutate();
@@ -285,50 +378,48 @@ function Detail(): JSX.Element {
               </div>
             </>
           )}
-          {page === '공지' && <NoticeContent crewInfo={crewInfo!} />}
-          {page === '일정' && <ScheduleContent crewInfo={crewInfo!} />}
+          {page === '공지' && <NoticeContent crewInfo={crewInfo!.result} />}
+          {page === '일정' && <ScheduleContent crewInfo={crewInfo!.result} />}
           {page === '크루챗' && <Chat />}
         </section>
       </main>
-      <footer style={{ width: '100%' }}>
-        <Footer>
-          {page === '일정' && (
-            <button
-              type="button"
-              style={{
-                position: 'absolute',
-                top: '-89.16%',
-                right: '21px',
-                width: '48px',
-                aspectRatio: 1,
-                borderRadius: '50%',
-                backgroundColor: `${colors.primary}`,
-                border: 'none',
-                color: 'white',
-              }}
-            >
-              &#43;
-            </button>
-          )}
-          {page === '공지' && (
-            <button
-              type="button"
-              style={{
-                position: 'absolute',
-                top: '-89.16%',
-                right: '21px',
-                width: '48px',
-                aspectRatio: 1,
-                borderRadius: '50%',
-                backgroundColor: `${colors.primary}`,
-                border: 'none',
-                color: 'white',
-              }}
-            >
-              &#43;
-            </button>
-          )}
-        </Footer>
+      <footer style={{ position: 'relative', width: '100%', border: '1px solid black' }}>
+        {page === '일정' && (
+          <button
+            type="button"
+            style={{
+              position: 'absolute',
+              top: '-74px',
+              right: '21px',
+              width: '48px',
+              aspectRatio: 1,
+              borderRadius: '50%',
+              backgroundColor: `${colors.primary}`,
+              border: 'none',
+              color: 'white',
+            }}
+          >
+            &#43;
+          </button>
+        )}
+        {page === '공지' && (
+          <button
+            type="button"
+            style={{
+              position: 'absolute',
+              top: '-74px',
+              right: '21px',
+              width: '48px',
+              aspectRatio: 1,
+              borderRadius: '50%',
+              backgroundColor: `${colors.primary}`,
+              border: 'none',
+              color: 'white',
+            }}
+          >
+            &#43;
+          </button>
+        )}
       </footer>
     </>
   );

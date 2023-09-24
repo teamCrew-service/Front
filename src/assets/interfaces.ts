@@ -68,6 +68,25 @@ export interface Schedule {
   scheduleLatitude: number;
   scheduleLongitude: number;
 }
+// 투표 공지
+export interface VoteForm {
+  voteContent: string;
+  voteEndDate: string;
+  voteFormId: number;
+  voteTitle: string;
+  crewId: number;
+}
+// 정모 공지
+export interface Notice {
+  noticeTitle: string;
+  noticeContent: string;
+  noticeAddress: string;
+  noticeDDay: string;
+}
+export interface AllNotice {
+  regularNotice: Notice[];
+  voteForm: VoteForm[];
+}
 export interface GuestDetail {
   createdCrewPeriod: number;
   crew: Crew;
@@ -76,30 +95,5 @@ export interface GuestDetail {
 }
 export interface MemberDetail extends GuestDetail {
   schedule: Schedule[];
-}
-
-// 공지
-export interface VoteForm {
-  // createdAt: string;
-  // deleteAt: null | string;
-  // updatedAt: string;
-  voteContent: string;
-  voteEndDate: string;
-  voteFormId: number;
-  // voteOption1: string;
-  // voteOption2: string;
-  // voteOption3: string;
-  // voteOption4: string;
-  voteTitle: string;
-  crewId: number;
-}
-export interface Notice {
-  noticeTitle: string;
-  noticeContent: string;
-  noticeAddress: string;
-  noticeDDay: string;
-}
-export interface TotalNotice {
-  notice: Notice[];
-  voteForm: VoteForm[];
+  allNotice: AllNotice;
 }
