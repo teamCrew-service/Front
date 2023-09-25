@@ -1,63 +1,53 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useState } from 'react';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { useParams, Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { crewDetail } from '../../api';
+
+import { crew } from '../../api';
+
 import icons from '../../assets/icons';
-import colors from '../../assets/styles/color';
-import BodyLargeBold from '../../styledComponent/heading/BodyLargeBold';
-import TitleLargeBold from '../../styledComponent/heading/TitleLargeBold';
 
 import './style.css';
-import BodySmallBold from '../../styledComponent/heading/BodySmallBold';
-import NoticeContent from './NoticeContent';
+import BodyLargeBold from '../../styledComponent/heading/BodyLargeBold';
 
-const DetailMenuLi = styled.li`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 19.2%;
-  height: 100%;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
-  letter-spacing: -0.08px;
-  color: ${colors.gray400};
-`;
+import Short from '../../components/detail/crewType/Short';
 
-const CrewInfoContext = styled.h3`
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  font-size: 12px;
-  line-height: 18px;
-  letter-spacing: -0.2px;
-`;
-
-const SubTitle = styled(BodyLargeBold)`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const ScheduleCard = styled.div`
-  width: 100%;
-  height: 87.23%;
-  border-radius: 12px;
-  background-color: ${colors.primary100};
-`;
+import type { Schedule } from '../../assets/interfaces';
+import Long from '../../components/detail/crewType/Long';
 
 function Detail(): JSX.Element {
-  const [page, setPage] = useState<string>('모임정보');
-  const [infoOpen, setInfoOpen] = useState<boolean>(false);
+  // 소개 부분 접었다 펴기
+  const [infoOpen, setInfoOpen] = useState<boolean>(true);
+
   const { id } = useParams();
 
-  const { status, data } = useQuery(
+  const findRecentEvent = (sorted: Schedule[]): any => {
+    const today = new Date();
+    // eslint-disable-next-line array-callback-return, consistent-return
+    for (let i = 0; i < sorted.length; i += 1) {
+      if (new Date(sorted[i].scheduleDDay).getTime() > today.getTime()) {
+        return sorted[i];
+      }
+    }
+    return null;
+  };
+
+  const {
+    status,
+    data: crewInfo,
+    refetch,
+  } = useQuery(
     'crewDetail',
     async () => {
-      const result = await crewDetail.getDetail(id!);
-      return result.data;
+      const result = await crew.getDetail(id!);
+      if (result.personType !== 'person') {
+        const sortedArray = result.schedule.sort(
+          (a, b) => new Date(a.scheduleDDay).getTime() - new Date(b.scheduleDDay).getTime(),
+        );
+        const recentSchedule = findRecentEvent(sortedArray);
+        return { result, recentSchedule };
+      }
+      return { result };
     },
     {
       onSuccess: res => {
@@ -67,9 +57,21 @@ function Detail(): JSX.Element {
     },
   );
 
-  const changePage = (event: any): void => {
-    setPage(event.target.innerText);
-  };
+  const signUpCrew = useMutation(
+    async () => {
+      const result = await crew.signUp(crewInfo!.result.crew.crew_crewId);
+      return result;
+    },
+    {
+      onSuccess: async res => {
+        console.log(res);
+        await refetch();
+      },
+      onError: (error: any) => {
+        alert(error.response.data.message);
+      },
+    },
+  );
 
   const openInfoWindow = (): void => {
     setInfoOpen(true);
@@ -77,6 +79,15 @@ function Detail(): JSX.Element {
 
   const closeInfoWindow = (): void => {
     setInfoOpen(false);
+  };
+
+  const saveAddress = (address: string): void => {
+    navigator.clipboard
+      .writeText(address)
+      .then(() => {
+        console.log('paste success');
+      })
+      .catch(() => {});
   };
 
   if (status === 'loading') {
@@ -89,88 +100,88 @@ function Detail(): JSX.Element {
 
   return (
     <>
+      {/* 헤더 */}
       <header id="detail-header">
         <Link to="/findcrew">
           <icons.chevronLeft />
         </Link>
-        <BodyLargeBold>{data?.crew.crewType}</BodyLargeBold>
+        <BodyLargeBold>{crewInfo?.result.crew.crew_crewType}</BodyLargeBold>
         <div style={{ width: '24px', height: '24px' }} />
       </header>
       <main id="detail-main">
-        <section id="detail-main-thumbnail" />
-        <nav id="detail-main-menu">
-          <ul id="detail-main-menu-ul">
-            {['모임정보', '공지', '일정', '크루챗'].map(item => {
-              if (page === item) {
-                return (
-                  <DetailMenuLi
-                    key={item}
-                    style={{ color: '#8569F4', borderBottom: '2px solid #8569F4', fontWeight: 600 }}
-                  >
-                    <span style={{ translate: '0px 1px' }}>{item}</span>
-                  </DetailMenuLi>
-                );
-              }
-              return (
-                <DetailMenuLi key={item} onClick={changePage}>
-                  {item}
-                </DetailMenuLi>
-              );
-            })}
-          </ul>
-        </nav>
-        <section id="detail-main-content">
-          {page === '모임정보' && (
-            <>
-              <div id="detail-main-content-crewinfo">
-                <TitleLargeBold>{data?.crew.crewTitle}</TitleLargeBold>
-                <CrewInfoContext>
-                  <icons.users />
-                  {data?.crew.crewSignup}/{data?.crew.crewMaxMember}
-                </CrewInfoContext>
-                <CrewInfoContext>
-                  <icons.CrewDuration />
-                  모임이 생긴지 <span style={{ fontWeight: 700 }}>{720}</span>일
-                </CrewInfoContext>
-                <CrewInfoContext>
-                  <icons.MeetCount />
-                  지난달 정모 횟수 <span style={{ fontWeight: 700 }}>{4}</span>번
-                </CrewInfoContext>
-              </div>
-              <div id="detail-main-content-intro">
-                <SubTitle>
-                  소개
-                  {infoOpen ? (
-                    <icons.chevronUp style={{ cursor: 'pointer' }} onClick={closeInfoWindow} />
-                  ) : (
-                    <icons.chevronDown style={{ cursor: 'pointer' }} onClick={openInfoWindow} />
-                  )}
-                </SubTitle>
-              </div>
-              {infoOpen && (
-                <div id="detail-main-content-schedule">
-                  <SubTitle>
-                    일정
-                    <BodySmallBold style={{ cursor: 'pointer' }}>전체보기</BodySmallBold>
-                  </SubTitle>
-                  <ScheduleCard />
-                </div>
-              )}
-            </>
-          )}
-          {page === '공지' && <NoticeContent />}
-          {page === '일정' && (
-            <div>
-              <TitleLargeBold>{data?.crew.crewId}</TitleLargeBold>
-            </div>
-          )}
-          {page === '크루챗' && (
-            <div>
-              <TitleLargeBold>3</TitleLargeBold>
-            </div>
-          )}
-        </section>
+        {/* 썸네일 */}
+        <section
+          id="detail-main-thumbnail"
+          style={{
+            backgroundImage: `url(${crewInfo?.result.crew.crew_thumbnail})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}
+        />
+
+        {crewInfo?.result.crew.crew_crewType === '장기' && (
+          <Long
+            crewInfo={crewInfo.result}
+            infoOpen={infoOpen}
+            closeInfoWindow={closeInfoWindow}
+            openInfoWindow={openInfoWindow}
+            signUpCrew={signUpCrew}
+            saveAddress={saveAddress}
+            recentSchedule={crewInfo.recentSchedule}
+          />
+        )}
+        {crewInfo?.result.crew.crew_crewType === '단기' && (
+          <Short
+            crewInfo={crewInfo.result}
+            infoOpen={infoOpen}
+            closeInfoWindow={closeInfoWindow}
+            openInfoWindow={openInfoWindow}
+            saveAddress={saveAddress}
+            signUpCrew={signUpCrew}
+          />
+        )}
       </main>
+      {/* {crewInfo?.result.personType === 'captain' && (
+        <footer style={{ position: 'relative', width: '100%' }}>
+          {page === '일정' && (
+            <button
+              type="button"
+              style={{
+                position: 'absolute',
+                top: '-74px',
+                right: '21px',
+                width: '48px',
+                aspectRatio: 1,
+                borderRadius: '50%',
+                backgroundColor: `${colors.primary}`,
+                border: 'none',
+                color: 'white',
+              }}
+            >
+              &#43;
+            </button>
+          )}
+          {page === '공지' && (
+            <button
+              type="button"
+              style={{
+                position: 'absolute',
+                top: '-74px',
+                right: '21px',
+                width: '48px',
+                aspectRatio: 1,
+                borderRadius: '50%',
+                backgroundColor: `${colors.primary}`,
+                border: 'none',
+                color: 'white',
+              }}
+            >
+              &#43;
+            </button>
+          )}
+        </footer>
+      )} */}
     </>
   );
 }

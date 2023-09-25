@@ -2,16 +2,16 @@ import type { AxiosResponse } from 'axios';
 import type * as myInterface from '../assets/interfaces';
 import instance from './instance';
 
-interface LoginMessage {
+interface Message {
   message: string;
 }
 
 const login = {
-  firstLogin: async <T = LoginMessage>(information: myInterface.Information): Promise<T> => {
+  firstLogin: async <T = Message>(information: myInterface.Information): Promise<T> => {
     const { data } = await instance.put<T>('api/auth/info', information);
     return data;
   },
-  nickCheck: async <T = LoginMessage>(nickname: string): Promise<T> => {
+  nickCheck: async <T = Message>(nickname: string): Promise<T> => {
     const { data } = await instance.post<T>('api/nickname', { nickname });
     return data;
   },
@@ -24,22 +24,47 @@ const navermap = {
   },
 };
 
-const crewDetail = {
-  getDetail: async <T = myInterface.Detail>(crewId: string): Promise<AxiosResponse<T>> =>
-    instance.get<T>(`api/crew/${crewId}`),
+const crew = {
+  getDetail: async <T = myInterface.MemberDetail>(crewId: string): Promise<T> => {
+    const { data } = await instance.get<T>(`api/crew/${crewId}`);
+    return data;
+  },
+  signUp: async <T = Message>(crewId: string): Promise<T> => {
+    const { data } = await instance.post<T>(`api/signup/${crewId}`);
+    return data;
+  },
 };
 
 const notice = {
   getNoticeList: async <T = myInterface.Notice[]>(): Promise<AxiosResponse<T>> =>
     instance.get<T>('api/notice/comingDate'),
+  getUpcomingList: async (): Promise<myInterface.Notice[]> => {
+    const response: AxiosResponse = await instance.get('api/notice/comingDate');
+    const noticeData: myInterface.Notice[] = response.data;
+    return noticeData;
+  },
 };
 
 const meet = {
   makeCrew: async (payload: myInterface.MakeCrew) => {
     const { data } = await instance.post('/api/crew/createcrew', payload);
-
     return data;
   },
 };
 
-export { login, navermap, crewDetail, notice, meet };
+const searchByCategory = {
+  getSearchByCategory: async (category: string): Promise<myInterface.SearchByCategory[]> => {
+    const response: AxiosResponse = await instance.get(`api/home/${category}`);
+    const searchData: myInterface.SearchByCategory[] = response.data;
+    return searchData;
+  },
+};
+
+const schedule = {
+  create: async <T = myInterface.Schedule>(crewId: number, info: T): Promise<T> => {
+    const { data } = await instance.post<T>(`api/schedule/${crewId}/createSchedule`, info);
+    return data;
+  },
+};
+
+export { login, navermap, crew, notice, searchByCategory, schedule, meet };

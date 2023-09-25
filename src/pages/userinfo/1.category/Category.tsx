@@ -12,7 +12,6 @@ function Category(): JSX.Element {
   const [selectedCategoryList, setSelectedCategoryList] = useState<string[]>([]);
   const selectCategory = (event: any): void => {
     const { target } = event;
-    console.log(target);
     const currentBackColor = target.style.backgroundColor;
     if (currentBackColor === '') {
       target.style.backgroundColor = colors.primary;
@@ -25,7 +24,16 @@ function Category(): JSX.Element {
     }
   };
   const saveSelectedCategory = (): void => {
-    sessionStorage.setItem('category', JSON.stringify(selectedCategoryList));
+    let saveItem = '';
+    // eslint-disable-next-line array-callback-return
+    selectedCategoryList.map((item: string, index) => {
+      if (index === 0) {
+        saveItem = item;
+        return;
+      }
+      saveItem += `,${item}`;
+    });
+    sessionStorage.setItem('category', saveItem);
   };
 
   useEffect(() => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import icons from '../../assets/icons';
 import './style.css';
-import LoginBtnWithIcon from '../../components/LoginBtnWithIcon';
+import LoginBtnWithIcon from '../../components/login/LoginBtnWithIcon';
 import colors from '../../assets/styles/color';
 
 function Login(): JSX.Element {

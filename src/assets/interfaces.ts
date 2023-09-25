@@ -1,5 +1,5 @@
 // 장소
-interface Spot {
+export interface Spot {
   crewAttendedMember: number;
   crew_category: string;
   crew_crewAddress: string;
@@ -7,14 +7,14 @@ interface Spot {
   crew_crewId: number;
   crew_crewMaxMember: number;
   crew_crewTitle: string;
+  crew_crewType: string;
   crew_latitude: number;
   crew_longtitude: number;
   crew_thumbnail: string;
 }
 
 // 최초 로그인 정보
-interface Information {
-  interestTopic: string | null;
+export interface AddUserInfoDto {
   nickname: string | null;
   age: string | null;
   gender: string | null;
@@ -22,38 +22,93 @@ interface Information {
   myMessage: string | null;
   location: string | null;
 }
+export interface Information {
+  addUserInfoDto: AddUserInfoDto;
+  topicDto: {
+    interestTopic: string | null;
+  };
+}
 
-interface Crew {
+// 크루 상세정보
+export interface Crew {
+  captainId: number;
+  captainLocation: string;
+  captainNickname: string;
+  captainProfileImage: string;
+  crewAttendedMember: string;
+  crew_category: string;
+  crew_createdAt: string;
+  crew_crewAddress: string;
+  crew_crewAgeInfo: string;
+  crew_crewContent: string;
+  crew_crewDDay: string;
+  crew_crewId: string;
+  crew_crewMaxMember: number;
+  crew_crewMemberInfo: string;
+  crew_crewSignup: number;
+  crew_crewTitle: string;
+  crew_crewType: string;
+  crew_deletedAt: null;
+  crew_latitude: number;
+  crew_longtitude: number;
+  crew_thumbnail: string;
+}
+export interface Member {
+  member_memberId: number;
+  member_userId: number;
+  users_nickname: string;
+  users_profileImage: string;
+  users_location: string;
+}
+// 일정
+export interface Schedule {
+  scheduleTitle: string;
+  scheduleContent: string;
+  scheduleDDay: Date;
+  scheduleAddress: string;
+  scheduleLatitude: number;
+  scheduleLongitude: number;
+}
+// 투표 공지
+export interface VoteForm {
+  voteContent: string;
+  voteEndDate: string;
+  voteFormId: number;
+  voteTitle: string;
   crewId: number;
-  userId: number;
-  category: string;
-  crewAddress: string;
-  crewType: string;
-  crewDDay: string;
-  crewMemberInfo: string;
-  crewAgeInfo: string;
-  crewSignup: number;
-  crewTitle: string;
-  crewContent: string;
-  thumbnail: string;
-  crewMaxMember: number;
-  latitude: number;
-  longtitude: number;
-  deletedAt: null;
 }
-
-interface Detail {
+// 정모 공지
+export interface CrewNotice {
+  noticeTitle: string;
+  noticeContent: string;
+  noticeAddress: string;
+  noticeDDay: string;
+}
+export interface AllNotice {
+  regularNotice: CrewNotice[];
+  voteForm: VoteForm[];
+}
+export interface GuestDetail {
+  createdCrewPeriod: number;
   crew: Crew;
-  member: number[];
+  member: Member[];
+  personType: string;
+  likeCount: number;
 }
 
-interface Notice {
+export interface MemberDetail extends GuestDetail {
+  schedule: Schedule[];
+  allNotice: AllNotice;
+}
+
+export interface Notice {
   noticeTitle: string;
   noticeDDay: string | null;
   profileImage: string[] | null;
+  isCanceled: boolean | null;
 }
 
-interface MakeCrew {
+export interface MakeCrew {
   createCrewDto: {
     category: string;
     crewAddress: string;
@@ -75,5 +130,14 @@ interface MakeCrew {
     question2: string;
   };
 }
-
-export type { Spot, Information, Crew, Detail, Notice, MakeCrew };
+export interface SearchByCategory {
+  crew_crewId: string;
+  crew_category: string;
+  crew_crewAddress: string;
+  crew_crewType: string;
+  crew_crewDDay: string;
+  crew_crewTitle: string;
+  crew_thumbnail: string;
+  crew_crewMaxMember: string;
+  crewAttendedMember: string;
+}

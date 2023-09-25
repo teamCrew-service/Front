@@ -18,14 +18,11 @@ function FindCrew(): JSX.Element {
     navermap
       .findcrew()
       .then(res => {
-        spots.current = [...res];
-        // --- 임시 데이터 설정 : 향후 삭제 필요
-        spots.current[0].crew_latitude = 35.057;
-        spots.current[0].crew_longtitude = 128.965;
-        spots.current[1].crew_latitude = 35.057;
-        spots.current[1].crew_longtitude = 128.95;
-        // ---
         console.log(res);
+        if (res.length !== 0) {
+          spots.current = [...res];
+        }
+        // console.log(res);
       })
       .catch(error => {
         alert(error);
@@ -35,7 +32,7 @@ function FindCrew(): JSX.Element {
     navigator.geolocation.getCurrentPosition(position => {
       latlng.lat = position.coords.latitude;
       latlng.lng = position.coords.longitude;
-      console.log('complete get my location');
+      // console.log('complete get my location');
       // 3. loading 완료
       setLoading(true);
     });
@@ -85,7 +82,7 @@ function FindCrew(): JSX.Element {
   // 3. loading 완료 -> 네이버 맵 설정
   useEffect(() => {
     if (loading) {
-      console.log('loading complete');
+      // console.log('loading complete');
       // type Guard
       if (mapDiv.current === null) return;
       setMap(
@@ -102,15 +99,15 @@ function FindCrew(): JSX.Element {
   /* 4. 맵 설정 -> 네이버 맵에 이벤트 등록
               -> 클러스터 생성        */
   useEffect(() => {
-    console.log(spots.current, map, category);
+    // console.log(spots.current, map, category);
     // category 설정에 따른 data 값 변경
     const data = category === '관심사' ? spots.current : spots.current.filter(spot => spot.crew_category === category);
-    console.log(data);
+    // console.log(data);
 
     if (map !== null) {
       // 네이버 이벤트 : 처음 맵 표시되었을 때
       naver.maps.Event.once(map, 'init', () => {
-        console.log('first-event');
+        // console.log('first-event');
         const currentBound = map.getBounds();
         setList(
           data.filter(spot => currentBound.hasPoint(new naver.maps.LatLng(spot.crew_latitude, spot.crew_longtitude))),
@@ -120,7 +117,7 @@ function FindCrew(): JSX.Element {
       // 네이버 이벤트 2 : 드래그 완료 시
       listener.current = naver.maps.Event.addListener(map, 'dragend', () => {
         const currentBound = map.getBounds();
-        console.log('dragend');
+        // console.log('dragend');
         setList(
           data.filter(spot => currentBound.hasPoint(new naver.maps.LatLng(spot.crew_latitude, spot.crew_longtitude))),
         );
@@ -129,7 +126,7 @@ function FindCrew(): JSX.Element {
       // 네이버 이벤트 3 : 줌 레벨 변경 시
       naver.maps.Event.addListener(map, 'zoom_changed', () => {
         const currentBound = map.getBounds();
-        console.log('zoomchanged');
+        // console.log('zoomchanged');
         setList(
           data.filter(spot => currentBound.hasPoint(new naver.maps.LatLng(spot.crew_latitude, spot.crew_longtitude))),
         );
@@ -137,10 +134,10 @@ function FindCrew(): JSX.Element {
 
       // 클러스터 설정
       if (newCluster.current === null) {
-        console.log('create cluster', data);
+        // console.log('create cluster', data);
         newCluster.current = useMarkerClustering(data, map);
       } else {
-        console.log('change cluster', data);
+        // console.log('change cluster', data);
         newCluster.current.setMap(null);
         newCluster.current = useMarkerClustering(data, map);
       }

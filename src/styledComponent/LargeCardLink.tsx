@@ -8,7 +8,7 @@ const LargeCardLink = styled(Link)`
   border-radius: 22px;
   text-decoration: none;
   color: black;
-  background-color: ${colors.primary100};
+  background-color: ${colors.primary50};
   padding: 18px 14px;
 `;
 

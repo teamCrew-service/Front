@@ -505,6 +505,10 @@ function makeMarkerClustering(naver) {
      * @return {number} 클러스터를 구성하는 마커 수
      */
     getCount: function () {
+      // 변경점
+      if(this._clusterMember.length > 10){
+        return "10+";
+      }
       return this._clusterMember.length;
     },
 

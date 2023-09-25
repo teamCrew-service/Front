@@ -9,7 +9,7 @@ const ScheduleCard = styled.div`
   gap: 4px;
   padding: 12px;
   border-radius: 22px;
-  background-color: ${colors.primary100};
+  background-color: ${colors.gray50};
 `;
 
 export default ScheduleCard;

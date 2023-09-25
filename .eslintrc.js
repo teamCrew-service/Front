@@ -35,6 +35,7 @@ module.exports = {
         "@typescript-eslint"
     ],
     "rules": {
-        "react/require-default-props" : 0
+        "react/require-default-props" : 0,
+        "@typescript-eslint/no-non-null-assertion" : 0
     }
 }

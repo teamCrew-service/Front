@@ -18,6 +18,10 @@
   overflow-y: auto;
 }
 
+#detail-main::-webkit-scrollbar {
+  display: none;
+}
+
 /* 메인 - 썸네일 */
 #detail-main-thumbnail {
   width: 100%;
@@ -44,8 +48,17 @@
 /* 481px */
 #detail-main-content {
   width: 100%;
-  height: 67.84%;
   padding: 0px 16px;
+  padding-bottom: 16px;
+}
+
+#short-detail-main-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: fit-content;
+  padding: 16px;
+  gap: 12px;
 }
 
 #detail-main-content-crewinfo {
@@ -56,9 +69,16 @@
   padding-top: 16px;
 }
 
+#short-detail-main-content-crewinfo {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 12px;
+}
+
 #detail-main-content-intro {
   width: 100%;
-  height: 4.99%;
+  height: fit-content;
   border-bottom: 0.3px solid #dddddd;
   margin-top: 26px;
 }
@@ -79,4 +99,5 @@
   width: 100%;
   height: 100%;
   gap: 10px;
+  padding: 16px 18px;
 }

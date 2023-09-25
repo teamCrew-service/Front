@@ -2,6 +2,15 @@
   width: 100%;
   height: calc(100% - 83px);
   padding: 0px 16px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+#home-main::-webkit-scrollbar {
+  display: none;
+}
+
+#home-footer {
+  width: 100%;
 }
 
 .large-card-box {
