@@ -5,6 +5,7 @@ import { ReactComponent as Google } from './GoogleLogo.svg';
 import { ReactComponent as chevronDown } from './chevronDown.svg';
 import { ReactComponent as chevronUp } from './chevronUp.svg';
 import { ReactComponent as chevronLeft } from './chevronLeft.svg';
+import { ReactComponent as chevronRight } from './chevronRight.svg';
 import { ReactComponent as close } from './close.svg';
 import { ReactComponent as heart } from './heart.svg';
 import { ReactComponent as Calendar } from './Calendar.svg';
@@ -25,6 +26,7 @@ const icons = {
   chevronDown,
   chevronUp,
   chevronLeft,
+  chevronRight,
   close,
   heart,
   Calendar,

@@ -76,12 +76,12 @@ function FindCrewView({
             list.map(spot => (
               <CrewCard to={`/detail/${spot.crew_crewId}`} key={spot.crew_crewId}>
                 <div style={{ display: 'flex', gap: '4px' }}>
-                  <TagDiv $color={colors.gray200}>
+                  <TagDiv $color="rgb(255, 234, 125, 0.5)">
                     <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot.crew_category}</p>
                   </TagDiv>
-                  {/* <TagDiv $color={spot.crewType === '정모' ? colors.blue : colors.red}>
-                    <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot.crewType}</p>
-                  </TagDiv> */}
+                  <TagDiv $color={spot.crew_crewType === '장기' ? colors.primary100 : colors.point100}>
+                    <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot.crew_crewType}</p>
+                  </TagDiv>
                 </div>
                 <div>
                   <p style={{ fontSize: '14px', fontWeight: 700, lineHeight: '24px', letterSpacing: '-0.4px' }}>
@@ -114,16 +114,13 @@ function FindCrewView({
                 </div>
                 <div
                   style={{
-                    position: 'absolute',
-                    bottom: '16px',
-                    right: '16px',
                     display: 'flex',
                     gap: '4px',
-                    zIndex: 101,
                     textAlign: 'center',
-                    backgroundColor: `${colors.gray200}`,
+                    backgroundColor: 'white',
                     padding: '4px 10px',
                     borderRadius: '200px',
+                    marginLeft: 'auto',
                   }}
                 >
                   <icons.users />

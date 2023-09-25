@@ -1,7 +1,7 @@
 /* eslint-disable react/require-default-props */
 import React from 'react';
-import ButtonDiv from '../styledComponent/ButtonDiv';
-import BodyBaseMedium from '../styledComponent/heading/BodyBaseMedium';
+import ButtonDiv from '../../styledComponent/ButtonDiv';
+import BodyBaseMedium from '../../styledComponent/heading/BodyBaseMedium';
 
 function LoginBtnWithIcon({
   context,

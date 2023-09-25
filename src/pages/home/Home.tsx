@@ -3,11 +3,12 @@ import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import './style.css';
 import ScheduleCard from '../../styledComponent/ScheduleCard';
-import TitleLargeMedium from '../../styledComponent/heading/TitleLargeMedium';
 import LargeCardLink from '../../styledComponent/LargeCardLink';
 import InterestMatrix from '../../components/common/InterestMatrix';
 import colors from '../../assets/styles/color';
-import BodySmallBold from '../../styledComponent/heading/BodySmallBold';
+import TitleLargeBold from '../../styledComponent/heading/TitleLargeBold';
+import BodySmallMedium from '../../styledComponent/heading/BodySmallMedium';
+import Footer from '../../components/common/Footer';
 
 const SmallImageDiv = styled.div<{ $URL: string }>`
   width: 28px;
