@@ -6,9 +6,8 @@ import ScheduleCard from '../../styledComponent/ScheduleCard';
 import LargeCardLink from '../../styledComponent/LargeCardLink';
 import InterestMatrix from '../../components/common/InterestMatrix';
 import colors from '../../assets/styles/color';
-import TitleLargeBold from '../../styledComponent/heading/TitleLargeBold';
-import BodySmallMedium from '../../styledComponent/heading/BodySmallMedium';
-import Footer from '../../components/common/Footer';
+import TitleLargeMedium from '../../styledComponent/heading/TitleLargeBold';
+import BodySmallBold from '../../styledComponent/heading/BodySmallMedium';
 
 const SmallImageDiv = styled.div<{ $URL: string }>`
   width: 28px;
