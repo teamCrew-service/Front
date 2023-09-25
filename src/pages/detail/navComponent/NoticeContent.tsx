@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import type { MemberDetail } from '../../assets/interfaces';
-import colors from '../../assets/styles/color';
-import BodyBaseBold from '../../styledComponent/heading/BodyBaseBold';
-import CaptionXS from '../../styledComponent/heading/CaptionXS';
-import BodySmallBold from '../../styledComponent/heading/BodySmallBold';
+import type { MemberDetail } from '../../../assets/interfaces';
+import colors from '../../../assets/styles/color';
+import BodyBaseBold from '../../../styledComponent/heading/BodyBaseBold';
+import CaptionXS from '../../../styledComponent/heading/CaptionXS';
+import BodySmallBold from '../../../styledComponent/heading/BodySmallBold';
 
 const NoticeDiv = styled.div`
   position: relative;

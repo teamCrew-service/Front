@@ -12,16 +12,16 @@ import './style.css';
 import BodyLargeBold from '../../styledComponent/heading/BodyLargeBold';
 import TitleLargeBold from '../../styledComponent/heading/TitleLargeBold';
 import BodySmallBold from '../../styledComponent/heading/BodySmallBold';
-import NoticeContent from './NoticeContent';
+import NoticeContent from './navComponent/NoticeContent';
 import CaptionXS from '../../styledComponent/heading/CaptionXS';
 import Calendar from '../../components/common/calendar/Calendar';
 import BodyBaseMedium from '../../styledComponent/heading/BodyBaseMedium';
 import { DetailMenuLi, CrewInfoContext, SubTitle, SaveBtn } from './styled';
 
-import MemberBox from './MemberBox';
-import ScheduleContent from './ScheduleContent';
-import Chat from './Chat';
-import ScheduleCard from './ScheduleCard';
+import MemberBox from '../../components/detail/MemberBox';
+import ScheduleContent from './navComponent/ScheduleContent';
+import Chat from './navComponent/Chat';
+import ScheduleCard from '../../components/detail/ScheduleCard';
 import type { Schedule } from '../../assets/interfaces';
 
 function Detail(): JSX.Element {

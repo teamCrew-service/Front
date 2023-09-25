@@ -30,16 +30,6 @@ export const SubTitle = styled.div`
   align-items: center;
 `;
 
-export const ScheduleDiv = styled.div`
-  width: 100%;
-  height: fit-content;
-  border-radius: 12px;
-  background-color: ${colors.primary100};
-  padding: 12px;
-  padding-top: 16px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.16);
-`;
-
 export const SaveBtn = styled.div`
   display: flex;
   align-items: center;

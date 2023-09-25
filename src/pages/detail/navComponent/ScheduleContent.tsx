@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import type { MemberDetail, Schedule } from '../../assets/interfaces';
+import type { MemberDetail, Schedule } from '../../../assets/interfaces';
 
-import ScheduleCard from './ScheduleCard';
-import colors from '../../assets/styles/color';
-import BodySmallBold from '../../styledComponent/heading/BodySmallBold';
+import ScheduleCard from '../../../components/detail/ScheduleCard';
+import colors from '../../../assets/styles/color';
+import BodySmallBold from '../../../styledComponent/heading/BodySmallBold';
 
 const StyledLi = styled.li`
   border-radius: 200px;
