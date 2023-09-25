@@ -11,7 +11,7 @@ const colors = {
   yellow: '#FFEA7D',
   primary: '#7353F4',
   primary50: '#F3F0FF',
-  primary100: '#F4F2FE',
+  primary100: '#DED6FF',
   primary700: '#4017E5',
   point50: '#E3FFEF',
   point100: '#AAF2C7',

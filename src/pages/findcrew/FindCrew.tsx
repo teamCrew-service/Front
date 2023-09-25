@@ -18,6 +18,7 @@ function FindCrew(): JSX.Element {
     navermap
       .findcrew()
       .then(res => {
+        console.log(res);
         if (res.length !== 0) {
           spots.current = [...res];
         }

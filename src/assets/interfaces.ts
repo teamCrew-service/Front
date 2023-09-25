@@ -7,6 +7,7 @@ export interface Spot {
   crew_crewId: number;
   crew_crewMaxMember: number;
   crew_crewTitle: string;
+  crew_crewType: string;
   crew_latitude: number;
   crew_longtitude: number;
   crew_thumbnail: string;
