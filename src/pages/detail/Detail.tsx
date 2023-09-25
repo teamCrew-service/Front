@@ -384,7 +384,7 @@ function Detail(): JSX.Element {
         </section>
       </main>
       {crewInfo?.result.personType === 'captain' && (
-        <footer style={{ position: 'relative', width: '100%', border: '1px solid black' }}>
+        <footer style={{ position: 'relative', width: '100%' }}>
           {page === '일정' && (
             <button
               type="button"

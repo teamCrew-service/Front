@@ -51,7 +51,7 @@ function ScheduleCard({ children, crewInfo }: { children?: any; crewInfo: Member
           <BodySmallMedium>/{crewInfo.crew.crew_crewMaxMember}</BodySmallMedium>
         </div>
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1%' }}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
         <ImageDiv />
         <ImageDiv />
         <ImageDiv />
