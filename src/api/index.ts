@@ -34,6 +34,24 @@ const crew = {
   },
 };
 
+const notice = {
+  getNoticeList: async <T = myInterface.Notice[]>(): Promise<AxiosResponse<T>> =>
+    instance.get<T>('api/notice/comingDate'),
+  getUpcomingList: async (): Promise<myInterface.Notice[]> => {
+    const response: AxiosResponse = await instance.get('api/notice/comingDate');
+    const noticeData: myInterface.Notice[] = response.data;
+    return noticeData;
+  },
+};
+
+const searchByCategory = {
+  getSearchByCategory: async (category: string): Promise<myInterface.SearchByCategory[]> => {
+    const response: AxiosResponse = await instance.get(`api/home/${category}`);
+    const searchData: myInterface.SearchByCategory[] = response.data;
+    return searchData;
+  },
+};
+
 const schedule = {
   create: async <T = myInterface.Schedule>(crewId: number, info: T): Promise<T> => {
     const { data } = await instance.post<T>(`api/schedule/${crewId}/createSchedule`, info);
@@ -41,4 +59,5 @@ const schedule = {
   },
 };
 
-export { login, navermap, crew, schedule };
+export { login, navermap, crew, notice, searchByCategory, schedule };
+

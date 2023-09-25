@@ -95,7 +95,29 @@ export interface GuestDetail {
   personType: string;
   likeCount: number;
 }
+
 export interface MemberDetail extends GuestDetail {
   schedule: Schedule[];
   allNotice: AllNotice;
 }
+
+export interface Notice {
+  noticeTitle: string;
+  noticeDDay: string | null;
+  profileImage: string[] | null;
+  isCanceled: boolean | null;
+}
+
+export interface SearchByCategory {
+  crew_crewId: string;
+  crew_category: string;
+  crew_crewAddress: string;
+  crew_crewType: string;
+  crew_crewDDay: string;
+  crew_crewTitle: string;
+  crew_thumbnail: string;
+  crew_crewMaxMember: string;
+  crewAttendedMember: string;
+}
+
+
