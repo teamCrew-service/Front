@@ -12,15 +12,15 @@ import './style.css';
 import BodyLargeBold from '../../styledComponent/heading/BodyLargeBold';
 import TitleLargeBold from '../../styledComponent/heading/TitleLargeBold';
 import BodySmallBold from '../../styledComponent/heading/BodySmallBold';
-import NoticeContent from './navComponent/NoticeContent';
+import NoticeContent from './nav/NoticeContent';
 import CaptionXS from '../../styledComponent/heading/CaptionXS';
 import Calendar from '../../components/common/calendar/Calendar';
 import BodyBaseMedium from '../../styledComponent/heading/BodyBaseMedium';
 import { DetailMenuLi, CrewInfoContext, SubTitle, SaveBtn } from './styled';
 
 import MemberBox from '../../components/detail/MemberBox';
-import ScheduleContent from './navComponent/ScheduleContent';
-import Chat from './navComponent/Chat';
+import ScheduleContent from './nav/ScheduleContent';
+import Chat from './nav/Chat';
 import ScheduleCard from '../../components/detail/ScheduleCard';
 import Short from './crewType/Short';
 
