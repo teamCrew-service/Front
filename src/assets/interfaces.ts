@@ -78,14 +78,14 @@ export interface VoteForm {
   crewId: number;
 }
 // 정모 공지
-export interface Notice {
+export interface CrewNotice {
   noticeTitle: string;
   noticeContent: string;
   noticeAddress: string;
   noticeDDay: string;
 }
 export interface AllNotice {
-  regularNotice: Notice[];
+  regularNotice: CrewNotice[];
   voteForm: VoteForm[];
 }
 export interface GuestDetail {
@@ -119,5 +119,3 @@ export interface SearchByCategory {
   crew_crewMaxMember: string;
   crewAttendedMember: string;
 }
-
-

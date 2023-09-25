@@ -1,3 +1,4 @@
+import type { AxiosResponse } from 'axios';
 import type * as myInterface from '../assets/interfaces';
 import instance from './instance';
 
@@ -60,4 +61,3 @@ const schedule = {
 };
 
 export { login, navermap, crew, notice, searchByCategory, schedule };
-
