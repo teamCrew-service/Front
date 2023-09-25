@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useMutation } from 'react-query';
 import { meet } from '../../api';
-import './style.scss';
+
+import './makeCrewStyle.scss';
 import ProgressBar from '../../components/common/ProgressBar';
+import CrewType from './crewType/CrewType';
 
 function MakeCrew(): JSX.Element {
   // const queryClient = useQueryClient();
@@ -74,19 +76,9 @@ function MakeCrew(): JSX.Element {
   return (
     <div className="createWrap">
       <ProgressBar step={2} totalSteps={10} type="thinType" />
+
       <div className="stepWrap">
-        <div className="step">
-          <button type="button" className="btnCondition">
-            01모임 유형
-          </button>
-          <div className="stepCont">
-            <h2>모임 유형이 어떻게 될까요?</h2>
-            <div>
-              <button type="button">단기 모임 (번개)</button>
-              <button type="button">장기 모임 (정모)</button>
-            </div>
-          </div>
-        </div>
+        <CrewType setFormData={setFormData} />
         <div className="step">
           <button type="button" className="btnCondition">
             02 관심사

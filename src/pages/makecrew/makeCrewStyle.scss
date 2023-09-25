@@ -12,7 +12,12 @@
     flex-shrink: 0;
     border-radius: 4px;
     background: var(--gray-50, #f9fafb);
+    border: 0;
   }
+}
+
+.stepWrap {
+  padding: 36px 16px;
 }
 
 .GridDiv {

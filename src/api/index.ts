@@ -6,29 +6,6 @@ interface LoginMessage {
   message: string;
 }
 
-interface MakeCrew {
-  createCrewDto: {
-    category: string;
-    crewAddress: string;
-    crewType: string;
-    crewDDay: string;
-    crewMemberInfo: string;
-    crewTimeInfo: string;
-    crewAgeInfo: string;
-    crewSignup: boolean;
-    crewTitle: string;
-    crewContent: string;
-    thumbnail: string;
-    crewMaxMember: number;
-    crewLatitude: number;
-    crewLongtitude: number;
-  };
-  createSignupFormDto: {
-    question1: string;
-    question2: string;
-  };
-}
-
 const login = {
   firstLogin: async <T = LoginMessage>(information: myInterface.Information): Promise<T> => {
     const { data } = await instance.put<T>('api/auth/info', information);
@@ -58,7 +35,7 @@ const notice = {
 };
 
 const meet = {
-  makeCrew: async (payload: MakeCrew) => {
+  makeCrew: async (payload: myInterface.MakeCrew) => {
     const { data } = await instance.post('/api/crew/createcrew', payload);
 
     return data;
