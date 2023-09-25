@@ -6,7 +6,7 @@ import BodyBaseMedium from '../../../styledComponent/heading/BodyBaseMedium';
 import BodyLargeBold from '../../../styledComponent/heading/BodyLargeBold';
 import CaptionXS from '../../../styledComponent/heading/CaptionXS';
 
-import { SubTitle, SaveBtn } from '../styled';
+import { SubTitle, SaveBtn } from '../../../pages/detail/styled';
 
 import icons from '../../../assets/icons';
 import colors from '../../../assets/styles/color';
@@ -22,12 +22,14 @@ function short({
   openInfoWindow,
   closeInfoWindow,
   saveAddress,
+  signUpCrew,
 }: {
   crewInfo: MemberDetail;
   infoOpen: boolean;
   openInfoWindow: () => void;
   closeInfoWindow: () => void;
   saveAddress: (address: string) => void;
+  signUpCrew: any;
 }): JSX.Element {
   return (
     <section id="short-detail-main-content">
@@ -153,6 +155,7 @@ function short({
             <button
               disabled={crewInfo.personType !== 'person'}
               type="button"
+              onClick={signUpCrew}
               style={{
                 width: '100%',
                 height: '100%',
