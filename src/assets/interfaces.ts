@@ -92,6 +92,7 @@ export interface GuestDetail {
   crew: Crew;
   member: Member[];
   personType: string;
+  likeCount: number;
 }
 export interface MemberDetail extends GuestDetail {
   schedule: Schedule[];

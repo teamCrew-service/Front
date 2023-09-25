@@ -52,12 +52,28 @@
   padding-bottom: 16px;
 }
 
+#short-detail-main-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: fit-content;
+  padding: 16px;
+  gap: 12px;
+}
+
 #detail-main-content-crewinfo {
   display: flex;
   flex-direction: column;
   width: 100%;
   gap: 4px;
   padding-top: 16px;
+}
+
+#short-detail-main-content-crewinfo {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 12px;
 }
 
 #detail-main-content-intro {

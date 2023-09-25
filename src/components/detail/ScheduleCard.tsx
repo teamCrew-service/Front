@@ -9,6 +9,7 @@ import BodySmallMedium from '../../styledComponent/heading/BodySmallMedium';
 import type { MemberDetail } from '../../assets/interfaces';
 import BodyBaseBold from '../../styledComponent/heading/BodyBaseBold';
 import BodySmallBold from '../../styledComponent/heading/BodySmallBold';
+import profile from '../../assets/images/profile.jpg';
 
 const ScheduleDiv = styled.div`
   display: flex;
@@ -24,10 +25,12 @@ const ScheduleDiv = styled.div`
 `;
 
 const ImageDiv = styled.div`
-  border: 1px solid black;
   width: 8.78%;
   aspect-ratio: 1;
   border-radius: 50%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 `;
 
 function ScheduleCard({ children, crewInfo }: { children?: any; crewInfo: MemberDetail }): JSX.Element {
@@ -51,16 +54,17 @@ function ScheduleCard({ children, crewInfo }: { children?: any; crewInfo: Member
           <BodySmallMedium>/{crewInfo.crew.crew_crewMaxMember}</BodySmallMedium>
         </div>
       </div>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <ImageDiv />
-        <ImageDiv />
-        <ImageDiv />
-        <ImageDiv />
-        <ImageDiv />
-        <div style={{ backgroundColor: 'white', padding: '0px 8px', borderRadius: '12px' }}>
+      <div style={{ display: 'inline-flex', alignItems: 'center' }}>
+        <ImageDiv style={{ backgroundImage: `url(${profile})` }} />
+        <ImageDiv style={{ translate: '-15%', backgroundImage: `url(${profile})` }} />
+        <ImageDiv style={{ translate: '-30%', backgroundImage: `url(${profile})` }} />
+        <ImageDiv style={{ translate: '-45%', backgroundImage: `url(${profile})` }} />
+        <ImageDiv style={{ translate: '-60%', backgroundImage: `url(${profile})` }} />
+        <div style={{ backgroundColor: 'white', padding: '0px 8px', borderRadius: '12px', translate: '-70%' }}>
           <BodySmallBold style={{ color: `${colors.primary}` }}>&#43;1</BodySmallBold>
         </div>
       </div>
+
       <div style={{ display: 'flex', justifyContent: 'end' }}>
         <button type="button" style={{ backgroundColor: 'black', padding: '12px 24px', borderRadius: '8px' }}>
           <BodyBaseBold style={{ color: 'white' }}>참여하기</BodyBaseBold>
