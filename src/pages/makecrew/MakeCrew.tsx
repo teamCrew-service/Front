@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useMutation } from 'react-query';
 import { meet } from '../../api';
 
-import './makeCrewStyle.scss';
+import './makeCrewStyle.css';
 import ProgressBar from '../../components/common/ProgressBar';
 import CrewType from './crewType/CrewType';
 
