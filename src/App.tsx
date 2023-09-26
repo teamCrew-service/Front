@@ -17,6 +17,7 @@ import Location from './pages/userinfo/7.location/Location';
 import UpcomingSchedule from './pages/upcomingschedule/UpcomingSchedule';
 import SearchByCategory from './pages/searchbycategory/SearchByCategory';
 import Detail from './pages/detail/Detail';
+import MakeCrew from './pages/makecrew/MakeCrew';
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,7 @@ function App(): JSX.Element {
             <Route path="/detail/:id" element=<Detail /> />
             <Route path="/upcomingschedule" element=<UpcomingSchedule /> />
             <Route path="/searchbycategory" element=<SearchByCategory /> />
+            <Route path="/makecrew" element=<MakeCrew /> />
           </Routes>
         </div>
       </div>

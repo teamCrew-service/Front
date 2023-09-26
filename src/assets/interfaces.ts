@@ -108,6 +108,28 @@ export interface Notice {
   isCanceled: boolean | null;
 }
 
+export interface MakeCrew {
+  createCrewDto: {
+    category: string;
+    crewAddress: string;
+    crewType: string;
+    crewDDay: string;
+    crewMemberInfo: string;
+    crewTimeInfo: string;
+    crewAgeInfo: string;
+    crewSignup: boolean;
+    crewTitle: string;
+    crewContent: string;
+    thumbnail: string;
+    crewMaxMember: number;
+    crewLatitude: number;
+    crewLongtitude: number;
+  };
+  createSignupFormDto: {
+    question1: string;
+    question2: string;
+  };
+}
 export interface SearchByCategory {
   crew_crewId: string;
   crew_category: string;

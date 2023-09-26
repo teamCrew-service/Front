@@ -45,6 +45,13 @@ const notice = {
   },
 };
 
+const meet = {
+  makeCrew: async (payload: myInterface.MakeCrew) => {
+    const { data } = await instance.post('/api/crew/createcrew', payload);
+    return data;
+  },
+};
+
 const searchByCategory = {
   getSearchByCategory: async (category: string): Promise<myInterface.SearchByCategory[]> => {
     const response: AxiosResponse = await instance.get(`api/home/${category}`);
@@ -60,4 +67,4 @@ const schedule = {
   },
 };
 
-export { login, navermap, crew, notice, searchByCategory, schedule };
+export { login, navermap, crew, notice, searchByCategory, schedule, meet };

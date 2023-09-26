@@ -1,0 +1,44 @@
+.createWrap {
+  width: 100%;
+}
+.step {
+  .btnCondition {
+    width: 100%;
+    height: 56px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    background: var(--gray-50, #f9fafb);
+    border: 0;
+  }
+}
+
+.stepWrap {
+  padding: 36px 16px;
+}
+
+.GridDiv {
+  display: grid;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  gap: 8px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+.SmallCardDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 22px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+}
