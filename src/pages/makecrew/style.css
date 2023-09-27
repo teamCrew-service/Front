@@ -1,7 +1,15 @@
 #makecrew-container {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  height: calc(100% - 5px);
+  overflow-x: hidden;
+  overflow-y: auto;
   gap: 8px;
+}
+
+#makecrew-container::-webkit-scrollbar {
+  display: none;
 }
 
 #makecrew-container section {
@@ -13,4 +21,8 @@
 
 #makecrew-container section:first-child {
   margin-top: 36px;
+}
+
+#makecrew-container section:last-child {
+  margin-bottom: 36px;
 }

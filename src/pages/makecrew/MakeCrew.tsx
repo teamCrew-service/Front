@@ -37,7 +37,7 @@ function MakeCrew(): JSX.Element {
   return (
     <>
       <header>
-        <ProgressBar step={step} totalSteps={crewType === '단기' ? 9 : 8} />
+        <ProgressBar step={step} totalSteps={crewType === '단기' ? 10 : 9} />
       </header>
       <main id="makecrew-container">
         {step >= 0 && <CrewType />}
