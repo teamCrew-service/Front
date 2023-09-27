@@ -34,8 +34,17 @@ export const dateDate = atom<{
   default: { year: null, month: null, date: null, timeTable: '', time: null, minutes: null },
 });
 
-// 장기
 export const recommendStr = atom<string>({
   key: 'recommendState',
+  default: '',
+});
+
+export const spendTimeStr = atom<string>({
+  key: 'spendTimeState',
+  default: '',
+});
+
+export const ageStr = atom<string>({
+  key: 'ageState',
   default: '',
 });
