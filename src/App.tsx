@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { RecoilRoot } from 'recoil';
 import './App.css';
 import OnBoarding from './pages/onboarding/Onboarding';
 import Login from './pages/login/Login';
@@ -23,30 +24,32 @@ const queryClient = new QueryClient();
 
 function App(): JSX.Element {
   return (
-    <QueryClientProvider client={queryClient}>
-      <div id="total">
-        <div className="container">
-          <Routes>
-            <Route path="/" element=<OnBoarding /> />
-            <Route path="/login" element=<Login /> />
-            <Route path="/login/category" element=<Category /> />
-            <Route path="/login/nickname" element=<Nickname /> />
-            <Route path="/login/birthday" element=<Birthday /> />
-            <Route path="/login/gender" element=<Gender /> />
-            <Route path="/login/profile" element=<Profile /> />
-            <Route path="/login/introduction" element=<Introduction /> />
-            <Route path="/login/location" element=<Location /> />
-            <Route path="/home" element=<Home /> />
-            <Route path="/findcrew" element=<FindCrew /> />
-            <Route path="/detail/:id" element=<Detail /> />
-            <Route path="/upcomingschedule" element=<UpcomingSchedule /> />
-            <Route path="/searchbycategory" element=<SearchByCategory /> />
-            <Route path="/makecrew" element=<MakeCrew /> />
-          </Routes>
+    <RecoilRoot>
+      <QueryClientProvider client={queryClient}>
+        <div id="total">
+          <div className="container">
+            <Routes>
+              <Route path="/" element=<OnBoarding /> />
+              <Route path="/login" element=<Login /> />
+              <Route path="/login/category" element=<Category /> />
+              <Route path="/login/nickname" element=<Nickname /> />
+              <Route path="/login/birthday" element=<Birthday /> />
+              <Route path="/login/gender" element=<Gender /> />
+              <Route path="/login/profile" element=<Profile /> />
+              <Route path="/login/introduction" element=<Introduction /> />
+              <Route path="/login/location" element=<Location /> />
+              <Route path="/home" element=<Home /> />
+              <Route path="/findcrew" element=<FindCrew /> />
+              <Route path="/detail/:id" element=<Detail /> />
+              <Route path="/upcomingschedule" element=<UpcomingSchedule /> />
+              <Route path="/searchbycategory" element=<SearchByCategory /> />
+              <Route path="/makecrew" element=<MakeCrew /> />
+            </Routes>
+          </div>
         </div>
-      </div>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </RecoilRoot>
   );
 }
 

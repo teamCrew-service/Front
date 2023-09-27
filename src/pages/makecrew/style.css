@@ -1,0 +1,16 @@
+#makecrew-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#makecrew-container section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0px 16px;
+}
+
+#makecrew-container section:first-child {
+  margin-top: 36px;
+}

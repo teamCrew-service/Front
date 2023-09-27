@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import ProgressBar from '../../../components/common/ProgressBar';
 import icons from '../../../assets/icons';
 import BodySmallMedium from '../../../styledComponent/heading/BodySmallMedium';
@@ -7,21 +8,17 @@ import colors from '../../../assets/styles/color';
 import InterestMatrix from '../../../components/common/InterestMatrix';
 import TitleLargeBold from '../../../styledComponent/heading/TitleLargeBold';
 import GoPageBtn from '../components/GoPageBtn';
+import category from '../../../atoms/login';
 
 function Category(): JSX.Element {
-  const [selectedCategoryList, setSelectedCategoryList] = useState<string[]>([]);
-  const selectCategory = (event: any): void => {
-    const { target } = event;
-    const currentBackColor = target.style.backgroundColor;
-    if (currentBackColor === '') {
-      target.style.backgroundColor = colors.primary;
-      target.style.color = 'white';
-      setSelectedCategoryList(prev => [...prev, target.innerText]);
-    } else {
-      target.style.backgroundColor = '';
-      target.style.color = '';
-      setSelectedCategoryList(selectedCategoryList.filter(item => item !== target.innerText));
+  const [selectedCategoryList, setSelectedCategoryList] = useRecoilState(category);
+  const selectCategory = (input: any): void => {
+    console.log('선택된 카테고리 = ', input);
+    if (selectedCategoryList.includes(input)) {
+      setSelectedCategoryList(prev => prev.filter(item => item !== input));
+      return;
     }
+    setSelectedCategoryList(prev => [...prev, input]);
   };
   const saveSelectedCategory = (): void => {
     let saveItem = '';

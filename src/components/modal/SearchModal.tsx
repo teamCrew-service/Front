@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import colors from '../../assets/styles/color';
-import TitleLargeMedium from '../../styledComponent/heading/TitleLargeMedium';
+import TitleLargeBold from '../../styledComponent/heading/TitleLargeBold';
 import BodySmallMedium from '../../styledComponent/heading/BodySmallMedium';
 
 declare global {
@@ -10,7 +10,15 @@ declare global {
   }
 }
 
-const { kakao } = window;
+const ModalContainer = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: end;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+`;
 
 const StyledInput = styled.input`
   display: flex;
@@ -24,18 +32,26 @@ const StyledInput = styled.input`
   border: 1px solid ${colors.primary};
 `;
 
-const StyledDiv2 = styled.div`
+const Modal = styled.div`
   width: 100%;
-  height: 90%;
   display: flex;
   flex-direction: column;
   background-color: white;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   padding: 0px 16px;
+  animation: showModal 1.5s forwards;
+  @keyframes showModal {
+    from {
+      height: 0px;
+    }
+    to {
+      height: 90%;
+    }
+  }
 `;
 
-const StyledDiv3 = styled.div`
+const Header = styled.div`
   display: flex;
   justify-content: end;
   align-items: center;
@@ -54,7 +70,17 @@ const DetailAddressDiv = styled.div`
   border-radius: 4px;
 `;
 
-function SearchModal({ closeModal }: { closeModal: (lng?: string, lat?: string) => void }): JSX.Element {
+const { kakao } = window;
+
+function SearchModal({
+  closeModal,
+  title,
+  subTitle,
+}: {
+  closeModal: (result?: any) => void;
+  title: string;
+  subTitle?: string;
+}): JSX.Element {
   const [searchList, setSearchList] = useState<any[]>([]);
   const keyword = useRef('');
   const ps = useRef<typeof kakao.maps.services.Places | null>(null);
@@ -65,6 +91,7 @@ function SearchModal({ closeModal }: { closeModal: (lng?: string, lat?: string) 
 
   function placeSearchCB(result: any, status: any): void {
     if (status === kakao.maps.services.Status.OK) {
+      console.log(result);
       setSearchList(result);
     }
     if (status === kakao.maps.services.Status.ZERO_RESULT) {
@@ -87,31 +114,18 @@ function SearchModal({ closeModal }: { closeModal: (lng?: string, lat?: string) 
     ps.current = new kakao.maps.services.Places();
   }, []);
   return (
-    <div
-      style={{
-        position: 'absolute',
-        display: 'flex',
-        alignItems: 'end',
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'rgba(0,0,0,0.5)',
-        zIndex: '1',
-        border: '1px solid black',
-      }}
-    >
-      <StyledDiv2>
-        <StyledDiv3
+    <ModalContainer>
+      <Modal>
+        <Header
           onClick={() => {
             closeModal();
           }}
         >
           x
-        </StyledDiv3>
-        <TitleLargeMedium>모임 지역</TitleLargeMedium>
-        <BodySmallMedium style={{ color: `${colors.gray500}` }}>
-          선호하는 모임 지역을 선택해주세요 (위치 변경은 프로필에서 가능합니다)
-        </BodySmallMedium>
-        <form onSubmit={searchKeyword}>
+        </Header>
+        <TitleLargeBold>{title}</TitleLargeBold>
+        {subTitle !== undefined && <BodySmallMedium style={{ color: `${colors.gray500}` }}>{subTitle}</BodySmallMedium>}
+        <form onSubmit={searchKeyword} style={{ marginTop: '24px' }}>
           <StyledInput onChange={changeKeyword} type="text" />
           <input
             style={{
@@ -146,17 +160,17 @@ function SearchModal({ closeModal }: { closeModal: (lng?: string, lat?: string) 
                 <DetailAddressDiv
                   key={item.id}
                   onClick={() => {
-                    closeModal(item.x, item.y);
+                    closeModal(item);
                   }}
                 >
-                  <p style={{ fontSize: '14px', lineHeight: '24px', letterSpacing: '-0.2px' }}>{item.place_name}</p>
-                  <p style={{ fontSize: '10px', lineHeight: '14px' }}>{item.address_name}</p>
+                  <h3 style={{ fontSize: '14px', lineHeight: '24px', letterSpacing: '-0.2px' }}>{item.place_name}</h3>
+                  <h4 style={{ fontSize: '10px', lineHeight: '14px' }}>{item.address_name}</h4>
                 </DetailAddressDiv>
               ))
             : null}
         </div>
-      </StyledDiv2>
-    </div>
+      </Modal>
+    </ModalContainer>
   );
 }
 

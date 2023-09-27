@@ -1,40 +1,51 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
+import { useSetRecoilState } from 'recoil';
 import type { Schedule } from '../../../assets/interfaces';
-
-interface Props {
-  year: number;
-  month: number;
-  date: number;
-  day: number;
-  today: Date;
-  showEvent?: boolean;
-  schedule?: Schedule[] | null;
-  eventAction?: boolean;
-  onClick?: () => void;
-  eventHandler?: (input: any) => void;
-}
+import { dateDate } from '../../../atoms/makecrew';
 
 function DayComp({
   year,
   month,
   date,
   day,
+  showToday,
   today,
   // 이벤트 날짜 표시 유/무
-  showEvent = false,
+  showEvent,
   // 이벤트 날짜 입력 값
   schedule = null,
-  // 날짜 컴포넌트 클릭 시 실행되는 함수
-  onClick = () => {},
+  // 날짜 컴포넌트 클릭 시 함수 실행 여부
+  clickEvent,
   // 이벤트 표시 부분 클릭 시 함수 실행 여부
-  eventAction = false,
+  eventAction,
   // 이벤트 표시 부분 클릭 시 실행되는 함수
   eventHandler = () => {},
-}: Props): JSX.Element {
+  selected = false,
+}: {
+  year: number;
+  month: number;
+  date: number;
+  day: number;
+  showToday: boolean;
+  today: Date;
+  showEvent: boolean;
+  schedule?: Schedule[] | null;
+  eventAction: boolean;
+  clickEvent: boolean;
+  eventHandler?: (input: any) => void;
+  selected?: boolean;
+}): JSX.Element {
+  const setDate = useSetRecoilState(dateDate);
   const newDate = new Date(year, month, date);
   const check = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+  const onClick = clickEvent
+    ? () => {
+        setDate({ year, month, date, time: null, timeTable: '', minutes: null });
+      }
+    : () => {};
 
   // 이벤트 표시 함수
   const hasEvent = (): { result: boolean; eventSchedule: any } => {
@@ -68,7 +79,7 @@ function DayComp({
               ? () => {
                   eventHandler(hasEvent().eventSchedule);
                 }
-              : onClick
+              : () => {}
           }
         >
           <span style={{ color: '#DDDDDD', border: '1px solid #DDDDDD', cursor: 'pointer' }}>{date}</span>
@@ -76,7 +87,7 @@ function DayComp({
       );
     }
     return (
-      <div className="day" onClick={onClick}>
+      <div className="day">
         <span style={{ color: '#DDDDDD' }}>{date}</span>
       </div>
     );
@@ -101,7 +112,15 @@ function DayComp({
   }
 
   // 오늘 날짜
-  if (newDate.getTime() === check.getTime()) {
+  if (showToday && newDate.getTime() === check.getTime()) {
+    return (
+      <div className="day" onClick={onClick}>
+        <span style={{ backgroundColor: 'black', color: 'white' }}>{date}</span>
+      </div>
+    );
+  }
+
+  if (selected) {
     return (
       <div className="day" onClick={onClick}>
         <span style={{ backgroundColor: 'black', color: 'white' }}>{date}</span>
