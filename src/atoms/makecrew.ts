@@ -90,7 +90,7 @@ export const ruleStr = atom<string>({
   key: 'ruleState',
   default: '',
 });
-export const maxMemberStr = atom<number | null>({
+export const maxMemberNum = atom<number | null>({
   key: 'maxMemberState',
   default: null,
 });
