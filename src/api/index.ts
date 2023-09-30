@@ -33,6 +33,10 @@ const crew = {
     const { data } = await instance.post<T>(`api/signup/${crewId}`);
     return data;
   },
+  makeCrew: async (payload: myInterface.MakeCrew) => {
+    const { data } = await instance.post('/api/crew/createcrew', payload);
+    return data;
+  },
 };
 
 const notice = {
@@ -42,13 +46,6 @@ const notice = {
     const response: AxiosResponse = await instance.get('api/notice/comingDate');
     const noticeData: myInterface.Notice[] = response.data;
     return noticeData;
-  },
-};
-
-const meet = {
-  makeCrew: async (payload: myInterface.MakeCrew) => {
-    const { data } = await instance.post('/api/crew/createcrew', payload);
-    return data;
   },
 };
 
@@ -67,4 +64,4 @@ const schedule = {
   },
 };
 
-export { login, navermap, crew, notice, searchByCategory, schedule, meet };
+export { login, navermap, crew, notice, searchByCategory, schedule };

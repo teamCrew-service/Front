@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useRecoilValue } from 'recoil';
 import SmallCardDiv from '../../styledComponent/SmallCardDiv';
+import category from '../../atoms/login';
+import colors from '../../assets/styles/color';
 
 const GridDiv = styled.div`
   display: grid;
@@ -12,7 +15,8 @@ const GridDiv = styled.div`
   grid-template-rows: 1fr 1fr 1fr;
 `;
 
-function InterestMatrix({ onClick = () => {} }: { onClick?: (event: any) => void }): JSX.Element {
+function InterestMatrix({ onClick }: { onClick: (input: any) => void }): JSX.Element {
+  const selectedCategory: string[] = useRecoilValue(category);
   const categoryList = [
     { code: 1, name: '친목' },
     { code: 2, name: '음료' },
@@ -29,11 +33,31 @@ function InterestMatrix({ onClick = () => {} }: { onClick?: (event: any) => void
   ];
   return (
     <GridDiv>
-      {categoryList.map(item => (
-        <SmallCardDiv onClick={onClick} key={item.code}>
-          {item.name}
-        </SmallCardDiv>
-      ))}
+      {categoryList.map(item => {
+        if (selectedCategory.includes(item.name)) {
+          return (
+            <SmallCardDiv
+              style={{ backgroundColor: `${colors.primary}`, color: 'white' }}
+              onClick={() => {
+                onClick(item.name);
+              }}
+              key={item.code}
+            >
+              {item.name}
+            </SmallCardDiv>
+          );
+        }
+        return (
+          <SmallCardDiv
+            onClick={() => {
+              onClick(item.name);
+            }}
+            key={item.code}
+          >
+            {item.name}
+          </SmallCardDiv>
+        );
+      })}
     </GridDiv>
   );
 }

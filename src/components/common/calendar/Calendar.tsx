@@ -3,11 +3,30 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable @typescript-eslint/no-shadow */
 import React, { useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import './style.css';
 import DayComp from './DayComp';
 import type { Schedule } from '../../../assets/interfaces';
+import { dateDate } from '../../../atoms/makecrew';
 
-function Calendar({ schedule, onClick }: { schedule: Schedule[]; onClick?: (input: any) => void }): JSX.Element {
+function Calendar({
+  schedule,
+  onClick,
+  showEvent = false,
+  eventAction = false,
+  clickEvent = false,
+  showToday = true,
+  showSelect = false,
+}: {
+  schedule?: Schedule[];
+  onClick?: (input: any) => void;
+  showEvent?: boolean;
+  eventAction?: boolean;
+  clickEvent?: boolean;
+  showToday?: boolean;
+  showSelect?: boolean;
+}): JSX.Element {
+  const selectedDate = useRecoilValue(dateDate);
   const today = new Date();
   const [year, setYear] = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth());
@@ -126,6 +145,30 @@ function Calendar({ schedule, onClick }: { schedule: Schedule[]; onClick?: (inpu
         <div id="date-list">
           {calendarArray.map((item, index) => {
             if (item === '') return <div key={index} />;
+            if (
+              showSelect &&
+              year === selectedDate.year &&
+              month === selectedDate.month &&
+              item.date === selectedDate.date
+            ) {
+              return (
+                <DayComp
+                  key={index}
+                  year={year}
+                  month={month}
+                  date={item.date}
+                  day={item.day}
+                  showToday={showToday}
+                  today={today}
+                  showEvent={showEvent}
+                  schedule={schedule}
+                  eventAction={eventAction}
+                  eventHandler={onClick}
+                  clickEvent={clickEvent}
+                  selected
+                />
+              );
+            }
             return (
               <DayComp
                 key={index}
@@ -133,11 +176,13 @@ function Calendar({ schedule, onClick }: { schedule: Schedule[]; onClick?: (inpu
                 month={month}
                 date={item.date}
                 day={item.day}
+                showToday={showToday}
                 today={today}
-                showEvent
+                showEvent={showEvent}
                 schedule={schedule}
-                eventAction
+                eventAction={eventAction}
                 eventHandler={onClick}
+                clickEvent={clickEvent}
               />
             );
           })}

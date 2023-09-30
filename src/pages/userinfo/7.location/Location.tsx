@@ -45,12 +45,12 @@ function Location(): JSX.Element {
     setIsModalOpen(true);
   };
 
-  const closeSearchModal = (lng?: string, lat?: string): void => {
+  const closeSearchModal = (result: any): void => {
     setIsModalOpen(false);
-    if (lng === undefined || lat === undefined) return;
+    if (result === undefined) return;
     setMyLatLng({
-      lat: Number(lat),
-      lng: Number(lng),
+      lat: Number(result.y),
+      lng: Number(result.x),
     });
   };
 
@@ -120,7 +120,13 @@ function Location(): JSX.Element {
 
   return (
     <>
-      {isModalOpen && <SearchModal closeModal={closeSearchModal} />}
+      {isModalOpen && (
+        <SearchModal
+          title="모임 지역"
+          subTitle="선호하는 모임 지역을 선택해주세요 (위치 변경은 프로필에서 가능합니다)"
+          closeModal={closeSearchModal}
+        />
+      )}
       <header>
         <ProgressBar step={6} totalSteps={7} />
       </header>

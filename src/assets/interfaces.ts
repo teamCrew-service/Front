@@ -113,7 +113,7 @@ export interface MakeCrew {
     category: string;
     crewAddress: string;
     crewType: string;
-    crewDDay: string;
+    crewDDay: Date;
     crewMemberInfo: string;
     crewTimeInfo: string;
     crewAgeInfo: string;
@@ -130,6 +130,7 @@ export interface MakeCrew {
     question2: string;
   };
 }
+
 export interface SearchByCategory {
   crew_crewId: string;
   crew_category: string;

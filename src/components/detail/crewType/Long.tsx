@@ -231,7 +231,7 @@ function Long({
                       </div>
                     )}
                     {/* 달력 */}
-                    <Calendar schedule={crewInfo.schedule} onClick={openCalendarEvent} />
+                    <Calendar showEvent eventAction schedule={crewInfo.schedule} onClick={openCalendarEvent} />
                   </div>
                 </>
               )}
