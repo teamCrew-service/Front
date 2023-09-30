@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { styled } from 'styled-components';
 import { Link } from 'react-router-dom';
 import ProgressBar from '../../../components/common/ProgressBar';
@@ -8,6 +8,8 @@ import colors from '../../../assets/styles/color';
 import defaultImage from '../../../assets/images/profile.jpg';
 import TitleLargeBold from '../../../styledComponent/heading/TitleLargeBold';
 import GoPageBtn from '../components/GoPageBtn';
+
+import useResizeImage from '../../../util/useResizeImage';
 
 const StyledP = styled.p`
   font-size: 16px;
@@ -28,15 +30,34 @@ const ImageDiv = styled.div`
 function Profile(): JSX.Element {
   const [profile, setProfile] = useState<string>(defaultImage);
   const [isProfileSet, setIsProfileSet] = useState<boolean>(false);
+  const sendImageForServer = useRef<File | null>(null);
+  // file에서 부터 url 추출
+  const readURL = (file: File): void => {
+    const reader = new FileReader();
+    reader.onload = function () {
+      console.log(reader.result);
+      if (reader.result === null) return;
+      if (typeof reader.result === 'string') {
+        setProfile(reader.result);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+  // 이미지 변환 시 작동하는 함수
   const changeProfile = (): void => {
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
     fileInput.accept = 'image/*';
-    fileInput.addEventListener('change', () => {
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    fileInput.addEventListener('change', async () => {
       if (fileInput.files === null) return;
-      const file = fileInput.files[0];
-      const imageURL = URL.createObjectURL(file);
-      setProfile(imageURL);
+      console.log('before file', fileInput.files[0]);
+      console.log('before size', fileInput.files[0].size / 1024);
+      const file = await useResizeImage(fileInput.files[0]);
+      console.log('after file', file);
+      console.log('after size', file.size / 1024);
+      readURL(file);
+      sendImageForServer.current = file;
       setIsProfileSet(true);
     });
     fileInput.click();
