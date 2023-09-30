@@ -2,6 +2,7 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 import BodyLargeBold from '../../../styledComponent/heading/BodyLargeBold';
 import { AnswerBoxStyle, QuestionBox } from '../styled';
 import TitleLargeBold from '../../../styledComponent/heading/TitleLargeBold';
@@ -16,6 +17,7 @@ import {
   categoryStr,
   dateDate,
   introStr,
+  latLngNum,
   locationStr,
   maxMemberNum,
   recommendStr,
@@ -25,6 +27,9 @@ import {
   titleStr,
   typeStr,
 } from '../../../atoms/makecrew';
+import BodyBaseBold from '../../../styledComponent/heading/BodyBaseBold';
+import Detail from '../../detail/Detail';
+import { crew } from '../../../api';
 
 const TextAreaBox = styled.div`
   display: flex;
@@ -54,7 +59,29 @@ const CountDiv = styled.div`
   color: ${colors.gray500};
 `;
 
+const CompleteDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  padding-bottom: 32px;
+  gap: 16px;
+  background-color: ${colors.gray50};
+`;
+
+const CompleteTitle = styled(BodyLargeBold)`
+  width: 100%;
+  color: ${colors.gray400};
+`;
+
+const DetailContent = styled.span`
+  color: ${colors.gray500};
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: -0.2px;
+`;
+
 function CrewIntro({ crewType }: { crewType: '장기' | '단기' }): JSX.Element {
+  const navigate = useNavigate();
   // 현재 입력 값 가져오기 위한 로컬 상태
   const [inputIntro, setInputIntro] = useState<string>('');
   const [inputAdvantage, setInputAdvantage] = useState<string>('');
@@ -72,6 +99,7 @@ function CrewIntro({ crewType }: { crewType: '장기' | '단기' }): JSX.Element
   const crewAge = useRecoilValue(ageStr);
   const crewAttendMethod = useRecoilValue(attendMethodBool);
   const crewTitle = useRecoilValue(titleStr);
+  const crewLatLng = useRecoilValue(latLngNum);
 
   // 이번 step에서 입력할 recoil atom
   const [crewIntro, setCrewIntro] = useRecoilState(introStr);
@@ -90,6 +118,46 @@ function CrewIntro({ crewType }: { crewType: '장기' | '단기' }): JSX.Element
     setCrewRule(inputRule);
     setCrewMaxMember(maxMember.current);
     setStep(prev => prev + 1);
+  };
+
+  const makeCrew = (): void => {
+    const crewTime = crewDate.timeTable === '오전' ? crewDate.time : crewDate.time! + 12;
+
+    const crewDDay = new Date(crewDate.year!, crewDate.month!, crewDate.date!, crewTime!, crewDate.minutes!);
+    let crewSignup = false;
+    if (crewAttendMethod === '방장 수락 후 참여 가능') {
+      crewSignup = true;
+    }
+    crew
+      .makeCrew({
+        createCrewDto: {
+          category: crewCategory,
+          crewAddress,
+          crewType,
+          crewDDay,
+          crewMemberInfo: crewRecommend,
+          crewTimeInfo: crewSpendTime,
+          crewAgeInfo: crewAge,
+          crewSignup,
+          crewTitle,
+          crewContent: `${crewIntro}\n${crewAdvantage}\n${crewActivity}\n${crewRule}`,
+          thumbnail: '',
+          crewMaxMember: crewMaxMember!,
+          crewLatitude: crewLatLng.lat,
+          crewLongtitude: crewLatLng.lng,
+        },
+        createSignupFormDto: {
+          question1: '자기소개 또는 가입 동기',
+          question2: '나를 표현하는 형용사 3가지는?',
+        },
+      })
+      .then(res => {
+        alert(res.message);
+        navigate(`/detail/${res.crewId}`);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   return (
@@ -169,11 +237,32 @@ function CrewIntro({ crewType }: { crewType: '장기' | '단기' }): JSX.Element
         </>
       ) : (
         <>
-          <div>{crewIntro}</div>
-          <div>{crewAdvantage}</div>
-          <div>{crewActivity}</div>
-          <div>{crewRule}</div>
-          <div>{crewMaxMember}</div>
+          <CompleteDiv>
+            <CompleteTitle>{`${crewType === '장기' ? '09' : '10'} 모임 소개`}</CompleteTitle>
+            <p>
+              <BodyBaseBold>1. 모임의 목표 및 소개</BodyBaseBold>
+              <DetailContent>{crewIntro}</DetailContent>
+            </p>
+            <p>
+              <BodyBaseBold>2. 우리 모임의 장점</BodyBaseBold>
+              <DetailContent>{crewAdvantage}</DetailContent>
+            </p>
+            <p>
+              <BodyBaseBold>3. 우리 모임에서 하는 활동</BodyBaseBold>
+              <DetailContent>{crewActivity}</DetailContent>
+            </p>
+            <p>
+              <BodyBaseBold>4. 지켜야 하는 규칙</BodyBaseBold>
+              <DetailContent>{crewRule}</DetailContent>
+            </p>
+            <p>
+              <BodyBaseBold>5. 최대 인원</BodyBaseBold>
+              <DetailContent>{crewMaxMember}명</DetailContent>
+            </p>
+          </CompleteDiv>
+          <ButtonDiv onClick={makeCrew}>
+            <BodyBaseBold>모임 생성</BodyBaseBold>
+          </ButtonDiv>
         </>
       )}
     </section>

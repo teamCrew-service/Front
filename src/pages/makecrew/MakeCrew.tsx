@@ -1,10 +1,7 @@
 import React from 'react';
-import { useMutation } from 'react-query';
 import { useRecoilValue } from 'recoil';
 
-import { typeStr, stepNum, categoryStr } from '../../atoms/makecrew';
-
-import { meet } from '../../api';
+import { typeStr, stepNum } from '../../atoms/makecrew';
 
 import './style.css';
 
@@ -18,21 +15,6 @@ import Long from './questionComp/long/Long';
 function MakeCrew(): JSX.Element {
   const step = useRecoilValue(stepNum);
   const crewType = useRecoilValue(typeStr);
-  const category = useRecoilValue(categoryStr);
-
-  console.log(crewType, category);
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const mutation = useMutation(meet.makeCrew, {
-    onSuccess: data => {
-      console.log(data);
-    },
-  });
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // const handleUpdate = (): void => {
-  //   mutation.mutate(formData);
-  // };
 
   return (
     <>

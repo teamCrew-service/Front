@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
-import { locationStr, stepNum } from '../../../atoms/makecrew';
+import { latLngNum, locationStr, stepNum } from '../../../atoms/makecrew';
 
 import AnswerBox from './common/AnswerBox';
 import SearchModal from '../../../components/modal/SearchModal';
@@ -12,6 +12,7 @@ const StyledSection = styled.section``;
 function CrewLocation(): JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
   const [location, setLocation] = useRecoilState(locationStr);
+  const setLatLng = useSetRecoilState(latLngNum);
   const setStep = useSetRecoilState(stepNum);
 
   const openModal = (): void => {
@@ -25,6 +26,10 @@ function CrewLocation(): JSX.Element {
       } else {
         setLocation(result.road_address_name);
       }
+      setLatLng({
+        lat: result.y,
+        lng: result.x,
+      });
       setStep(prev => prev + 1);
     }
     setIsModalOpen(false);

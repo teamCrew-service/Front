@@ -24,6 +24,11 @@ export const locationStr = atom<string>({
   default: '',
 });
 
+export const latLngNum = atom<{ lat: number; lng: number }>({
+  key: 'latlngState',
+  default: { lat: 0, lng: 0 },
+});
+
 // 단기 4. 날짜
 export const dateDate = atom<{
   year: number | null;
