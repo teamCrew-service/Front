@@ -1,29 +1,34 @@
 #home-main {
-  width: 100%;
-  height: calc(100% - 83px);
-  padding: 0px 16px;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-#home-main::-webkit-scrollbar {
-  display: none;
-}
-
-#home-footer {
-  width: 100%;
-}
-
-.large-card-box {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   width: 100%;
-  height: 204px;
-  gap: 9px;
-  margin-top: 16px;
+  height: 91.15%;
+  padding: 8px 16px 26px 16px;
+  overflow: hidden;
 }
 
-#home-headline-style {
-  margin: 26px auto 27px 0px;
+#home-hello {
+  width: 100%;
+  height: 5.63%;
+}
+#home-upcoming {
+  width: 100%;
+  height: 17.58%;
+}
+#home-large-card-container {
+  display: flex;
+  width: 100%;
+  height: 28.02%;
+  justify-content: center;
+  gap: 2.04%;
+}
+#home-category-title {
+  width: 100%;
+  height: 3.85%;
+}
+#home-category {
+  width: 100%;
+  height: 36.4%;
 }
 
 #profile-list-box {
@@ -31,4 +36,28 @@
   width: fit-content;
   height: 28px;
   margin-left: auto;
+}
+
+#home-footer {
+  width: 100%;
+  height: 8.85%;
+}
+
+#home-footer div {
+  width: 100%;
+  height: 100%;
+  border: 1px solid black;
+}
+
+#margin-1 {
+  height: 1.37%;
+}
+#margin-2 {
+  height: 1.65%;
+}
+#margin-3 {
+  height: 5.08%;
+}
+#margin-4 {
+  height: 1.65%;
 }

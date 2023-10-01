@@ -18,7 +18,7 @@ function CrewCategory(): JSX.Element {
       <AnswerBox title="02 관심사" value={category} />
       {category === '' && (
         <div style={{ width: '100%', aspectRatio: 4 / 3 }}>
-          <InterestMatrix onClick={saveCategory} />
+          <InterestMatrix onClick={saveCategory} columns={3} rows={4} />
         </div>
       )}
     </section>
