@@ -96,12 +96,14 @@ function Home(): JSX.Element {
               navigate('/findcrew');
             }}
             $image={widgets.FindCrew}
+            $backColor={colors.primary}
           />
           <LargeCardDiv
             onClick={() => {
               navigate('/makecrew');
             }}
             $image={widgets.MakeCrew}
+            $backColor={colors.primary50}
           />
         </section>
         <div id="margin-3" />

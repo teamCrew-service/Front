@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const SmallCardDiv = styled.div<{ $image?: any }>`
+const SmallCardDiv = styled.div<{ $image?: any; $backColor: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,6 +12,7 @@ const SmallCardDiv = styled.div<{ $image?: any }>`
   line-height: 20px;
   letter-spacing: 0.01em;
   cursor: pointer;
+  background-color: ${props => props.$backColor};
   background-image: url(${props => props.$image});
   background-position: center;
   background-size: contain;
