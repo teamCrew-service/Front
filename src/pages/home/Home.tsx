@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import './style.css';
+import { useQuery } from 'react-query';
 import ScheduleCard from '../../styledComponent/ScheduleCard';
 import LargeCardDiv from '../../styledComponent/LargeCardDiv';
 import InterestMatrix from '../../components/common/InterestMatrix';
@@ -11,6 +12,8 @@ import BodySmallBold from '../../styledComponent/heading/BodySmallMedium';
 import widgets from '../../assets/icons/widgets';
 import icons from '../../assets/icons';
 import BodyLargeBold from '../../styledComponent/heading/BodyLargeBold';
+import { schedule } from '../../api';
+import useCalDate from '../../util/useCalDate';
 
 const SmallImageDiv = styled.div<{ $URL: string }>`
   width: 28px;
@@ -35,13 +38,11 @@ const HelloDiv = styled.div`
 `;
 
 function Home(): JSX.Element {
-  const UrlList: Array<{ number: number; url: string }> = [
-    { number: 1, url: '' },
-    { number: 2, url: '' },
-    { number: 3, url: '' },
-    { number: 4, url: '' },
-    { number: 5, url: '' },
-  ];
+  const { data: comingDate } = useQuery('comingDate', schedule.getComingDate, {
+    onSuccess: res => {
+      console.log(res);
+    },
+  });
   useEffect(() => {
     const cookie = window.location.href.split('token=')[1];
     if (cookie !== undefined) {
@@ -60,7 +61,7 @@ function Home(): JSX.Element {
         <section id="home-hello">
           <HelloDiv>
             <icons.Character />
-            <BodyLargeBold>안녕하세요</BodyLargeBold>
+            <BodyLargeBold>안녕하세요, {comingDate?.nickname}님</BodyLargeBold>
           </HelloDiv>
         </section>
         <div id="margin-1" />
@@ -80,11 +81,13 @@ function Home(): JSX.Element {
               </Link>
             </BodySmallBold>
 
-            <TitleLargeMedium>8월 16일 (수) 오후 8시 30분</TitleLargeMedium>
-            <BodySmallBold style={{ color: `${colors.gray500}` }}>퇴근 후 40분 걷기</BodySmallBold>
+            <TitleLargeMedium>{useCalDate(new Date(comingDate!.schedule[0].schedule.scheduleDDay))}</TitleLargeMedium>
+            <BodySmallBold style={{ color: `${colors.gray500}` }}>
+              {comingDate?.schedule[0].schedule.scheduleTitle}
+            </BodySmallBold>
             <div id="profile-list-box">
-              {UrlList.map(item => (
-                <SmallImageDiv key={item.number} $URL={item.url} />
+              {comingDate?.schedule[0].profileImage.map(item => (
+                <SmallImageDiv key={item.member_userId} $URL={item.member_profileImage} />
               ))}
             </div>
           </ScheduleCard>

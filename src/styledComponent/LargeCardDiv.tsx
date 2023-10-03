@@ -12,6 +12,9 @@ const LargeCardDiv = styled.div<{ $image: any; $backColor: string }>`
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
+  &:active {
+    background-color: black;
+  }
 `;
 
 export default LargeCardDiv;
