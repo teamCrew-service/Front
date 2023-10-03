@@ -16,7 +16,7 @@ import { ReactComponent as NavigationArrow } from './NavigationArrow.svg';
 import { ReactComponent as search } from './search.svg';
 import { ReactComponent as MeetCount } from './meetCount.svg';
 import { ReactComponent as CrewDuration } from './crewDuration.svg';
-
+import { ReactComponent as Character } from './Character.svg';
 
 const icons = {
   TeamLogo,
@@ -37,6 +37,7 @@ const icons = {
   search,
   MeetCount,
   CrewDuration,
+  Character,
 };
 
 export default icons;

@@ -61,8 +61,12 @@ function Gender(): JSX.Element {
           <BodyLargeBold style={{ color: `${colors.gray500}` }}>성별을 선택해주세요</BodyLargeBold>
         </section>
         <section style={{ display: 'flex', gap: '12px', width: '44.8%', aspectRatio: '2/1' }}>
-          <SmallCardDiv onClick={changeClickedDivStyle}>여성</SmallCardDiv>
-          <SmallCardDiv onClick={changeClickedDivStyle}>남성</SmallCardDiv>
+          <SmallCardDiv onClick={changeClickedDivStyle} $backColor={colors.primary50}>
+            여성
+          </SmallCardDiv>
+          <SmallCardDiv onClick={changeClickedDivStyle} $backColor={colors.primary50}>
+            남성
+          </SmallCardDiv>
         </section>
         <section style={{ marginTop: 'auto', marginBottom: '60px' }}>
           {gender !== '' ? (

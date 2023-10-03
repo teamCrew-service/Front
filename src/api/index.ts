@@ -62,6 +62,10 @@ const schedule = {
     const { data } = await instance.post<T>(`api/schedule/${crewId}/createSchedule`, info);
     return data;
   },
+  getComingDate: async <T = myInterface.ComingDate>(): Promise<T> => {
+    const { data } = await instance.get('api/home/comingDate');
+    return data;
+  },
 };
 
 export { login, navermap, crew, notice, searchByCategory, schedule };

@@ -45,7 +45,7 @@ function CategoryModal({
             }}
           />
         </div>
-        <InterestMatrix onClick={selectCategory} />
+        <InterestMatrix onClick={selectCategory} columns={3} rows={4} />
       </div>
     </div>
   );
