@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import './style.css';
@@ -38,17 +38,18 @@ const HelloDiv = styled.div`
 `;
 
 function Home(): JSX.Element {
+  const cookie = window.location.href.split('token=')[1];
+  if (cookie !== undefined) {
+    document.cookie = `authorization=${cookie};path=/`;
+  }
   const { data: comingDate } = useQuery('comingDate', schedule.getComingDate, {
     onSuccess: res => {
       console.log(res);
     },
+    onError: error => {
+      console.log(error);
+    },
   });
-  useEffect(() => {
-    const cookie = window.location.href.split('token=')[1];
-    if (cookie !== undefined) {
-      document.cookie = `authorization=${cookie};path=/`;
-    }
-  }, []);
 
   const navigate = useNavigate();
   const handelInterestClick = (input: string): void => {
@@ -81,7 +82,10 @@ function Home(): JSX.Element {
               </Link>
             </BodySmallBold>
 
-            <TitleLargeMedium>{useCalDate(new Date(comingDate!.schedule[0].schedule.scheduleDDay))}</TitleLargeMedium>
+            <TitleLargeMedium>
+              {comingDate?.schedule[0].schedule.scheduleDDay !== undefined &&
+                useCalDate(new Date(comingDate.schedule[0].schedule.scheduleDDay))}
+            </TitleLargeMedium>
             <BodySmallBold style={{ color: `${colors.gray500}` }}>
               {comingDate?.schedule[0].schedule.scheduleTitle}
             </BodySmallBold>
