@@ -49,6 +49,7 @@ function Home(): JSX.Element {
     onError: error => {
       console.log(error);
     },
+    refetchOnWindowFocus: false,
   });
 
   const navigate = useNavigate();
