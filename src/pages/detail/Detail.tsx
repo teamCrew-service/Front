@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { crew } from '../../api';
 
 import icons from '../../assets/icons';
+import CrewThumbnail from '../../assets/icons/CrewThumbnail.svg';
 
 import './style.css';
 import BodyLargeBold from '../../styledComponent/heading/BodyLargeBold';
@@ -14,7 +15,8 @@ import Short from '../../components/detail/crewType/Short';
 
 import type { Schedule } from '../../assets/interfaces';
 import Long from '../../components/detail/crewType/Long';
-import { ThumbnailAbsDiv, ThumbnailDiv } from './styled';
+import { SaveCrewThumbnailBtn, ThumbnailAbsDiv, ThumbnailDiv } from './styled';
+import BodyBaseBold from '../../styledComponent/heading/BodyBaseBold';
 
 function Detail(): JSX.Element {
   // 소개 부분 접었다 펴기
@@ -123,7 +125,11 @@ function Detail(): JSX.Element {
               </ThumbnailAbsDiv>
             </ThumbnailDiv>
           ) : (
-            <icons.CrewThumbnail style={{ width: '100%', height: '100%' }} />
+            <ThumbnailDiv $url={CrewThumbnail}>
+              <SaveCrewThumbnailBtn>
+                <BodyBaseBold>사진 등록하기</BodyBaseBold>
+              </SaveCrewThumbnailBtn>
+            </ThumbnailDiv>
           )}
         </section>
         {crewInfo?.result.crew.crew_crewType === '장기' && (

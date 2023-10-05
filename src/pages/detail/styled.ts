@@ -61,3 +61,14 @@ export const SaveBtn = styled.div`
   background-color: ${colors.gray100};
   cursor: pointer;
 `;
+
+export const SaveCrewThumbnailBtn = styled.div`
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  translate: -50% -50%;
+  padding: 6px 41.5px;
+  border-radius: 16px;
+  background-color: ${colors.primary100};
+  color: ${colors.primary};
+`;
