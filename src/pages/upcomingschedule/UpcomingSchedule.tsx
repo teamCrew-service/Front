@@ -22,6 +22,7 @@ const StyledLi = styled.li`
   align-items: center;
   width: 20%;
   height: 100%;
+  color: ${colors.gray400};
 `;
 
 const SelectedLi = styled(StyledLi)`
@@ -50,7 +51,11 @@ function UpcomingSchedule(): JSX.Element {
         <StyledUl>
           {['전체', '다가오는', '참여 완료'].map(item => {
             if (item === selected) {
-              return <SelectedLi>{item}</SelectedLi>;
+              return (
+                <SelectedLi>
+                  <heading.BodyBaseMedium>{item}</heading.BodyBaseMedium>
+                </SelectedLi>
+              );
             }
             return (
               <StyledLi
@@ -58,7 +63,7 @@ function UpcomingSchedule(): JSX.Element {
                   setSelected(item);
                 }}
               >
-                {item}
+                <heading.BodyBaseMedium>{item}</heading.BodyBaseMedium>
               </StyledLi>
             );
           })}
