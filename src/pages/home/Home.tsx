@@ -1,30 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
-import './style.css';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import ScheduleCard from '../../styledComponent/ScheduleCard';
-import LargeCardDiv from '../../styledComponent/LargeCardDiv';
-import InterestMatrix from '../../components/common/InterestMatrix';
+
 import colors from '../../assets/styles/color';
-import TitleLargeMedium from '../../styledComponent/heading/TitleLargeBold';
-import BodySmallBold from '../../styledComponent/heading/BodySmallMedium';
 import widgets from '../../assets/icons/widgets';
 import icons from '../../assets/icons';
-import BodyLargeBold from '../../styledComponent/heading/BodyLargeBold';
-import { schedule } from '../../api';
-import useCalDate from '../../util/useCalDate';
 
-const SmallImageDiv = styled.div<{ $URL: string }>`
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background-image: url(${props => props.$URL});
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  border: 1px solid black;
-`;
+import heading from '../../styledComponent/heading';
+import LargeCardDiv from '../../styledComponent/LargeCardDiv';
+
+import InterestMatrix from '../../components/common/InterestMatrix';
+import ScheduleCard from '../../components/home/ScheduleCard';
+import NoScheduleCard from '../../components/home/NoScheduleCard';
+
+import './style.css';
+
+import { schedule } from '../../api';
 
 const HelloDiv = styled.div`
   display: flex;
@@ -38,23 +30,32 @@ const HelloDiv = styled.div`
 `;
 
 function Home(): JSX.Element {
+  // redirect시 쿠키 가져오는 로직
   const cookie = window.location.href.split('token=')[1];
   if (cookie !== undefined) {
     document.cookie = `authorization=${cookie};path=/`;
   }
-  const { data: comingDate } = useQuery('comingDate', schedule.getComingDate, {
+
+  // 서버 데이터 캐싱
+  const { data: comingDate, isLoading } = useQuery('comingDate', schedule.getComingDate, {
     onSuccess: res => {
       console.log(res);
     },
     onError: error => {
       console.log(error);
     },
+    refetchOnWindowFocus: false,
   });
 
+  // 카테고리별 일정 가져오는 함수
   const navigate = useNavigate();
   const handelInterestClick = (input: string): void => {
     navigate('/searchbycategory', { state: { interest: input } });
   };
+
+  if (isLoading) {
+    return <div>Loading</div>;
+  }
 
   return (
     <>
@@ -62,41 +63,22 @@ function Home(): JSX.Element {
         <section id="home-hello">
           <HelloDiv>
             <icons.Character />
-            <BodyLargeBold>안녕하세요, {comingDate?.nickname}님</BodyLargeBold>
+            <heading.BodyLargeBold>안녕하세요, {comingDate?.nickname} 님!</heading.BodyLargeBold>
           </HelloDiv>
         </section>
-        <div id="margin-1" />
-        <section id="home-upcoming">
-          <ScheduleCard>
-            <BodySmallBold
-              style={{
-                color: `${colors.blue}`,
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <div>다가오는 일정</div>
-              <Link to="/upcomingschedule" style={{ textDecoration: 'none' }}>
-                {'>'}
-              </Link>
-            </BodySmallBold>
 
-            <TitleLargeMedium>
-              {comingDate?.schedule[0].schedule.scheduleDDay !== undefined &&
-                useCalDate(new Date(comingDate.schedule[0].schedule.scheduleDDay))}
-            </TitleLargeMedium>
-            <BodySmallBold style={{ color: `${colors.gray500}` }}>
-              {comingDate?.schedule[0].schedule.scheduleTitle}
-            </BodySmallBold>
-            <div id="profile-list-box">
-              {comingDate?.schedule[0].profileImage.map(item => (
-                <SmallImageDiv key={item.member_userId} $URL={item.member_profileImage} />
-              ))}
-            </div>
-          </ScheduleCard>
+        <div id="margin-1" />
+
+        <section id="home-upcoming">
+          {comingDate?.schedule.length === 0 ? (
+            <NoScheduleCard />
+          ) : (
+            <ScheduleCard scheduleList={comingDate?.schedule} index={0} />
+          )}
         </section>
+
         <div id="margin-2" />
+
         <section id="home-large-card-container">
           <LargeCardDiv
             onClick={() => {
@@ -113,15 +95,20 @@ function Home(): JSX.Element {
             $backColor={colors.primary50}
           />
         </section>
+
         <div id="margin-3" />
+
         <section id="home-category-title">
-          <TitleLargeMedium>관심사별 모임 찾기</TitleLargeMedium>
+          <heading.TitleLargeBold>관심사별 모임 찾기</heading.TitleLargeBold>
         </section>
+
         <div id="margin-4" />
-        <section id="home-category">
+
+        <section id="home-category-gridbox">
           <InterestMatrix onClick={handelInterestClick} columns={4} rows={3} />
         </section>
       </main>
+
       <footer id="home-footer">
         <div />
       </footer>

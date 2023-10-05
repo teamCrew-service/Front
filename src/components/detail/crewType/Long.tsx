@@ -90,19 +90,25 @@ function Long({
               <TitleLargeBold>{crewInfo?.crew.crew_crewTitle}</TitleLargeBold>
               <CrewInfoContext>
                 <icons.users />
-                {crewInfo?.crew.crewAttendedMember}/{crewInfo?.crew.crew_crewMaxMember}
+                <BodySmallBold>
+                  {crewInfo?.crew.crewAttendedMember}/{crewInfo?.crew.crew_crewMaxMember}
+                </BodySmallBold>
               </CrewInfoContext>
               <CrewInfoContext>
                 <icons.CrewDuration />
-                모임이 생긴지 <span style={{ fontWeight: 700 }}>{crewInfo?.createdCrewPeriod}</span>일
+                <BodySmallBold style={{ display: 'flex', gap: '8px', color: `${colors.gray400}` }}>
+                  모임이 생긴지<span style={{ color: `${colors.primary}` }}>{crewInfo?.createdCrewPeriod}</span>일
+                </BodySmallBold>
               </CrewInfoContext>
               <CrewInfoContext>
                 <icons.MeetCount />
-                지난달 정모 횟수{' '}
-                <span style={{ fontWeight: 700 }}>
-                  {crewInfo?.personType !== 'person' ? crewInfo?.schedule.length : 0}
-                </span>
-                번
+                <BodySmallBold style={{ display: 'flex', gap: '8px', color: `${colors.gray400}` }}>
+                  지난달 정모 횟수{' '}
+                  <span style={{ color: `${colors.primary}` }}>
+                    {crewInfo?.personType !== 'person' ? crewInfo?.schedule.length : 0}
+                  </span>
+                  번
+                </BodySmallBold>
               </CrewInfoContext>
             </div>
 
@@ -118,7 +124,7 @@ function Long({
               </SubTitle>
             </div>
             {infoOpen && (
-              <>
+              <div id="detail-main-content-context">
                 <div
                   style={{
                     display: 'flex',
@@ -138,7 +144,7 @@ function Long({
                   </div>
                 </div>
                 <BodyBaseMedium style={{ padding: '10px 0px' }}>{crewInfo?.crew.crew_crewContent}</BodyBaseMedium>
-              </>
+              </div>
             )}
             <div id="detail-main-content-schedule">
               {/* 일정 */}
