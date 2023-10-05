@@ -143,17 +143,20 @@ export interface SearchByCategory {
   crewAttendedMember: string;
 }
 
-export interface ComingDate {
-  schedule: Array<{
-    schedule: {
-      scheduleTitle: string;
-      scheduleDDay: string;
-    };
-    profileImage: Array<{
-      member_profileImage: string;
-      member_userId: string;
-      member_userName: string;
-    }>;
+export interface ComingDateSchedule {
+  schedule: {
+    scheduleTitle: string;
+    scheduleDDay: string;
+    crewType: string;
+  };
+  profileImage: Array<{
+    member_profileImage: string;
+    member_userId: string;
+    member_userName: string;
   }>;
+}
+
+export interface ComingDate {
+  schedule: ComingDateSchedule[];
   nickname: string;
 }

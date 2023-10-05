@@ -3,25 +3,25 @@ function useCalDate(input: Date): string {
   const day = input.getDay();
   switch (day) {
     case 1:
-      dayString = '월요일';
+      dayString = '(월)';
       break;
     case 2:
-      dayString = '화요일';
+      dayString = '(화)';
       break;
     case 3:
-      dayString = '수요일';
+      dayString = '(수)';
       break;
     case 4:
-      dayString = '목요일';
+      dayString = '(목)';
       break;
     case 5:
-      dayString = '금요일';
+      dayString = '(금)';
       break;
     case 6:
-      dayString = '토요일';
+      dayString = '(토)';
       break;
     case 0:
-      dayString = '일요일';
+      dayString = '(일)';
       break;
     default:
       dayString = '';
