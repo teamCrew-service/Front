@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { crew } from '../../api';
 
@@ -103,9 +103,11 @@ function Detail(): JSX.Element {
     <>
       {/* 헤더 */}
       <header id="detail-header">
-        <Link to="/findcrew">
-          <icons.chevronLeft />
-        </Link>
+        <icons.chevronLeft
+          onClick={() => {
+            window.history.back();
+          }}
+        />
         <BodyLargeBold>{crewInfo?.result.crew.crew_crewType}</BodyLargeBold>
         <div style={{ position: 'relative', width: '24px', height: '24px' }}>
           <icons.ThreeDots fill="#4F4E55" style={{ cursor: 'pointer' }} />
