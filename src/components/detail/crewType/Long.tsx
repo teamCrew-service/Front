@@ -8,7 +8,17 @@ import BodyBaseMedium from '../../../styledComponent/heading/BodyBaseMedium';
 import BodySmallBold from '../../../styledComponent/heading/BodySmallBold';
 import CaptionXS from '../../../styledComponent/heading/CaptionXS';
 
-import { DetailMenuLi, CrewInfoContext, SubTitle, SaveBtn } from '../../../pages/detail/styled';
+import {
+  CrewIntroQuestionContainer,
+  DetailMenuLi,
+  CrewInfoContext,
+  SubTitle,
+  SaveBtn,
+  QuestionDiv,
+  SeparateDiv,
+  SeparateBar,
+  BlockDiv,
+} from '../../../pages/detail/styled';
 
 import icons from '../../../assets/icons';
 import colors from '../../../assets/styles/color';
@@ -83,7 +93,6 @@ function Long({
       </nav>
 
       <section id="detail-main-content">
-        {/* 모임정보 */}
         {page === '모임정보' && (
           <>
             <div id="detail-main-content-crewinfo">
@@ -112,175 +121,190 @@ function Long({
               </CrewInfoContext>
             </div>
 
-            {/* 소개 */}
-            <div id="detail-main-content-intro">
-              <SubTitle>
-                <BodyLargeBold>소개</BodyLargeBold>
-                {infoOpen ? (
-                  <icons.chevronUp style={{ cursor: 'pointer' }} onClick={closeInfoWindow} />
-                ) : (
-                  <icons.chevronDown style={{ cursor: 'pointer' }} onClick={openInfoWindow} />
-                )}
-              </SubTitle>
-            </div>
-            {infoOpen && (
-              <div id="detail-main-content-context">
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '10px',
-                    borderBottom: '0.3px solid black',
-                    padding: '10px 0px',
-                  }}
-                >
-                  <div>
-                    <BodyBaseMedium>&nbsp;&nbsp;&middot; 우리 모임 사람들의 특징은?</BodyBaseMedium>
-                    <BodyBaseMedium>{crewInfo?.crew.crew_crewMemberInfo}</BodyBaseMedium>
-                  </div>
-                  <div>
-                    <BodyBaseMedium>&nbsp;&nbsp;&middot; 우리 모임 사람들의 연령대는?</BodyBaseMedium>
-                    <BodyBaseMedium>{crewInfo?.crew.crew_crewAgeInfo}</BodyBaseMedium>
-                  </div>
-                </div>
-                <BodyBaseMedium style={{ padding: '10px 0px' }}>{crewInfo?.crew.crew_crewContent}</BodyBaseMedium>
-              </div>
-            )}
-            <div id="detail-main-content-schedule">
-              {/* 일정 */}
-              {crewInfo?.personType !== 'person' && recentSchedule !== null ? (
-                <>
+            <div id="detail-main-content-crewinfo-2">
+              {/* 소개 */}
+              <BlockDiv>
+                <div id="detail-main-content-intro">
                   <SubTitle>
-                    <BodyLargeBold>일정</BodyLargeBold>
-                    <BodySmallBold
-                      onClick={() => {
-                        changePage('일정');
-                      }}
-                      style={{ cursor: 'pointer' }}
-                    >
-                      전체보기
-                    </BodySmallBold>
+                    <BodyLargeBold>소개</BodyLargeBold>
+                    {infoOpen ? (
+                      <icons.chevronUp style={{ cursor: 'pointer' }} onClick={closeInfoWindow} />
+                    ) : (
+                      <icons.chevronDown style={{ cursor: 'pointer' }} onClick={openInfoWindow} />
+                    )}
                   </SubTitle>
-                  <ScheduleCard crewInfo={crewInfo}>{recentSchedule}</ScheduleCard>
-                </>
-              ) : (
-                <div>no schedule</div>
-              )}
+                </div>
+                {infoOpen && (
+                  <div id="detail-main-content-context">
+                    <CrewIntroQuestionContainer>
+                      <QuestionDiv>
+                        <BodyLargeBold>
+                          <span style={{ fontWeight: 700 }}>&middot;</span>&nbsp;&nbsp; 우리 모임 사람들의 특징은?
+                        </BodyLargeBold>
+                        <BodyBaseMedium>{crewInfo?.crew.crew_crewMemberInfo}</BodyBaseMedium>
+                      </QuestionDiv>
+                      <QuestionDiv>
+                        <BodyLargeBold>&nbsp;&nbsp;&middot; 우리 모임 사람들의 연령대는?</BodyLargeBold>
+                        <BodyBaseMedium>{crewInfo?.crew.crew_crewAgeInfo}</BodyBaseMedium>
+                      </QuestionDiv>
+                    </CrewIntroQuestionContainer>
+                    <SeparateDiv>
+                      <SeparateBar />
+                    </SeparateDiv>
+                    <BodyBaseMedium style={{ padding: '10px 0px' }}>{crewInfo?.crew.crew_crewContent}</BodyBaseMedium>
+                  </div>
+                )}
+              </BlockDiv>
+
+              {/* 일정 */}
+              <div id="detail-main-content-schedule">
+                {crewInfo?.personType !== 'person' && recentSchedule !== null ? (
+                  <>
+                    <SubTitle>
+                      <BodyLargeBold>일정</BodyLargeBold>
+                      <BodySmallBold
+                        onClick={() => {
+                          changePage('일정');
+                        }}
+                        style={{ cursor: 'pointer' }}
+                      >
+                        전체보기
+                      </BodySmallBold>
+                    </SubTitle>
+                    <ScheduleCard crewInfo={crewInfo}>{recentSchedule}</ScheduleCard>
+                  </>
+                ) : (
+                  <div>no schedule</div>
+                )}
+              </div>
 
               {/* 위치 */}
-              <SubTitle>
-                <BodyLargeBold>위치</BodyLargeBold>
-              </SubTitle>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <icons.Mappin />
-                  <div>
-                    <BodyLargeBold>{crewInfo?.crew.crew_crewAddress}</BodyLargeBold>
-                    <CaptionXS>서울시 마포구 당인동 1</CaptionXS>
+              <BlockDiv>
+                <SubTitle>
+                  <BodyLargeBold>위치</BodyLargeBold>
+                </SubTitle>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <icons.Mappin />
+                    <div>
+                      <BodyLargeBold>{crewInfo?.crew.crew_crewAddress}</BodyLargeBold>
+                      <CaptionXS>서울시 마포구 당인동 1</CaptionXS>
+                    </div>
                   </div>
+                  <SaveBtn
+                    onClick={() => {
+                      saveAddress(crewInfo.crew.crew_crewAddress);
+                    }}
+                  >
+                    <icons.Files />
+                    <BodySmallBold style={{ color: `${colors.point}` }}>주소 복사</BodySmallBold>
+                  </SaveBtn>
                 </div>
-                <SaveBtn
-                  onClick={() => {
-                    saveAddress(crewInfo.crew.crew_crewAddress);
+                <div
+                  style={{
+                    width: '100%',
+                    aspectRatio: 2,
+                    backgroundColor: `${colors.gray100}`,
+                    borderRadius: '4px',
                   }}
                 >
-                  <icons.Files />
-                  <BodySmallBold style={{ color: `${colors.point}` }}>주소 복사</BodySmallBold>
-                </SaveBtn>
-              </div>
-              <div
-                style={{
-                  width: '100%',
-                  aspectRatio: 2,
-                  backgroundColor: `${colors.gray100}`,
-                  borderRadius: '4px',
-                }}
-              >
-                카카오 정적 맵
-              </div>
+                  카카오 정적 맵
+                </div>
+              </BlockDiv>
 
               {/* 캘린더 */}
-              {crewInfo?.personType !== 'person' && (
-                <>
-                  <SubTitle>
-                    <BodyLargeBold>캘린더</BodyLargeBold>
-                  </SubTitle>
-                  <div style={{ position: 'relative', width: '100%', height: 'fit-content' }}>
-                    {/* 달력 이벤트 모달 */}
-                    {showCalendarEvent && (
-                      // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-                      <div
-                        onClick={() => {
-                          setShowCalendarEvent(false);
-                        }}
-                        style={{
-                          position: 'absolute',
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          width: '100%',
-                          height: '100%',
-                          top: '0px',
-                          left: '0px',
-                          backgroundColor: 'rgba(0,0,0,0.25)',
-                        }}
-                      >
+              <BlockDiv>
+                {crewInfo?.personType !== 'person' && (
+                  <>
+                    <SubTitle>
+                      <BodyLargeBold>캘린더</BodyLargeBold>
+                    </SubTitle>
+                    <div style={{ position: 'relative', width: '100%', height: 'fit-content' }}>
+                      {/* 달력 이벤트 모달 */}
+                      {showCalendarEvent && (
+                        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
                         <div
+                          onClick={() => {
+                            setShowCalendarEvent(false);
+                          }}
                           style={{
-                            width: '50%',
-                            height: '50%',
-                            backgroundColor: 'white',
+                            position: 'absolute',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: '100%',
+                            height: '100%',
+                            top: '0px',
+                            left: '0px',
+                            backgroundColor: 'rgba(0,0,0,0.25)',
                           }}
                         >
-                          <p>{eventInfo!.scheduleTitle}</p>
-                          <p>{eventInfo!.scheduleContent}</p>
+                          <div
+                            style={{
+                              width: '50%',
+                              height: '50%',
+                              backgroundColor: 'white',
+                            }}
+                          >
+                            <p>{eventInfo!.scheduleTitle}</p>
+                            <p>{eventInfo!.scheduleContent}</p>
+                          </div>
                         </div>
-                      </div>
-                    )}
-                    {/* 달력 */}
-                    <Calendar showEvent eventAction schedule={crewInfo.schedule} onClick={openCalendarEvent} />
-                  </div>
-                </>
-              )}
+                      )}
+                      {/* 달력 */}
+                      <Calendar showEvent eventAction schedule={crewInfo.schedule} onClick={openCalendarEvent} />
+                    </div>
+                  </>
+                )}
+              </BlockDiv>
 
               {/* 사진첩 */}
-              <SubTitle>
-                <BodyLargeBold>사진첩</BodyLargeBold>
-                <BodySmallBold style={{ cursor: 'pointer' }}>전체보기</BodySmallBold>
-              </SubTitle>
-              <div style={{ display: 'flex', gap: '2%', width: '100%', aspectRatio: 5 }}>
-                <div style={{ width: '25%', height: '100%', border: '1px solid black' }}>사진첩</div>
-                <div style={{ width: '25%', height: '100%', border: '1px solid black' }}>사진첩</div>
-                <div style={{ width: '25%', height: '100%', border: '1px solid black' }}>사진첩</div>
-                <div style={{ width: '25%', height: '100%', border: '1px solid black' }}>사진첩</div>
-              </div>
+              <BlockDiv>
+                <SubTitle>
+                  <BodyLargeBold>사진첩</BodyLargeBold>
+                  <BodySmallBold style={{ cursor: 'pointer' }}>전체보기</BodySmallBold>
+                </SubTitle>
+                <div style={{ display: 'flex', gap: '2%', width: '100%', aspectRatio: 5 }}>
+                  <div style={{ width: '25%', height: '100%', border: '1px solid black' }}>사진첩</div>
+                  <div style={{ width: '25%', height: '100%', border: '1px solid black' }}>사진첩</div>
+                  <div style={{ width: '25%', height: '100%', border: '1px solid black' }}>사진첩</div>
+                  <div style={{ width: '25%', height: '100%', border: '1px solid black' }}>사진첩</div>
+                </div>
+              </BlockDiv>
 
-              <SubTitle>
-                <BodyLargeBold>호스트</BodyLargeBold>
-                <BodySmallBold style={{ cursor: 'pointer' }}>가입신청서</BodySmallBold>
-              </SubTitle>
-              <div>
-                <MemberBox
-                  key={crewInfo.crew.captainId}
-                  url={crewInfo.crew.captainProfileImage}
-                  name={crewInfo.crew.captainNickname}
-                  address={crewInfo.crew.captainLocation}
-                />
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1%' }}>
-                <BodyLargeBold>참여자</BodyLargeBold>
-                <BodySmallBold>{crewInfo?.member.length}명</BodySmallBold>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', width: '100%', gap: '7px' }}>
-                {crewInfo?.member.map(person => (
+              {/* 호스트 */}
+              <BlockDiv>
+                <SubTitle>
+                  <BodyLargeBold>호스트</BodyLargeBold>
+                  <BodySmallBold style={{ cursor: 'pointer' }}>가입신청서</BodySmallBold>
+                </SubTitle>
+                <div>
                   <MemberBox
-                    key={person.member_memberId}
-                    url={person.users_profileImage}
-                    name={person.users_nickname}
-                    address={person.users_location}
+                    key={crewInfo.crew.captainId}
+                    url={crewInfo.crew.captainProfileImage}
+                    name={crewInfo.crew.captainNickname}
+                    address={crewInfo.crew.captainLocation}
                   />
-                ))}
-              </div>
+                </div>
+              </BlockDiv>
+
+              {/* 참여자 */}
+              <BlockDiv>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1%' }}>
+                  <BodyLargeBold>참여자</BodyLargeBold>
+                  <BodySmallBold>{crewInfo?.member.length}명</BodySmallBold>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', width: '100%', gap: '7px' }}>
+                  {crewInfo?.member.map(person => (
+                    <MemberBox
+                      key={person.member_memberId}
+                      url={person.users_profileImage}
+                      name={person.users_nickname}
+                      address={person.users_location}
+                    />
+                  ))}
+                </div>
+              </BlockDiv>
               {crewInfo?.personType === 'person' && (
                 <button
                   onClick={() => {

@@ -116,7 +116,7 @@ function Detail(): JSX.Element {
         </div>
       </header>
       <main id="detail-main">
-        {/* 썸네일 */}
+        {/* 크루 썸네일 */}
         <section id="detail-main-thumbnail">
           {crewInfo!.result.crew.crew_thumbnail !== '' ? (
             <ThumbnailDiv $url={crewInfo!.result.crew.crew_thumbnail}>
@@ -132,6 +132,8 @@ function Detail(): JSX.Element {
             </ThumbnailDiv>
           )}
         </section>
+
+        {/* crew별 컨텐츠 */}
         {crewInfo?.result.crew.crew_crewType === '장기' && (
           <Long
             crewInfo={crewInfo.result}

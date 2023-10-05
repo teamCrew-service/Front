@@ -51,6 +51,7 @@ export const SubTitle = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 4px 0px;
+  border-bottom: 1px solid ${colors.gray100};
 `;
 
 export const SaveBtn = styled.div`
@@ -72,4 +73,40 @@ export const SaveCrewThumbnailBtn = styled.div`
   background-color: ${colors.primary100};
   color: ${colors.primary};
   cursor: pointer;
+`;
+
+export const CrewIntroQuestionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+`;
+
+export const QuestionDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+`;
+
+export const SeparateDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 64px;
+`;
+
+export const SeparateBar = styled.div`
+  width: 33.33%;
+  height: 4px;
+  background-color: ${colors.gray400};
+`;
+
+export const BlockDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 12px;
 `;

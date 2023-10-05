@@ -68,6 +68,13 @@
   padding-top: 16px;
 }
 
+#detail-main-content-crewinfo-2 {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 40px;
+}
+
 #short-detail-main-content-crewinfo {
   display: flex;
   flex-direction: column;
@@ -78,7 +85,6 @@
 #detail-main-content-intro {
   width: 100%;
   height: fit-content;
-  border-bottom: 0.3px solid #dddddd;
   margin-top: 36px;
 }
 
