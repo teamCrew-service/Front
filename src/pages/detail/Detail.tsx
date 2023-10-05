@@ -14,6 +14,7 @@ import Short from '../../components/detail/crewType/Short';
 
 import type { Schedule } from '../../assets/interfaces';
 import Long from '../../components/detail/crewType/Long';
+import { ThumbnailAbsDiv, ThumbnailDiv } from './styled';
 
 function Detail(): JSX.Element {
   // 소개 부분 접었다 펴기
@@ -106,20 +107,23 @@ function Detail(): JSX.Element {
           <icons.chevronLeft />
         </Link>
         <BodyLargeBold>{crewInfo?.result.crew.crew_crewType}</BodyLargeBold>
-        <div style={{ width: '24px', height: '24px' }} />
+        <div style={{ position: 'relative', width: '24px', height: '24px' }}>
+          <icons.ThreeDots fill="#4F4E55" style={{ cursor: 'pointer' }} />
+        </div>
       </header>
       <main id="detail-main">
         {/* 썸네일 */}
-        <section
-          id="detail-main-thumbnail"
-          style={{
-            backgroundImage: `url(${crewInfo?.result.crew.crew_thumbnail})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-          }}
-        />
-
+        <section id="detail-main-thumbnail">
+          {crewInfo!.result.crew.crew_thumbnail !== '' ? (
+            <ThumbnailDiv $url={crewInfo!.result.crew.crew_thumbnail}>
+              <ThumbnailAbsDiv>
+                <icons.ThreeDots fill="rgba(255,255,255,1)" style={{ cursor: 'pointer' }} />
+              </ThumbnailAbsDiv>
+            </ThumbnailDiv>
+          ) : (
+            <icons.CrewThumbnail style={{ width: '100%', height: '100%' }} />
+          )}
+        </section>
         {crewInfo?.result.crew.crew_crewType === '장기' && (
           <Long
             crewInfo={crewInfo.result}
@@ -142,46 +146,6 @@ function Detail(): JSX.Element {
           />
         )}
       </main>
-      {/* {crewInfo?.result.personType === 'captain' && (
-        <footer style={{ position: 'relative', width: '100%' }}>
-          {page === '일정' && (
-            <button
-              type="button"
-              style={{
-                position: 'absolute',
-                top: '-74px',
-                right: '21px',
-                width: '48px',
-                aspectRatio: 1,
-                borderRadius: '50%',
-                backgroundColor: `${colors.primary}`,
-                border: 'none',
-                color: 'white',
-              }}
-            >
-              &#43;
-            </button>
-          )}
-          {page === '공지' && (
-            <button
-              type="button"
-              style={{
-                position: 'absolute',
-                top: '-74px',
-                right: '21px',
-                width: '48px',
-                aspectRatio: 1,
-                borderRadius: '50%',
-                backgroundColor: `${colors.primary}`,
-                border: 'none',
-                color: 'white',
-              }}
-            >
-              &#43;
-            </button>
-          )}
-        </footer>
-      )} */}
     </>
   );
 }

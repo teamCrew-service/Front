@@ -14,9 +14,13 @@ import { ReactComponent as users } from './users.svg';
 import { ReactComponent as Mappin } from './Mappin.svg';
 import { ReactComponent as NavigationArrow } from './NavigationArrow.svg';
 import { ReactComponent as search } from './search.svg';
-import { ReactComponent as MeetCount } from './meetCount.svg';
-import { ReactComponent as CrewDuration } from './crewDuration.svg';
+
+import { ReactComponent as MeetCount } from './MeetCount.svg';
+import { ReactComponent as CrewDuration } from './CrewDuration.svg';
+
 import { ReactComponent as Character } from './Character.svg';
+import { ReactComponent as CrewThumbnail } from './CrewThumbnail.svg';
+import { ReactComponent as ThreeDots } from './ThreeDots.svg';
 
 const icons = {
   TeamLogo,
@@ -38,6 +42,8 @@ const icons = {
   MeetCount,
   CrewDuration,
   Character,
+  CrewThumbnail,
+  ThreeDots,
 };
 
 export default icons;

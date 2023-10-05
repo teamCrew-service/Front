@@ -15,10 +15,32 @@ export const DetailMenuLi = styled.li`
   cursor: pointer;
 `;
 
+export const ThumbnailDiv = styled.div<{ $url: string }>`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-image: url(${props => props.$url});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+`;
+
+export const ThumbnailAbsDiv = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: end;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+  padding: 12px;
+`;
+
 export const CrewInfoContext = styled.h3`
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 8px;
   font-size: 12px;
   line-height: 18px;
   letter-spacing: -0.2px;
@@ -28,6 +50,7 @@ export const SubTitle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 4px 0px;
 `;
 
 export const SaveBtn = styled.div`
