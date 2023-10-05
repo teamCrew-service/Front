@@ -56,7 +56,7 @@ export const SubTitle = styled.div`
 export const SaveBtn = styled.div`
   display: flex;
   align-items: center;
-  padding: 0px 10px;
+  padding: 4px 8px;
   border-radius: 4px;
   background-color: ${colors.gray100};
   cursor: pointer;
@@ -71,4 +71,5 @@ export const SaveCrewThumbnailBtn = styled.div`
   border-radius: 16px;
   background-color: ${colors.primary100};
   color: ${colors.primary};
+  cursor: pointer;
 `;

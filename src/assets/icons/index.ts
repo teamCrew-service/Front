@@ -22,6 +22,8 @@ import { ReactComponent as Character } from './Character.svg';
 import { ReactComponent as CrewThumbnail } from './CrewThumbnail.svg';
 import { ReactComponent as ThreeDots } from './ThreeDots.svg';
 
+import { ReactComponent as Files } from './Files.svg';
+
 const icons = {
   TeamLogo,
   Kakao,
@@ -44,6 +46,7 @@ const icons = {
   Character,
   CrewThumbnail,
   ThreeDots,
+  Files,
 };
 
 export default icons;

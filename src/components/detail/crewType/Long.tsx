@@ -184,7 +184,8 @@ function Long({
                     saveAddress(crewInfo.crew.crew_crewAddress);
                   }}
                 >
-                  <BodySmallBold style={{ color: `${colors.errorRed}` }}>주소 복사</BodySmallBold>
+                  <icons.Files />
+                  <BodySmallBold style={{ color: `${colors.point}` }}>주소 복사</BodySmallBold>
                 </SaveBtn>
               </div>
               <div
