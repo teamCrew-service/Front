@@ -148,6 +148,8 @@ export interface ComingDateSchedule {
     scheduleTitle: string;
     scheduleDDay: string;
     crewType: string;
+    scheduleId: string;
+    crewId: string;
   };
   profileImage: Array<{
     member_profileImage: string;

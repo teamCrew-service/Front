@@ -43,7 +43,9 @@ function ScheduleCard({
   const schedule: ComingDateSchedule = scheduleList === undefined ? scheduleOne! : scheduleList[index!];
   const goNextFunc =
     scheduleList === undefined
-      ? () => {}
+      ? () => {
+          navigate(`/detail/${scheduleOne?.schedule.crewId}`);
+        }
       : () => {
           navigate('/upcomingschedule', { state: { scheduleList } });
         };

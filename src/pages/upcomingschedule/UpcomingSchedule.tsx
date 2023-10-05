@@ -52,7 +52,7 @@ function UpcomingSchedule(): JSX.Element {
           {['전체', '다가오는', '참여 완료'].map(item => {
             if (item === selected) {
               return (
-                <SelectedLi>
+                <SelectedLi key={item}>
                   <heading.BodyBaseMedium>{item}</heading.BodyBaseMedium>
                 </SelectedLi>
               );
@@ -62,6 +62,7 @@ function UpcomingSchedule(): JSX.Element {
                 onClick={() => {
                   setSelected(item);
                 }}
+                key={item}
               >
                 <heading.BodyBaseMedium>{item}</heading.BodyBaseMedium>
               </StyledLi>
@@ -72,7 +73,7 @@ function UpcomingSchedule(): JSX.Element {
       <main>
         <section id="upcomingschedule-schedule-list">
           {scheduleList.map((item: ComingDateSchedule) => (
-            <ScheduleCard scheduleOne={item} />
+            <ScheduleCard key={item.schedule.scheduleId} scheduleOne={item} />
           ))}
         </section>
       </main>
