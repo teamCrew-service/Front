@@ -15,8 +15,8 @@ import { ReactComponent as Mappin } from './Mappin.svg';
 import { ReactComponent as NavigationArrow } from './NavigationArrow.svg';
 import { ReactComponent as search } from './search.svg';
 
-import { ReactComponent as MeetCount } from './MeetCount.svg';
-import { ReactComponent as CrewDuration } from './CrewDuration.svg';
+import { ReactComponent as MeetCount } from './meetCount.svg';
+import { ReactComponent as CrewDuration } from './crewDuration.svg';
 
 import { ReactComponent as Character } from './Character.svg';
 import { ReactComponent as CrewThumbnail } from './CrewThumbnail.svg';
