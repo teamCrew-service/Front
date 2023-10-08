@@ -101,3 +101,78 @@
   gap: 10px;
   padding: 16px 18px;
 }
+.chat-container {
+  width: 70%;
+  margin: auto;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  overflow-y: auto;
+}
+
+.message {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  clear: both;
+}
+
+.message.left {
+  max-width: 70%;
+  height: auto;
+  text-align: left;
+  background-color: #e0e0e0;
+  float: left; /* 추가 */
+}
+
+.message.right {
+  max-width: 70%;
+  height: auto;
+  text-align: right;
+  background-color: #a0d8f8;
+  float: right; /* 추가 */
+}
+
+.message-username {
+  color: blue;
+}
+
+.message-content {
+  margin-bottom: 5px;
+}
+
+.message-time {
+  font-size: 0.8em;
+  color: #555;
+}
+
+.thumbnail {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  clear: both;
+}
+
+.thumbnail.right {
+  float: right;
+  margin-left: 10px;
+}
+
+.thumbnail.left {
+  float: left;
+  margin-right: 10px;
+}
+
+.message-location {
+  font-size: 0.8em;
+  color: #555;
+}
+.date-separator {
+  text-align: center;
+  margin: 10px 0;
+  padding: 5px;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  font-weight: bold;
+  color: #555;
+}

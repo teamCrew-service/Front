@@ -19,6 +19,7 @@ import UpcomingSchedule from './pages/upcomingschedule/UpcomingSchedule';
 import SearchByCategory from './pages/searchbycategory/SearchByCategory';
 import Detail from './pages/detail/Detail';
 import MakeCrew from './pages/makecrew/MakeCrew';
+import Chat from './pages/detail/nav/Chat';
 
 const queryClient = new QueryClient();
 
@@ -44,6 +45,7 @@ function App(): JSX.Element {
               <Route path="/upcomingschedule" element=<UpcomingSchedule /> />
               <Route path="/searchbycategory" element=<SearchByCategory /> />
               <Route path="/makecrew" element=<MakeCrew /> />
+              <Route path="/chat" element=<Chat /> />
             </Routes>
           </div>
         </div>
