@@ -18,10 +18,10 @@ function Footer(): JSX.Element {
       style={{
         position: 'relative',
         display: 'flex',
+        alignItems: 'center',
         width: '100%',
         height: '100%',
         justifyContent: 'space-evenly',
-        paddingTop: '4px',
         backgroundColor: `${colors.gray50}`,
         borderTop: `0.3px solid ${colors.gray200}`,
       }}
