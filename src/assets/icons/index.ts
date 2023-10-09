@@ -24,6 +24,11 @@ import { ReactComponent as ThreeDots } from './ThreeDots.svg';
 
 import { ReactComponent as Files } from './Files.svg';
 
+import { ReactComponent as House } from './House.svg';
+import { ReactComponent as UsersThree } from './UsersThree.svg';
+import { ReactComponent as ChatTeardropDots } from './ChatTeardropDots.svg';
+import { ReactComponent as UserCircle } from './UserCircle.svg';
+
 const icons = {
   TeamLogo,
   Kakao,
@@ -47,6 +52,10 @@ const icons = {
   CrewThumbnail,
   ThreeDots,
   Files,
+  House,
+  UsersThree,
+  ChatTeardropDots,
+  UserCircle,
 };
 
 export default icons;

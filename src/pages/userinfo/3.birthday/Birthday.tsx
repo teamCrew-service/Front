@@ -17,7 +17,7 @@ const StyledContainer = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-  background: ${colors.primary100};
+  background: ${colors.primary50};
 `;
 
 const SelectedDiv = styled.div`
@@ -73,7 +73,7 @@ function Birthday(): JSX.Element {
           <BodySmallMedium style={{ color: `${colors.gray700}` }}>정확한 생년월일을 선택해주세요</BodySmallMedium>
         </section>
         <section>
-          <ButtonDiv onClick={openSelectWindow} style={{ backgroundColor: `${colors.primary100}`, color: 'black' }}>
+          <ButtonDiv onClick={openSelectWindow} style={{ backgroundColor: `${colors.primary50}`, color: 'black' }}>
             <div style={{ width: 'calc(100% - 16px)' }}>{birthYear}</div>
           </ButtonDiv>
         </section>

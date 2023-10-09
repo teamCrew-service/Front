@@ -17,6 +17,7 @@ import NoScheduleCard from '../../components/home/NoScheduleCard';
 import './style.css';
 
 import { schedule } from '../../api';
+import Footer from '../../components/home/Footer';
 
 const HelloDiv = styled.div`
   display: flex;
@@ -110,7 +111,7 @@ function Home(): JSX.Element {
       </main>
 
       <footer id="home-footer">
-        <div />
+        <Footer />
       </footer>
     </>
   );

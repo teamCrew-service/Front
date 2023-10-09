@@ -77,21 +77,21 @@ function SearchByCategory(): JSX.Element {
           </button>
           <button
             type="button"
-            className={crewTypeFilter === '정모' ? 'on' : 'off'}
+            className={crewTypeFilter === '장기' ? 'on' : 'off'}
             onClick={() => {
-              setCrewTypeFilter('정모');
+              setCrewTypeFilter('장기');
             }}
           >
-            정모
+            장기
           </button>
           <button
             type="button"
-            className={crewTypeFilter === '번개' ? 'on' : 'off'}
+            className={crewTypeFilter === '단기' ? 'on' : 'off'}
             onClick={() => {
-              setCrewTypeFilter('번개');
+              setCrewTypeFilter('단기');
             }}
           >
-            번개
+            단기
           </button>
         </div>
       </section>
