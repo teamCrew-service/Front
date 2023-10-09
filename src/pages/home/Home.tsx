@@ -11,7 +11,7 @@ import heading from '../../styledComponent/heading';
 import LargeCardDiv from '../../styledComponent/LargeCardDiv';
 
 import InterestMatrix from '../../components/common/InterestMatrix';
-import ScheduleCard from '../../components/home/ScheduleCard';
+import ScheduleCard from '../../components/common/ScheduleCard';
 import NoScheduleCard from '../../components/home/NoScheduleCard';
 
 import './style.css';

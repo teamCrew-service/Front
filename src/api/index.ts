@@ -66,6 +66,10 @@ const schedule = {
     const { data } = await instance.get('api/home/comingDate');
     return data;
   },
+  getWholeSchedule: async <T = myInterface.WholeComingDate>(): Promise<T> => {
+    const { data } = await instance.get('api/home/wholeComingDate');
+    return data;
+  },
 };
 
 export { login, navermap, crew, notice, searchByCategory, schedule };

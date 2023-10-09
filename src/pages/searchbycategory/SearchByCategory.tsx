@@ -64,7 +64,7 @@ function SearchByCategory(): JSX.Element {
 
   return (
     <>
-      <header>
+      <header id="interest-header">
         <icons.chevronLeft
           onClick={() => {
             navigate('/home');
@@ -117,7 +117,7 @@ function SearchByCategory(): JSX.Element {
         <section className="search-by-category-card-div">
           <ListBox>
             {filteredList.length !== 0 ? (
-              filteredList.map(spot => <CrewCard spot={spot} />)
+              filteredList.map(spot => <CrewCard key={spot?.crew_crewId} spot={spot} />)
             ) : (
               <div
                 style={{

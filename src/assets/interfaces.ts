@@ -162,3 +162,8 @@ export interface ComingDate {
   schedule: ComingDateSchedule;
   nickname: string;
 }
+
+export interface WholeComingDate {
+  comingSchedule: ComingDateSchedule[];
+  participateSchedule: ComingDateSchedule[];
+}

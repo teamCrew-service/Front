@@ -1,5 +1,5 @@
 /* total : 765px */
-header {
+#interest-header {
   display: flex;
   justify-content: space-between;
   align-items: center;

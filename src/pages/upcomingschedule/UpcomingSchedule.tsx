@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useQuery } from 'react-query';
 import './style.css';
-import { useLocation, useNavigate } from 'react-router-dom';
-import ScheduleCard from '../../components/home/ScheduleCard';
+import { useNavigate } from 'react-router-dom';
+import ScheduleCard from '../../components/common/ScheduleCard';
 import { type ComingDateSchedule } from '../../assets/interfaces';
 import icons from '../../assets/icons';
 import heading from '../../styledComponent/heading';
 import colors from '../../assets/styles/color';
+import { schedule } from '../../api';
 
 const StyledUl = styled.ul`
   display: flex;
@@ -33,8 +35,16 @@ const SelectedLi = styled(StyledLi)`
 
 function UpcomingSchedule(): JSX.Element {
   const navigate = useNavigate();
-  const { scheduleList } = useLocation().state;
+  const { data: scheduleList, isLoading } = useQuery('getWholeSchedule', schedule.getWholeSchedule, {
+    onSuccess: res => {
+      console.log(res);
+    },
+  });
   const [selected, setSelected] = useState<string>('다가오는');
+
+  if (isLoading) {
+    return <div>loading</div>;
+  }
 
   return (
     <>
@@ -72,9 +82,14 @@ function UpcomingSchedule(): JSX.Element {
       </nav>
       <main>
         <section id="upcomingschedule-schedule-list">
-          {scheduleList.map((item: ComingDateSchedule) => (
-            <ScheduleCard key={item.schedule.scheduleId} scheduleOne={item} />
-          ))}
+          {selected === '다가오는' &&
+            scheduleList?.participateSchedule.map((item: ComingDateSchedule) => (
+              <ScheduleCard key={item.schedule.scheduleId} scheduleOne={item} cardRole="goDetail" />
+            ))}
+          {selected === '참여 완료' &&
+            scheduleList?.participateSchedule.map((item: ComingDateSchedule) => (
+              <ScheduleCard key={item.schedule.scheduleId} scheduleOne={item} cardRole="goDetail" />
+            ))}
         </section>
       </main>
     </>
