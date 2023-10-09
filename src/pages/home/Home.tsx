@@ -71,11 +71,7 @@ function Home(): JSX.Element {
         <div id="margin-1" />
 
         <section id="home-upcoming">
-          {comingDate?.schedule.length === 0 ? (
-            <NoScheduleCard />
-          ) : (
-            <ScheduleCard scheduleList={comingDate?.schedule} index={0} />
-          )}
+          {comingDate === undefined ? <NoScheduleCard /> : <ScheduleCard scheduleOne={comingDate?.schedule} />}
         </section>
 
         <div id="margin-2" />

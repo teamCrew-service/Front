@@ -159,6 +159,6 @@ export interface ComingDateSchedule {
 }
 
 export interface ComingDate {
-  schedule: ComingDateSchedule[];
+  schedule: ComingDateSchedule;
   nickname: string;
 }

@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import colors from '../../assets/styles/color';
 import icons from '../../assets/icons';
 import './style.css';
-import { CrewCard, TagDiv, ImageBox } from './styled';
+import CrewCard from '../../components/common/CrewCard';
+import heading from '../../styledComponent/heading';
+import { SearchingDiv, SearchingInput, SearchingNav, NavItem, ListBox } from './styled';
 import { searchByCategory } from '../../api';
 import type { SearchByCategory as CategoryInterface } from '../../assets/interfaces';
 
 function SearchByCategory(): JSX.Element {
+  const navigate = useNavigate();
+  // 선택된 카테고리
   const location = useLocation();
   const { interest } = location.state ?? {};
 
+  // 검색 시 사용되는 항목
   const [searchTerm, setSearchTerm] = useState('');
-  const [filteredList, setFilteredList] = useState<Partial<CategoryInterface[]>>([]);
   const [crewTypeFilter, setCrewTypeFilter] = useState('전체');
+
+  // 검색으로 보여지는 리스트
+  const [filteredList, setFilteredList] = useState<Partial<CategoryInterface[]>>([]);
 
   async function fetchData(
     search: string,
@@ -21,8 +28,11 @@ function SearchByCategory(): JSX.Element {
     category: string,
   ): Promise<Partial<CategoryInterface[]>> {
     try {
+      // 카테고리로 api 요청
       let crews = await searchByCategory.getSearchByCategory(category);
+      console.log(crews);
 
+      // 검색 항목으로 리스트 찾기
       if (search !== '') {
         crews = crews.filter(crew => crew.crew_crewTitle.includes(search));
       }
@@ -50,134 +60,84 @@ function SearchByCategory(): JSX.Element {
       .catch(error => {
         console.log(error);
       });
-  }, [searchTerm, crewTypeFilter, interest]);
+  }, [searchTerm, crewTypeFilter]);
 
   return (
-    <main>
-      <section className="search-by-category-in-search-and-sorting">
-        <div className="search-field">
-          <input
-            className="search-input"
-            value={searchTerm}
-            onChange={e => {
-              setSearchTerm(e.target.value);
-            }}
-            placeholder=""
-          />
-        </div>
-        <div className="sorting-button-container">
-          <button
-            type="button"
-            className={crewTypeFilter === '전체' ? 'on' : 'off'}
-            onClick={() => {
-              setCrewTypeFilter('전체');
-            }}
-          >
-            전체
-          </button>
-          <button
-            type="button"
-            className={crewTypeFilter === '장기' ? 'on' : 'off'}
-            onClick={() => {
-              setCrewTypeFilter('장기');
-            }}
-          >
-            장기
-          </button>
-          <button
-            type="button"
-            className={crewTypeFilter === '단기' ? 'on' : 'off'}
-            onClick={() => {
-              setCrewTypeFilter('단기');
-            }}
-          >
-            단기
-          </button>
-        </div>
-      </section>
-      <section className="search-by-category-card-div">
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '12px',
-            width: '100%',
-            height: '100%',
-            overflowY: 'scroll',
-            overflowX: 'hidden',
+    <>
+      <header>
+        <icons.chevronLeft
+          onClick={() => {
+            navigate('/home');
           }}
-        >
-          {filteredList.length !== 0 ? (
-            filteredList.map(spot => (
-              <CrewCard key={spot?.crew_crewTitle}>
-                <div style={{ display: 'flex', gap: '4px' }}>
-                  <TagDiv $color={colors.gray400}>
-                    <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot?.crew_category}</p>
-                  </TagDiv>
-                  <TagDiv $color={spot?.crew_crewType === '정모' ? colors.blue : colors.blue}>
-                    <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot?.crew_crewType}</p>
-                  </TagDiv>
-                </div>
-                <div>
-                  <p style={{ fontSize: '14px', fontWeight: 700, lineHeight: '24px', letterSpacing: '-0.4px' }}>
-                    {spot?.crew_crewTitle}
-                  </p>
-                  <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot?.crew_category}</p>
-                </div>
-                <div>
-                  {spot?.crew_thumbnail !== undefined ? <ImageBox>image</ImageBox> : <ImageBox>no image</ImageBox>}
-                </div>
-                <div>
-                  <div style={{ display: 'flex', gap: '2px' }}>
-                    <icons.Location />
-                    <p style={{ fontSize: '12px', lineHeight: '18px', letterSpacing: '-0.2px' }}>
-                      {spot?.crew_crewAddress} 근처
-                    </p>
-                  </div>
-                </div>
-                <div
-                  style={{
-                    position: 'absolute',
-                    bottom: '16px',
-                    right: '16px',
-                    display: 'flex',
-                    gap: '4px',
-                    zIndex: 101,
-                    textAlign: 'center',
-                    backgroundColor: `${colors.gray400}`,
-                    padding: '4px 10px',
-                    borderRadius: '200px',
+          style={{ cursor: 'pointer' }}
+        />
+        <heading.BodyLargeBold>{interest}</heading.BodyLargeBold>
+        <div style={{ width: '24px' }} />
+      </header>
+      <main>
+        {/* 검색 박스 */}
+        <section id="searching-box">
+          <SearchingDiv>
+            <SearchingInput
+              value={searchTerm}
+              onChange={e => {
+                setSearchTerm(e.target.value);
+              }}
+            />
+            <icons.search />
+          </SearchingDiv>
+        </section>
+
+        {/* 네비게이션 */}
+        <section id="navigation">
+          <SearchingNav>
+            {['전체', '장기', '단기'].map(item => {
+              if (item === crewTypeFilter) {
+                return (
+                  <NavItem key={item} style={{ backgroundColor: 'black' }}>
+                    <heading.BodySmallBold style={{ color: 'white' }}>{item}</heading.BodySmallBold>
+                  </NavItem>
+                );
+              }
+              return (
+                <NavItem
+                  key={item}
+                  onClick={() => {
+                    setCrewTypeFilter(item);
                   }}
                 >
-                  <icons.users />
-                  <p style={{ fontSize: '12px', lineHeight: '18px', letterSpacing: '-0.2px' }}>
-                    {spot?.crewAttendedMember}/{spot?.crew_crewMaxMember}
-                  </p>
-                </div>
-                <div style={{ position: 'absolute', top: '16px', right: '16px', zIndex: 102 }}>
-                  <icons.heart style={{ cursor: 'pointer' }} />
-                </div>
-              </CrewCard>
-            ))
-          ) : (
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: '100%',
-                color: `${colors.gray400}`,
-              }}
-            >
-              <p style={{ fontWeight: 700, fontSize: '16px', lineHeight: '22px', letterSpacing: '-0.4px' }}>
-                검색 결과가 없습니다.
-              </p>
-            </div>
-          )}
-        </div>
-      </section>
-    </main>
+                  <heading.BodySmallMedium>{item}</heading.BodySmallMedium>
+                </NavItem>
+              );
+            })}
+          </SearchingNav>
+        </section>
+
+        {/* 리스트 박스 */}
+        <section className="search-by-category-card-div">
+          <ListBox>
+            {filteredList.length !== 0 ? (
+              filteredList.map(spot => <CrewCard spot={spot} />)
+            ) : (
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '100%',
+                  color: `${colors.gray400}`,
+                }}
+              >
+                <p style={{ fontWeight: 700, fontSize: '16px', lineHeight: '22px', letterSpacing: '-0.4px' }}>
+                  검색 결과가 없습니다.
+                </p>
+              </div>
+            )}
+          </ListBox>
+        </section>
+      </main>
+    </>
   );
 }
 

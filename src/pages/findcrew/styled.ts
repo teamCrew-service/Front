@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import colors from '../../assets/styles/color';
 
-const CrewCard = styled(Link)`
+export const CrewCardLink = styled(Link)`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -16,7 +16,7 @@ const CrewCard = styled(Link)`
   color: inherit;
 `;
 
-const TagDiv = styled.div<{ $color: string }>`
+export const TagDiv = styled.div<{ $color: string }>`
   width: fit-content;
   height: 18px;
   background-color: ${props => props.$color};
@@ -24,7 +24,7 @@ const TagDiv = styled.div<{ $color: string }>`
   border-radius: 200px;
 `;
 
-const ImageBox = styled.div<{ image: string }>`
+export const ImageBox = styled.div<{ image: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,7 +37,7 @@ const ImageBox = styled.div<{ image: string }>`
   background-repeat: no-repeat;
 `;
 
-const CategoryDiv = styled.div`
+export const CategoryDiv = styled.div`
   display: flex;
   align-items: center;
   gap: 2px;
@@ -48,7 +48,7 @@ const CategoryDiv = styled.div`
   cursor: pointer;
 `;
 
-const BackLink = styled(Link)`
+export const BackLink = styled(Link)`
   position: absolute;
   top: 21px;
   left: 21px;
@@ -61,5 +61,3 @@ const BackLink = styled(Link)`
   background-color: rgba(255, 255, 255, 0.8);
   z-index: 102;
 `;
-
-export { CrewCard, TagDiv, ImageBox, CategoryDiv, BackLink };

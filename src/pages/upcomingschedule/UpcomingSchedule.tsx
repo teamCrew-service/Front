@@ -34,7 +34,7 @@ const SelectedLi = styled(StyledLi)`
 function UpcomingSchedule(): JSX.Element {
   const navigate = useNavigate();
   const { scheduleList } = useLocation().state;
-  const [selected, setSelected] = useState<string>('전체');
+  const [selected, setSelected] = useState<string>('다가오는');
 
   return (
     <>
@@ -49,7 +49,7 @@ function UpcomingSchedule(): JSX.Element {
       </header>
       <nav id="upcomingschedule-nav">
         <StyledUl>
-          {['전체', '다가오는', '참여 완료'].map(item => {
+          {['다가오는', '참여 완료'].map(item => {
             if (item === selected) {
               return (
                 <SelectedLi key={item}>
