@@ -33,6 +33,8 @@ const SelectedLi = styled(StyledLi)`
   translate: 0px 1px;
 `;
 
+const ScheduleCardContainer = styled.div``;
+
 function UpcomingSchedule(): JSX.Element {
   const navigate = useNavigate();
   const { data: scheduleList, isLoading } = useQuery('getWholeSchedule', schedule.getWholeSchedule, {
@@ -83,12 +85,16 @@ function UpcomingSchedule(): JSX.Element {
       <main>
         <section id="upcomingschedule-schedule-list">
           {selected === '다가오는' &&
-            scheduleList?.participateSchedule.map((item: ComingDateSchedule) => (
-              <ScheduleCard key={item.schedule.scheduleId} scheduleOne={item} cardRole="goDetail" />
+            scheduleList?.comingSchedule.map((item: ComingDateSchedule) => (
+              <ScheduleCardContainer>
+                <ScheduleCard key={item.schedule.scheduleId} scheduleOne={item} cardRole="goDetail" />
+              </ScheduleCardContainer>
             ))}
           {selected === '참여 완료' &&
             scheduleList?.participateSchedule.map((item: ComingDateSchedule) => (
-              <ScheduleCard key={item.schedule.scheduleId} scheduleOne={item} cardRole="goDetail" />
+              <ScheduleCardContainer>
+                <ScheduleCard key={item.schedule.scheduleId} scheduleOne={item} cardRole="goDetail" />
+              </ScheduleCardContainer>
             ))}
         </section>
       </main>

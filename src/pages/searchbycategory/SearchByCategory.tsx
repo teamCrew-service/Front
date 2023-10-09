@@ -74,7 +74,7 @@ function SearchByCategory(): JSX.Element {
         <heading.BodyLargeBold>{interest}</heading.BodyLargeBold>
         <div style={{ width: '24px' }} />
       </header>
-      <main>
+      <main id="interest-main">
         {/* 검색 박스 */}
         <section id="searching-box">
           <SearchingDiv>
@@ -114,7 +114,7 @@ function SearchByCategory(): JSX.Element {
         </section>
 
         {/* 리스트 박스 */}
-        <section className="search-by-category-card-div">
+        <section id="interest-list-box">
           <ListBox>
             {filteredList.length !== 0 ? (
               filteredList.map(spot => <CrewCard key={spot?.crew_crewId} spot={spot} />)
