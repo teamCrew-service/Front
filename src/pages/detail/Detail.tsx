@@ -9,13 +9,20 @@ import icons from '../../assets/icons';
 import CrewThumbnail from '../../assets/icons/CrewThumbnail.svg';
 
 import './style.css';
-import BodyLargeBold from '../../styledComponent/heading/BodyLargeBold';
+import heading from '../../styledComponent/heading';
 
 import Short from '../../components/detail/crewType/Short';
 
 import type { Schedule } from '../../assets/interfaces';
 import Long from '../../components/detail/crewType/Long';
-import { SaveCrewThumbnailBtn, ThumbnailAbsDiv, ThumbnailDiv } from './styled';
+import {
+  SaveCrewThumbnailBtn,
+  ThumbnailAbsDiv,
+  ThumbnailDiv,
+  InteractiveBtnContainer,
+  LikeDiv,
+  JoinDiv,
+} from './styled';
 import BodyBaseBold from '../../styledComponent/heading/BodyBaseBold';
 
 function Detail(): JSX.Element {
@@ -110,7 +117,7 @@ function Detail(): JSX.Element {
             window.history.back();
           }}
         />
-        <BodyLargeBold>{crewInfo?.result.crew.crew_crewType}</BodyLargeBold>
+        <heading.BodyLargeBold>{crewInfo?.result.crew.crew_crewType}</heading.BodyLargeBold>
         <div style={{ position: 'relative', width: '24px', height: '24px' }}>
           <icons.ThreeDots fill="#4F4E55" style={{ cursor: 'pointer' }} />
         </div>
@@ -133,14 +140,13 @@ function Detail(): JSX.Element {
           )}
         </section>
 
-        {/* crew별 컨텐츠 */}
+        {/* 장기 / 단기 별 컨텐츠 */}
         {crewInfo?.result.crew.crew_crewType === '장기' && (
           <Long
             crewInfo={crewInfo.result}
             infoOpen={infoOpen}
             closeInfoWindow={closeInfoWindow}
             openInfoWindow={openInfoWindow}
-            signUpCrew={signUpCrew}
             saveAddress={saveAddress}
             recentSchedule={crewInfo.recentSchedule}
           />
@@ -156,6 +162,24 @@ function Detail(): JSX.Element {
           />
         )}
       </main>
+      {/* 참여버튼 */}
+      {crewInfo?.result.personType === 'person' && (
+        <InteractiveBtnContainer>
+          <LikeDiv>
+            <icons.heart />
+            <heading.BodyBaseBold>
+              {crewInfo.result.likeCount > 99 ? '99+' : crewInfo.result.likeCount}
+            </heading.BodyBaseBold>
+          </LikeDiv>
+          <JoinDiv
+            onClick={() => {
+              signUpCrew.mutate();
+            }}
+          >
+            <heading.BodyBaseBold>정모 가입하기</heading.BodyBaseBold>
+          </JoinDiv>
+        </InteractiveBtnContainer>
+      )}
     </>
   );
 }

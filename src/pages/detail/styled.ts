@@ -110,3 +110,36 @@ export const BlockDiv = styled.div`
   width: 100%;
   gap: 12px;
 `;
+
+export const JoinDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 74.34%;
+  height: 56px;
+  background-color: ${colors.primary};
+  color: white;
+  border-radius: 8px;
+`;
+
+export const LikeDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 23.32%;
+  height: 56px;
+  gap: 5%;
+  border: 1px solid ${colors.gray200};
+  border-radius: 8px;
+  background-color: white;
+  color: ${colors.primary};
+`;
+
+export const InteractiveBtnContainer = styled.div`
+  position: absolute;
+  bottom: 34px;
+  display: flex;
+  width: 100%;
+  padding: 0 16px;
+  justify-content: space-between;
+`;

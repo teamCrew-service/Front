@@ -29,6 +29,8 @@ import { ReactComponent as UsersThree } from './UsersThree.svg';
 import { ReactComponent as ChatTeardropDots } from './ChatTeardropDots.svg';
 import { ReactComponent as UserCircle } from './UserCircle.svg';
 
+import { ReactComponent as NoSchedule } from './NoSchedule.svg';
+
 const icons = {
   TeamLogo,
   Kakao,
@@ -56,6 +58,7 @@ const icons = {
   UsersThree,
   ChatTeardropDots,
   UserCircle,
+  NoSchedule,
 };
 
 export default icons;
