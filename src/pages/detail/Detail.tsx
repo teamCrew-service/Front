@@ -24,10 +24,14 @@ import {
   JoinDiv,
 } from './styled';
 import BodyBaseBold from '../../styledComponent/heading/BodyBaseBold';
+import JoinModal from '../../components/modal/JoinModal';
+import JoinCrewModal from '../../components/modal/joincrew/JoinCrewModal';
 
 function Detail(): JSX.Element {
   // 소개 부분 접었다 펴기
   const [infoOpen, setInfoOpen] = useState<boolean>(true);
+  const [joinModalOpen, setJoinModalOpen] = useState<boolean>(false);
+  const [joinCrewModalOpen, setJoinCrewModalOpen] = useState<boolean>(false);
 
   const { id } = useParams();
 
@@ -91,6 +95,14 @@ function Detail(): JSX.Element {
     setInfoOpen(false);
   };
 
+  const closeJoinModal = (): void => {
+    setJoinModalOpen(false);
+  };
+
+  const closeJoinCrewModal = (): void => {
+    setJoinCrewModalOpen(false);
+  };
+
   const saveAddress = (address: string): void => {
     navigator.clipboard
       .writeText(address)
@@ -110,6 +122,18 @@ function Detail(): JSX.Element {
 
   return (
     <>
+      {joinModalOpen && (
+        <JoinModal
+          crewType={crewInfo!.result.crew.crew_crewType}
+          closeModal={closeJoinModal}
+          openJoinCrewModal={() => {
+            setJoinCrewModalOpen(true);
+          }}
+        />
+      )}
+      {joinCrewModalOpen && (
+        <JoinCrewModal crewType={crewInfo!.result.crew.crew_crewType} closeModal={closeJoinCrewModal} />
+      )}
       {/* 헤더 */}
       <header id="detail-header">
         <icons.chevronLeft
@@ -148,7 +172,7 @@ function Detail(): JSX.Element {
             closeInfoWindow={closeInfoWindow}
             openInfoWindow={openInfoWindow}
             saveAddress={saveAddress}
-            recentSchedule={crewInfo.recentSchedule}
+            recentSchedule={crewInfo.recentSchedule !== undefined ? crewInfo.recentSchedule : null}
           />
         )}
         {crewInfo?.result.crew.crew_crewType === '단기' && (
@@ -171,13 +195,24 @@ function Detail(): JSX.Element {
               {crewInfo.result.likeCount > 99 ? '99+' : crewInfo.result.likeCount}
             </heading.BodyBaseBold>
           </LikeDiv>
-          <JoinDiv
-            onClick={() => {
-              signUpCrew.mutate();
-            }}
-          >
-            <heading.BodyBaseBold>정모 가입하기</heading.BodyBaseBold>
-          </JoinDiv>
+          {crewInfo?.result.crew.crew_crewType === '장기' && (
+            <JoinDiv
+              onClick={() => {
+                setJoinModalOpen(true);
+              }}
+            >
+              <heading.BodyBaseBold>정모 가입하기</heading.BodyBaseBold>
+            </JoinDiv>
+          )}
+          {crewInfo?.result.crew.crew_crewType === '단기' && (
+            <JoinDiv
+              onClick={() => {
+                signUpCrew.mutate();
+              }}
+            >
+              <heading.BodyBaseBold>단기 모임 참여하기</heading.BodyBaseBold>
+            </JoinDiv>
+          )}
         </InteractiveBtnContainer>
       )}
     </>

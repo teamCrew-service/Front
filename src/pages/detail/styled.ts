@@ -35,6 +35,7 @@ export const ThumbnailAbsDiv = styled.div`
   left: 0px;
   background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
   padding: 12px;
+  z-index: 1;
 `;
 
 export const CrewInfoContext = styled.h3`

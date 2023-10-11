@@ -51,7 +51,7 @@ function Long({
   closeInfoWindow: () => void;
   openInfoWindow: () => void;
   saveAddress: (input: string) => void;
-  recentSchedule: Schedule;
+  recentSchedule: Schedule | null;
 }): JSX.Element {
   const [page, setPage] = useState<string>('모임정보');
   const [showCalendarEvent, setShowCalendarEvent] = useState<boolean>(false);
@@ -189,25 +189,23 @@ function Long({
               </BlockDiv>
 
               {/* 일정 */}
-              <div id="detail-main-content-schedule">
-                {crewInfo?.personType !== 'person' && (
-                  <>
-                    <SubTitle>
-                      <heading.BodyLargeBold>일정</heading.BodyLargeBold>
-                      <heading.BodySmallBold
-                        onClick={() => {
-                          changePage('일정');
-                        }}
-                        style={{ cursor: 'pointer' }}
-                      >
-                        전체보기
-                      </heading.BodySmallBold>
-                    </SubTitle>
-                    {recentSchedule !== null && <ScheduleCard crewInfo={crewInfo}>{recentSchedule}</ScheduleCard>}
-                    {recentSchedule === null && <NoScheduleCard />}
-                  </>
-                )}
-              </div>
+              {crewInfo?.personType !== 'person' && (
+                <div id="detail-main-content-schedule">
+                  <SubTitle>
+                    <heading.BodyLargeBold>일정</heading.BodyLargeBold>
+                    <heading.BodySmallBold
+                      onClick={() => {
+                        changePage('일정');
+                      }}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      전체보기
+                    </heading.BodySmallBold>
+                  </SubTitle>
+                  {recentSchedule !== null && <ScheduleCard crewInfo={crewInfo}>{recentSchedule}</ScheduleCard>}
+                  {recentSchedule === null && <NoScheduleCard />}
+                </div>
+              )}
 
               {/* 위치 */}
               <BlockDiv>
@@ -218,8 +216,14 @@ function Long({
                   <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <icons.Mappin />
                     <div>
-                      <heading.BodyLargeBold>{crewInfo?.crew.crew_crewAddress}</heading.BodyLargeBold>
-                      <heading.CaptionXS>서울시 마포구 당인동 1</heading.CaptionXS>
+                      {/* 최근 일정이 없을 경우 : 크루 위치 표시 */}
+                      {recentSchedule === null && (
+                        <heading.BodyLargeBold>{crewInfo?.crew.crew_crewAddress}</heading.BodyLargeBold>
+                      )}
+                      {/* 최근 일정이 있을 경우 : 일정 위치 표시 */}
+                      {recentSchedule !== null && (
+                        <heading.BodyLargeBold>{recentSchedule.scheduleAddress}</heading.BodyLargeBold>
+                      )}
                     </div>
                   </div>
                   <SaveBtn
