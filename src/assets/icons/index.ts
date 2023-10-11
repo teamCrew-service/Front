@@ -31,6 +31,8 @@ import { ReactComponent as UserCircle } from './UserCircle.svg';
 
 import { ReactComponent as NoSchedule } from './NoSchedule.svg';
 
+import { ReactComponent as MapCloseBtn } from './MapCloseBtn.svg';
+
 const icons = {
   TeamLogo,
   Kakao,
@@ -59,6 +61,7 @@ const icons = {
   ChatTeardropDots,
   UserCircle,
   NoSchedule,
+  MapCloseBtn,
 };
 
 export default icons;

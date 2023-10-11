@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 import type { MemberDetail, Schedule } from '../../../assets/interfaces';
 
@@ -34,6 +35,8 @@ declare global {
 }
 
 const { kakao } = window;
+
+const TestDiv = styled.div``;
 
 function Long({
   crewInfo,
@@ -147,8 +150,8 @@ function Long({
               </CrewInfoContext>
             </div>
 
-            {/* 소개 */}
             <div id="detail-main-content-crewinfo-2">
+              {/* 소개 */}
               <BlockDiv>
                 <div id="detail-main-content-intro">
                   <SubTitle>
@@ -160,6 +163,7 @@ function Long({
                     )}
                   </SubTitle>
                 </div>
+                {/* 소개 - 접었다 피는 부분 */}
                 {infoOpen && (
                   <div id="detail-main-content-context">
                     <CrewIntroQuestionContainer>
@@ -227,14 +231,42 @@ function Long({
                     <heading.BodySmallBold style={{ color: `${colors.point}` }}>주소 복사</heading.BodySmallBold>
                   </SaveBtn>
                 </div>
-                <div
+                <TestDiv
                   id="long-crew-staticMap"
                   style={{
+                    position: 'relative',
                     width: '100%',
                     height: '180px',
                     borderRadius: '4px',
                   }}
-                />
+                  // eslint-disable-next-line react/jsx-no-comment-textnodes
+                >
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '0px',
+                      left: '0px',
+                      display: 'flex',
+                      justifyContent: 'end',
+                      width: '100%',
+                      height: '100%',
+                      zIndex: 1,
+                    }}
+                  />
+                  <TestDiv
+                    onClick={event => {
+                      // ChildNode에는 어떤 형식의 Node든 다 올 수 있다.
+                      const { nextSibling } = event.currentTarget;
+                      // 타입 Narrowing
+                      if (nextSibling instanceof HTMLElement) {
+                        nextSibling.click();
+                      }
+                    }}
+                    style={{ position: 'absolute', top: '4px', right: '4px', cursor: 'pointer', zIndex: 1 }}
+                  >
+                    <icons.MapCloseBtn />
+                  </TestDiv>
+                </TestDiv>
               </BlockDiv>
 
               {/* 캘린더 */}
