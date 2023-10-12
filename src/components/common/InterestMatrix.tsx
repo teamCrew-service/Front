@@ -32,9 +32,9 @@ function InterestMatrix({
     { code: 2, name: '운동', item: widgets.Workout, color: '#D1F4FF', border: '#1090B8' },
     { code: 3, name: '자기계발', item: widgets.Self, color: '#ECE8FF', border: `${colors.primary}` },
     { code: 4, name: '반려동물', item: widgets.Animal, color: '#E0FFED', border: `${colors.point}` },
-    { code: 5, name: '책/글', item: widgets.Books, color: '#D1F4FF', border: '#1090B8' },
-    { code: 6, name: '공연/축제', item: widgets.Festival, color: '#ECE8FF', border: `${colors.primary}` },
-    { code: 7, name: '영화/음악', item: widgets.MovieMusic, color: '#E0FFED', border: `${colors.point}` },
+    { code: 5, name: '책%2F글', item: widgets.Books, color: '#D1F4FF', border: '#1090B8' },
+    { code: 6, name: '공연%2F축제', item: widgets.Festival, color: '#ECE8FF', border: `${colors.primary}` },
+    { code: 7, name: '영화%2F음악', item: widgets.MovieMusic, color: '#E0FFED', border: `${colors.point}` },
     { code: 8, name: '게임', item: widgets.Game, color: `${colors.gray200}`, border: `${colors.gray500}` },
     { code: 9, name: '일일체험', item: widgets.Experience, color: '#ECE8FF', border: `${colors.primary}` },
     { code: 10, name: '친목', item: widgets.Gather, color: '#E0FFED', border: `${colors.point}` },
@@ -60,6 +60,7 @@ function InterestMatrix({
         return (
           <SmallCardDiv
             onClick={() => {
+              console.log(item.name);
               onClick(item.name);
             }}
             key={item.code}

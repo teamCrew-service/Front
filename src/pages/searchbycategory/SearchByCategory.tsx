@@ -42,7 +42,11 @@ function SearchByCategory(): JSX.Element {
       }
 
       if (category !== '') {
-        crews = crews.filter(crew => crew.crew_category === category);
+        let newCategory = category;
+        if (category.includes('%2F')) {
+          newCategory = category.replace('%2F', '/');
+        }
+        crews = crews.filter(crew => crew.crew_category === newCategory);
       }
 
       return crews;
@@ -71,7 +75,9 @@ function SearchByCategory(): JSX.Element {
           }}
           style={{ cursor: 'pointer' }}
         />
-        <heading.BodyLargeBold>{interest}</heading.BodyLargeBold>
+        <heading.BodyLargeBold>
+          {interest.includes('%2F') === true ? interest.replace('%2F', '/') : interest}
+        </heading.BodyLargeBold>
         <div style={{ width: '24px' }} />
       </header>
       <main id="interest-main">
