@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useState } from 'react';
-import { useQuery } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 import { useParams } from 'react-router-dom';
 
 import { crew } from '../../api';
@@ -46,7 +46,11 @@ function Detail(): JSX.Element {
     return null;
   };
 
-  const { status, data: crewInfo } = useQuery(
+  const {
+    status,
+    data: crewInfo,
+    refetch,
+  } = useQuery(
     'crewDetail',
     async () => {
       const result = await crew.getDetail(id!);
@@ -67,21 +71,21 @@ function Detail(): JSX.Element {
     },
   );
 
-  // const signUpCrew = useMutation(
-  //   async () => {
-  //     const result = await crew.signUp(crewInfo!.result.crew.crew_crewId);
-  //     return result;
-  //   },
-  //   {
-  //     onSuccess: async res => {
-  //       console.log(res);
-  //       await refetch();
-  //     },
-  //     onError: (error: any) => {
-  //       alert(error.response.data.message);
-  //     },
-  //   },
-  // );
+  const signUpCrew = useMutation(
+    async () => {
+      const result = await crew.signUp(crewInfo!.result.crew.crew_crewId);
+      return result;
+    },
+    {
+      onSuccess: async res => {
+        console.log(res);
+        await refetch();
+      },
+      onError: (error: any) => {
+        alert(error.response.data.message);
+      },
+    },
+  );
 
   const openInfoWindow = (): void => {
     setInfoOpen(true);
@@ -95,9 +99,16 @@ function Detail(): JSX.Element {
     setJoinModalOpen(false);
   };
 
+  const openJoinCrewModal = (): void => {
+    setJoinCrewModalOpen(true);
+  };
+
   const closeJoinCrewModal = (): void => {
     setJoinCrewModalOpen(false);
   };
+
+  console.log('crewSignup', crewInfo?.result.crew.crew_crewSignup);
+  console.log('type', typeof crewInfo?.result.crew.crew_crewSignup);
 
   const saveAddress = (address: string): void => {
     navigator.clipboard
@@ -107,6 +118,17 @@ function Detail(): JSX.Element {
       })
       .catch(() => {});
   };
+
+  let joinCrewFunc = (): void => {};
+
+  if (status !== 'loading' && status !== 'error') {
+    joinCrewFunc =
+      crewInfo?.result.crew.crew_crewSignup === 0
+        ? () => {
+            signUpCrew.mutate();
+          }
+        : openJoinCrewModal;
+  }
 
   if (status === 'loading') {
     return <div>loading...</div>;
@@ -191,20 +213,12 @@ function Detail(): JSX.Element {
             </heading.BodyBaseBold>
           </LikeDiv>
           {crewInfo?.result.crew.crew_crewType === '장기' && (
-            <JoinDiv
-              onClick={() => {
-                setJoinModalOpen(true);
-              }}
-            >
+            <JoinDiv onClick={joinCrewFunc}>
               <heading.BodyBaseBold>정모 가입하기</heading.BodyBaseBold>
             </JoinDiv>
           )}
           {crewInfo?.result.crew.crew_crewType === '단기' && (
-            <JoinDiv
-              onClick={() => {
-                setJoinModalOpen(true);
-              }}
-            >
+            <JoinDiv onClick={joinCrewFunc}>
               <heading.BodyBaseBold>단기 모임 참여하기</heading.BodyBaseBold>
             </JoinDiv>
           )}

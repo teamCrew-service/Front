@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 import heading from '../../../styledComponent/heading';
 import colors from '../../../assets/styles/color';
+import { myIntroStr } from '../../../atoms/joincrew';
 
 const StyledTextarea = styled(TextareaAutosize)`
   font-family: Pretendard;
@@ -33,9 +35,9 @@ const TextareaDiv = styled.div`
 `;
 
 function MyIntro({ crewType }: { crewType: string }): JSX.Element {
-  const [intro, setIntro] = useState<string>('');
+  const [myIntro, setMyIntro] = useRecoilState(myIntroStr);
   const changeIntro = (event: any): void => {
-    setIntro(event.target.value);
+    setMyIntro(event.target.value);
   };
   return (
     <section>
@@ -50,25 +52,23 @@ function MyIntro({ crewType }: { crewType: string }): JSX.Element {
         {crewType === '장기' && (
           <>
             <StyledTextarea
-              value={intro}
               onChange={changeIntro}
               cacheMeasurements
               maxLength={400}
               placeholder="20자 이상 입력해주세요"
             />
-            <p>{intro.length}/400</p>
+            <p>{myIntro.length}/400</p>
           </>
         )}
         {crewType === '단기' && (
           <>
             <StyledTextarea
-              value={intro}
               onChange={changeIntro}
               cacheMeasurements
               maxLength={80}
               placeholder="20자 이상 입력해주세요"
             />
-            <p style={{ color: `${colors.gray400}`, marginLeft: 'auto' }}>{intro.length}/80</p>
+            <p style={{ color: `${colors.gray400}`, marginLeft: 'auto' }}>{myIntro.length}/80</p>
           </>
         )}
       </TextareaDiv>

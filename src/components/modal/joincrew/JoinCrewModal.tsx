@@ -1,9 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useRecoilValue } from 'recoil';
 import MyIntro from './MyIntro';
 import './style.css';
 import heading from '../../../styledComponent/heading';
 import icons from '../../../assets/icons';
+import ButtonDiv from '../../../styledComponent/ButtonDiv';
+import { myIntroStr } from '../../../atoms/joincrew';
 
 const ModalContainer = styled.div`
   position: absolute;
@@ -15,7 +18,18 @@ const ModalContainer = styled.div`
   background-color: white;
 `;
 
+const NonActiveDiv = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+`;
+
 function JoinCrewModal({ crewType, closeModal }: { crewType: string; closeModal: () => void }): JSX.Element {
+  const myIntro = useRecoilValue(myIntroStr);
   return (
     <ModalContainer>
       <header id="joincrew-header">
@@ -25,7 +39,12 @@ function JoinCrewModal({ crewType, closeModal }: { crewType: string; closeModal:
         <div style={{ width: '24px' }} />
       </header>
       <main id="joincrew-main">
+        {/* 첫 번째 질문 */}
         <MyIntro crewType={crewType} />
+        <ButtonDiv style={{ position: 'relative' }}>
+          {myIntro.length < 20 && <NonActiveDiv />}
+          <heading.BodyBaseBold>다음</heading.BodyBaseBold>
+        </ButtonDiv>
       </main>
     </ModalContainer>
   );
