@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react';
 
 import type { MemberDetail, Schedule } from '../../../assets/interfaces';
 
@@ -10,7 +9,6 @@ import {
   DetailMenuLi,
   CrewInfoContext,
   SubTitle,
-  SaveBtn,
   QuestionDiv,
   SeparateDiv,
   SeparateBar,
@@ -27,16 +25,7 @@ import ScheduleCard from '../ScheduleCard';
 import MemberBox from '../MemberBox';
 import Calendar from '../../common/calendar/Calendar';
 import NoScheduleCard from '../NoScheduleCard';
-
-declare global {
-  interface Window {
-    kakao: any;
-  }
-}
-
-const { kakao } = window;
-
-const TestDiv = styled.div``;
+import Location from '../role/Location';
 
 function Long({
   crewInfo,
@@ -69,28 +58,6 @@ function Long({
     setEventInfo(input);
     setShowCalendarEvent(true);
   };
-
-  useEffect(() => {
-    if (page === '모임정보') {
-      console.log(recentSchedule);
-      const staticMapContainer = document.getElementById('long-crew-staticMap');
-      let coord;
-      if (recentSchedule === null) {
-        coord = new kakao.maps.LatLng(crewInfo.crew.crew_latitude, crewInfo.crew.crew_longtitude);
-      } else {
-        coord = new kakao.maps.LatLng(recentSchedule.scheduleLatitude, recentSchedule.scheduleLongitude);
-      }
-      const staticMapOption = {
-        center: coord,
-        level: 3,
-        marker: {
-          position: coord,
-        },
-      };
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const staticMap = new kakao.maps.StaticMap(staticMapContainer, staticMapOption);
-    }
-  }, [page]);
 
   return (
     <>
@@ -208,70 +175,7 @@ function Long({
               )}
 
               {/* 위치 */}
-              <BlockDiv>
-                <SubTitle>
-                  <heading.BodyLargeBold>위치</heading.BodyLargeBold>
-                </SubTitle>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <icons.Mappin />
-                    <div>
-                      {/* 최근 일정이 없을 경우 : 크루 위치 표시 */}
-                      {recentSchedule === null && (
-                        <heading.BodyLargeBold>{crewInfo?.crew.crew_crewAddress}</heading.BodyLargeBold>
-                      )}
-                      {/* 최근 일정이 있을 경우 : 일정 위치 표시 */}
-                      {recentSchedule !== null && (
-                        <heading.BodyLargeBold>{recentSchedule.scheduleAddress}</heading.BodyLargeBold>
-                      )}
-                    </div>
-                  </div>
-                  <SaveBtn
-                    onClick={() => {
-                      saveAddress(crewInfo.crew.crew_crewAddress);
-                    }}
-                  >
-                    <icons.Files />
-                    <heading.BodySmallBold style={{ color: `${colors.point}` }}>주소 복사</heading.BodySmallBold>
-                  </SaveBtn>
-                </div>
-                <TestDiv
-                  id="long-crew-staticMap"
-                  style={{
-                    position: 'relative',
-                    width: '100%',
-                    height: '180px',
-                    borderRadius: '4px',
-                  }}
-                  // eslint-disable-next-line react/jsx-no-comment-textnodes
-                >
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: '0px',
-                      left: '0px',
-                      display: 'flex',
-                      justifyContent: 'end',
-                      width: '100%',
-                      height: '100%',
-                      zIndex: 1,
-                    }}
-                  />
-                  <TestDiv
-                    onClick={event => {
-                      // ChildNode에는 어떤 형식의 Node든 다 올 수 있다.
-                      const { nextSibling } = event.currentTarget;
-                      // 타입 Narrowing
-                      if (nextSibling instanceof HTMLElement) {
-                        nextSibling.click();
-                      }
-                    }}
-                    style={{ position: 'absolute', top: '4px', right: '4px', cursor: 'pointer', zIndex: 1 }}
-                  >
-                    <icons.MapCloseBtn />
-                  </TestDiv>
-                </TestDiv>
-              </BlockDiv>
+              <Location crewInfo={crewInfo} recentSchedule={recentSchedule} saveAddress={saveAddress} />
 
               {/* 캘린더 */}
               {crewInfo.personType !== 'person' && (
@@ -349,6 +253,7 @@ function Long({
                       url={crewInfo.crew.captainProfileImage}
                       name={crewInfo.crew.captainNickname}
                       isHost
+                      crewType={crewInfo.crew.crew_crewType}
                     />
                   </div>
                 </BlockDiv>
@@ -369,12 +274,14 @@ function Long({
                       url={crewInfo.crew.captainProfileImage}
                       name={crewInfo.crew.captainNickname}
                       isHost
+                      crewType={crewInfo.crew.crew_crewType}
                     />
                     {crewInfo?.member.map(person => (
                       <MemberBox
                         key={person.member_memberId}
                         url={person.users_profileImage}
                         name={person.users_nickname}
+                        crewType={crewInfo.crew.crew_crewType}
                       />
                     ))}
                   </div>

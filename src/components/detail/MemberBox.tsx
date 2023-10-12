@@ -4,21 +4,38 @@ import colors from '../../assets/styles/color';
 
 import heading from '../../styledComponent/heading';
 
-const HostDiv = styled.div`
+const HostDiv = styled.div<{ crewType: string }>`
   padding: 4px;
   border-radius: 4px;
-  background-color: ${colors.primary50};
-  color: ${colors.primary};
+  background-color: ${props => (props.crewType === '장기' ? colors.primary50 : colors.point50)};
+  color: ${props => (props.crewType === '장기' ? colors.primary700 : colors.point700)};
 `;
 
-function MemberBox({ url, name, isHost = false }: { url: string; name: string; isHost?: boolean }): JSX.Element {
+function MemberBox({
+  url,
+  name,
+  isHost = false,
+  crewType,
+}: {
+  url: string;
+  name: string;
+  isHost?: boolean;
+  crewType: string;
+}): JSX.Element {
+  let borderColor;
+  if (crewType === '장기') {
+    borderColor = `${colors.primary}`;
+  }
+  if (crewType === '단기') {
+    borderColor = `${colors.point}`;
+  }
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '2%' }}>
       <div
         style={{
           width: '8%',
           aspectRatio: 1,
-          border: `${isHost && `2px solid ${colors.primary}`}`,
+          border: `${isHost && `2px solid ${borderColor}`}`,
           borderRadius: '50%',
           backgroundImage: `url(${url})`,
           backgroundSize: 'cover',
@@ -27,7 +44,7 @@ function MemberBox({ url, name, isHost = false }: { url: string; name: string; i
       />
       <heading.BodyBaseBold>{name}</heading.BodyBaseBold>
       {isHost && (
-        <HostDiv>
+        <HostDiv crewType={crewType}>
           <heading.CaptionXS>호스트</heading.CaptionXS>
         </HostDiv>
       )}

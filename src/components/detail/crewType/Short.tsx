@@ -1,12 +1,11 @@
 import React from 'react';
-import TitleLargeBold from '../../../styledComponent/heading/TitleLargeBold';
-import BodySmallMedium from '../../../styledComponent/heading/BodySmallMedium';
-import BodySmallBold from '../../../styledComponent/heading/BodySmallBold';
-import BodyBaseMedium from '../../../styledComponent/heading/BodyBaseMedium';
-import BodyLargeBold from '../../../styledComponent/heading/BodyLargeBold';
-import CaptionXS from '../../../styledComponent/heading/CaptionXS';
 
-import { SubTitle, SaveBtn } from '../../../pages/detail/styled';
+import heading from '../../../styledComponent/heading';
+
+import { SubTitle, BlockDiv } from '../../../pages/detail/styled';
+import MemberBox from '../MemberBox';
+
+import Location from '../role/Location';
 
 import icons from '../../../assets/icons';
 import colors from '../../../assets/styles/color';
@@ -14,7 +13,6 @@ import colors from '../../../assets/styles/color';
 import type { MemberDetail } from '../../../assets/interfaces';
 
 import useCalDate from '../../../util/useCalDate';
-import BodyBaseBold from '../../../styledComponent/heading/BodyBaseBold';
 
 function short({
   crewInfo,
@@ -22,20 +20,18 @@ function short({
   openInfoWindow,
   closeInfoWindow,
   saveAddress,
-  signUpCrew,
 }: {
   crewInfo: MemberDetail;
   infoOpen: boolean;
   openInfoWindow: () => void;
   closeInfoWindow: () => void;
   saveAddress: (address: string) => void;
-  signUpCrew: any;
 }): JSX.Element {
   return (
     <section id="short-detail-main-content">
       <div id="short-detail-main-content-crewinfo">
         {/* 크루제목 */}
-        <TitleLargeBold>{crewInfo.crew.crew_crewTitle}</TitleLargeBold>
+        <heading.TitleLargeBold>{crewInfo.crew.crew_crewTitle}</heading.TitleLargeBold>
         {/* 크루정보 */}
         <div
           style={{
@@ -51,24 +47,24 @@ function short({
         >
           <div style={{ display: 'flex', gap: '4px' }}>
             <icons.Calendar />
-            <BodySmallMedium>{useCalDate(new Date(crewInfo.crew.crew_crewDDay))}</BodySmallMedium>
+            <heading.BodySmallMedium>{useCalDate(new Date(crewInfo.crew.crew_crewDDay))}</heading.BodySmallMedium>
           </div>
           <div style={{ display: 'flex', gap: '4px' }}>
             <icons.Location />
-            <BodySmallMedium>{crewInfo.crew.crew_crewAddress}</BodySmallMedium>
+            <heading.BodySmallMedium>{crewInfo.crew.crew_crewAddress}</heading.BodySmallMedium>
           </div>
           <div style={{ display: 'flex', gap: '4px' }}>
             <icons.users />
-            <BodySmallMedium>
+            <heading.BodySmallMedium>
               <span style={{ color: `${colors.point}` }}>{crewInfo.member.length}</span>/
               {crewInfo.crew.crew_crewMaxMember}
-            </BodySmallMedium>
+            </heading.BodySmallMedium>
           </div>
         </div>
         {/* 소개 */}
         <div id="detail-main-content-intro">
           <SubTitle>
-            <BodyLargeBold>소개</BodyLargeBold>
+            <heading.BodyLargeBold>소개</heading.BodyLargeBold>
             {infoOpen ? (
               <icons.chevronUp style={{ cursor: 'pointer' }} onClick={closeInfoWindow} />
             ) : (
@@ -88,87 +84,73 @@ function short({
               }}
             >
               <div>
-                <BodyBaseMedium>&nbsp;&nbsp;&middot; 우리 모임 사람들의 특징은?</BodyBaseMedium>
-                <BodyBaseMedium>{crewInfo?.crew.crew_crewMemberInfo}</BodyBaseMedium>
+                <heading.BodyBaseMedium>&nbsp;&nbsp;&middot; 우리 모임 사람들의 특징은?</heading.BodyBaseMedium>
+                <heading.BodyBaseMedium>{crewInfo?.crew.crew_crewMemberInfo}</heading.BodyBaseMedium>
               </div>
               <div>
-                <BodyBaseMedium>&nbsp;&nbsp;&middot; 우리 모임 사람들의 연령대는?</BodyBaseMedium>
-                <BodyBaseMedium>{crewInfo?.crew.crew_crewAgeInfo}</BodyBaseMedium>
+                <heading.BodyBaseMedium>&nbsp;&nbsp;&middot; 우리 모임 사람들의 연령대는?</heading.BodyBaseMedium>
+                <heading.BodyBaseMedium>{crewInfo?.crew.crew_crewAgeInfo}</heading.BodyBaseMedium>
               </div>
             </div>
-            <BodyBaseMedium style={{ padding: '10px 0px' }}>{crewInfo?.crew.crew_crewContent}</BodyBaseMedium>
+            <heading.BodyBaseMedium style={{ padding: '10px 0px' }}>
+              {crewInfo?.crew.crew_crewContent}
+            </heading.BodyBaseMedium>
           </>
         )}
         {/* 위치 */}
+        <Location crewInfo={crewInfo} recentSchedule={null} saveAddress={saveAddress} />
+
+        {/* 사진 */}
         <SubTitle>
-          <BodyLargeBold>위치</BodyLargeBold>
-        </SubTitle>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <icons.Mappin />
-            <div>
-              <BodyLargeBold>{crewInfo?.crew.crew_crewAddress}</BodyLargeBold>
-              <CaptionXS>서울시 마포구 당인동 1</CaptionXS>
-            </div>
-          </div>
-          <SaveBtn
-            onClick={() => {
-              saveAddress(crewInfo.crew.crew_crewAddress);
-            }}
-          >
-            <BodySmallBold style={{ color: `${colors.point}` }}>주소 복사</BodySmallBold>
-          </SaveBtn>
-        </div>
-        <div
-          style={{
-            width: '100%',
-            aspectRatio: 2,
-            backgroundColor: `${colors.gray100}`,
-            borderRadius: '4px',
-          }}
-        >
-          카카오 정적 맵
-        </div>
-        <SubTitle>
-          <BodyLargeBold>사진</BodyLargeBold>
+          <heading.BodyLargeBold>사진</heading.BodyLargeBold>
         </SubTitle>
         <div style={{ width: '100%', aspectRatio: 0.95, border: '1px solid black', borderRadius: '8px' }} />
-        <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', height: '56px' }}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              width: '21.33%',
-              padding: '0px 12px',
-              border: `1px solid ${colors.gray200}`,
-              borderRadius: '8px',
-            }}
-          >
-            <icons.heart />
-            <BodyBaseBold style={{ color: `${colors.primary}` }}>
-              {crewInfo.likeCount > 99 ? '99+' : crewInfo.likeCount}
-            </BodyBaseBold>
-          </div>
-          {/* 참여 버튼  */}
-          <div style={{ width: '74.34%' }}>
-            <button
-              disabled={crewInfo.personType !== 'person'}
-              type="button"
-              onClick={signUpCrew}
-              style={{
-                width: '100%',
-                height: '100%',
-                backgroundColor: `${crewInfo.personType !== 'person' ? 'black' : colors.primary}`,
-                borderRadius: '8px',
-              }}
-            >
-              <BodyBaseBold style={{ color: `${crewInfo.personType !== 'person' ? colors.gray500 : 'white'}` }}>
-                {crewInfo.personType !== 'person' ? '참여 중' : '모임 참가하기'}
-              </BodyBaseBold>
-            </button>
-          </div>
-        </div>
+        {/* 호스트 : 게스트만 보여주는 것 */}
+        {crewInfo.personType === 'person' && (
+          <BlockDiv>
+            <SubTitle>
+              <heading.BodyLargeBold>호스트</heading.BodyLargeBold>
+            </SubTitle>
+            <div>
+              <MemberBox
+                key={crewInfo.crew.captainId}
+                url={crewInfo.crew.captainProfileImage}
+                name={crewInfo.crew.captainNickname}
+                isHost
+                crewType={crewInfo.crew.crew_crewType}
+              />
+            </div>
+          </BlockDiv>
+        )}
+
+        {/* 참여중인 크루 : 멤버들에게 보여주는 것 */}
+        {crewInfo.personType !== 'person' && (
+          <BlockDiv>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1%' }}>
+              <heading.BodyLargeBold>참여중인 크루</heading.BodyLargeBold>
+              <heading.BodySmallBold style={{ color: `${colors.point}` }}>
+                {crewInfo?.member.length}명 (호스트 제외)
+              </heading.BodySmallBold>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', width: '100%', gap: '7px' }}>
+              <MemberBox
+                key={crewInfo.crew.captainId}
+                url={crewInfo.crew.captainProfileImage}
+                name={crewInfo.crew.captainNickname}
+                isHost
+                crewType={crewInfo.crew.crew_crewType}
+              />
+              {crewInfo?.member.map(person => (
+                <MemberBox
+                  key={person.member_memberId}
+                  url={person.users_profileImage}
+                  name={person.users_nickname}
+                  crewType={crewInfo.crew.crew_crewType}
+                />
+              ))}
+            </div>
+          </BlockDiv>
+        )}
       </div>
     </section>
   );

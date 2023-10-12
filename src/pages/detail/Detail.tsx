@@ -182,7 +182,6 @@ function Detail(): JSX.Element {
             closeInfoWindow={closeInfoWindow}
             openInfoWindow={openInfoWindow}
             saveAddress={saveAddress}
-            signUpCrew={signUpCrew}
           />
         )}
       </main>
