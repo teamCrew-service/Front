@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
+import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
 import { crew } from '../../api';
@@ -46,11 +46,7 @@ function Detail(): JSX.Element {
     return null;
   };
 
-  const {
-    status,
-    data: crewInfo,
-    refetch,
-  } = useQuery(
+  const { status, data: crewInfo } = useQuery(
     'crewDetail',
     async () => {
       const result = await crew.getDetail(id!);
@@ -71,21 +67,21 @@ function Detail(): JSX.Element {
     },
   );
 
-  const signUpCrew = useMutation(
-    async () => {
-      const result = await crew.signUp(crewInfo!.result.crew.crew_crewId);
-      return result;
-    },
-    {
-      onSuccess: async res => {
-        console.log(res);
-        await refetch();
-      },
-      onError: (error: any) => {
-        alert(error.response.data.message);
-      },
-    },
-  );
+  // const signUpCrew = useMutation(
+  //   async () => {
+  //     const result = await crew.signUp(crewInfo!.result.crew.crew_crewId);
+  //     return result;
+  //   },
+  //   {
+  //     onSuccess: async res => {
+  //       console.log(res);
+  //       await refetch();
+  //     },
+  //     onError: (error: any) => {
+  //       alert(error.response.data.message);
+  //     },
+  //   },
+  // );
 
   const openInfoWindow = (): void => {
     setInfoOpen(true);
@@ -206,7 +202,7 @@ function Detail(): JSX.Element {
           {crewInfo?.result.crew.crew_crewType === '단기' && (
             <JoinDiv
               onClick={() => {
-                signUpCrew.mutate();
+                setJoinModalOpen(true);
               }}
             >
               <heading.BodyBaseBold>단기 모임 참여하기</heading.BodyBaseBold>
