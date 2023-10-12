@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { useQuery } from 'react-query';
@@ -32,6 +32,8 @@ const NonActiveDiv = styled.div`
 
 function JoinCrewModal({ crewType, closeModal }: { crewType: string; closeModal: () => void }): JSX.Element {
   const myIntro = useRecoilValue(myIntroStr);
+  const [completQuestion1, setCompletQuestion] = useState<boolean>(false);
+  const [showBtn2, setShowBtn2] = useState<boolean>(false);
 
   const { data: signUpForm, isLoading } = useQuery(
     'getSignUpForm',
@@ -61,11 +63,25 @@ function JoinCrewModal({ crewType, closeModal }: { crewType: string; closeModal:
       </header>
       <main id="joincrew-main">
         {/* 첫 번째 질문 */}
-        <MyIntro crewType={crewType} question={signUpForm?.question1} />
-        <ButtonDiv style={{ position: 'relative' }}>
-          {myIntro.length < 20 && <NonActiveDiv />}
-          <heading.BodyBaseBold>다음</heading.BodyBaseBold>
-        </ButtonDiv>
+        <MyIntro crewType={crewType} question={signUpForm?.question1} complete={completQuestion1} />
+        {!completQuestion1 && (
+          <ButtonDiv
+            onClick={() => {
+              setCompletQuestion(true);
+              setShowBtn2(true);
+            }}
+            style={{ position: 'relative' }}
+          >
+            {myIntro.length < 20 && <NonActiveDiv />}
+            <heading.BodyBaseBold>다음</heading.BodyBaseBold>
+          </ButtonDiv>
+        )}
+        {showBtn2 && (
+          <ButtonDiv onClick={() => {}} style={{ position: 'relative' }}>
+            <NonActiveDiv />
+            <heading.BodyBaseBold>다음</heading.BodyBaseBold>
+          </ButtonDiv>
+        )}
       </main>
     </ModalContainer>
   );
