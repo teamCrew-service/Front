@@ -62,12 +62,19 @@ export interface Member {
 }
 // 일정
 export interface Schedule {
-  scheduleTitle: string;
+  createdAt: string;
+  participate: number;
+  scheduleAddress: string;
+  scheduleAttendedMember: string;
   scheduleContent: string;
   scheduleDDay: Date;
-  scheduleAddress: string;
+  scheduleId: string;
+  scheduleIsDone: number;
   scheduleLatitude: number;
   scheduleLongitude: number;
+  scheduleMaxMember: string;
+  scheduleTitle: string;
+  userId: string;
 }
 // 투표 공지
 export interface VoteForm {
@@ -159,6 +166,11 @@ export interface ComingDateSchedule {
 }
 
 export interface ComingDate {
-  schedule: ComingDateSchedule[];
+  schedule: ComingDateSchedule;
   nickname: string;
+}
+
+export interface WholeComingDate {
+  comingSchedule: ComingDateSchedule[];
+  participateSchedule: ComingDateSchedule[];
 }

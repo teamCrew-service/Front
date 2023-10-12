@@ -225,7 +225,9 @@ function CrewIntro({ crewType }: { crewType: '장기' | '단기' }): JSX.Element
                   }}
                 >
                   {[1, 2, 3, 4, 5, 6, 7, 8].map(item => (
-                    <option value={item}>{item}</option>
+                    <option key={item} value={item}>
+                      {item}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -239,26 +241,26 @@ function CrewIntro({ crewType }: { crewType: '장기' | '단기' }): JSX.Element
         <>
           <CompleteDiv>
             <CompleteTitle>{`${crewType === '장기' ? '09' : '10'} 모임 소개`}</CompleteTitle>
-            <p>
+            <div>
               <BodyBaseBold>1. 모임의 목표 및 소개</BodyBaseBold>
               <DetailContent>{crewIntro}</DetailContent>
-            </p>
-            <p>
+            </div>
+            <div>
               <BodyBaseBold>2. 우리 모임의 장점</BodyBaseBold>
               <DetailContent>{crewAdvantage}</DetailContent>
-            </p>
-            <p>
+            </div>
+            <div>
               <BodyBaseBold>3. 우리 모임에서 하는 활동</BodyBaseBold>
               <DetailContent>{crewActivity}</DetailContent>
-            </p>
-            <p>
+            </div>
+            <div>
               <BodyBaseBold>4. 지켜야 하는 규칙</BodyBaseBold>
               <DetailContent>{crewRule}</DetailContent>
-            </p>
-            <p>
+            </div>
+            <div>
               <BodyBaseBold>5. 최대 인원</BodyBaseBold>
               <DetailContent>{crewMaxMember}명</DetailContent>
-            </p>
+            </div>
           </CompleteDiv>
           <ButtonDiv onClick={makeCrew}>
             <BodyBaseBold>모임 생성</BodyBaseBold>

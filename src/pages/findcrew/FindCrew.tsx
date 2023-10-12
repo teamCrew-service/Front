@@ -72,10 +72,9 @@ function FindCrew(): JSX.Element {
   };
 
   // 카테고리 선택
-  const selectCategory = (event: any): void => {
-    const selected = event.target.innerText;
-    setCategory(selected);
-    setList(spots.current.filter(spot => spot.crew_category === selected));
+  const selectCategory = (input: any): void => {
+    setCategory(input);
+    setList(spots.current.filter(spot => spot.crew_category === input));
     setCategoryOpen(false);
   };
 

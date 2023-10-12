@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import colors from '../../assets/styles/color';
 
-const CrewCard = styled.div`
+export const CrewCard = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -14,7 +14,7 @@ const CrewCard = styled.div`
   background-color: ${colors.gray100};
 `;
 
-const TagDiv = styled.div<{ $color: string }>`
+export const TagDiv = styled.div<{ $color: string }>`
   width: fit-content;
   height: 18px;
   background-color: ${props => props.$color};
@@ -22,7 +22,7 @@ const TagDiv = styled.div<{ $color: string }>`
   border-radius: 200px;
 `;
 
-const ImageBox = styled.div`
+export const ImageBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,7 +32,7 @@ const ImageBox = styled.div`
   border: 1px solid black;
 `;
 
-const CategoryDiv = styled.div`
+export const CategoryDiv = styled.div`
   display: flex;
   align-items: center;
   gap: 2px;
@@ -43,7 +43,7 @@ const CategoryDiv = styled.div`
   cursor: pointer;
 `;
 
-const BackLink = styled(Link)`
+export const BackLink = styled(Link)`
   position: absolute;
   top: 21px;
   left: 21px;
@@ -57,4 +57,52 @@ const BackLink = styled(Link)`
   z-index: 102;
 `;
 
-export { CrewCard, TagDiv, ImageBox, CategoryDiv, BackLink };
+export const SearchingDiv = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  gap: 32px;
+  padding: 12px 16px;
+  border: 1px solid ${colors.gray400};
+  border-radius: 10px;
+`;
+
+export const SearchingInput = styled.input`
+  width: 100%;
+  height: 100%;
+  border: none;
+  font-size: 12px;
+  font-weight: 500;
+  &:focus {
+    outline: none;
+  }
+`;
+
+export const SearchingNav = styled.ul`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 50%;
+  gap: 1.17%;
+`;
+
+export const NavItem = styled.li`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 11.99%;
+  height: 100%;
+  background-color: ${colors.gray200};
+  border-radius: 200px;
+`;
+
+export const ListBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+`;

@@ -122,6 +122,7 @@ function Calendar({
   return (
     <section id="calendar-container">
       <div id="calendar">
+        {/* 월 & 연도 */}
         <div id="year">
           <div onClick={prevMonth} style={{ cursor: 'pointer' }}>
             &lt;
@@ -133,6 +134,7 @@ function Calendar({
             &gt;
           </div>
         </div>
+        {/* 요일 */}
         <ul id="day-list">
           <li style={{ color: 'red' }}>Sun</li>
           <li>Mon</li>
@@ -142,6 +144,7 @@ function Calendar({
           <li>Fri</li>
           <li style={{ color: 'blue' }}>Sat</li>
         </ul>
+        {/* 날짜 */}
         <div id="date-list">
           {calendarArray.map((item, index) => {
             if (item === '') return <div key={index} />;

@@ -29,32 +29,28 @@ const GoDiv = styled.div`
 `;
 
 function ScheduleCard({
-  scheduleList,
   scheduleOne,
-  index,
+  cardRole = 'upcoming',
 }: {
-  scheduleList?: ComingDateSchedule[];
   scheduleOne?: ComingDateSchedule;
-  index?: number;
+  cardRole?: string;
 }): JSX.Element {
   const navigate = useNavigate();
-  // scheduleList !== undefined : 홈에서 사용하는 comingDate
-  // scheduleList === undefined : upcomingdate 에서 사용하는 컴포넌트
-  const schedule: ComingDateSchedule = scheduleList === undefined ? scheduleOne! : scheduleList[index!];
+
   const goNextFunc =
-    scheduleList === undefined
+    cardRole === 'upcoming'
       ? () => {
-          navigate(`/detail/${scheduleOne?.schedule.crewId}`);
+          navigate('/upcomingschedule');
         }
       : () => {
-          navigate('/upcomingschedule', { state: { scheduleList } });
+          navigate(`/detail/${scheduleOne?.schedule.crewId}`);
         };
   return (
     <ScheduleCardDiv>
       {/* section 1 */}
       <heading.BodySmallMedium
         style={{
-          color: `${schedule.schedule.crewType === '장기' ? colors.primary : colors.point}`,
+          color: `${scheduleOne?.schedule.crewType === '장기' ? colors.primary : colors.point}`,
           display: 'flex',
           width: '100%',
           height: 'fit-content',
@@ -62,7 +58,7 @@ function ScheduleCard({
           alignItems: 'center',
         }}
       >
-        {schedule.schedule.crewType}
+        {scheduleOne?.schedule.crewType}
         <GoDiv onClick={goNextFunc}>
           <icons.chevronRight />
         </GoDiv>
@@ -70,17 +66,17 @@ function ScheduleCard({
 
       {/* section 2 */}
       <heading.TitleLargeBold>
-        {schedule.schedule.scheduleDDay !== undefined && useCalDate(new Date(schedule.schedule.scheduleDDay))}
+        {scheduleOne?.schedule.scheduleDDay !== undefined && useCalDate(new Date(scheduleOne.schedule.scheduleDDay))}
       </heading.TitleLargeBold>
 
       {/* section 3 */}
       <heading.BodySmallMedium style={{ color: `${colors.gray500}` }}>
-        {schedule.schedule.scheduleTitle}
+        {scheduleOne?.schedule.scheduleTitle}
       </heading.BodySmallMedium>
 
       {/* section 4 */}
       <div id="profile-list-box">
-        {schedule.profileImage.map(item => (
+        {scheduleOne?.profileImage.map(item => (
           <SmallImageDiv key={item.member_userId} $URL={item.member_profileImage} />
         ))}
       </div>

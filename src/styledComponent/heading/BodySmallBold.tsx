@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const BodySmallBold = styled.h3`
+const BodySmallBold = styled.p`
   font-size: 12px;
   font-weight: 700;
   line-height: 16px;

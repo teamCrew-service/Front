@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import CaptionXS from '../../styledComponent/heading/CaptionXS';
 import colors from '../../assets/styles/color';
+import icons from '../../assets/icons';
 
 const FooterLi = styled.li`
   display: flex;
@@ -18,25 +18,25 @@ function Footer(): JSX.Element {
       style={{
         position: 'relative',
         display: 'flex',
+        alignItems: 'center',
         width: '100%',
-        height: '83px',
+        height: '100%',
         justifyContent: 'space-evenly',
-        paddingTop: '4px',
         backgroundColor: `${colors.gray50}`,
         borderTop: `0.3px solid ${colors.gray200}`,
       }}
     >
       <FooterLi>
-        <CaptionXS>홈</CaptionXS>
+        <icons.House />
       </FooterLi>
       <FooterLi>
-        <CaptionXS>내모임</CaptionXS>
+        <icons.UsersThree />
       </FooterLi>
       <FooterLi>
-        <CaptionXS>채팅방</CaptionXS>
+        <icons.ChatTeardropDots />
       </FooterLi>
       <FooterLi>
-        <CaptionXS>마이페이지</CaptionXS>
+        <icons.UserCircle />
       </FooterLi>
     </nav>
   );

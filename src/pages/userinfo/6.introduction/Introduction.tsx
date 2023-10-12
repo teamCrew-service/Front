@@ -9,6 +9,7 @@ import TitleLargeBold from '../../../styledComponent/heading/TitleLargeBold';
 import GoPageBtn from '../components/GoPageBtn';
 
 const StyledTextArea = styled.textarea`
+  font-family: Pretendard;
   width: 100%;
   height: 100%;
   background-color: ${colors.primary100};

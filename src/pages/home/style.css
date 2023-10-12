@@ -1,76 +1,80 @@
 /*---------- main ----------*/
 /* main 레이아웃 */
+/* height: 762px - 32px = 730px */
 #home-main {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 91.15%;
-  padding: 8px 16px 26px 16px;
+  height: 93.62%;
+  padding: 8px 16px 24px 16px;
   overflow: hidden;
 }
 
 /* section 1. 안녕하세요 ~~ */
+/* height: 41px */
 #home-hello {
   width: 100%;
-  height: 5.63%;
+  height: 5.61%;
 }
 
 /* section 2. 다가오는 일정  */
+/* height: 128px */
 #home-upcoming {
   width: 100%;
-  height: 17.58%;
+  height: 17.53%;
 }
 #profile-list-box {
   display: flex;
   width: fit-content;
-  height: 28px;
+  height: 21.87%;
   margin-left: auto;
 }
 
 /* section 3. 내 주변 모임 찾기 / 모임 생성 */
+/* height: 204px */
 #home-large-card-container {
   display: flex;
   width: 100%;
-  height: 28.02%;
+  height: 27.95%;
   justify-content: center;
   gap: 2.04%;
 }
 
 /* section 4. 관심사별 모임 찾기 */
+/* height: 258px */
 #home-category-title {
   width: 100%;
-  height: 3.85%;
+  height: 3.84%;
 }
 #home-category-gridbox {
   width: 100%;
-  height: 36.4%;
+  height: 35.34%;
 }
 /*---------- main ----------*/
 
 /* main 마진 */
+/* height: 10px */
 #margin-1 {
   height: 1.37%;
 }
+/* height: 12px */
 #margin-2 {
-  height: 1.65%;
+  height: 1.64%;
 }
+/* height: 37px */
 #margin-3 {
-  height: 5.08%;
+  height: 5.07%;
 }
+/* height: 12px */
 #margin-4 {
-  height: 1.65%;
+  height: 1.64%;
 }
 /* main 마진 */
 
 /*--------- footer ---------*/
+/* height: 52px */
 #home-footer {
   width: 100%;
-  height: 8.85%;
-}
-
-#home-footer div {
-  width: 100%;
-  height: 100%;
-  border: 1px solid black;
+  height: 6.38%;
 }
 /*--------- footer ---------*/
