@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import styled from 'styled-components';
 
@@ -19,14 +19,24 @@ const StyledTextarea = styled(TextareaAutosize)`
 `;
 
 const TextareaDiv = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  padding: 16px;
+  padding: 12px;
   margin-top: 16px;
   border: 1px solid ${colors.primary};
   border-radius: 4px;
+  font-family: Pretendard;
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: -0.2px;
 `;
 
 function MyIntro({ crewType }: { crewType: string }): JSX.Element {
+  const [intro, setIntro] = useState<string>('');
+  const changeIntro = (event: any): void => {
+    setIntro(event.target.value);
+  };
   return (
     <section>
       <div>
@@ -37,8 +47,30 @@ function MyIntro({ crewType }: { crewType: string }): JSX.Element {
         </heading.BodyBaseMedium>
       </div>
       <TextareaDiv>
-        {crewType === '장기' && <StyledTextarea cacheMeasurements maxLength={400} />}
-        {crewType === '단기' && <StyledTextarea cacheMeasurements maxLength={80} />}
+        {crewType === '장기' && (
+          <>
+            <StyledTextarea
+              value={intro}
+              onChange={changeIntro}
+              cacheMeasurements
+              maxLength={400}
+              placeholder="20자 이상 입력해주세요"
+            />
+            <p>{intro.length}/400</p>
+          </>
+        )}
+        {crewType === '단기' && (
+          <>
+            <StyledTextarea
+              value={intro}
+              onChange={changeIntro}
+              cacheMeasurements
+              maxLength={80}
+              placeholder="20자 이상 입력해주세요"
+            />
+            <p style={{ color: `${colors.gray400}`, marginLeft: 'auto' }}>{intro.length}/80</p>
+          </>
+        )}
       </TextareaDiv>
     </section>
   );
