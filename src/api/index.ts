@@ -72,4 +72,11 @@ const schedule = {
   },
 };
 
-export { login, navermap, crew, notice, searchByCategory, schedule };
+const signUp = {
+  getSignUpForm: async <T = myInterface.SignUpForm>(id: string): Promise<T> => {
+    const { data } = await instance.get(`api/signupform/${id}`);
+    return data;
+  },
+};
+
+export { login, navermap, crew, notice, searchByCategory, schedule, signUp };

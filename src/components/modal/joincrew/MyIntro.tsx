@@ -34,7 +34,7 @@ const TextareaDiv = styled.div`
   letter-spacing: -0.2px;
 `;
 
-function MyIntro({ crewType }: { crewType: string }): JSX.Element {
+function MyIntro({ crewType, question }: { crewType: string; question?: string }): JSX.Element {
   const [myIntro, setMyIntro] = useRecoilState(myIntroStr);
   const changeIntro = (event: any): void => {
     setMyIntro(event.target.value);
@@ -42,8 +42,7 @@ function MyIntro({ crewType }: { crewType: string }): JSX.Element {
   return (
     <section>
       <div>
-        {crewType === '장기' && <heading.TitleLargeBold>자기소개 또는 가입 동기</heading.TitleLargeBold>}
-        {crewType === '단기' && <heading.TitleLargeBold>참여하게 된 계기</heading.TitleLargeBold>}
+        <heading.TitleLargeBold>{question}</heading.TitleLargeBold>
         <heading.BodyBaseMedium style={{ color: `${colors.gray500}` }}>
           호스트가 우리에게 더 나은 경험을 제공하는데 도움이 됩니다!
         </heading.BodyBaseMedium>

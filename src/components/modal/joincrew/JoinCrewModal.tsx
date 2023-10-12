@@ -1,12 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
+import { useQuery } from 'react-query';
 import MyIntro from './MyIntro';
 import './style.css';
 import heading from '../../../styledComponent/heading';
 import icons from '../../../assets/icons';
 import ButtonDiv from '../../../styledComponent/ButtonDiv';
 import { myIntroStr } from '../../../atoms/joincrew';
+import { signUp } from '../../../api';
 
 const ModalContainer = styled.div`
   position: absolute;
@@ -30,6 +32,25 @@ const NonActiveDiv = styled.div`
 
 function JoinCrewModal({ crewType, closeModal }: { crewType: string; closeModal: () => void }): JSX.Element {
   const myIntro = useRecoilValue(myIntroStr);
+
+  const { data: signUpForm, isLoading } = useQuery(
+    'getSignUpForm',
+    async () => {
+      const result = signUp.getSignUpForm('2');
+      return result;
+    },
+    {
+      onSuccess: res => {
+        console.log('signUpForm', res);
+      },
+      refetchOnWindowFocus: false,
+    },
+  );
+
+  if (isLoading) {
+    return <div>loading...</div>;
+  }
+
   return (
     <ModalContainer>
       <header id="joincrew-header">
@@ -40,7 +61,7 @@ function JoinCrewModal({ crewType, closeModal }: { crewType: string; closeModal:
       </header>
       <main id="joincrew-main">
         {/* 첫 번째 질문 */}
-        <MyIntro crewType={crewType} />
+        <MyIntro crewType={crewType} question={signUpForm?.question1} />
         <ButtonDiv style={{ position: 'relative' }}>
           {myIntro.length < 20 && <NonActiveDiv />}
           <heading.BodyBaseBold>다음</heading.BodyBaseBold>

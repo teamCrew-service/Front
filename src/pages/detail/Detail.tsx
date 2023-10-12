@@ -107,9 +107,6 @@ function Detail(): JSX.Element {
     setJoinCrewModalOpen(false);
   };
 
-  console.log('crewSignup', crewInfo?.result.crew.crew_crewSignup);
-  console.log('type', typeof crewInfo?.result.crew.crew_crewSignup);
-
   const saveAddress = (address: string): void => {
     navigator.clipboard
       .writeText(address)
