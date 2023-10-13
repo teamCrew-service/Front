@@ -147,7 +147,12 @@ function Detail(): JSX.Element {
         />
       )}
       {joinCrewModalOpen && (
-        <JoinCrewModal crewType={crewInfo!.result.crew.crew_crewType} closeModal={closeJoinCrewModal} />
+        <JoinCrewModal
+          crewType={crewInfo!.result.crew.crew_crewType}
+          closeModal={closeJoinCrewModal}
+          signupFormId={crewInfo!.result.crew.signupFormId}
+          crewId={crewInfo!.result.crew.crew_crewId}
+        />
       )}
       {/* 헤더 */}
       <header id="detail-header">

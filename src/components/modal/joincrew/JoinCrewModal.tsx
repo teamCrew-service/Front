@@ -7,8 +7,9 @@ import './style.css';
 import heading from '../../../styledComponent/heading';
 import icons from '../../../assets/icons';
 import ButtonDiv from '../../../styledComponent/ButtonDiv';
-import { myIntroStr } from '../../../atoms/joincrew';
+import { myAdjListArray, myIntroStr } from '../../../atoms/joincrew';
 import { signUp } from '../../../api';
+import MyAdj from './MyAdj';
 
 const ModalContainer = styled.div`
   position: absolute;
@@ -30,15 +31,26 @@ const NonActiveDiv = styled.div`
   border-radius: 8px;
 `;
 
-function JoinCrewModal({ crewType, closeModal }: { crewType: string; closeModal: () => void }): JSX.Element {
+function JoinCrewModal({
+  crewType,
+  closeModal,
+  signupFormId,
+  crewId,
+}: {
+  crewType: string;
+  closeModal: () => void;
+  signupFormId: string;
+  crewId: string;
+}): JSX.Element {
   const myIntro = useRecoilValue(myIntroStr);
-  const [completQuestion1, setCompletQuestion] = useState<boolean>(false);
+  const myAdj = useRecoilValue(myAdjListArray);
+  const [completeQuestion1, setCompleteQuestion] = useState<boolean>(false);
   const [showBtn2, setShowBtn2] = useState<boolean>(false);
 
   const { data: signUpForm, isLoading } = useQuery(
     'getSignUpForm',
     async () => {
-      const result = signUp.getSignUpForm('2');
+      const result = signUp.getSignUpForm(`${signupFormId}`);
       return result;
     },
     {
@@ -48,6 +60,27 @@ function JoinCrewModal({ crewType, closeModal }: { crewType: string; closeModal:
       refetchOnWindowFocus: false,
     },
   );
+
+  const sendSignupFormMutation = (): void => {
+    let adjString = '';
+    for (let i = 0; i < myAdj.length; i += 1) {
+      if (i === myAdj.length - 1) {
+        adjString += myAdj[i];
+      } else {
+        adjString += `${myAdj[i]},`;
+      }
+    }
+    console.log(adjString);
+    signUp
+      .postSignUpForm(signupFormId, crewId, { answer1: myIntro, answer2: adjString })
+      .then(res => {
+        console.log(res);
+        closeModal();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   if (isLoading) {
     return <div>loading...</div>;
@@ -63,11 +96,12 @@ function JoinCrewModal({ crewType, closeModal }: { crewType: string; closeModal:
       </header>
       <main id="joincrew-main">
         {/* 첫 번째 질문 */}
-        <MyIntro crewType={crewType} question={signUpForm?.question1} complete={completQuestion1} />
-        {!completQuestion1 && (
+        <MyIntro crewType={crewType} question={signUpForm?.question1} complete={completeQuestion1} />
+        {completeQuestion1 && <MyAdj question={signUpForm?.question2} />}
+        {!completeQuestion1 && (
           <ButtonDiv
             onClick={() => {
-              setCompletQuestion(true);
+              setCompleteQuestion(true);
               setShowBtn2(true);
             }}
             style={{ position: 'relative' }}
@@ -77,9 +111,9 @@ function JoinCrewModal({ crewType, closeModal }: { crewType: string; closeModal:
           </ButtonDiv>
         )}
         {showBtn2 && (
-          <ButtonDiv onClick={() => {}} style={{ position: 'relative' }}>
-            <NonActiveDiv />
-            <heading.BodyBaseBold>다음</heading.BodyBaseBold>
+          <ButtonDiv onClick={sendSignupFormMutation} style={{ position: 'relative' }}>
+            {myAdj.length < 3 && <NonActiveDiv />}
+            <heading.BodyBaseBold>작성완료</heading.BodyBaseBold>
           </ButtonDiv>
         )}
       </main>

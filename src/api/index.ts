@@ -77,6 +77,10 @@ const signUp = {
     const { data } = await instance.get(`api/signupform/${id}`);
     return data;
   },
+  postSignUpForm: async (signupFormId: string, crewId: string, answer: { answer1: string; answer2: string }) => {
+    const { data } = await instance.post(`api/signup/${signupFormId}/${crewId}/submit`, answer);
+    return data;
+  },
 };
 
 export { login, navermap, crew, notice, searchByCategory, schedule, signUp };
