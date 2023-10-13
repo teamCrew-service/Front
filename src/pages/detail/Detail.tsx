@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 import { useParams } from 'react-router-dom';
 
 import { crew } from '../../api';
@@ -99,6 +99,10 @@ function Detail(): JSX.Element {
     setJoinModalOpen(false);
   };
 
+  const openJoinCrewModal = (): void => {
+    setJoinCrewModalOpen(true);
+  };
+
   const closeJoinCrewModal = (): void => {
     setJoinCrewModalOpen(false);
   };
@@ -111,6 +115,17 @@ function Detail(): JSX.Element {
       })
       .catch(() => {});
   };
+
+  let joinCrewFunc = (): void => {};
+
+  if (status !== 'loading' && status !== 'error') {
+    joinCrewFunc =
+      crewInfo?.result.crew.crew_crewSignup === 0
+        ? () => {
+            signUpCrew.mutate();
+          }
+        : openJoinCrewModal;
+  }
 
   if (status === 'loading') {
     return <div>loading...</div>;
@@ -132,7 +147,12 @@ function Detail(): JSX.Element {
         />
       )}
       {joinCrewModalOpen && (
-        <JoinCrewModal crewType={crewInfo!.result.crew.crew_crewType} closeModal={closeJoinCrewModal} />
+        <JoinCrewModal
+          crewType={crewInfo!.result.crew.crew_crewType}
+          closeModal={closeJoinCrewModal}
+          signupFormId={crewInfo!.result.crew.signupFormId}
+          crewId={crewInfo!.result.crew.crew_crewId}
+        />
       )}
       {/* 헤더 */}
       <header id="detail-header">
@@ -195,20 +215,12 @@ function Detail(): JSX.Element {
             </heading.BodyBaseBold>
           </LikeDiv>
           {crewInfo?.result.crew.crew_crewType === '장기' && (
-            <JoinDiv
-              onClick={() => {
-                setJoinModalOpen(true);
-              }}
-            >
+            <JoinDiv onClick={joinCrewFunc}>
               <heading.BodyBaseBold>정모 가입하기</heading.BodyBaseBold>
             </JoinDiv>
           )}
           {crewInfo?.result.crew.crew_crewType === '단기' && (
-            <JoinDiv
-              onClick={() => {
-                signUpCrew.mutate();
-              }}
-            >
+            <JoinDiv onClick={joinCrewFunc}>
               <heading.BodyBaseBold>단기 모임 참여하기</heading.BodyBaseBold>
             </JoinDiv>
           )}

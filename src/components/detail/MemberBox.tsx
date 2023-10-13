@@ -4,11 +4,11 @@ import colors from '../../assets/styles/color';
 
 import heading from '../../styledComponent/heading';
 
-const HostDiv = styled.div<{ crewType: string }>`
+const HostDiv = styled.div<{ $crewType: string }>`
   padding: 4px;
   border-radius: 4px;
-  background-color: ${props => (props.crewType === '장기' ? colors.primary50 : colors.point50)};
-  color: ${props => (props.crewType === '장기' ? colors.primary700 : colors.point700)};
+  background-color: ${props => (props.$crewType === '장기' ? colors.primary50 : colors.point50)};
+  color: ${props => (props.$crewType === '장기' ? colors.primary700 : colors.point700)};
 `;
 
 function MemberBox({
@@ -44,7 +44,7 @@ function MemberBox({
       />
       <heading.BodyBaseBold>{name}</heading.BodyBaseBold>
       {isHost && (
-        <HostDiv crewType={crewType}>
+        <HostDiv $crewType={crewType}>
           <heading.CaptionXS>호스트</heading.CaptionXS>
         </HostDiv>
       )}

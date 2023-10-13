@@ -52,6 +52,7 @@ export interface Crew {
   crew_latitude: number;
   crew_longtitude: number;
   crew_thumbnail: string;
+  signupFormId: string;
 }
 export interface Member {
   member_memberId: number;
@@ -173,4 +174,11 @@ export interface ComingDate {
 export interface WholeComingDate {
   comingSchedule: ComingDateSchedule[];
   participateSchedule: ComingDateSchedule[];
+}
+
+export interface SignUpForm {
+  signupFormId: number;
+  question1: string;
+  question2: string;
+  crewId: number;
 }

@@ -7,6 +7,7 @@ import CrewTime from '../CrewTime';
 import CrewAge from '../CrewAge';
 import CrewAttendMethod from '../CrewAttendMethod';
 import CrewTitle from '../CrewTitle';
+import CrewIntro from '../CrewIntro';
 
 function Long({ crewType }: { crewType: '장기' | '단기' }): JSX.Element {
   const step = useRecoilValue(stepNum);
@@ -18,6 +19,7 @@ function Long({ crewType }: { crewType: '장기' | '단기' }): JSX.Element {
       {step >= 5 && <CrewAge crewType={crewType} />}
       {step >= 6 && <CrewAttendMethod crewType={crewType} />}
       {step >= 7 && <CrewTitle crewType={crewType} />}
+      {step >= 8 && <CrewIntro crewType={crewType} />}
     </>
   );
 }
