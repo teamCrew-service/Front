@@ -240,7 +240,14 @@ function Detail(): JSX.Element {
           )}
         </InteractiveBtnContainer>
       )}
-      {crewInfo?.result.personType === 'captain' && (
+      {crewInfo?.result.personType === 'captain' && page === '공지' && (
+        <PlusBtnContainer>
+          <PlusBtn>
+            <icons.PlusBtn />
+          </PlusBtn>
+        </PlusBtnContainer>
+      )}
+      {crewInfo?.result.personType === 'captain' && page === '일정' && (
         <PlusBtnContainer>
           <PlusBtn>
             <icons.PlusBtn />
