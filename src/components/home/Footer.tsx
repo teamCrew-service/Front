@@ -12,7 +12,7 @@ const FooterLi = styled.li`
   height: 48px;
 `;
 
-function Footer(): JSX.Element {
+function Footer({ page, setPage }: { page: string; setPage: (input: string) => void }): JSX.Element {
   return (
     <nav
       style={{
@@ -26,17 +26,33 @@ function Footer(): JSX.Element {
         borderTop: `0.3px solid ${colors.gray200}`,
       }}
     >
-      <FooterLi>
-        <icons.House />
+      <FooterLi
+        onClick={() => {
+          setPage('home');
+        }}
+      >
+        <icons.House stroke={page === 'home' ? `${colors.primary}` : `${colors.gray400}`} />
       </FooterLi>
-      <FooterLi>
-        <icons.UsersThree />
+      <FooterLi
+        onClick={() => {
+          setPage('myCrew');
+        }}
+      >
+        <icons.UsersThree stroke={page === 'myCrew' ? `${colors.primary}` : `${colors.gray400}`} />
       </FooterLi>
-      <FooterLi>
-        <icons.ChatTeardropDots />
+      <FooterLi
+        onClick={() => {
+          setPage('chat');
+        }}
+      >
+        <icons.ChatTeardropDots stroke={page === 'chat' ? `${colors.primary}` : `${colors.gray400}`} />
       </FooterLi>
-      <FooterLi>
-        <icons.UserCircle />
+      <FooterLi
+        onClick={() => {
+          setPage('myPage');
+        }}
+      >
+        <icons.UserCircle stroke={page === 'myPage' ? `${colors.primary}` : `${colors.gray400}`} />
       </FooterLi>
     </nav>
   );

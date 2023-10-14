@@ -1,5 +1,6 @@
 import React from 'react';
 import { CrewCardLink, TagDiv, ImageBox } from '../../pages/findcrew/styled';
+import heading from '../../styledComponent/heading';
 import icons from '../../assets/icons';
 import colors from '../../assets/styles/color';
 import useCalDate from '../../util/useCalDate';
@@ -16,10 +17,10 @@ function CrewCard({ spot }: { spot: any }): JSX.Element {
         </TagDiv>
       </div>
       <div>
-        <p style={{ fontSize: '14px', fontWeight: 700, lineHeight: '24px', letterSpacing: '-0.4px' }}>
-          {spot.crew_crewTitle}
-        </p>
-        {/* <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot.subTitle}</p> */}
+        <heading.BodyBaseBold>{spot.crew_crewTitle}</heading.BodyBaseBold>
+        <heading.BodySmallMedium style={{ color: `${colors.gray500}` }}>
+          {spot.crew_crewContent}
+        </heading.BodySmallMedium>
       </div>
       <div>
         {spot.crew_thumbnail !== undefined ? (
@@ -32,14 +33,14 @@ function CrewCard({ spot }: { spot: any }): JSX.Element {
         {spot.crew_crewDDay !== undefined && (
           <div style={{ display: 'flex', gap: '2px' }}>
             <icons.Calendar />
-            <p style={{ fontSize: '12px', lineHeight: '18px', letterSpacing: '-0.2px' }}>
+            <heading.BodySmallMedium>
               {spot.crew_crewDDay === null ? '아직 일정이 없습니다' : useCalDate(new Date(spot.crew_crewDDay))}
-            </p>
+            </heading.BodySmallMedium>
           </div>
         )}
         <div style={{ display: 'flex', gap: '2px' }}>
           <icons.Location />
-          <p style={{ fontSize: '12px', lineHeight: '18px', letterSpacing: '-0.2px' }}>{spot.crew_crewAddress} 근처</p>
+          <heading.BodySmallMedium>{spot.crew_crewAddress} 근처</heading.BodySmallMedium>
         </div>
       </div>
       <div

@@ -6,7 +6,7 @@ interface Message {
   message: string;
 }
 
-const login = {
+export const login = {
   firstLogin: async <T = Message>(information: myInterface.Information): Promise<T> => {
     const { data } = await instance.put<T>('api/auth/info', information);
     return data;
@@ -17,14 +17,14 @@ const login = {
   },
 };
 
-const navermap = {
+export const navermap = {
   findcrew: async (): Promise<myInterface.Spot[]> => {
     const { data } = await instance.get<myInterface.Spot[]>('api/home/map');
     return data;
   },
 };
 
-const crew = {
+export const crew = {
   getDetail: async <T = myInterface.MemberDetail>(crewId: string): Promise<T> => {
     const { data } = await instance.get<T>(`api/crew/${crewId}`);
     return data;
@@ -47,7 +47,7 @@ const crew = {
   },
 };
 
-const notice = {
+export const notice = {
   getNoticeList: async <T = myInterface.Notice[]>(): Promise<AxiosResponse<T>> =>
     instance.get<T>('api/notice/comingDate'),
   getUpcomingList: async (): Promise<myInterface.Notice[]> => {
@@ -57,7 +57,7 @@ const notice = {
   },
 };
 
-const searchByCategory = {
+export const searchByCategory = {
   getSearchByCategory: async (category: string): Promise<myInterface.SearchByCategory[]> => {
     const response: AxiosResponse = await instance.get(`api/home/${category}`);
     const searchData: myInterface.SearchByCategory[] = response.data;
@@ -65,7 +65,7 @@ const searchByCategory = {
   },
 };
 
-const schedule = {
+export const schedule = {
   create: async <T = myInterface.Schedule>(crewId: number, info: T): Promise<T> => {
     const { data } = await instance.post<T>(`api/schedule/${crewId}/createSchedule`, info);
     return data;
@@ -80,7 +80,7 @@ const schedule = {
   },
 };
 
-const signUp = {
+export const signUp = {
   getSignUpForm: async <T = myInterface.SignUpForm>(id: string): Promise<T> => {
     const { data } = await instance.get(`api/signupform/${id}`);
     return data;
@@ -91,4 +91,17 @@ const signUp = {
   },
 };
 
-export { login, navermap, crew, notice, searchByCategory, schedule, signUp };
+export const myCrew = {
+  getJoinedCrew: async <T = myInterface.JoinedCrewList>(): Promise<T> => {
+    const { data } = await instance.get('api/mycrew/joinedcrew');
+    return data;
+  },
+  getWaitingCrew: async <T = myInterface.SearchByCategory[]>(): Promise<T> => {
+    const { data } = await instance.get('api/mycrew/waitingcrew');
+    return data;
+  },
+  getMyCreatedCrew: async <T = myInterface.MyCreatedCrew[]>(): Promise<T> => {
+    const { data } = await instance.get('api/mycrew/mycreatedcrew');
+    return data;
+  },
+};
