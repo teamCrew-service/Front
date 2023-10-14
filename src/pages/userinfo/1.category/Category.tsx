@@ -57,7 +57,7 @@ function Category(): JSX.Element {
           </BodySmallMedium>
         </section>
         <section id="category-grid-container">
-          <InterestMatrix onClick={selectCategory} />
+          <InterestMatrix onClick={selectCategory} columns={4} rows={3} />
         </section>
         <GoPageBtn
           judge={selectedCategoryList.length >= 3}

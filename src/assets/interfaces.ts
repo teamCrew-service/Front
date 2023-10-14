@@ -52,6 +52,7 @@ export interface Crew {
   crew_latitude: number;
   crew_longtitude: number;
   crew_thumbnail: string;
+  signupFormId: string;
 }
 export interface Member {
   member_memberId: number;
@@ -62,12 +63,19 @@ export interface Member {
 }
 // 일정
 export interface Schedule {
-  scheduleTitle: string;
+  createdAt: string;
+  participate: number;
+  scheduleAddress: string;
+  scheduleAttendedMember: string;
   scheduleContent: string;
   scheduleDDay: Date;
-  scheduleAddress: string;
+  scheduleId: string;
+  scheduleIsDone: number;
   scheduleLatitude: number;
   scheduleLongitude: number;
+  scheduleMaxMember: string;
+  scheduleTitle: string;
+  userId: string;
 }
 // 투표 공지
 export interface VoteForm {
@@ -113,7 +121,7 @@ export interface MakeCrew {
     category: string;
     crewAddress: string;
     crewType: string;
-    crewDDay: Date;
+    crewDDay: Date | null;
     crewMemberInfo: string;
     crewTimeInfo: string;
     crewAgeInfo: string;
@@ -141,4 +149,36 @@ export interface SearchByCategory {
   crew_thumbnail: string;
   crew_crewMaxMember: string;
   crewAttendedMember: string;
+}
+
+export interface ComingDateSchedule {
+  schedule: {
+    scheduleTitle: string;
+    scheduleDDay: string;
+    crewType: string;
+    scheduleId: string;
+    crewId: string;
+  };
+  profileImage: Array<{
+    member_profileImage: string;
+    member_userId: string;
+    member_userName: string;
+  }>;
+}
+
+export interface ComingDate {
+  schedule: ComingDateSchedule;
+  nickname: string;
+}
+
+export interface WholeComingDate {
+  comingSchedule: ComingDateSchedule[];
+  participateSchedule: ComingDateSchedule[];
+}
+
+export interface SignUpForm {
+  signupFormId: number;
+  question1: string;
+  question2: string;
+  crewId: number;
 }

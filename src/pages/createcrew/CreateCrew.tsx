@@ -12,7 +12,7 @@ import CrewLocation from './questionComp/CrewLocation';
 import Short from './questionComp/short/Short';
 import Long from './questionComp/long/Long';
 
-function MakeCrew(): JSX.Element {
+function CreateCrew(): JSX.Element {
   const step = useRecoilValue(stepNum);
   const crewType = useRecoilValue(typeStr);
 
@@ -33,4 +33,4 @@ function MakeCrew(): JSX.Element {
   );
 }
 
-export default MakeCrew;
+export default CreateCrew;

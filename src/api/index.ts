@@ -33,8 +33,16 @@ const crew = {
     const { data } = await instance.post<T>(`api/signup/${crewId}`);
     return data;
   },
-  makeCrew: async (payload: myInterface.MakeCrew) => {
-    const { data } = await instance.post('/api/crew/createcrew', payload);
+  makeCrew: async (file: Blob, payload: myInterface.MakeCrew) => {
+    const formData = new FormData();
+    formData.append('files', file);
+    formData.append('JoinCreateCrewDto', JSON.stringify(payload));
+    const { data } = await instance.post('/api/crew/createcrew', formData, {
+      headers: {
+        Accept: '*/*',
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return data;
   },
 };
@@ -62,6 +70,25 @@ const schedule = {
     const { data } = await instance.post<T>(`api/schedule/${crewId}/createSchedule`, info);
     return data;
   },
+  getComingDate: async <T = myInterface.ComingDate>(): Promise<T> => {
+    const { data } = await instance.get('api/home/comingDate');
+    return data;
+  },
+  getWholeSchedule: async <T = myInterface.WholeComingDate>(): Promise<T> => {
+    const { data } = await instance.get('api/home/wholeComingDate');
+    return data;
+  },
 };
 
-export { login, navermap, crew, notice, searchByCategory, schedule };
+const signUp = {
+  getSignUpForm: async <T = myInterface.SignUpForm>(id: string): Promise<T> => {
+    const { data } = await instance.get(`api/signupform/${id}`);
+    return data;
+  },
+  postSignUpForm: async (signupFormId: string, crewId: string, answer: { answer1: string; answer2: string }) => {
+    const { data } = await instance.post(`api/signup/${signupFormId}/${crewId}/submit`, answer);
+    return data;
+  },
+};
+
+export { login, navermap, crew, notice, searchByCategory, schedule, signUp };

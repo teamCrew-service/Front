@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { styled } from 'styled-components';
 import BodySmallMedium from '../../../styledComponent/heading/BodySmallMedium';
 import ButtonDiv from '../../../styledComponent/ButtonDiv';
 
@@ -9,24 +8,11 @@ import ProgressBar from '../../../components/common/ProgressBar';
 import icons from '../../../assets/icons';
 import colors from '../../../assets/styles/color';
 
+import { StyledInput } from '../styled';
+
 import { login } from '../../../api';
 import TitleLargeBold from '../../../styledComponent/heading/TitleLargeBold';
 import BodyLargeBold from '../../../styledComponent/heading/BodyLargeBold';
-
-const StyledInput = styled.input`
-  border: none;
-  background-color: ${colors.primary100};
-  width: 100%;
-  height: 100%;
-  border-radius: 8px;
-  padding: 0 8px;
-  font-size: 14px;
-  line-height: 22px;
-  letter-spacing: -0.41px;
-  &:focus {
-    outline: none;
-  }
-`;
 
 function Nickname(): JSX.Element {
   const navigate = useNavigate();

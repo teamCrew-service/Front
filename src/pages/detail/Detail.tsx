@@ -1,23 +1,37 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
-import { useParams, Link } from 'react-router-dom';
+import { useQuery, useMutation } from 'react-query';
+import { useParams } from 'react-router-dom';
 
 import { crew } from '../../api';
 
 import icons from '../../assets/icons';
+import CrewThumbnail from '../../assets/icons/CrewThumbnail.svg';
 
 import './style.css';
-import BodyLargeBold from '../../styledComponent/heading/BodyLargeBold';
+import heading from '../../styledComponent/heading';
 
 import Short from '../../components/detail/crewType/Short';
 
 import type { Schedule } from '../../assets/interfaces';
 import Long from '../../components/detail/crewType/Long';
+import {
+  SaveCrewThumbnailBtn,
+  ThumbnailAbsDiv,
+  ThumbnailDiv,
+  InteractiveBtnContainer,
+  LikeDiv,
+  JoinDiv,
+} from './styled';
+import BodyBaseBold from '../../styledComponent/heading/BodyBaseBold';
+import JoinModal from '../../components/modal/JoinModal';
+import JoinCrewModal from '../../components/modal/joincrew/JoinCrewModal';
 
 function Detail(): JSX.Element {
   // 소개 부분 접었다 펴기
   const [infoOpen, setInfoOpen] = useState<boolean>(true);
+  const [joinModalOpen, setJoinModalOpen] = useState<boolean>(false);
+  const [joinCrewModalOpen, setJoinCrewModalOpen] = useState<boolean>(false);
 
   const { id } = useParams();
 
@@ -81,6 +95,18 @@ function Detail(): JSX.Element {
     setInfoOpen(false);
   };
 
+  const closeJoinModal = (): void => {
+    setJoinModalOpen(false);
+  };
+
+  const openJoinCrewModal = (): void => {
+    setJoinCrewModalOpen(true);
+  };
+
+  const closeJoinCrewModal = (): void => {
+    setJoinCrewModalOpen(false);
+  };
+
   const saveAddress = (address: string): void => {
     navigator.clipboard
       .writeText(address)
@@ -89,6 +115,17 @@ function Detail(): JSX.Element {
       })
       .catch(() => {});
   };
+
+  let joinCrewFunc = (): void => {};
+
+  if (status !== 'loading' && status !== 'error') {
+    joinCrewFunc =
+      crewInfo?.result.crew.crew_crewSignup === 0
+        ? () => {
+            signUpCrew.mutate();
+          }
+        : openJoinCrewModal;
+  }
 
   if (status === 'loading') {
     return <div>loading...</div>;
@@ -100,35 +137,62 @@ function Detail(): JSX.Element {
 
   return (
     <>
-      {/* 헤더 */}
-      <header id="detail-header">
-        <Link to="/findcrew">
-          <icons.chevronLeft />
-        </Link>
-        <BodyLargeBold>{crewInfo?.result.crew.crew_crewType}</BodyLargeBold>
-        <div style={{ width: '24px', height: '24px' }} />
-      </header>
-      <main id="detail-main">
-        {/* 썸네일 */}
-        <section
-          id="detail-main-thumbnail"
-          style={{
-            backgroundImage: `url(${crewInfo?.result.crew.crew_thumbnail})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
+      {joinModalOpen && (
+        <JoinModal
+          crewType={crewInfo!.result.crew.crew_crewType}
+          closeModal={closeJoinModal}
+          openJoinCrewModal={() => {
+            setJoinCrewModalOpen(true);
           }}
         />
+      )}
+      {joinCrewModalOpen && (
+        <JoinCrewModal
+          crewType={crewInfo!.result.crew.crew_crewType}
+          closeModal={closeJoinCrewModal}
+          signupFormId={crewInfo!.result.crew.signupFormId}
+          crewId={crewInfo!.result.crew.crew_crewId}
+        />
+      )}
+      {/* 헤더 */}
+      <header id="detail-header">
+        <icons.chevronLeft
+          onClick={() => {
+            window.history.back();
+          }}
+        />
+        <heading.BodyLargeBold>{crewInfo?.result.crew.crew_crewType}</heading.BodyLargeBold>
+        <div style={{ position: 'relative', width: '24px', height: '24px' }}>
+          <icons.ThreeDots fill="#4F4E55" style={{ cursor: 'pointer' }} />
+        </div>
+      </header>
+      <main id="detail-main">
+        {/* 크루 썸네일 */}
+        <section id="detail-main-thumbnail">
+          {crewInfo!.result.crew.crew_thumbnail !== '' ? (
+            <ThumbnailDiv $url={crewInfo!.result.crew.crew_thumbnail}>
+              <ThumbnailAbsDiv>
+                <icons.ThreeDots fill="rgba(255,255,255,1)" style={{ cursor: 'pointer' }} />
+              </ThumbnailAbsDiv>
+            </ThumbnailDiv>
+          ) : (
+            <ThumbnailDiv $url={CrewThumbnail}>
+              <SaveCrewThumbnailBtn>
+                <BodyBaseBold>사진 등록하기</BodyBaseBold>
+              </SaveCrewThumbnailBtn>
+            </ThumbnailDiv>
+          )}
+        </section>
 
+        {/* 장기 / 단기 별 컨텐츠 */}
         {crewInfo?.result.crew.crew_crewType === '장기' && (
           <Long
             crewInfo={crewInfo.result}
             infoOpen={infoOpen}
             closeInfoWindow={closeInfoWindow}
             openInfoWindow={openInfoWindow}
-            signUpCrew={signUpCrew}
             saveAddress={saveAddress}
-            recentSchedule={crewInfo.recentSchedule}
+            recentSchedule={crewInfo.recentSchedule !== undefined ? crewInfo.recentSchedule : null}
           />
         )}
         {crewInfo?.result.crew.crew_crewType === '단기' && (
@@ -138,50 +202,30 @@ function Detail(): JSX.Element {
             closeInfoWindow={closeInfoWindow}
             openInfoWindow={openInfoWindow}
             saveAddress={saveAddress}
-            signUpCrew={signUpCrew}
           />
         )}
       </main>
-      {/* {crewInfo?.result.personType === 'captain' && (
-        <footer style={{ position: 'relative', width: '100%' }}>
-          {page === '일정' && (
-            <button
-              type="button"
-              style={{
-                position: 'absolute',
-                top: '-74px',
-                right: '21px',
-                width: '48px',
-                aspectRatio: 1,
-                borderRadius: '50%',
-                backgroundColor: `${colors.primary}`,
-                border: 'none',
-                color: 'white',
-              }}
-            >
-              &#43;
-            </button>
+      {/* 참여버튼 */}
+      {crewInfo?.result.personType === 'person' && (
+        <InteractiveBtnContainer>
+          <LikeDiv>
+            <icons.heart />
+            <heading.BodyBaseBold>
+              {crewInfo.result.likeCount > 99 ? '99+' : crewInfo.result.likeCount}
+            </heading.BodyBaseBold>
+          </LikeDiv>
+          {crewInfo?.result.crew.crew_crewType === '장기' && (
+            <JoinDiv onClick={joinCrewFunc}>
+              <heading.BodyBaseBold>정모 가입하기</heading.BodyBaseBold>
+            </JoinDiv>
           )}
-          {page === '공지' && (
-            <button
-              type="button"
-              style={{
-                position: 'absolute',
-                top: '-74px',
-                right: '21px',
-                width: '48px',
-                aspectRatio: 1,
-                borderRadius: '50%',
-                backgroundColor: `${colors.primary}`,
-                border: 'none',
-                color: 'white',
-              }}
-            >
-              &#43;
-            </button>
+          {crewInfo?.result.crew.crew_crewType === '단기' && (
+            <JoinDiv onClick={joinCrewFunc}>
+              <heading.BodyBaseBold>단기 모임 참여하기</heading.BodyBaseBold>
+            </JoinDiv>
           )}
-        </footer>
-      )} */}
+        </InteractiveBtnContainer>
+      )}
     </>
   );
 }

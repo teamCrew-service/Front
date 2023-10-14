@@ -1,7 +1,20 @@
 import React from 'react';
-import TitleLargeMedium from '../../styledComponent/heading/TitleLargeMedium';
+import styled from 'styled-components';
+import TitleLargeBold from '../../styledComponent/heading/TitleLargeBold';
 import icons from '../../assets/icons';
 import InterestMatrix from '../common/InterestMatrix';
+
+const CategoryModalDiv = styled.div`
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  z-index: 103;
+  padding: 0px 16px;
+  padding-top: 27px;
+  overflow-x: hidden;
+`;
 
 function CategoryModal({
   categorySelectClose,
@@ -11,43 +24,20 @@ function CategoryModal({
   selectCategory: (item: string) => void;
 }): JSX.Element {
   return (
-    <div
-      style={{
-        position: 'absolute',
-        top: '0px',
-        left: '0px',
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'rgba(0,0,0,0.4)',
-        zIndex: '102',
-      }}
-    >
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '0px',
-          width: '100%',
-          height: '55%',
-          backgroundColor: 'white',
-          borderTopLeftRadius: '32px',
-          borderTopRightRadius: '32px',
-          zIndex: '102',
-          padding: '0px 16px',
-          paddingTop: '27px',
-        }}
-      >
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <TitleLargeMedium>관심사</TitleLargeMedium>
-          <icons.close
-            style={{ cursor: 'pointer' }}
-            onClick={() => {
-              categorySelectClose();
-            }}
-          />
-        </div>
-        <InterestMatrix onClick={selectCategory} />
+    <CategoryModalDiv>
+      <div style={{ display: 'flex', justifyContent: 'space-between', height: '6.4%' }}>
+        <TitleLargeBold>관심사</TitleLargeBold>
+        <icons.close
+          style={{ cursor: 'pointer' }}
+          onClick={() => {
+            categorySelectClose();
+          }}
+        />
       </div>
-    </div>
+      <div style={{ width: '100%', height: '53.69%' }}>
+        <InterestMatrix onClick={selectCategory} columns={3} rows={4} />
+      </div>
+    </CategoryModalDiv>
   );
 }
 

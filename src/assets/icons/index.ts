@@ -14,9 +14,24 @@ import { ReactComponent as users } from './users.svg';
 import { ReactComponent as Mappin } from './Mappin.svg';
 import { ReactComponent as NavigationArrow } from './NavigationArrow.svg';
 import { ReactComponent as search } from './search.svg';
+
 import { ReactComponent as MeetCount } from './meetCount.svg';
 import { ReactComponent as CrewDuration } from './crewDuration.svg';
 
+import { ReactComponent as Character } from './Character.svg';
+import { ReactComponent as CrewThumbnail } from './CrewThumbnail.svg';
+import { ReactComponent as ThreeDots } from './ThreeDots.svg';
+
+import { ReactComponent as Files } from './Files.svg';
+
+import { ReactComponent as House } from './House.svg';
+import { ReactComponent as UsersThree } from './UsersThree.svg';
+import { ReactComponent as ChatTeardropDots } from './ChatTeardropDots.svg';
+import { ReactComponent as UserCircle } from './UserCircle.svg';
+
+import { ReactComponent as NoSchedule } from './NoSchedule.svg';
+
+import { ReactComponent as MapCloseBtn } from './MapCloseBtn.svg';
 
 const icons = {
   TeamLogo,
@@ -37,6 +52,16 @@ const icons = {
   search,
   MeetCount,
   CrewDuration,
+  Character,
+  CrewThumbnail,
+  ThreeDots,
+  Files,
+  House,
+  UsersThree,
+  ChatTeardropDots,
+  UserCircle,
+  NoSchedule,
+  MapCloseBtn,
 };
 
 export default icons;
