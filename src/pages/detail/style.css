@@ -105,3 +105,141 @@
   gap: 10px;
   padding: 16px 18px;
 }
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px;
+}
+
+.message {
+  /* margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 10px; */
+  clear: both;
+}
+
+.message.others {
+  color: var(--gray-500, #4f4e55);
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 142.857% */
+  letter-spacing: 0.14px;
+  max-width: 80%;
+}
+
+.message.me {
+  color: var(--primary-base, #7353f4);
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 142.857% */
+  letter-spacing: 0.14px;
+  display: flex;
+  max-width: 100%;
+  height: auto;
+  text-align: right;
+  align-items: flex-end;
+  float: right;
+}
+
+.message-username {
+  color: var(--gray-500, #4f4e55);
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 142.857% */
+  letter-spacing: 0.14px;
+}
+
+.message-content {
+  margin-bottom: 5px;
+  max-width: 70%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.message-content.me {
+  justify-content: flex-end;
+  align-self: flex-end;
+}
+
+.message-content.others {
+  display: flex;
+  justify-content: flex-start;
+  align-self: flex-start;
+}
+
+.bubble {
+  display: flex;
+  padding: 12px 16px;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  border-radius: 100px;
+}
+
+.bubble.me {
+  background: var(--primary-100, #ded6ff);
+}
+
+.bubble.others {
+  background: var(--gray-50, #f9fafb);
+}
+
+.message-time {
+  color: var(--gray-400, #b9b7c2);
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px; /* 133.333% */
+  letter-spacing: -0.06px;
+  white-space: nowrap;
+}
+
+.message-time.me {
+  text-align: right;
+}
+
+.message-time.others {
+  margin-top: auto;
+}
+
+.thumbnail-container {
+  width: 24px;
+  height: 24px;
+  margin-top: auto;
+}
+
+.thumbnail.right {
+  width: 24px;
+  height: 24px;
+}
+
+.thumbnail.left {
+  width: 24px;
+  height: 24px;
+}
+
+.message-location {
+  font-size: 0.8em;
+  color: #555;
+}
+
+.date-separator {
+  color: var(--gray-500, #4f4e55);
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px; /* 142.857% */
+  letter-spacing: 0.14px;
+  margin-top: 80px;
+  margin-bottom: 16px;
+}
