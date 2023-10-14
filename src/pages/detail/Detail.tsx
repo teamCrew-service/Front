@@ -240,6 +240,7 @@ function Detail(): JSX.Element {
           )}
         </InteractiveBtnContainer>
       )}
+      {/* 공지 추가하는 버튼 */}
       {crewInfo?.result.personType === 'captain' && page === '공지' && (
         <PlusBtnContainer>
           <PlusBtn>
@@ -247,6 +248,7 @@ function Detail(): JSX.Element {
           </PlusBtn>
         </PlusBtnContainer>
       )}
+      {/* 일정 추가하는 버튼 */}
       {crewInfo?.result.personType === 'captain' && page === '일정' && (
         <PlusBtnContainer>
           <PlusBtn>
