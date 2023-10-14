@@ -151,6 +151,8 @@ function Chat(): JSX.Element {
                     src={data.thumbnail}
                     alt={`${data.user} thumbnail`}
                     className={`thumbnail ${isMe ? 'right' : 'left'}`}
+                    width={24}
+                    height={24}
                   />
                 </div>
               ) : (
@@ -165,6 +167,8 @@ function Chat(): JSX.Element {
                     src={data.thumbnail}
                     alt={`${data.user} thumbnail`}
                     className={`thumbnail ${isMe ? 'right' : 'left'}`}
+                    width={24}
+                    height={24}
                   />
                 </div>
               ) : (
