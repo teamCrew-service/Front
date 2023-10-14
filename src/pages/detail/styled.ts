@@ -144,3 +144,21 @@ export const InteractiveBtnContainer = styled.div`
   padding: 0 16px;
   justify-content: space-between;
 `;
+
+export const PlusBtnContainer = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
+export const PlusBtn = styled.div`
+  position: absolute;
+  top: -96px;
+  right: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: ${colors.primary};
+`;

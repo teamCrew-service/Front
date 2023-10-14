@@ -22,6 +22,8 @@ import {
   InteractiveBtnContainer,
   LikeDiv,
   JoinDiv,
+  PlusBtnContainer,
+  PlusBtn,
 } from './styled';
 import BodyBaseBold from '../../styledComponent/heading/BodyBaseBold';
 import JoinModal from '../../components/modal/JoinModal';
@@ -32,6 +34,8 @@ function Detail(): JSX.Element {
   const [infoOpen, setInfoOpen] = useState<boolean>(true);
   const [joinModalOpen, setJoinModalOpen] = useState<boolean>(false);
   const [joinCrewModalOpen, setJoinCrewModalOpen] = useState<boolean>(false);
+
+  const [page, setPage] = useState<string>('모임정보');
 
   const { id } = useParams();
 
@@ -105,6 +109,14 @@ function Detail(): JSX.Element {
 
   const closeJoinCrewModal = (): void => {
     setJoinCrewModalOpen(false);
+  };
+
+  const changePage = (input: string): void => {
+    if (input !== '모임정보' && crewInfo?.result.personType === 'person') {
+      alert('크루 멤버만 볼 수 있는 페이지 입니다.');
+      return;
+    }
+    setPage(input);
   };
 
   const saveAddress = (address: string): void => {
@@ -187,6 +199,8 @@ function Detail(): JSX.Element {
         {/* 장기 / 단기 별 컨텐츠 */}
         {crewInfo?.result.crew.crew_crewType === '장기' && (
           <Long
+            page={page}
+            changePage={changePage}
             crewInfo={crewInfo.result}
             infoOpen={infoOpen}
             closeInfoWindow={closeInfoWindow}
@@ -225,6 +239,13 @@ function Detail(): JSX.Element {
             </JoinDiv>
           )}
         </InteractiveBtnContainer>
+      )}
+      {crewInfo?.result.personType === 'captain' && (
+        <PlusBtnContainer>
+          <PlusBtn>
+            <icons.PlusBtn />
+          </PlusBtn>
+        </PlusBtnContainer>
       )}
     </>
   );

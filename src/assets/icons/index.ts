@@ -33,6 +33,8 @@ import { ReactComponent as NoSchedule } from './NoSchedule.svg';
 
 import { ReactComponent as MapCloseBtn } from './MapCloseBtn.svg';
 
+import { ReactComponent as PlusBtn } from './PlusBtn.svg';
+
 const icons = {
   TeamLogo,
   Kakao,
@@ -62,6 +64,7 @@ const icons = {
   UserCircle,
   NoSchedule,
   MapCloseBtn,
+  PlusBtn,
 };
 
 export default icons;

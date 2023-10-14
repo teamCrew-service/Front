@@ -28,6 +28,8 @@ import NoScheduleCard from '../NoScheduleCard';
 import Location from '../role/Location';
 
 function Long({
+  page,
+  changePage,
   crewInfo,
   infoOpen,
   closeInfoWindow,
@@ -35,6 +37,8 @@ function Long({
   saveAddress,
   recentSchedule,
 }: {
+  page: string;
+  changePage: (input: string) => void;
   crewInfo: MemberDetail;
   infoOpen: boolean;
   closeInfoWindow: () => void;
@@ -42,18 +46,9 @@ function Long({
   saveAddress: (input: string) => void;
   recentSchedule: Schedule | null;
 }): JSX.Element {
-  const [page, setPage] = useState<string>('모임정보');
   const [showCalendarEvent, setShowCalendarEvent] = useState<boolean>(false);
   const [eventInfo, setEventInfo] = useState<Schedule | null>(null);
 
-  const changePage = (goPage: string): void => {
-    if (goPage !== '모임정보' && crewInfo?.personType === 'person') {
-      alert('크루 멤버만 볼 수 있는 페이지 입니다.');
-      return;
-    }
-
-    setPage(goPage);
-  };
   const openCalendarEvent = (input: any): void => {
     setEventInfo(input);
     setShowCalendarEvent(true);
