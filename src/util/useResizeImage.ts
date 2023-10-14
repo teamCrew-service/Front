@@ -12,7 +12,7 @@ const useResizeImage = (file: File): any =>
       uri => {
         resolve(uri);
       },
-      'file',
+      'blob',
     );
   });
 

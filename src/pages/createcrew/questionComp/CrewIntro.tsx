@@ -24,6 +24,7 @@ import {
   ruleStr,
   spendTimeStr,
   stepNum,
+  thumbnailFile,
   titleStr,
   typeStr,
 } from '../../../atoms/makecrew';
@@ -100,6 +101,7 @@ function CrewIntro({ crewType }: { crewType: '장기' | '단기' }): JSX.Element
   const crewAttendMethod = useRecoilValue(attendMethodBool);
   const crewTitle = useRecoilValue(titleStr);
   const crewLatLng = useRecoilValue(latLngNum);
+  const crewThumbnail = useRecoilValue(thumbnailFile);
 
   // 이번 step에서 입력할 recoil atom
   const [crewIntro, setCrewIntro] = useRecoilState(introStr);
@@ -123,13 +125,16 @@ function CrewIntro({ crewType }: { crewType: '장기' | '단기' }): JSX.Element
   const makeCrew = (): void => {
     const crewTime = crewDate.timeTable === '오전' ? crewDate.time : crewDate.time! + 12;
 
-    const crewDDay = new Date(crewDate.year!, crewDate.month!, crewDate.date!, crewTime!, crewDate.minutes!);
+    const crewDDay =
+      crewType === '단기'
+        ? new Date(crewDate.year!, crewDate.month!, crewDate.date!, crewTime!, crewDate.minutes!)
+        : null;
     let crewSignup = false;
     if (crewAttendMethod === '방장 수락 후 참여 가능') {
       crewSignup = true;
     }
     crew
-      .makeCrew({
+      .makeCrew(crewThumbnail!, {
         createCrewDto: {
           category: crewCategory,
           crewAddress,
@@ -143,8 +148,8 @@ function CrewIntro({ crewType }: { crewType: '장기' | '단기' }): JSX.Element
           crewContent: `${crewIntro}\n${crewAdvantage}\n${crewActivity}\n${crewRule}`,
           thumbnail: '',
           crewMaxMember: crewMaxMember!,
-          crewLatitude: crewLatLng.lat,
-          crewLongtitude: crewLatLng.lng,
+          crewLatitude: Number(crewLatLng.lat),
+          crewLongtitude: Number(crewLatLng.lng),
         },
         createSignupFormDto: {
           question1: '자기소개 또는 가입 동기',
@@ -165,7 +170,7 @@ function CrewIntro({ crewType }: { crewType: '장기' | '단기' }): JSX.Element
       {crewIntro === '' && crewAdvantage === '' && crewActivity === '' && crewRule === '' && crewMaxMember === null ? (
         <>
           <AnswerBoxStyle $isActive={false}>
-            <BodyLargeBold>{`${crewType === '장기' ? '09' : '10'} 모임 소개`}</BodyLargeBold>
+            <BodyLargeBold>{`${crewType === '장기' ? '10' : '11'} 모임 소개`}</BodyLargeBold>
           </AnswerBoxStyle>
           <QuestionBox>
             <TitleLargeBold>우리 모임 소개글 및 알아야 할 정보를 작성해 주세요</TitleLargeBold>
@@ -240,7 +245,7 @@ function CrewIntro({ crewType }: { crewType: '장기' | '단기' }): JSX.Element
       ) : (
         <>
           <CompleteDiv>
-            <CompleteTitle>{`${crewType === '장기' ? '09' : '10'} 모임 소개`}</CompleteTitle>
+            <CompleteTitle>{`${crewType === '장기' ? '10' : '11'} 모임 소개`}</CompleteTitle>
             <div>
               <BodyBaseBold>1. 모임의 목표 및 소개</BodyBaseBold>
               <DetailContent>{crewIntro}</DetailContent>
