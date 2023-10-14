@@ -121,7 +121,7 @@ export interface MakeCrew {
     category: string;
     crewAddress: string;
     crewType: string;
-    crewDDay: Date;
+    crewDDay: Date | null;
     crewMemberInfo: string;
     crewTimeInfo: string;
     crewAgeInfo: string;

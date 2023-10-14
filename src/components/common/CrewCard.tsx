@@ -33,7 +33,7 @@ function CrewCard({ spot }: { spot: any }): JSX.Element {
           <div style={{ display: 'flex', gap: '2px' }}>
             <icons.Calendar />
             <p style={{ fontSize: '12px', lineHeight: '18px', letterSpacing: '-0.2px' }}>
-              {useCalDate(new Date(spot.crew_crewDDay))}
+              {spot.crew_crewDDay === null ? '아직 일정이 없습니다' : useCalDate(new Date(spot.crew_crewDDay))}
             </p>
           </div>
         )}

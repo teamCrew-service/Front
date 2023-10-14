@@ -33,8 +33,16 @@ const crew = {
     const { data } = await instance.post<T>(`api/signup/${crewId}`);
     return data;
   },
-  makeCrew: async (payload: myInterface.MakeCrew) => {
-    const { data } = await instance.post('/api/crew/createcrew', payload);
+  makeCrew: async (file: Blob, payload: myInterface.MakeCrew) => {
+    const formData = new FormData();
+    formData.append('files', file);
+    formData.append('JoinCreateCrewDto', JSON.stringify(payload));
+    const { data } = await instance.post('/api/crew/createcrew', formData, {
+      headers: {
+        Accept: '*/*',
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return data;
   },
 };
