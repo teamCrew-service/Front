@@ -110,6 +110,7 @@
   display: flex;
   flex-direction: column;
   padding: 0 16px;
+  padding-top: 32px;
 }
 
 .message {
@@ -120,7 +121,7 @@
 }
 
 .message.others {
-  color: var(--gray-500, #4f4e55);
+  color: #4f4e55;
   font-family: Pretendard;
   font-size: 14px;
   font-style: normal;
@@ -131,7 +132,7 @@
 }
 
 .message.me {
-  color: var(--primary-base, #7353f4);
+  color: #7353f4;
   font-family: Pretendard;
   font-size: 14px;
   font-style: normal;
@@ -147,7 +148,7 @@
 }
 
 .message-username {
-  color: var(--gray-500, #4f4e55);
+  color: #4f4e55;
   font-family: Pretendard;
   font-size: 14px;
   font-style: normal;
@@ -184,15 +185,15 @@
 }
 
 .bubble.me {
-  background: var(--primary-100, #ded6ff);
+  background: #ded6ff;
 }
 
 .bubble.others {
-  background: var(--gray-50, #f9fafb);
+  background: #f9fafb;
 }
 
 .message-time {
-  color: var(--gray-400, #b9b7c2);
+  color: #b9b7c2;
   font-family: Pretendard;
   font-size: 12px;
   font-style: normal;
@@ -232,7 +233,7 @@
 }
 
 .date-separator {
-  color: var(--gray-500, #4f4e55);
+  color: #4f4e55;
   text-align: center;
   font-family: Pretendard;
   font-size: 14px;
