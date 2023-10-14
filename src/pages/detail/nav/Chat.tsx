@@ -20,12 +20,12 @@ function Chat(): JSX.Element {
       location: 'New York, NY',
     },
     {
-      user: 'user1',
+      user: '주니',
       message: 'Hello, how are you?',
       time: new Date(2023, 0, 3, 13, 22, 42),
       thumbnail:
         'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg',
-      location: 'New York, NY',
+      location: '동네이름',
     },
     {
       user: 'user1',
@@ -36,12 +36,12 @@ function Chat(): JSX.Element {
       location: 'New York, NY',
     },
     {
-      user: 'user2',
+      user: '가나다',
       message: "I'm good, thank you! How about you?",
       time: new Date(2023, 0, 3, 13, 23, 15),
       thumbnail:
         'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg',
-      location: 'Los Angeles, CA',
+      location: '강남',
     },
     {
       user: 'user2',
@@ -68,12 +68,12 @@ function Chat(): JSX.Element {
       location: 'New York, NY',
     },
     {
-      user: 'user2',
+      user: '크루',
       message: 'Great to hear. Do you have any plans for the weekend?',
       time: new Date(2023, 0, 3, 13, 26, 30),
       thumbnail:
         'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg',
-      location: 'Los Angeles, CA',
+      location: '천안',
     },
     {
       user: 'user1',
@@ -102,48 +102,102 @@ function Chat(): JSX.Element {
 
   function renderDateSeparator(prevDate: Date, currDate: Date): JSX.Element | null {
     if (prevDate.getDate() !== currDate.getDate()) {
-      return (
-        <div className="date-separator">{currDate.toLocaleDateString('ko-KR', { month: 'long', day: '2-digit' })}</div>
-      );
+      const dateOptions: Intl.DateTimeFormatOptions = { month: 'long', day: '2-digit' };
+      const timeOptions: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit', hour12: true };
+
+      const formattedDate = currDate.toLocaleDateString('ko-KR', dateOptions);
+      const formattedTime = currDate.toLocaleTimeString('en-US', timeOptions).toUpperCase(); // AM/PM을 대문자로 표시
+
+      return <div className="date-separator">{`${formattedDate} ${formattedTime}`}</div>;
     }
     return null;
+  }
+
+  function renderMessageContents(data: Message, index: number): JSX.Element | null {
+    // 첫번째 메시지거나 채팅 작성자가 바뀌는 경우이면서 채팅 사이 간격이 5초 이상인 경우
+    const isFirstOrUserChanged =
+      index === 0 ||
+      mockData[index - 1].user !== data.user ||
+      data.time.getTime() - mockData[index - 1].time.getTime() > 5000;
+
+    // 마지막 메시지거나 채팅 작성자가 바뀌는 경우이면서 채팅 간격이 5초 이상인 경우
+    const isLastOrUserWillChange =
+      index === mockData.length - 1 ||
+      mockData[index + 1].user !== data.user ||
+      mockData[index + 1].time.getTime() - data.time.getTime() > 5000;
+
+    // 작성자가 본인인 경우
+    const isMe = data.user === 'user1';
+
+    return (
+      <>
+        {isFirstOrUserChanged && !isMe && (
+          <div className="message-content others">
+            <div className="thumbnail-container">&nbsp;</div>
+            <div className="message-username">
+              {data.user}, {data.location}
+            </div>
+          </div>
+        )}
+        <div className={`message-content ${isMe ? 'me' : 'others'}`}>
+          {isMe ? (
+            <>
+              <div className={`message ${isMe ? 'me' : 'others'}`}>
+                <div className={`bubble ${isMe ? 'me' : 'others'}`}>{data.message}</div>
+              </div>
+              {isLastOrUserWillChange ? (
+                <div className="thumbnail-container">
+                  <img
+                    src={data.thumbnail}
+                    alt={`${data.user} thumbnail`}
+                    className={`thumbnail ${isMe ? 'right' : 'left'}`}
+                  />
+                </div>
+              ) : (
+                <div className="thumbnail-container">&nbsp;</div>
+              )}
+            </>
+          ) : (
+            <>
+              {isLastOrUserWillChange ? (
+                <div className="thumbnail-container">
+                  <img
+                    src={data.thumbnail}
+                    alt={`${data.user} thumbnail`}
+                    className={`thumbnail ${isMe ? 'right' : 'left'}`}
+                  />
+                </div>
+              ) : (
+                <div className="thumbnail-container">&nbsp;</div>
+              )}
+              <div className={`message ${isMe ? 'me' : 'others'}`}>
+                <div className={`bubble ${isMe ? 'me' : 'others'}`}>{data.message}</div>
+              </div>
+
+              {isLastOrUserWillChange && (
+                <div className={`message-time ${isMe ? 'me' : 'others'}`}>
+                  {data.time.toLocaleDateString('ko-KR', { month: 'long', day: '2-digit' })}
+                </div>
+              )}
+            </>
+          )}
+        </div>
+        {isLastOrUserWillChange && isMe && (
+          <div className="message-time me">
+            {data.time.toLocaleDateString('ko-KR', { month: 'long', day: '2-digit' })}
+          </div>
+        )}
+      </>
+    );
   }
 
   return (
     <div className="chat-container">
       {mockData.map((data, index) => (
-        <React.Fragment key={data.time.toString()}>
+        <>
           {index > 0 && renderDateSeparator(mockData[index - 1].time, data.time)}
-          <div className={data.user === 'user1' ? 'message right' : 'message left'}>
-            <div className="message-content">
-              {(index === 0 ||
-                mockData[index - 1].user !== data.user ||
-                data.time.getTime() - mockData[index - 1].time.getTime() > 5000) &&
-              data.user !== 'user1' ? (
-                <div className="message-username">
-                  {data.user}, {data.location}
-                </div>
-              ) : null}
-              <div className="message-bubble">{data.message}</div>
-            </div>
-            {index === mockData.length - 1 ||
-            mockData[index + 1].user !== data.user ||
-            mockData[index + 1].time.getTime() - data.time.getTime() > 5000 ? (
-              <>
-                <div className="message-time">
-                  {data.time.toLocaleDateString('ko-KR', { month: 'long', day: '2-digit' })}
-                </div>
-                <div className="thumbnail-container">
-                  <img
-                    src={data.thumbnail}
-                    alt={`${data.user} thumbnail`}
-                    className={data.user === 'user1' ? 'thumbnail right' : 'thumbnail left'}
-                  />
-                </div>
-              </>
-            ) : null}
-          </div>
-        </React.Fragment>
+          {renderMessageContents(data, index)}
+        </>
       ))}
     </div>
   );

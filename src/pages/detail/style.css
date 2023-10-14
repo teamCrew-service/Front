@@ -101,78 +101,141 @@
   gap: 10px;
   padding: 16px 18px;
 }
+
 .chat-container {
-  width: 70%;
-  margin: auto;
-  padding: 20px;
-  background-color: #f0f0f0;
-  border-radius: 10px;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px;
 }
 
 .message {
-  margin-bottom: 10px;
+  /* margin-bottom: 10px;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 10px; */
   clear: both;
 }
 
-.message.left {
-  max-width: 70%;
-  height: auto;
-  text-align: left;
-  background-color: #e0e0e0;
-  float: left; /* 추가 */
+.message.others {
+  color: var(--gray-500, #4f4e55);
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 142.857% */
+  letter-spacing: 0.14px;
+  max-width: 80%;
 }
 
-.message.right {
-  max-width: 70%;
+.message.me {
+  color: var(--primary-base, #7353f4);
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 142.857% */
+  letter-spacing: 0.14px;
+  display: flex;
+  max-width: 100%;
   height: auto;
   text-align: right;
-  background-color: #a0d8f8;
-  float: right; /* 추가 */
+  align-items: flex-end;
+  float: right;
 }
 
 .message-username {
-  color: blue;
+  color: var(--gray-500, #4f4e55);
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 142.857% */
+  letter-spacing: 0.14px;
 }
 
 .message-content {
   margin-bottom: 5px;
+  max-width: 70%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.message-content.me {
+  justify-content: flex-end;
+  align-self: flex-end;
+}
+
+.message-content.others {
+  display: flex;
+  justify-content: flex-start;
+  align-self: flex-start;
+}
+
+.bubble {
+  display: flex;
+  padding: 12px 16px;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  border-radius: 100px;
+}
+
+.bubble.me {
+  background: var(--primary-100, #ded6ff);
+}
+
+.bubble.others {
+  background: var(--gray-50, #f9fafb);
 }
 
 .message-time {
-  font-size: 0.8em;
-  color: #555;
+  color: var(--gray-400, #b9b7c2);
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px; /* 133.333% */
+  letter-spacing: -0.06px;
+  white-space: nowrap;
 }
 
-.thumbnail {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  clear: both;
+.message-time.me {
+  text-align: right;
+}
+
+.message-time.others {
+  margin-top: auto;
+}
+
+.thumbnail-container {
+  width: 24px;
+  height: 24px;
+  margin-top: auto;
 }
 
 .thumbnail.right {
-  float: right;
-  margin-left: 10px;
+  width: 24px;
+  height: 24px;
 }
 
 .thumbnail.left {
-  float: left;
-  margin-right: 10px;
+  width: 24px;
+  height: 24px;
 }
 
 .message-location {
   font-size: 0.8em;
   color: #555;
 }
+
 .date-separator {
+  color: var(--gray-500, #4f4e55);
   text-align: center;
-  margin: 10px 0;
-  padding: 5px;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-  font-weight: bold;
-  color: #555;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px; /* 142.857% */
+  letter-spacing: 0.14px;
+  margin-top: 80px;
+  margin-bottom: 16px;
 }
