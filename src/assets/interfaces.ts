@@ -1,18 +1,3 @@
-// 장소
-export interface Spot {
-  crewAttendedMember: number;
-  crew_category: string;
-  crew_crewAddress: string;
-  crew_crewDDay: Date;
-  crew_crewId: number;
-  crew_crewMaxMember: number;
-  crew_crewTitle: string;
-  crew_crewType: string;
-  crew_latitude: number;
-  crew_longtitude: number;
-  crew_thumbnail: string;
-}
-
 // 최초 로그인 정보
 export interface AddUserInfoDto {
   nickname: string | null;
@@ -116,6 +101,7 @@ export interface Notice {
   isCanceled: boolean | null;
 }
 
+// 크루 생성 양식
 export interface MakeCrew {
   createCrewDto: {
     category: string;
@@ -139,19 +125,7 @@ export interface MakeCrew {
   };
 }
 
-export interface SearchByCategory {
-  crewAttendedMember: string;
-  crew_category: string;
-  crew_crewAddress: string;
-  crew_crewContent: string;
-  crew_crewDDay: string;
-  crew_crewId: string;
-  crew_crewMaxMember: string;
-  crew_crewTitle: string;
-  crew_crewType: string;
-  crew_thumbnail: string;
-}
-
+// 다가오는 일정
 export interface ComingDateSchedule {
   schedule: {
     scheduleTitle: string;
@@ -167,6 +141,7 @@ export interface ComingDateSchedule {
   }>;
 }
 
+// 다가오는 일정
 export interface ComingDate {
   schedule: ComingDateSchedule;
   nickname: string;
@@ -177,6 +152,7 @@ export interface WholeComingDate {
   participateSchedule: ComingDateSchedule[];
 }
 
+// 크루 가입 양식
 export interface SignUpForm {
   signupFormId: number;
   question1: string;
@@ -184,10 +160,32 @@ export interface SignUpForm {
   crewId: number;
 }
 
+export interface SearchByCategory {
+  crewAttendedMember: string;
+  crew_category: string;
+  crew_crewAddress: string;
+  crew_crewContent: string;
+  crew_crewDDay: string;
+  crew_crewId: string;
+  crew_crewMaxMember: string;
+  crew_crewTitle: string;
+  crew_crewType: string;
+  crew_thumbnail: string;
+}
+
+// 장소
+export interface Spot extends SearchByCategory {
+  likeCheck: string;
+  crew_latitude: number;
+  crew_longtitude: number;
+}
+
+// 내 크루 - 참여중 크루 리스트
 export interface JoinedCrewList {
   joinedCrew: SearchByCategory[];
 }
 
+// 내 크루 - 내가 만든 크루 리스트
 export interface MyCreatedCrew extends SearchByCategory {
   existSignup: string;
 }

@@ -26,32 +26,11 @@ const StyledLi = styled.li`
 
 function NoticeContent({ crewInfo }: { crewInfo: MemberDetail }): JSX.Element {
   const [selected, setSelected] = useState<string>('정모 공지');
-  //   const {
-  //     data: noticeInfo,
-  //     isLoading,
-  //     isError,
-  //   } = useQuery(
-  //     ['notice'],
-  //     async () => {
-  //       const result = await notice.getNotice(crewInfo.crew.crew_crewId);
-  //       return result;
-  //     },
-  //     {
-  //       onSuccess: result => {
-  //         console.log(result);
-  //       },
-  //     },
-  //   );
+
   const changeSelectedHandler = (input: string): void => {
     setSelected(input);
   };
-  // if (isLoading) {
-  //   return <div>loading</div>;
-  // }
 
-  // if (isError) {
-  //   return <div>something wrong!</div>;
-  // }
   return (
     <div id="detail-main-content-notice">
       <nav style={{ width: '100%', marginBottom: '9px' }}>
@@ -77,7 +56,9 @@ function NoticeContent({ crewInfo }: { crewInfo: MemberDetail }): JSX.Element {
           })}
         </ul>
       </nav>
-      {selected === '정모 공지' &&
+      {selected === '정모 공지' && crewInfo.allNotice.regularNotice.length === 0 ? (
+        <NoticeDiv>공지 없음</NoticeDiv>
+      ) : (
         crewInfo.allNotice.regularNotice.map((item, index) => (
           // eslint-disable-next-line react/no-array-index-key
           <NoticeDiv key={index + 1}>
@@ -99,8 +80,11 @@ function NoticeContent({ crewInfo }: { crewInfo: MemberDetail }): JSX.Element {
               <CaptionXS>{item.noticeContent}</CaptionXS>
             </div>
           </NoticeDiv>
-        ))}
-      {selected === '투표' &&
+        ))
+      )}
+      {selected === '투표' && crewInfo.allNotice.voteForm.length === 0 ? (
+        <NoticeDiv>투표 없음</NoticeDiv>
+      ) : (
         crewInfo.allNotice.voteForm.map(item => (
           <NoticeDiv key={item.voteFormId}>
             <div
@@ -121,7 +105,8 @@ function NoticeContent({ crewInfo }: { crewInfo: MemberDetail }): JSX.Element {
               <CaptionXS>{item.voteContent}</CaptionXS>
             </div>
           </NoticeDiv>
-        ))}
+        ))
+      )}
     </div>
   );
 }

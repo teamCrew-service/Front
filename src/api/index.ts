@@ -50,11 +50,11 @@ export const crew = {
 export const notice = {
   getNoticeList: async <T = myInterface.Notice[]>(): Promise<AxiosResponse<T>> =>
     instance.get<T>('api/notice/comingDate'),
-  getUpcomingList: async (): Promise<myInterface.Notice[]> => {
-    const response: AxiosResponse = await instance.get('api/notice/comingDate');
-    const noticeData: myInterface.Notice[] = response.data;
-    return noticeData;
-  },
+  // getUpcomingList: async (): Promise<myInterface.Notice[]> => {
+  //   const response: AxiosResponse = await instance.get('api/notice/comingDate');
+  //   const noticeData: myInterface.Notice[] = response.data;
+  //   return noticeData;
+  // },
 };
 
 export const searchByCategory = {
