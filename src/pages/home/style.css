@@ -1,7 +1,8 @@
+/* total height : 814px */
 /*---------- main ----------*/
 /* main 레이아웃 */
 /* height: 762px - 32px = 730px */
-#home-main {
+#home-home-page {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -78,3 +79,28 @@
   height: 6.38%;
 }
 /*--------- footer ---------*/
+
+/* height: 762px */
+#home-my-crew {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 93.62%;
+  padding: 0px 16px;
+}
+
+#home-my-crew-title {
+  width: 100%;
+  height: 7.35%;
+}
+
+#home-my-crew-nav {
+  width: 100%;
+  height: 6.3%;
+}
+
+#home-my-crew-content {
+  width: 100%;
+  height: 86.35%;
+  padding: 16px 0px;
+}

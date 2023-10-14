@@ -140,15 +140,16 @@ export interface MakeCrew {
 }
 
 export interface SearchByCategory {
-  crew_crewId: string;
+  crewAttendedMember: string;
   crew_category: string;
   crew_crewAddress: string;
-  crew_crewType: string;
+  crew_crewContent: string;
   crew_crewDDay: string;
-  crew_crewTitle: string;
-  crew_thumbnail: string;
+  crew_crewId: string;
   crew_crewMaxMember: string;
-  crewAttendedMember: string;
+  crew_crewTitle: string;
+  crew_crewType: string;
+  crew_thumbnail: string;
 }
 
 export interface ComingDateSchedule {
@@ -181,4 +182,12 @@ export interface SignUpForm {
   question1: string;
   question2: string;
   crewId: number;
+}
+
+export interface JoinedCrewList {
+  joinedCrew: SearchByCategory[];
+}
+
+export interface MyCreatedCrew extends SearchByCategory {
+  existSignup: string;
 }
