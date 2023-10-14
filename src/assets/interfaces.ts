@@ -1,4 +1,4 @@
-// 최초 로그인 정보
+// 로그인 관련 -----------------
 export interface AddUserInfoDto {
   nickname: string | null;
   age: string | null;
@@ -7,14 +7,42 @@ export interface AddUserInfoDto {
   myMessage: string | null;
   location: string | null;
 }
+// 최초 유저 정보 입력 양식
 export interface Information {
+  // 유저 정보
   addUserInfoDto: AddUserInfoDto;
+  // 관심사
   topicDto: {
     interestTopic: string | null;
   };
 }
+// --------------------------
 
-// 크루 상세정보
+// 크루 공지 관련 --------------------
+export interface VoteForm {
+  voteContent: string;
+  voteEndDate: string;
+  voteFormId: number;
+  voteTitle: string;
+  crewId: number;
+}
+export interface CrewNotice {
+  noticeTitle: string;
+  noticeContent: string;
+  noticeAddress: string;
+  noticeDDay: string;
+}
+// 3. 공지 리스트
+export interface AllNotice {
+  // 일반 공지
+  regularNotice: CrewNotice[];
+  // 투표 공지
+  voteForm: VoteForm[];
+}
+// --------------------------------
+
+// 크루 상세 정보 --------------------
+// 1. 크루 정보
 export interface Crew {
   captainId: number;
   captainLocation: string;
@@ -39,6 +67,7 @@ export interface Crew {
   crew_thumbnail: string;
   signupFormId: string;
 }
+// 2. 크루 멤버
 export interface Member {
   member_memberId: number;
   member_userId: number;
@@ -46,7 +75,7 @@ export interface Member {
   users_profileImage: string;
   users_location: string;
 }
-// 일정
+// 3. 크루 일정
 export interface Schedule {
   createdAt: string;
   participate: number;
@@ -62,25 +91,7 @@ export interface Schedule {
   scheduleTitle: string;
   userId: string;
 }
-// 투표 공지
-export interface VoteForm {
-  voteContent: string;
-  voteEndDate: string;
-  voteFormId: number;
-  voteTitle: string;
-  crewId: number;
-}
-// 정모 공지
-export interface CrewNotice {
-  noticeTitle: string;
-  noticeContent: string;
-  noticeAddress: string;
-  noticeDDay: string;
-}
-export interface AllNotice {
-  regularNotice: CrewNotice[];
-  voteForm: VoteForm[];
-}
+// 게스트일 경우
 export interface GuestDetail {
   createdCrewPeriod: number;
   crew: Crew;
@@ -89,10 +100,12 @@ export interface GuestDetail {
   likeCount: number;
 }
 
+// 멤버일 경우
 export interface MemberDetail extends GuestDetail {
   schedule: Schedule[];
   allNotice: AllNotice;
 }
+// -------------------------------
 
 export interface Notice {
   noticeTitle: string;
@@ -125,6 +138,7 @@ export interface MakeCrew {
   };
 }
 
+// 다가오는 일정 부분 ---------------------
 // 다가오는 일정
 export interface ComingDateSchedule {
   schedule: {
@@ -141,25 +155,20 @@ export interface ComingDateSchedule {
   }>;
 }
 
-// 다가오는 일정
+// Home - 다가오는 일정
 export interface ComingDate {
   schedule: ComingDateSchedule;
   nickname: string;
 }
 
+// UpcomingData - 내 전체 일정
 export interface WholeComingDate {
   comingSchedule: ComingDateSchedule[];
   participateSchedule: ComingDateSchedule[];
 }
+// -----------------------------------
 
-// 크루 가입 양식
-export interface SignUpForm {
-  signupFormId: number;
-  question1: string;
-  question2: string;
-  crewId: number;
-}
-
+// 크루 요약 정보
 export interface SearchByCategory {
   crewAttendedMember: string;
   crew_category: string;
@@ -173,19 +182,31 @@ export interface SearchByCategory {
   crew_thumbnail: string;
 }
 
+// 내 주변 모임 찾기 ----------------------
 // 장소
 export interface Spot extends SearchByCategory {
   likeCheck: string;
   crew_latitude: number;
   crew_longtitude: number;
 }
+// ------------------------------------
 
-// 내 크루 - 참여중 크루 리스트
+// 내 크루 ------------------------------
+// 참여중 크루 리스트
 export interface JoinedCrewList {
   joinedCrew: SearchByCategory[];
 }
 
-// 내 크루 - 내가 만든 크루 리스트
+// 내가 만든 크루 리스트
 export interface MyCreatedCrew extends SearchByCategory {
   existSignup: string;
+}
+// ------------------------------------
+
+// 크루 가입 양식
+export interface SignUpForm {
+  signupFormId: number;
+  question1: string;
+  question2: string;
+  crewId: number;
 }

@@ -40,6 +40,7 @@ function Detail(): JSX.Element {
   const { id } = useParams();
 
   const findRecentEvent = (sorted: Schedule[]): any => {
+    // 가장 임박한 일정 가져오는 함수
     const today = new Date();
     // eslint-disable-next-line array-callback-return, consistent-return
     for (let i = 0; i < sorted.length; i += 1) {
@@ -59,9 +60,11 @@ function Detail(): JSX.Element {
     async () => {
       const result = await crew.getDetail(id!);
       if (result.personType !== 'person') {
+        // 최신 순으로 정렬
         const sortedArray = result.schedule.sort(
           (a, b) => new Date(a.scheduleDDay).getTime() - new Date(b.scheduleDDay).getTime(),
         );
+        // 가장 임박한 일정 가져오기
         const recentSchedule = findRecentEvent(sortedArray);
         return { result, recentSchedule };
       }
@@ -69,12 +72,13 @@ function Detail(): JSX.Element {
     },
     {
       onSuccess: res => {
-        console.log(res);
+        console.log('크루 상세정보 = ', res);
       },
       refetchOnWindowFocus: false,
     },
   );
 
+  // 크루 바로 가입 가능 시 작동하는 함수
   const signUpCrew = useMutation(
     async () => {
       const result = await crew.signUp(crewInfo!.result.crew.crew_crewId);
@@ -91,26 +95,28 @@ function Detail(): JSX.Element {
     },
   );
 
+  // 크루 소개 부분 On/Off 함수
   const openInfoWindow = (): void => {
     setInfoOpen(true);
   };
-
   const closeInfoWindow = (): void => {
     setInfoOpen(false);
   };
 
+  // 크루 가입 여부 묻는 모달 닫는 함수
   const closeJoinModal = (): void => {
     setJoinModalOpen(false);
   };
 
+  // 크루 가입 모달 On/Off 함수
   const openJoinCrewModal = (): void => {
     setJoinCrewModalOpen(true);
   };
-
   const closeJoinCrewModal = (): void => {
     setJoinCrewModalOpen(false);
   };
 
+  // nav 변경하는 함수
   const changePage = (input: string): void => {
     if (input !== '모임정보' && crewInfo?.result.personType === 'person') {
       alert('크루 멤버만 볼 수 있는 페이지 입니다.');
@@ -119,6 +125,7 @@ function Detail(): JSX.Element {
     setPage(input);
   };
 
+  // 주소 클립보드에 저장하는 함수
   const saveAddress = (address: string): void => {
     navigator.clipboard
       .writeText(address)
@@ -128,6 +135,7 @@ function Detail(): JSX.Element {
       .catch(() => {});
   };
 
+  // 크루 가입 양식에 맞춘 크루 가입 함수 설정
   let joinCrewFunc = (): void => {};
 
   if (status !== 'loading' && status !== 'error') {
