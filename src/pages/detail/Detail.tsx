@@ -24,10 +24,15 @@ import {
   JoinDiv,
   PlusBtnContainer,
   PlusBtn,
+  CloseBtn,
+  NonActiveWindow,
+  PlusItemContainer,
+  ItemDiv,
 } from './styled';
 import BodyBaseBold from '../../styledComponent/heading/BodyBaseBold';
 import JoinModal from '../../components/modal/JoinModal';
 import JoinCrewModal from '../../components/modal/joincrew/JoinCrewModal';
+import CreateNoticeModal from '../../components/modal/createnotice/CreateNoticeModal';
 
 function Detail(): JSX.Element {
   // 소개 부분 접었다 펴기
@@ -36,6 +41,8 @@ function Detail(): JSX.Element {
   const [joinCrewModalOpen, setJoinCrewModalOpen] = useState<boolean>(false);
 
   const [page, setPage] = useState<string>('모임정보');
+  const [openNoticeModal, setOpenNoticeModal] = useState<boolean>(false);
+  const [openCreateNoticeModal, setOpenCreateNoticeModal] = useState<boolean>(false);
 
   const { id } = useParams();
 
@@ -135,6 +142,15 @@ function Detail(): JSX.Element {
       .catch(() => {});
   };
 
+  const OpenCreateNoticeModalFunc = (): void => {
+    setOpenCreateNoticeModal(true);
+    setOpenNoticeModal(false);
+  };
+
+  const CloseCreateNoticeModalFunc = (): void => {
+    setOpenCreateNoticeModal(false);
+  };
+
   // 크루 가입 양식에 맞춘 크루 가입 함수 설정
   let joinCrewFunc = (): void => {};
 
@@ -157,6 +173,7 @@ function Detail(): JSX.Element {
 
   return (
     <>
+      {/* 모달들 */}
       {joinModalOpen && (
         <JoinModal
           crewType={crewInfo!.result.crew.crew_crewType}
@@ -174,6 +191,8 @@ function Detail(): JSX.Element {
           crewId={crewInfo!.result.crew.crew_crewId}
         />
       )}
+      {openNoticeModal && <NonActiveWindow />}
+      {openCreateNoticeModal && <CreateNoticeModal closeModal={CloseCreateNoticeModalFunc} />}
       {/* 헤더 */}
       <header id="detail-header">
         <icons.chevronLeft
@@ -251,9 +270,36 @@ function Detail(): JSX.Element {
       {/* 공지 추가하는 버튼 */}
       {crewInfo?.result.personType === 'captain' && page === '공지' && (
         <PlusBtnContainer>
-          <PlusBtn>
-            <icons.PlusBtn />
-          </PlusBtn>
+          {!openNoticeModal && (
+            <PlusBtn
+              onClick={() => {
+                setOpenNoticeModal(true);
+              }}
+            >
+              <icons.PlusBtn />
+            </PlusBtn>
+          )}
+          {openNoticeModal && (
+            <>
+              <CloseBtn
+                onClick={() => {
+                  setOpenNoticeModal(false);
+                }}
+              >
+                <icons.CloseBtn />
+              </CloseBtn>
+              <PlusItemContainer>
+                <ItemDiv onClick={OpenCreateNoticeModalFunc}>
+                  <heading.BodyBaseMedium>되는 시간 투표</heading.BodyBaseMedium>
+                  <icons.VoteIcon />
+                </ItemDiv>
+                <ItemDiv onClick={OpenCreateNoticeModalFunc}>
+                  <heading.BodyBaseMedium>정모 공지</heading.BodyBaseMedium>
+                  <icons.MegaPhone />
+                </ItemDiv>
+              </PlusItemContainer>
+            </>
+          )}
         </PlusBtnContainer>
       )}
       {/* 일정 추가하는 버튼 */}

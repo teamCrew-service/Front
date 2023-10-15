@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { useQuery } from 'react-query';
 import MyIntro from './MyIntro';
 import './style.css';
 import heading from '../../../styledComponent/heading';
+import colors from '../../../assets/styles/color';
 import icons from '../../../assets/icons';
-import ButtonDiv from '../../../styledComponent/ButtonDiv';
 import { myAdjListArray, myIntroStr } from '../../../atoms/joincrew';
 import { signUp } from '../../../api';
 import MyAdj from './MyAdj';
@@ -21,14 +21,16 @@ const ModalContainer = styled.div`
   background-color: white;
 `;
 
-const NonActiveDiv = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
+const NextBtn = styled.button`
   width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.25);
+  height: 56px;
+  border: none;
   border-radius: 8px;
+  color: white;
+  background-color: ${colors.primary};
+  &:disabled {
+    background-color: ${colors.primary100};
+  }
 `;
 
 function JoinCrewModal({
@@ -42,8 +44,8 @@ function JoinCrewModal({
   signupFormId: string;
   crewId: string;
 }): JSX.Element {
-  const myIntro = useRecoilValue(myIntroStr);
-  const myAdj = useRecoilValue(myAdjListArray);
+  const [myIntro, setMyIntro] = useRecoilState(myIntroStr);
+  const [myAdj, setMyAdj] = useRecoilState(myAdjListArray);
   const [completeQuestion1, setCompleteQuestion] = useState<boolean>(false);
   const [showBtn2, setShowBtn2] = useState<boolean>(false);
 
@@ -75,11 +77,18 @@ function JoinCrewModal({
       .postSignUpForm(signupFormId, crewId, { answer1: myIntro, answer2: adjString })
       .then(res => {
         console.log(res);
+        setMyIntro('');
+        setMyAdj([]);
         closeModal();
       })
       .catch(err => {
         console.log(err);
       });
+  };
+
+  const clearItems = (): void => {
+    setMyIntro('');
+    setMyAdj([]);
   };
 
   if (isLoading) {
@@ -89,7 +98,12 @@ function JoinCrewModal({
   return (
     <ModalContainer>
       <header id="joincrew-header">
-        <icons.chevronLeft onClick={closeModal} />
+        <icons.chevronLeft
+          onClick={() => {
+            clearItems();
+            closeModal();
+          }}
+        />
         {crewType === '장기' && <heading.BodyLargeBold>정모 가입 인사</heading.BodyLargeBold>}
         {crewType === '단기' && <heading.BodyLargeBold>단기 모임 참여 인사</heading.BodyLargeBold>}
         <div style={{ width: '24px' }} />
@@ -99,22 +113,21 @@ function JoinCrewModal({
         <MyIntro crewType={crewType} question={signUpForm?.question1} complete={completeQuestion1} />
         {completeQuestion1 && <MyAdj question={signUpForm?.question2} />}
         {!completeQuestion1 && (
-          <ButtonDiv
+          <NextBtn
             onClick={() => {
               setCompleteQuestion(true);
               setShowBtn2(true);
             }}
+            disabled={myIntro.length < 20}
             style={{ position: 'relative' }}
           >
-            {myIntro.length < 20 && <NonActiveDiv />}
             <heading.BodyBaseBold>다음</heading.BodyBaseBold>
-          </ButtonDiv>
+          </NextBtn>
         )}
         {showBtn2 && (
-          <ButtonDiv onClick={sendSignupFormMutation} style={{ position: 'relative' }}>
-            {myAdj.length < 3 && <NonActiveDiv />}
+          <NextBtn onClick={sendSignupFormMutation} disabled={myAdj.length < 3} style={{ position: 'relative' }}>
             <heading.BodyBaseBold>작성완료</heading.BodyBaseBold>
-          </ButtonDiv>
+          </NextBtn>
         )}
       </main>
     </ModalContainer>

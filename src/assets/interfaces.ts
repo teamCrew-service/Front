@@ -27,10 +27,13 @@ export interface VoteForm {
   crewId: number;
 }
 export interface CrewNotice {
-  noticeTitle: string;
-  noticeContent: string;
+  createdAt: string;
   noticeAddress: string;
+  noticeContent: string;
   noticeDDay: string;
+  noticeIsDone: number;
+  noticeTitle: string;
+  userId: string;
 }
 // 3. 공지 리스트
 export interface AllNotice {

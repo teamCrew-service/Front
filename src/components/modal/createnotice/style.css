@@ -1,0 +1,39 @@
+#create-notice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 56px;
+}
+
+#create-notice-main-title {
+  width: 100%;
+  height: 36px;
+  padding: 8px 12px;
+  margin-top: 5px;
+}
+
+#create-notice-main-location {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 48px;
+  gap: 8px;
+  padding: 12px;
+}
+
+#create-notice-main-date {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  width: 100%;
+  height: 40px;
+  margin-top: 20px;
+}
+
+#create-notice-main-content {
+  width: 100%;
+  height: fit-content;
+  margin-top: 16px;
+}

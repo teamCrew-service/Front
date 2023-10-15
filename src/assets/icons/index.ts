@@ -35,6 +35,10 @@ import { ReactComponent as MapCloseBtn } from './MapCloseBtn.svg';
 
 import { ReactComponent as PlusBtn } from './PlusBtn.svg';
 
+import { ReactComponent as CloseBtn } from './CloseBtn.svg';
+import { ReactComponent as VoteIcon } from './VoteIcon.svg';
+import { ReactComponent as MegaPhone } from './MegaPhone.svg';
+
 const icons = {
   TeamLogo,
   Kakao,
@@ -65,6 +69,9 @@ const icons = {
   NoSchedule,
   MapCloseBtn,
   PlusBtn,
+  CloseBtn,
+  VoteIcon,
+  MegaPhone,
 };
 
 export default icons;

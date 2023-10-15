@@ -56,12 +56,14 @@ function NoticeContent({ crewInfo }: { crewInfo: MemberDetail }): JSX.Element {
           })}
         </ul>
       </nav>
-      {selected === '정모 공지' && crewInfo.allNotice.regularNotice.length === 0 ? (
+      {/* 정모 공지 탭일 경우 */}
+      {selected === '정모 공지' && crewInfo.allNotice.regularNotice.length === 0 && (
         <NoticeDiv>공지 없음</NoticeDiv>
-      ) : (
-        crewInfo.allNotice.regularNotice.map((item, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <NoticeDiv key={index + 1}>
+      )}{' '}
+      {selected === '정모 공지' &&
+        crewInfo.allNotice.regularNotice.length !== 0 &&
+        crewInfo.allNotice.regularNotice.map(item => (
+          <NoticeDiv key={item.createdAt}>
             <div
               style={{
                 display: 'flex',
@@ -80,11 +82,11 @@ function NoticeContent({ crewInfo }: { crewInfo: MemberDetail }): JSX.Element {
               <CaptionXS>{item.noticeContent}</CaptionXS>
             </div>
           </NoticeDiv>
-        ))
-      )}
-      {selected === '투표' && crewInfo.allNotice.voteForm.length === 0 ? (
-        <NoticeDiv>투표 없음</NoticeDiv>
-      ) : (
+        ))}
+      {/* 투표 탭일 경우 */}
+      {selected === '투표' && crewInfo.allNotice.voteForm.length === 0 && <NoticeDiv>투표 없음</NoticeDiv>}{' '}
+      {selected === '투표' &&
+        crewInfo.allNotice.voteForm.length !== 0 &&
         crewInfo.allNotice.voteForm.map(item => (
           <NoticeDiv key={item.voteFormId}>
             <div
@@ -105,8 +107,7 @@ function NoticeContent({ crewInfo }: { crewInfo: MemberDetail }): JSX.Element {
               <CaptionXS>{item.voteContent}</CaptionXS>
             </div>
           </NoticeDiv>
-        ))
-      )}
+        ))}
     </div>
   );
 }
