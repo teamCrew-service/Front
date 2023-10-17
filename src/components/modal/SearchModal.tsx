@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import colors from '../../assets/styles/color';
-import TitleLargeBold from '../../styledComponent/heading/TitleLargeBold';
-import BodySmallMedium from '../../styledComponent/heading/BodySmallMedium';
+import icons from '../../assets/icons';
+import heading from '../../styledComponent/heading';
 
 declare global {
   interface Window {
@@ -17,11 +17,12 @@ const ModalContainer = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1;
+  z-index: 4;
 `;
 
-const StyledInput = styled.input`
+const SearchContainer = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 6px;
   width: 100%;
@@ -30,6 +31,19 @@ const StyledInput = styled.input`
   padding: 8px 12px;
   border-radius: 4px;
   border: 1px solid ${colors.primary};
+`;
+
+const StyledInput = styled.input`
+  width: 100%;
+  border: none;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.14px;
+  &::placeholder {
+    color: ${colors.gray400};
+  }
 `;
 
 const Modal = styled.div`
@@ -59,15 +73,30 @@ const Header = styled.div`
   height: 76px;
 `;
 
+const DetailAddressContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  width: 100%;
+  height: 64px;
+  background-color: ${colors.primary50};
+  padding: 16px 12px;
+  border-radius: 4px;
+`;
+
 const DetailAddressDiv = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+const NoSearchListContainer = styled.div`
+  display: flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
-  height: 64px;
-  background-color: ${colors.primary100};
-  padding: 8px 12px;
-  border-radius: 4px;
+  height: 400px;
+  background-color: ${colors.gray100};
+  border-radius: 8px;
 `;
 
 const { kakao } = window;
@@ -95,6 +124,7 @@ function SearchModal({
       setSearchList(result);
     }
     if (status === kakao.maps.services.Status.ZERO_RESULT) {
+      console.log('no search list');
       setSearchList([]);
     }
   }
@@ -121,12 +151,17 @@ function SearchModal({
             closeModal();
           }}
         >
-          x
+          <icons.close />
         </Header>
-        <TitleLargeBold>{title}</TitleLargeBold>
-        {subTitle !== undefined && <BodySmallMedium style={{ color: `${colors.gray500}` }}>{subTitle}</BodySmallMedium>}
+        <heading.TitleLargeBold>{title}</heading.TitleLargeBold>
+        {subTitle !== undefined && (
+          <heading.BodySmallMedium style={{ color: `${colors.gray500}` }}>{subTitle}</heading.BodySmallMedium>
+        )}
         <form onSubmit={searchKeyword} style={{ marginTop: '24px' }}>
-          <StyledInput onChange={changeKeyword} type="text" />
+          <SearchContainer>
+            <icons.Mappin />
+            <StyledInput onChange={changeKeyword} type="text" placeholder="위치 입력" />
+          </SearchContainer>
           <input
             style={{
               width: '100%',
@@ -155,17 +190,21 @@ function SearchModal({
             marginTop: '12px',
           }}
         >
+          {searchList.length === 0 && <NoSearchListContainer>no list</NoSearchListContainer>}
           {searchList.length > 0
             ? searchList.map(item => (
-                <DetailAddressDiv
+                <DetailAddressContainer
                   key={item.id}
                   onClick={() => {
                     closeModal(item);
                   }}
                 >
-                  <h3 style={{ fontSize: '14px', lineHeight: '24px', letterSpacing: '-0.2px' }}>{item.place_name}</h3>
-                  <h4 style={{ fontSize: '10px', lineHeight: '14px' }}>{item.address_name}</h4>
-                </DetailAddressDiv>
+                  <icons.Mappin />
+                  <DetailAddressDiv>
+                    <heading.BodyBaseMedium>{item.place_name}</heading.BodyBaseMedium>
+                    <heading.CaptionXS style={{ color: `${colors.gray500}` }}>{item.address_name}</heading.CaptionXS>
+                  </DetailAddressDiv>
+                </DetailAddressContainer>
               ))
             : null}
         </div>

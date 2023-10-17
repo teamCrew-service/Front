@@ -2,17 +2,18 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import type { MemberDetail } from '../../../assets/interfaces';
 import colors from '../../../assets/styles/color';
-import BodyBaseBold from '../../../styledComponent/heading/BodyBaseBold';
-import CaptionXS from '../../../styledComponent/heading/CaptionXS';
-import BodySmallBold from '../../../styledComponent/heading/BodySmallBold';
+import icons from '../../../assets/icons';
+import heading from '../../../styledComponent/heading';
+
+import useCalDate from '../../../util/useCalDate';
 
 const NoticeDiv = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px;
   width: 100%;
-  background-color: ${colors.primary50};
+  background-color: ${colors.gray50};
   padding: 12px;
   border-radius: 12px;
 `;
@@ -22,6 +23,25 @@ const StyledLi = styled.li`
   background-color: ${colors.gray200};
   padding: 4px 12px;
   cursor: pointer;
+`;
+
+const NoticeTypeDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  width: fit-content;
+  height: 24px;
+  background-color: ${colors.primary50};
+  border-radius: 200px;
+  padding: 4px 10px;
+`;
+
+const InfoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: ${colors.gray500};
 `;
 
 function NoticeContent({ crewInfo }: { crewInfo: MemberDetail }): JSX.Element {
@@ -39,7 +59,7 @@ function NoticeContent({ crewInfo }: { crewInfo: MemberDetail }): JSX.Element {
             if (item === selected) {
               return (
                 <StyledLi key={item} style={{ backgroundColor: `${colors.primary}` }}>
-                  <BodySmallBold style={{ color: 'white' }}>{item}</BodySmallBold>
+                  <heading.BodySmallBold style={{ color: 'white' }}>{item}</heading.BodySmallBold>
                 </StyledLi>
               );
             }
@@ -50,7 +70,7 @@ function NoticeContent({ crewInfo }: { crewInfo: MemberDetail }): JSX.Element {
                   changeSelectedHandler(item);
                 }}
               >
-                <BodySmallBold>{item}</BodySmallBold>
+                <heading.BodySmallBold>{item}</heading.BodySmallBold>
               </StyledLi>
             );
           })}
@@ -63,23 +83,26 @@ function NoticeContent({ crewInfo }: { crewInfo: MemberDetail }): JSX.Element {
       {selected === '정모 공지' &&
         crewInfo.allNotice.regularNotice.length !== 0 &&
         crewInfo.allNotice.regularNotice.map(item => (
-          <NoticeDiv key={item.createdAt}>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '72px',
-                height: '20px',
-                backgroundColor: `${colors.gray400}`,
-                borderRadius: '200px',
-              }}
-            >
-              <CaptionXS>정모 공지</CaptionXS>
+          <NoticeDiv key={item.noticeId}>
+            <NoticeTypeDiv>
+              <icons.MegaPhone />
+              <heading.BodySmallMedium style={{ color: `${colors.primary}` }}>정모 공지</heading.BodySmallMedium>
+            </NoticeTypeDiv>
+            <div>
+              <heading.BodyBaseBold>{item.noticeTitle}</heading.BodyBaseBold>
+              <heading.BodySmallMedium>
+                {item.noticeContent.length < 45 ? item.noticeContent : `${item.noticeContent.substring(0, 45)}...`}
+              </heading.BodySmallMedium>
             </div>
             <div>
-              <BodyBaseBold>{item.noticeTitle}</BodyBaseBold>
-              <CaptionXS>{item.noticeContent}</CaptionXS>
+              <InfoContainer>
+                <icons.Calendar />
+                <heading.BodySmallMedium>{useCalDate(new Date(item.noticeDDay))}</heading.BodySmallMedium>
+              </InfoContainer>
+              <InfoContainer>
+                <icons.Mappin width={16} />
+                <heading.BodySmallMedium>{item.noticeAddress}</heading.BodySmallMedium>
+              </InfoContainer>
             </div>
           </NoticeDiv>
         ))}
@@ -89,22 +112,13 @@ function NoticeContent({ crewInfo }: { crewInfo: MemberDetail }): JSX.Element {
         crewInfo.allNotice.voteForm.length !== 0 &&
         crewInfo.allNotice.voteForm.map(item => (
           <NoticeDiv key={item.voteFormId}>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '72px',
-                height: '20px',
-                backgroundColor: `${colors.gray400}`,
-                borderRadius: '200px',
-              }}
-            >
-              <CaptionXS>투표</CaptionXS>
-            </div>
+            <NoticeTypeDiv>
+              <icons.VoteIcon />
+              <heading.CaptionXS>투표</heading.CaptionXS>
+            </NoticeTypeDiv>
             <div>
-              <BodyBaseBold>{item.voteTitle}</BodyBaseBold>
-              <CaptionXS>{item.voteContent}</CaptionXS>
+              <heading.BodyBaseBold>{item.voteTitle}</heading.BodyBaseBold>
+              <heading.CaptionXS>{item.voteContent}</heading.CaptionXS>
             </div>
           </NoticeDiv>
         ))}

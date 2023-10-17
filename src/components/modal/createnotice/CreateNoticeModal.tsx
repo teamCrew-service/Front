@@ -1,12 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useRecoilState } from 'recoil';
 import reactTextareaAutosize from 'react-textarea-autosize';
+import { useMutation } from 'react-query';
 
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectCoverflow, Mousewheel } from 'swiper/modules';
 import icons from '../../../assets/icons';
 import heading from '../../../styledComponent/heading';
 
 import './style.css';
 import colors from '../../../assets/styles/color';
+import SearchModal from '../SearchModal';
+
+import { noticeContent, noticeDate, noticeLocation, noticeLatLng, noticeTitle } from '../../../atoms/createnotice';
+import Calendar from '../../common/calendar/Calendar';
+import { noitce } from '../../../api';
 
 const ModalContainer = styled.div`
   position: absolute;
@@ -26,6 +35,21 @@ const CloseBtn = styled.div`
   height: 24px;
 `;
 
+const CompleteBtn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: 24px;
+  border: none;
+  padding: 8px;
+  background: none;
+  color: ${colors.primary};
+  &:disabled {
+    color: ${colors.gray400};
+  }
+`;
+
 const TitleInput = styled.input`
   width: 100%;
   height: 100%;
@@ -43,7 +67,10 @@ const TitleInput = styled.input`
   }
 `;
 
-const LocationDiv = styled.div``;
+const LocationDiv = styled.div`
+  width: 100%;
+  height: 100%;
+`;
 
 const DateContainer = styled.div`
   display: flex;
@@ -90,63 +117,274 @@ const CountDiv = styled.div`
   margin-left: auto;
 `;
 
-function CreateNoticeModal({ closeModal }: { closeModal: () => void }): JSX.Element {
-  const [location, setLocation] = useState<string>('위치');
-  const [contentTextCount, setContentTextCount] = useState<number>(0);
+const SelectedDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(116, 116, 128, 0.08);
+`;
+
+function CreateNoticeModal({ crewId, closeModal }: { crewId: string; closeModal: () => void }): JSX.Element {
+  const [title, setTitle] = useRecoilState(noticeTitle);
+  const [location, setLocation] = useRecoilState(noticeLocation);
+  const [latLng, setLatLng] = useRecoilState(noticeLatLng);
+  const [date, setDate] = useRecoilState(noticeDate);
+  const [context, setContext] = useRecoilState(noticeContent);
+
+  const [openSearchLocationModal, setOpenSearchLocationModal] = useState<boolean>(false);
+  const [showCalendar, setShowCalendar] = useState<boolean>(false);
+  const [showTimeList, setShowTimeList] = useState<boolean>(false);
+
+  const minutesList = [];
+  for (let i = 0; i < 60; i += 1) {
+    let item = String(i);
+    if (String(i).length === 1) {
+      item = `0${item}`;
+    }
+    minutesList.push(String(item));
+  }
+
+  const closeSearchModal = (result: any): void => {
+    if (result !== undefined) {
+      setLocation(result.address_name);
+      setLatLng({
+        lat: result.y,
+        lng: result.x,
+      });
+    }
+    setOpenSearchLocationModal(false);
+  };
+
+  const selectNoticeDate = (input: any): void => {
+    setDate(input);
+    setShowCalendar(false);
+    setShowTimeList(true);
+  };
+
+  const createNotice = useMutation(
+    async () => {
+      const time = date.timeTable === '오전' ? date.time : date.time! + 12;
+      const data = {
+        noticeTitle: title,
+        noticeContent: context,
+        noticeAddress: location,
+        noticeDDay: new Date(date.year!, date.month!, date.date!, time!, date.minutes!),
+        noticeLatitude: Number(latLng!.lat),
+        noticeLongitude: Number(latLng!.lng),
+      };
+      const result = noitce.createNotice(crewId, data);
+      return result;
+    },
+    {
+      onSuccess: res => {
+        console.log(res);
+        alert(res.message);
+      },
+      onError: err => {
+        console.log(err);
+      },
+    },
+  );
+
+  useEffect(
+    // clean up
+    () => () => {
+      setTitle('');
+      setLocation('');
+      setDate({ year: null, month: null, date: null, timeTable: '', time: null, minutes: null });
+      setContext('');
+    },
+    [],
+  );
+
   return (
-    <ModalContainer>
-      <header id="create-notice-header">
-        <CloseBtn onClick={closeModal}>
-          <icons.close />
-        </CloseBtn>
-        <heading.BodyLargeBold>정모 공지</heading.BodyLargeBold>
-        <heading.BodyBaseBold style={{ color: `${colors.gray400}` }}>완료</heading.BodyBaseBold>
-      </header>
-      <main>
-        <section id="create-notice-main-title">
-          <TitleInput autoFocus placeholder="제목(최대 20자)" maxLength={20} />
-        </section>
-        <section id="create-notice-main-location">
-          <icons.Mappin />
-          <LocationDiv
+    <>
+      {openSearchLocationModal && <SearchModal title="지역 위치" closeModal={closeSearchModal} />}
+      <ModalContainer>
+        <header id="create-notice-header">
+          <CloseBtn onClick={closeModal}>
+            <icons.close />
+          </CloseBtn>
+          <heading.BodyLargeBold>정모 공지</heading.BodyLargeBold>
+          <CompleteBtn
+            disabled={title === '' || location === '' || date.year === null || date.timeTable === '' || context === ''}
             onClick={() => {
-              setLocation('위치');
+              createNotice.mutate();
             }}
           >
-            <heading.BodyBaseMedium style={{ color: `${colors.gray400}` }}>{location}</heading.BodyBaseMedium>
-          </LocationDiv>
-        </section>
-        <section id="create-notice-main-date">
-          <heading.BodyBaseMedium>모임일</heading.BodyBaseMedium>
-          <DateContainer>
-            <DateItem>
-              <heading.BodyBaseMedium>{`${new Date().getFullYear()}년 ${
-                new Date().getMonth() + 1
-              }월 ${new Date().getDate()}일`}</heading.BodyBaseMedium>
-            </DateItem>
-            <DateItem>
-              <heading.BodyBaseMedium>8:00 PM</heading.BodyBaseMedium>
-            </DateItem>
-          </DateContainer>
-        </section>
-        <section id="create-notice-main-content">
-          <ContainerDiv>
-            <ContentTextarea
-              onChange={event => {
-                setContentTextCount(event.target.value.length);
+            <heading.BodyBaseBold>완료</heading.BodyBaseBold>
+          </CompleteBtn>
+        </header>
+        <main>
+          <section id="create-notice-main-title">
+            <TitleInput
+              autoFocus
+              placeholder="제목(최대 20자)"
+              maxLength={20}
+              value={title}
+              onChange={e => {
+                setTitle(e.target.value);
               }}
-              placeholder="공지 내용"
-              maxLength={200}
             />
-            <CountDiv>
-              <heading.BodyBaseMedium style={{ color: `${colors.gray400}` }}>
-                {contentTextCount}/200
+          </section>
+          <section id="create-notice-main-location">
+            <icons.Mappin />
+            <LocationDiv
+              onClick={() => {
+                setOpenSearchLocationModal(true);
+              }}
+            >
+              <heading.BodyBaseMedium>
+                {location === '' ? <span style={{ color: `${colors.gray400}` }}>위치</span> : location}
               </heading.BodyBaseMedium>
-            </CountDiv>
-          </ContainerDiv>
-        </section>
-      </main>
-    </ModalContainer>
+            </LocationDiv>
+          </section>
+          <section id="create-notice-main-date">
+            <heading.BodyBaseMedium>모임일</heading.BodyBaseMedium>
+            <DateContainer
+              onClick={() => {
+                setShowCalendar(true);
+              }}
+            >
+              <DateItem>
+                <heading.BodyBaseMedium>
+                  {date.year !== null
+                    ? `${date.year}년 ${Number(date.month) + 1}월 ${date.date}일`
+                    : `${new Date().getFullYear()}년 ${new Date().getMonth() + 1}월 ${new Date().getDate()}일`}
+                </heading.BodyBaseMedium>
+              </DateItem>
+              <DateItem>
+                <heading.BodyBaseMedium>
+                  {date.time}:{date.minutes} {date.timeTable}
+                </heading.BodyBaseMedium>
+              </DateItem>
+            </DateContainer>
+          </section>
+          {showCalendar && (
+            <section id="create-notice-main-calendar">
+              <Calendar setDate={selectNoticeDate} clickEvent showSelect selectedDate={date} showToday={false} />
+            </section>
+          )}
+          {showTimeList && (
+            <section id="create-notice-main-time-list">
+              <Swiper
+                centeredSlides
+                mousewheel
+                effect="coverflow"
+                coverflowEffect={{ rotate: 7, stretch: 0, depth: 178, modifier: 3, slideShadows: false }}
+                height={178}
+                direction="vertical"
+                slidesPerView={9}
+                modules={[EffectCoverflow, Mousewheel]}
+              >
+                {['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'].map(item => (
+                  <SwiperSlide key={item}>
+                    {({ isActive }) =>
+                      isActive ? (
+                        <SelectedDiv
+                          onClick={() => {
+                            const newDate = { ...date, time: Number(item) };
+                            setDate(newDate);
+                          }}
+                        >
+                          {item}
+                        </SelectedDiv>
+                      ) : (
+                        item
+                      )
+                    }
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+              <Swiper
+                centeredSlides
+                mousewheel
+                effect="coverflow"
+                coverflowEffect={{ rotate: 7, stretch: 0, depth: 178, modifier: 3, slideShadows: false }}
+                height={178}
+                direction="vertical"
+                slidesPerView={9}
+                modules={[EffectCoverflow, Mousewheel]}
+              >
+                {minutesList.map(item => (
+                  <SwiperSlide
+                    onClick={() => {
+                      const newDate = { ...date, time: Number(item) };
+                      console.log(newDate);
+                    }}
+                    key={item}
+                  >
+                    {({ isActive }) =>
+                      isActive ? (
+                        <SelectedDiv
+                          onClick={() => {
+                            const newDate = { ...date, minutes: Number(item) };
+                            setDate(newDate);
+                          }}
+                        >
+                          {item}
+                        </SelectedDiv>
+                      ) : (
+                        item
+                      )
+                    }
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+              <Swiper
+                centeredSlides
+                mousewheel
+                effect="coverflow"
+                coverflowEffect={{ rotate: 7, stretch: 0, depth: 178, modifier: 3, slideShadows: false }}
+                height={178}
+                direction="vertical"
+                slidesPerView={9}
+                modules={[EffectCoverflow, Mousewheel]}
+              >
+                {['AM', 'PM'].map(item => (
+                  <SwiperSlide>
+                    {({ isActive }) =>
+                      isActive ? (
+                        <SelectedDiv
+                          onClick={() => {
+                            const newDate = { ...date, timeTable: item };
+                            setDate(newDate);
+                            setShowTimeList(false);
+                          }}
+                        >
+                          {item}
+                        </SelectedDiv>
+                      ) : (
+                        item
+                      )
+                    }
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </section>
+          )}
+          <section id="create-notice-main-content">
+            <ContainerDiv>
+              <ContentTextarea
+                onChange={event => {
+                  setContext(event.target.value);
+                }}
+                placeholder="공지 내용"
+                maxLength={200}
+                value={context}
+              />
+              <CountDiv>
+                <heading.BodyBaseMedium style={{ color: `${colors.gray400}` }}>
+                  {context.length}/200
+                </heading.BodyBaseMedium>
+              </CountDiv>
+            </ContainerDiv>
+          </section>
+        </main>
+      </ModalContainer>
+    </>
   );
 }
 

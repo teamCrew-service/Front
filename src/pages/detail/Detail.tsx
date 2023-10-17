@@ -35,12 +35,12 @@ import JoinCrewModal from '../../components/modal/joincrew/JoinCrewModal';
 import CreateNoticeModal from '../../components/modal/createnotice/CreateNoticeModal';
 
 function Detail(): JSX.Element {
+  const [page, setPage] = useState<string>('모임정보');
   // 소개 부분 접었다 펴기
   const [infoOpen, setInfoOpen] = useState<boolean>(true);
+
   const [joinModalOpen, setJoinModalOpen] = useState<boolean>(false);
   const [joinCrewModalOpen, setJoinCrewModalOpen] = useState<boolean>(false);
-
-  const [page, setPage] = useState<string>('모임정보');
   const [openNoticeModal, setOpenNoticeModal] = useState<boolean>(false);
   const [openCreateNoticeModal, setOpenCreateNoticeModal] = useState<boolean>(false);
 
@@ -192,7 +192,9 @@ function Detail(): JSX.Element {
         />
       )}
       {openNoticeModal && <NonActiveWindow />}
-      {openCreateNoticeModal && <CreateNoticeModal closeModal={CloseCreateNoticeModalFunc} />}
+      {openCreateNoticeModal && (
+        <CreateNoticeModal crewId={crewInfo!.result.crew.crew_crewId} closeModal={CloseCreateNoticeModalFunc} />
+      )}
       {/* 헤더 */}
       <header id="detail-header">
         <icons.chevronLeft
@@ -289,7 +291,7 @@ function Detail(): JSX.Element {
                 <icons.CloseBtn />
               </CloseBtn>
               <PlusItemContainer>
-                <ItemDiv onClick={OpenCreateNoticeModalFunc}>
+                <ItemDiv>
                   <heading.BodyBaseMedium>되는 시간 투표</heading.BodyBaseMedium>
                   <icons.VoteIcon />
                 </ItemDiv>

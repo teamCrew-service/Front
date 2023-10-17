@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import Calendar from '../common/calendar/Calendar';
 import { dateDate, stepNum } from '../../atoms/makecrew';
 import colors from '../../assets/styles/color';
@@ -61,7 +61,7 @@ function CalendarModal({ closeModal }: { closeModal: () => void }): JSX.Element 
   });
 
   const setStep = useSetRecoilState(stepNum);
-  const selectedDate = useRecoilValue(dateDate);
+  const [selectedDate, setSelectedDate] = useRecoilState(dateDate);
   const setTime = useSetRecoilState(dateDate);
   const completFunc = (): void => {
     setStep(prev => prev + 1);
@@ -76,7 +76,7 @@ function CalendarModal({ closeModal }: { closeModal: () => void }): JSX.Element 
               <TitleLargeBold onClick={closeModal}>X</TitleLargeBold>
             </Header>
             <div>
-              <Calendar clickEvent showToday={false} showSelect />
+              <Calendar setDate={setSelectedDate} clickEvent showToday={false} showSelect selectedDate={selectedDate} />
             </div>
             <div style={{ width: '100%', height: '56px', marginTop: '10px', padding: '0px 16px' }}>
               {selectedDate.year === null || selectedDate.month === null || selectedDate.date === null ? (

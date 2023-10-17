@@ -1,9 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
-import { useSetRecoilState } from 'recoil';
 import type { Schedule } from '../../../assets/interfaces';
-import { dateDate } from '../../../atoms/makecrew';
 
 function DayComp({
   year,
@@ -16,12 +14,14 @@ function DayComp({
   showEvent,
   // 이벤트 날짜 입력 값
   schedule = null,
+  setDate,
   // 날짜 컴포넌트 클릭 시 함수 실행 여부
   clickEvent,
-  // 이벤트 표시 부분 클릭 시 함수 실행 여부
+  // 이벤트 모달 표시 여부
   eventAction,
   // 이벤트 표시 부분 클릭 시 실행되는 함수
   eventHandler = () => {},
+  // 선택된 날짜 여부
   selected = false,
 }: {
   year: number;
@@ -33,11 +33,11 @@ function DayComp({
   showEvent: boolean;
   schedule?: Schedule[] | null;
   eventAction: boolean;
+  setDate: any;
   clickEvent: boolean;
   eventHandler?: (input: any) => void;
   selected?: boolean;
 }): JSX.Element {
-  const setDate = useSetRecoilState(dateDate);
   const newDate = new Date(year, month, date);
   const check = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 

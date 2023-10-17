@@ -19,6 +19,15 @@ export interface Information {
 // --------------------------
 
 // 크루 공지 관련 --------------------
+// 공지 생성 양식
+export interface NoticeInfo {
+  noticeTitle: string;
+  noticeContent: string;
+  noticeAddress: string;
+  noticeDDay: Date;
+  noticeLatitude: number;
+  noticeLongitude: number;
+}
 export interface VoteForm {
   voteContent: string;
   voteEndDate: string;
@@ -31,11 +40,14 @@ export interface CrewNotice {
   noticeAddress: string;
   noticeContent: string;
   noticeDDay: string;
+  noticeId: string;
   noticeIsDone: number;
+  noticeLatitude: number;
+  noticeLongitude: number;
   noticeTitle: string;
   userId: string;
 }
-// 3. 공지 리스트
+// 공지 리스트
 export interface AllNotice {
   // 일반 공지
   regularNotice: CrewNotice[];
@@ -109,13 +121,6 @@ export interface MemberDetail extends GuestDetail {
   allNotice: AllNotice;
 }
 // -------------------------------
-
-export interface Notice {
-  noticeTitle: string;
-  noticeDDay: string | null;
-  profileImage: string[] | null;
-  isCanceled: boolean | null;
-}
 
 // 크루 생성 양식
 export interface MakeCrew {

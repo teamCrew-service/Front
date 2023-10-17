@@ -111,3 +111,10 @@ export const myCrew = {
     return data;
   },
 };
+
+export const noitce = {
+  createNotice: async (crewId: string, noticeInfo: myInterface.NoticeInfo) => {
+    const { data } = await instance.post(`api/notice/${crewId}/createNotice`, noticeInfo);
+    return data;
+  },
+};

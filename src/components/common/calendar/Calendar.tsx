@@ -3,30 +3,31 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable @typescript-eslint/no-shadow */
 import React, { useState } from 'react';
-import { useRecoilValue } from 'recoil';
 import './style.css';
 import DayComp from './DayComp';
 import type { Schedule } from '../../../assets/interfaces';
-import { dateDate } from '../../../atoms/makecrew';
 
 function Calendar({
   schedule,
   onClick,
+  setDate,
   showEvent = false,
   eventAction = false,
   clickEvent = false,
   showToday = true,
   showSelect = false,
+  selectedDate,
 }: {
   schedule?: Schedule[];
+  setDate?: any;
   onClick?: (input: any) => void;
   showEvent?: boolean;
   eventAction?: boolean;
   clickEvent?: boolean;
   showToday?: boolean;
   showSelect?: boolean;
+  selectedDate?: any;
 }): JSX.Element {
-  const selectedDate = useRecoilValue(dateDate);
   const today = new Date();
   const [year, setYear] = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth());
@@ -167,6 +168,7 @@ function Calendar({
                   schedule={schedule}
                   eventAction={eventAction}
                   eventHandler={onClick}
+                  setDate={setDate}
                   clickEvent={clickEvent}
                   selected
                 />
@@ -185,6 +187,7 @@ function Calendar({
                 schedule={schedule}
                 eventAction={eventAction}
                 eventHandler={onClick}
+                setDate={setDate}
                 clickEvent={clickEvent}
               />
             );
