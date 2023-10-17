@@ -117,4 +117,8 @@ export const noitce = {
     const { data } = await instance.post(`api/notice/${crewId}/createNotice`, noticeInfo);
     return data;
   },
+  getNoticeDetail: async <T = myInterface.NoticeInfo>(crewId: string, noticeId: string): Promise<T> => {
+    const { data } = await instance.get(`api/notice/${crewId}/${noticeId}`);
+    return data;
+  },
 };

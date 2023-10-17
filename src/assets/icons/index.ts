@@ -39,6 +39,9 @@ import { ReactComponent as CloseBtn } from './CloseBtn.svg';
 import { ReactComponent as VoteIcon } from './VoteIcon.svg';
 import { ReactComponent as MegaPhone } from './MegaPhone.svg';
 
+// 공지 상세 페이지
+import { ReactComponent as CalendarBlank } from './CalendarBlank.svg';
+
 const icons = {
   TeamLogo,
   Kakao,
@@ -72,6 +75,7 @@ const icons = {
   CloseBtn,
   VoteIcon,
   MegaPhone,
+  CalendarBlank,
 };
 
 export default icons;

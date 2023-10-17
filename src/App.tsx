@@ -20,7 +20,7 @@ import SearchByCategory from './pages/searchbycategory/SearchByCategory';
 import Detail from './pages/detail/Detail';
 import Chat from './pages/detail/nav/Chat';
 import CreateCrew from './pages/createcrew/CreateCrew';
-
+import NoticeDetail from './pages/noticedetail/NoticeDetail';
 
 const queryClient = new QueryClient();
 
@@ -47,7 +47,7 @@ function App(): JSX.Element {
               <Route path="/searchbycategory" element=<SearchByCategory /> />
               <Route path="/chat" element=<Chat /> />
               <Route path="/makecrew" element=<CreateCrew /> />
-
+              <Route path="/notice/:id" element=<NoticeDetail /> />
             </Routes>
           </div>
         </div>

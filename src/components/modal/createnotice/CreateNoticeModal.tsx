@@ -179,7 +179,6 @@ function CreateNoticeModal({ crewId, closeModal }: { crewId: string; closeModal:
     },
     {
       onSuccess: res => {
-        console.log(res);
         alert(res.message);
       },
       onError: err => {
@@ -309,13 +308,7 @@ function CreateNoticeModal({ crewId, closeModal }: { crewId: string; closeModal:
                 modules={[EffectCoverflow, Mousewheel]}
               >
                 {minutesList.map(item => (
-                  <SwiperSlide
-                    onClick={() => {
-                      const newDate = { ...date, time: Number(item) };
-                      console.log(newDate);
-                    }}
-                    key={item}
-                  >
+                  <SwiperSlide key={item}>
                     {({ isActive }) =>
                       isActive ? (
                         <SelectedDiv
@@ -344,7 +337,7 @@ function CreateNoticeModal({ crewId, closeModal }: { crewId: string; closeModal:
                 modules={[EffectCoverflow, Mousewheel]}
               >
                 {['AM', 'PM'].map(item => (
-                  <SwiperSlide>
+                  <SwiperSlide key={item}>
                     {({ isActive }) =>
                       isActive ? (
                         <SelectedDiv

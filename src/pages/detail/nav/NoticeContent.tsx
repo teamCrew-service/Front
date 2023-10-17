@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+
 import type { MemberDetail } from '../../../assets/interfaces';
+
 import colors from '../../../assets/styles/color';
 import icons from '../../../assets/icons';
 import heading from '../../../styledComponent/heading';
@@ -45,10 +48,15 @@ const InfoContainer = styled.div`
 `;
 
 function NoticeContent({ crewInfo }: { crewInfo: MemberDetail }): JSX.Element {
+  const navigate = useNavigate();
   const [selected, setSelected] = useState<string>('정모 공지');
 
   const changeSelectedHandler = (input: string): void => {
     setSelected(input);
+  };
+
+  const goNoticeDetail = (id: string): void => {
+    navigate(`/notice/${id}`, { state: { crewInfo } });
   };
 
   return (
@@ -78,12 +86,19 @@ function NoticeContent({ crewInfo }: { crewInfo: MemberDetail }): JSX.Element {
       </nav>
       {/* 정모 공지 탭일 경우 */}
       {selected === '정모 공지' && crewInfo.allNotice.regularNotice.length === 0 && (
+        // 정모 공지 없을 경우
         <NoticeDiv>공지 없음</NoticeDiv>
       )}{' '}
       {selected === '정모 공지' &&
+        // 공지 있을 경우
         crewInfo.allNotice.regularNotice.length !== 0 &&
         crewInfo.allNotice.regularNotice.map(item => (
-          <NoticeDiv key={item.noticeId}>
+          <NoticeDiv
+            onClick={() => {
+              goNoticeDetail(item.noticeId);
+            }}
+            key={item.noticeId}
+          >
             <NoticeTypeDiv>
               <icons.MegaPhone />
               <heading.BodySmallMedium style={{ color: `${colors.primary}` }}>정모 공지</heading.BodySmallMedium>
