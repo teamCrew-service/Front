@@ -34,6 +34,7 @@ import JoinModal from '../../components/modal/JoinModal';
 import JoinCrewModal from '../../components/modal/joincrew/JoinCrewModal';
 import CreateNoticeModal from '../../components/modal/createnotice/CreateNoticeModal';
 import NoticeDetailModal from '../../components/modal/noticedetail/NoticeDetail';
+import CreateVoteModal from '../../components/modal/createvote/CreateVoteModal';
 
 function Detail(): JSX.Element {
   const [page, setPage] = useState<string>('모임정보');
@@ -49,6 +50,7 @@ function Detail(): JSX.Element {
     isOpen: false,
     id: null,
   });
+  const [openCreateVoteModal, setOpenCreateVoteModal] = useState<boolean>(false);
 
   const { id } = useParams();
 
@@ -136,6 +138,22 @@ function Detail(): JSX.Element {
     setOpenNoticeDetailModal({ isOpen: false, id: null });
   };
 
+  const OpenCreateNoticeModalFunc = (): void => {
+    setOpenNoticeModal(false);
+    setOpenCreateNoticeModal(true);
+  };
+  const CloseCreateNoticeModalFunc = (): void => {
+    setOpenCreateNoticeModal(false);
+  };
+
+  const openCreateVoteModalFunc = (): void => {
+    setOpenNoticeModal(false);
+    setOpenCreateVoteModal(true);
+  };
+  const closeCreateVoteModalFunc = (): void => {
+    setOpenCreateVoteModal(false);
+  };
+
   // nav 변경하는 함수
   const changePage = (input: string): void => {
     if (input !== '모임정보' && crewInfo?.result.personType === 'person') {
@@ -153,15 +171,6 @@ function Detail(): JSX.Element {
         console.log('paste success');
       })
       .catch(() => {});
-  };
-
-  const OpenCreateNoticeModalFunc = (): void => {
-    setOpenCreateNoticeModal(true);
-    setOpenNoticeModal(false);
-  };
-
-  const CloseCreateNoticeModalFunc = (): void => {
-    setOpenCreateNoticeModal(false);
   };
 
   // 크루 가입 양식에 맞춘 크루 가입 함수 설정
@@ -220,6 +229,7 @@ function Detail(): JSX.Element {
           closeModal={closeNoticeDetailModalFunc}
         />
       )}
+      {openCreateVoteModal && <CreateVoteModal closeModal={closeCreateVoteModalFunc} />}
       {/* 헤더 */}
       <header id="detail-header">
         <icons.chevronLeft
@@ -316,7 +326,7 @@ function Detail(): JSX.Element {
               >
                 <icons.CloseBtn />
               </CloseBtn>
-              <PlusItemContainer>
+              <PlusItemContainer onClick={openCreateVoteModalFunc}>
                 <ItemDiv>
                   <heading.BodyBaseMedium>되는 시간 투표</heading.BodyBaseMedium>
                   <icons.VoteIcon />
