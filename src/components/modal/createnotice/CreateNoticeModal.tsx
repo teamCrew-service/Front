@@ -139,10 +139,12 @@ function CreateNoticeModal({
   crewInfo,
   closeModal,
   openNoticeDetailModal,
+  refetch,
 }: {
   crewInfo: MemberDetail;
   closeModal: () => void;
   openNoticeDetailModal: (input: string) => void;
+  refetch: any;
 }): JSX.Element {
   const [title, setTitle] = useRecoilState(noticeTitle);
   const [location, setLocation] = useRecoilState(noticeLocation);
@@ -201,6 +203,7 @@ function CreateNoticeModal({
     {
       onSuccess: res => {
         alert(res.message);
+        refetch();
         closeModal();
         openNoticeDetailModal(res.noticeId);
       },

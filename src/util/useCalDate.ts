@@ -1,5 +1,4 @@
 function useCalDate(input: Date): string {
-  console.log('cal date = ', input);
   let dayString;
   const day = input.getDay();
   switch (day) {

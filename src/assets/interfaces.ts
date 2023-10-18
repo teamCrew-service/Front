@@ -39,6 +39,7 @@ export interface VoteForm {
 export interface CrewNotice {
   createdAt: string;
   noticeAddress: string;
+  noticePlaceName: string;
   noticeContent: string;
   noticeDDay: string;
   noticeId: string;
@@ -68,6 +69,7 @@ export interface Crew {
   crew_category: string;
   crew_createdAt: string;
   crew_crewAddress: string;
+  crew_crewPlaceName: string;
   crew_crewAgeInfo: string;
   crew_crewContent: string;
   crew_crewDDay: string;
@@ -96,6 +98,7 @@ export interface Schedule {
   createdAt: string;
   participate: number;
   scheduleAddress: string;
+  schedulePlaceName: string;
   scheduleAttendedMember: string;
   scheduleContent: string;
   scheduleDDay: Date;

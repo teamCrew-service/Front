@@ -210,6 +210,7 @@ function Detail(): JSX.Element {
           crewInfo={crewInfo!.result}
           closeModal={CloseCreateNoticeModalFunc}
           openNoticeDetailModal={openNoticeDetailModalFunc}
+          refetch={refetch}
         />
       )}
       {openNoticeDetailModal.isOpen && (

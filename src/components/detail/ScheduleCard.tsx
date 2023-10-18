@@ -44,7 +44,7 @@ function ScheduleCard({ children, crewInfo }: { children?: Schedule; crewInfo: M
         </div>
         <div style={{ display: 'flex', gap: '6px' }}>
           <icons.Location />
-          <heading.BodySmallMedium>{children!.scheduleAddress}</heading.BodySmallMedium>
+          <heading.BodySmallMedium>{children!.schedulePlaceName}</heading.BodySmallMedium>
         </div>
         <div style={{ display: 'flex', gap: '6px' }}>
           <icons.users />

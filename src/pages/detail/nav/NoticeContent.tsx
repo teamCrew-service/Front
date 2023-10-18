@@ -116,7 +116,7 @@ function NoticeContent({
               </InfoContainer>
               <InfoContainer>
                 <icons.Mappin width={16} />
-                <heading.BodySmallMedium>{item.noticeAddress}</heading.BodySmallMedium>
+                <heading.BodySmallMedium>{item.noticePlaceName}</heading.BodySmallMedium>
               </InfoContainer>
             </div>
           </NoticeDiv>
