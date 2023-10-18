@@ -5,6 +5,11 @@ export const noticeLocation = atom<string>({
   default: '',
 });
 
+export const noitcePlace = atom<string>({
+  key: 'noticePlaceState',
+  default: '',
+});
+
 export const noticeLatLng = atom<{ lat: number; lng: number } | null>({
   key: 'noticeLatLng',
   default: null,

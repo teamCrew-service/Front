@@ -13,9 +13,18 @@ import './style.css';
 import colors from '../../../assets/styles/color';
 import SearchModal from '../SearchModal';
 
-import { noticeContent, noticeDate, noticeLocation, noticeLatLng, noticeTitle } from '../../../atoms/createnotice';
+import {
+  noticeContent,
+  noticeDate,
+  noticeLocation,
+  noticeLatLng,
+  noticeTitle,
+  noitcePlace,
+} from '../../../atoms/createnotice';
 import Calendar from '../../common/calendar/Calendar';
 import { noitce } from '../../../api';
+
+import type { MemberDetail } from '../../../assets/interfaces';
 
 const ModalContainer = styled.div`
   position: absolute;
@@ -126,10 +135,19 @@ const SelectedDiv = styled.div`
   background-color: rgba(116, 116, 128, 0.08);
 `;
 
-function CreateNoticeModal({ crewId, closeModal }: { crewId: string; closeModal: () => void }): JSX.Element {
+function CreateNoticeModal({
+  crewInfo,
+  closeModal,
+  openNoticeDetailModal,
+}: {
+  crewInfo: MemberDetail;
+  closeModal: () => void;
+  openNoticeDetailModal: (input: string) => void;
+}): JSX.Element {
   const [title, setTitle] = useRecoilState(noticeTitle);
   const [location, setLocation] = useRecoilState(noticeLocation);
   const [latLng, setLatLng] = useRecoilState(noticeLatLng);
+  const [place, setPlace] = useRecoilState(noitcePlace);
   const [date, setDate] = useRecoilState(noticeDate);
   const [context, setContext] = useRecoilState(noticeContent);
 
@@ -153,6 +171,7 @@ function CreateNoticeModal({ crewId, closeModal }: { crewId: string; closeModal:
         lat: result.y,
         lng: result.x,
       });
+      setPlace(result.place_name);
     }
     setOpenSearchLocationModal(false);
   };
@@ -173,13 +192,17 @@ function CreateNoticeModal({ crewId, closeModal }: { crewId: string; closeModal:
         noticeDDay: new Date(date.year!, date.month!, date.date!, time!, date.minutes!),
         noticeLatitude: Number(latLng!.lat),
         noticeLongitude: Number(latLng!.lng),
+        noticePlaceName: place,
       };
-      const result = noitce.createNotice(crewId, data);
+      console.log('before create', data);
+      const result = noitce.createNotice(crewInfo.crew.crew_crewId, data);
       return result;
     },
     {
       onSuccess: res => {
         alert(res.message);
+        closeModal();
+        openNoticeDetailModal(res.noticeId);
       },
       onError: err => {
         console.log(err);

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 
 import type { MemberDetail } from '../../../assets/interfaces';
 
@@ -47,16 +46,17 @@ const InfoContainer = styled.div`
   color: ${colors.gray500};
 `;
 
-function NoticeContent({ crewInfo }: { crewInfo: MemberDetail }): JSX.Element {
-  const navigate = useNavigate();
+function NoticeContent({
+  crewInfo,
+  openNoticeDetailModal,
+}: {
+  crewInfo: MemberDetail;
+  openNoticeDetailModal: (input: string) => void;
+}): JSX.Element {
   const [selected, setSelected] = useState<string>('정모 공지');
 
   const changeSelectedHandler = (input: string): void => {
     setSelected(input);
-  };
-
-  const goNoticeDetail = (id: string): void => {
-    navigate(`/notice/${id}`, { state: { crewInfo } });
   };
 
   return (
@@ -95,7 +95,7 @@ function NoticeContent({ crewInfo }: { crewInfo: MemberDetail }): JSX.Element {
         crewInfo.allNotice.regularNotice.map(item => (
           <NoticeDiv
             onClick={() => {
-              goNoticeDetail(item.noticeId);
+              openNoticeDetailModal(item.noticeId);
             }}
             key={item.noticeId}
           >

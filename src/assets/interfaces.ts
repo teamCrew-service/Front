@@ -25,6 +25,7 @@ export interface NoticeInfo {
   noticeContent: string;
   noticeAddress: string;
   noticeDDay: Date;
+  noticePlaceName: string;
   noticeLatitude: number;
   noticeLongitude: number;
 }

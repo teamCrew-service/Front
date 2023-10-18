@@ -33,16 +33,22 @@ import BodyBaseBold from '../../styledComponent/heading/BodyBaseBold';
 import JoinModal from '../../components/modal/JoinModal';
 import JoinCrewModal from '../../components/modal/joincrew/JoinCrewModal';
 import CreateNoticeModal from '../../components/modal/createnotice/CreateNoticeModal';
+import NoticeDetailModal from '../../components/modal/noticedetail/NoticeDetail';
 
 function Detail(): JSX.Element {
   const [page, setPage] = useState<string>('모임정보');
   // 소개 부분 접었다 펴기
   const [infoOpen, setInfoOpen] = useState<boolean>(true);
 
+  // 모달 여닫기
   const [joinModalOpen, setJoinModalOpen] = useState<boolean>(false);
   const [joinCrewModalOpen, setJoinCrewModalOpen] = useState<boolean>(false);
   const [openNoticeModal, setOpenNoticeModal] = useState<boolean>(false);
   const [openCreateNoticeModal, setOpenCreateNoticeModal] = useState<boolean>(false);
+  const [openNoticeDetailModal, setOpenNoticeDetailModal] = useState<{ isOpen: boolean; id: string | null }>({
+    isOpen: false,
+    id: null,
+  });
 
   const { id } = useParams();
 
@@ -123,6 +129,13 @@ function Detail(): JSX.Element {
     setJoinCrewModalOpen(false);
   };
 
+  const openNoticeDetailModalFunc = (input: string): void => {
+    setOpenNoticeDetailModal({ isOpen: true, id: input });
+  };
+  const closeNoticeDetailModalFunc = (): void => {
+    setOpenNoticeDetailModal({ isOpen: false, id: null });
+  };
+
   // nav 변경하는 함수
   const changePage = (input: string): void => {
     if (input !== '모임정보' && crewInfo?.result.personType === 'person') {
@@ -193,7 +206,18 @@ function Detail(): JSX.Element {
       )}
       {openNoticeModal && <NonActiveWindow />}
       {openCreateNoticeModal && (
-        <CreateNoticeModal crewId={crewInfo!.result.crew.crew_crewId} closeModal={CloseCreateNoticeModalFunc} />
+        <CreateNoticeModal
+          crewInfo={crewInfo!.result}
+          closeModal={CloseCreateNoticeModalFunc}
+          openNoticeDetailModal={openNoticeDetailModalFunc}
+        />
+      )}
+      {openNoticeDetailModal.isOpen && (
+        <NoticeDetailModal
+          crewInfo={crewInfo!.result}
+          noticeId={openNoticeDetailModal.id!}
+          closeModal={closeNoticeDetailModalFunc}
+        />
       )}
       {/* 헤더 */}
       <header id="detail-header">
@@ -236,6 +260,7 @@ function Detail(): JSX.Element {
             openInfoWindow={openInfoWindow}
             saveAddress={saveAddress}
             recentSchedule={crewInfo.recentSchedule !== undefined ? crewInfo.recentSchedule : null}
+            openNoticeDetailModal={openNoticeDetailModalFunc}
           />
         )}
         {crewInfo?.result.crew.crew_crewType === '단기' && (

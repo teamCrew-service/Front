@@ -1,17 +1,26 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 
 import './style.css';
 
-import heading from '../../styledComponent/heading';
-import icons from '../../assets/icons';
-import colors from '../../assets/styles/color';
-import type { MemberDetail } from '../../assets/interfaces';
-import { noitce } from '../../api';
+import heading from '../../../styledComponent/heading';
+import icons from '../../../assets/icons';
+import colors from '../../../assets/styles/color';
+import type { MemberDetail } from '../../../assets/interfaces';
+import { noitce } from '../../../api';
 
-import useCalDate from '../../util/useCalDate';
+import useCalDate from '../../../util/useCalDate';
+
+const ModalContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  z-index: 2;
+`;
 
 const ImageDiv = styled.div<{ url: string }>`
   height: 80%;
@@ -38,17 +47,19 @@ const AddressDiv = styled.div`
   gap: 4px;
 `;
 
-function NoticeDetail(): JSX.Element {
-  const navigate = useNavigate();
-  const noticeId = useParams().id;
-  const { crewInfo }: { crewInfo: MemberDetail } = useLocation().state;
-  const goToCrewDetail = (): void => {
-    navigate(`/detail/${crewInfo.crew.crew_crewId}`);
-  };
+function NoticeDetailModal({
+  crewInfo,
+  noticeId,
+  closeModal,
+}: {
+  crewInfo: MemberDetail;
+  noticeId: string;
+  closeModal: () => void;
+}): JSX.Element {
   const { data: noticeDetail } = useQuery(
     'getNoticeDetail',
     async () => {
-      const result = noitce.getNoticeDetail(crewInfo.crew.crew_crewId, noticeId!);
+      const result = noitce.getNoticeDetail(crewInfo.crew.crew_crewId, noticeId);
       return result;
     },
     {
@@ -62,9 +73,9 @@ function NoticeDetail(): JSX.Element {
     },
   );
   return (
-    <>
+    <ModalContainer>
       <header id="notice-detail-header">
-        <icons.close onClick={goToCrewDetail} />
+        <icons.close onClick={closeModal} />
         <heading.BodyLargeBold>정모 공지</heading.BodyLargeBold>
         <icons.ThreeDots fill="black" />
       </header>
@@ -95,12 +106,15 @@ function NoticeDetail(): JSX.Element {
         <section id="notice-detail-main-address">
           <AddressDiv>
             <icons.Mappin />
-            <heading.BodyLargeBold>{noticeDetail?.noticeAddress}</heading.BodyLargeBold>
+            <div>
+              <heading.BodyLargeBold>{noticeDetail?.noticePlaceName}</heading.BodyLargeBold>
+              <heading.CaptionXS>{noticeDetail?.noticeAddress}</heading.CaptionXS>
+            </div>
           </AddressDiv>
         </section>
       </main>
-    </>
+    </ModalContainer>
   );
 }
 
-export default NoticeDetail;
+export default NoticeDetailModal;
