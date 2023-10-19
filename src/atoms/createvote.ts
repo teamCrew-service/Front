@@ -1,27 +1,18 @@
 import { atom } from 'recoil';
 
-export const voteTitle = atom<string>({
-  key: 'voteTitleState',
-  default: '',
-});
-
-export const voteOptionList = atom<{
-  option1: string | null;
-  option2: string | null;
-  option3: string | null;
-  option4: string | null;
-  option5: string | null;
-}>({
+export const voteOptionList = atom<string[]>({
   key: 'voteOptionListState',
-  default: { option1: null, option2: null, option3: null, option4: null, option5: null },
+  default: ['', ''],
 });
 
-export const voteTypeList = atom<{ multi: boolean; anonymous: boolean; possiblePlus: boolean }>({
-  key: 'voteTypeListState',
-  default: { multi: false, anonymous: false, possiblePlus: false },
-});
-
-export const voteContent = atom<string>({
-  key: 'voteContentState',
-  default: '',
+export const voteDueDate = atom<{
+  year: number | null;
+  month: number | null;
+  date: number | null;
+  timeTable: string;
+  time: number | null;
+  minutes: number | null;
+}>({
+  key: 'voteDueDateState',
+  default: { year: null, month: null, date: null, timeTable: '', time: null, minutes: null },
 });

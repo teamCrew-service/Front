@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
 import reactTextareaAutosize from 'react-textarea-autosize';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectCoverflow, Mousewheel } from 'swiper/modules';
 
 import './style.css';
 
@@ -9,7 +11,9 @@ import icons from '../../../assets/icons';
 import heading from '../../../styledComponent/heading';
 import colors from '../../../assets/styles/color';
 
-import { voteContent, voteTitle } from '../../../atoms/createvote';
+import { voteDueDate, voteOptionList } from '../../../atoms/createvote';
+
+import Calendar from '../../common/calendar/Calendar';
 
 const ModalContainer = styled.div`
   position: absolute;
@@ -126,29 +130,108 @@ const VoteContentTextarea = styled(reactTextareaAutosize)`
   }
 `;
 
+const SelectedDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(116, 116, 128, 0.08);
+`;
+
 function CreateVoteModal({ closeModal }: { closeModal: () => void }): JSX.Element {
-  const [plusOptionNumber, setPlusOptionNumber] = useState<number>(3);
+  const [showCalendar, setShowCalendar] = useState<boolean>(false);
+  const [showTimeList, setShowTimeList] = useState<boolean>(false);
+
+  const [optionNumber, setOptionNumber] = useState<number>(2);
+
+  const [title, setTitle] = useState<string>('');
+  const [content, setContent] = useState<string>('');
   const [checkMultiVote, setCheckMultiVote] = useState<boolean>(false);
   const [checkAnonymousVote, setCheckAnonymousVote] = useState<boolean>(false);
   const [checkPossibleToPlusOption, setCheckPossibleToPlusOption] = useState<boolean>(false);
 
-  const [title, setTitle] = useRecoilState(voteTitle);
-  const [content, setContent] = useRecoilState(voteContent);
+  const [optionList, setOptionList] = useRecoilState(voteOptionList);
+  const [date, setDate] = useRecoilState(voteDueDate);
 
-  const addtionalOptionInputArray = [];
-  for (let i = 0; i < plusOptionNumber - 3; i += 1) {
-    addtionalOptionInputArray.push(i + 3);
+  const minutesList = [];
+  for (let i = 0; i < 60; i += 1) {
+    let item = String(i);
+    if (String(i).length === 1) {
+      item = `0${item}`;
+    }
+    minutesList.push(String(item));
+  }
+
+  const saveOptionValue = (event: any, index: string): void => {
+    const newOptionList = optionList.map(item => item);
+    switch (index) {
+      case '1':
+        newOptionList[0] = event.target.value;
+        break;
+      case '2':
+        newOptionList[1] = event.target.value;
+        break;
+      case '3':
+        if (newOptionList[2] === undefined) {
+          newOptionList.push(event.target.value);
+          break;
+        }
+        newOptionList[2] = event.target.value;
+        break;
+      case '4':
+        if (newOptionList[3] === undefined) {
+          newOptionList.push(event.target.value);
+          break;
+        }
+        newOptionList[3] = event.target.value;
+        break;
+      case '5':
+        if (newOptionList[4] === undefined) {
+          newOptionList.push(event.target.value);
+          break;
+        }
+        newOptionList[4] = event.target.value;
+        break;
+      default:
+        break;
+    }
+    console.log('변경 후 = ', newOptionList);
+    setOptionList(newOptionList);
+  };
+  const deleteOptionValue = (optionIndex: string): void => {
+    let newOptionList = optionList.map(item => item);
+    switch (optionIndex) {
+      case '3':
+        newOptionList = optionList.filter((_, index) => index !== 2);
+        break;
+      case '4':
+        newOptionList = optionList.filter((_, index) => index !== 3);
+        break;
+      case '5':
+        newOptionList = optionList.filter((_, index) => index !== 4);
+        break;
+      default:
+        break;
+    }
+    setOptionList(newOptionList);
+  };
+
+  const optionInputArray: number[] = [];
+  for (let i = 0; i < optionNumber; i += 1) {
+    optionInputArray.push(i + 1);
   }
   const increasePlusOptionNumber = (): void => {
-    if (plusOptionNumber <= 5) {
-      setPlusOptionNumber(prev => prev + 1);
+    if (optionNumber < 5) {
+      setOptionNumber(prev => prev + 1);
       return;
     }
     alert('추가 가능한 최대 옵션 개수는 5개입니다.');
   };
 
-  const decreasePlusOptionNumber = (): void => {
-    setPlusOptionNumber(prev => prev - 1);
+  const decreasePlusOptionNumber = (optionIndex: string): void => {
+    deleteOptionValue(optionIndex);
+    setOptionNumber(prev => prev - 1);
   };
 
   const checkVoteOption = (input: string): void => {
@@ -162,12 +245,33 @@ function CreateVoteModal({ closeModal }: { closeModal: () => void }): JSX.Elemen
       setCheckPossibleToPlusOption(prev => !prev);
     }
   };
+
+  const selectNoticeDate = (input: any): void => {
+    setDate(input);
+    setShowCalendar(false);
+    setShowTimeList(true);
+  };
+
+  useEffect(
+    () => () => {
+      setOptionList(['', '']);
+      setDate({ year: null, month: null, date: null, timeTable: '', time: null, minutes: null });
+    },
+    [],
+  );
+
   return (
     <ModalContainer>
       <header id="create-vote-header">
         <icons.close onClick={closeModal} />
         <heading.BodyLargeBold>되는 시간 투표</heading.BodyLargeBold>
-        <CompleteBtn>완료</CompleteBtn>
+        <CompleteBtn
+          disabled={
+            title === '' || optionList[0] === '' || optionList[1] === '' || content === '' || date.timeTable === ''
+          }
+        >
+          완료
+        </CompleteBtn>
       </header>
       <main id="create-vote-main">
         <div className="create-vote-margin-12-758" />
@@ -182,16 +286,24 @@ function CreateVoteModal({ closeModal }: { closeModal: () => void }): JSX.Elemen
           />
         </section>
         <div className="create-vote-margin-24-758" />
-        <section className="create-vote-main-item">
-          <ItemInput placeholder="옵션 1" />
-        </section>
-        <section className="create-vote-main-item">
-          <ItemInput placeholder="옵션 2" />
-        </section>
-        {addtionalOptionInputArray.map(item => (
+        {optionInputArray.map(item => (
           <section className="create-vote-main-item">
-            <ItemInput placeholder={`옵션 ${item}`} />
-            <heading.BodyBaseBold onClick={decreasePlusOptionNumber}>-</heading.BodyBaseBold>
+            <ItemInput
+              onChange={event => {
+                saveOptionValue(event, String(item));
+              }}
+              placeholder={`옵션 ${item}`}
+              value={optionList[item - 1] ?? ''}
+            />
+            {item > 2 && (
+              <heading.BodyBaseBold
+                onClick={() => {
+                  decreasePlusOptionNumber(String(item));
+                }}
+              >
+                -
+              </heading.BodyBaseBold>
+            )}
           </section>
         ))}
         <section className="create-vote-main-item">
@@ -262,16 +374,121 @@ function CreateVoteModal({ closeModal }: { closeModal: () => void }): JSX.Elemen
         <section className="create-vote-main-item">
           <heading.BodyBaseMedium>마감 기간</heading.BodyBaseMedium>
           <DateInsertContainer>
-            <DateInsertBtn>
+            <DateInsertBtn
+              onClick={() => {
+                setShowCalendar(true);
+              }}
+            >
               <heading.BodyBaseMedium>
-                {new Date().getFullYear()}년 {new Date().getMonth() + 1}월 {new Date().getDate()}일
+                {date.year !== null
+                  ? `${date.year}년 ${Number(date.month) + 1}월 ${date.date}일`
+                  : `${new Date().getFullYear()}년 ${new Date().getMonth() + 1}월 ${new Date().getDate()}일`}
               </heading.BodyBaseMedium>
             </DateInsertBtn>
             <DateInsertBtn>
-              <heading.BodyBaseMedium>8:00 PM</heading.BodyBaseMedium>
+              <heading.BodyBaseMedium>
+                {date.time}:{date.minutes} {date.timeTable}
+              </heading.BodyBaseMedium>
             </DateInsertBtn>
           </DateInsertContainer>
         </section>
+        {showCalendar && (
+          <section id="create-notice-main-calendar">
+            <Calendar setDate={selectNoticeDate} clickEvent showSelect selectedDate={date} showToday={false} />
+          </section>
+        )}
+        {showTimeList && (
+          <section id="create-notice-main-time-list">
+            <Swiper
+              centeredSlides
+              mousewheel
+              effect="coverflow"
+              coverflowEffect={{ rotate: 7, stretch: 0, depth: 178, modifier: 3, slideShadows: false }}
+              height={178}
+              direction="vertical"
+              slidesPerView={9}
+              modules={[EffectCoverflow, Mousewheel]}
+            >
+              {['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'].map(item => (
+                <SwiperSlide key={item}>
+                  {({ isActive }) =>
+                    isActive ? (
+                      <SelectedDiv
+                        onClick={() => {
+                          const newDate = { ...date, time: Number(item) };
+                          setDate(newDate);
+                        }}
+                      >
+                        {item}
+                      </SelectedDiv>
+                    ) : (
+                      item
+                    )
+                  }
+                </SwiperSlide>
+              ))}
+            </Swiper>
+            <Swiper
+              centeredSlides
+              mousewheel
+              effect="coverflow"
+              coverflowEffect={{ rotate: 7, stretch: 0, depth: 178, modifier: 3, slideShadows: false }}
+              height={178}
+              direction="vertical"
+              slidesPerView={9}
+              modules={[EffectCoverflow, Mousewheel]}
+            >
+              {minutesList.map(item => (
+                <SwiperSlide key={item}>
+                  {({ isActive }) =>
+                    isActive ? (
+                      <SelectedDiv
+                        onClick={() => {
+                          const newDate = { ...date, minutes: Number(item) };
+                          setDate(newDate);
+                        }}
+                      >
+                        {item}
+                      </SelectedDiv>
+                    ) : (
+                      item
+                    )
+                  }
+                </SwiperSlide>
+              ))}
+            </Swiper>
+            <Swiper
+              centeredSlides
+              mousewheel
+              effect="coverflow"
+              coverflowEffect={{ rotate: 7, stretch: 0, depth: 178, modifier: 3, slideShadows: false }}
+              height={178}
+              direction="vertical"
+              slidesPerView={9}
+              modules={[EffectCoverflow, Mousewheel]}
+            >
+              {['AM', 'PM'].map(item => (
+                <SwiperSlide key={item}>
+                  {({ isActive }) =>
+                    isActive ? (
+                      <SelectedDiv
+                        onClick={() => {
+                          const newDate = { ...date, timeTable: item };
+                          setDate(newDate);
+                          setShowTimeList(false);
+                        }}
+                      >
+                        {item}
+                      </SelectedDiv>
+                    ) : (
+                      item
+                    )
+                  }
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </section>
+        )}
         <div className="create-vote-margin-24-758" />
         <section id="create-vote-main-content">
           <TextAreaContainer>
