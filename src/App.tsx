@@ -20,6 +20,7 @@ import SearchByCategory from './pages/searchbycategory/SearchByCategory';
 import Detail from './pages/detail/Detail';
 import Chat from './pages/detail/nav/Chat';
 import CreateCrew from './pages/createcrew/CreateCrew';
+import MyCrew from './pages/mycrew/MyCrew';
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,7 @@ function App(): JSX.Element {
               <Route path="/login/introduction" element=<Introduction /> />
               <Route path="/login/location" element=<Location /> />
               <Route path="/home" element=<Home /> />
+              <Route path="/mycrew" element=<MyCrew /> />
               <Route path="/findcrew" element=<FindCrew /> />
               <Route path="/detail/:id" element=<Detail /> />
               <Route path="/upcomingschedule" element=<UpcomingSchedule /> />

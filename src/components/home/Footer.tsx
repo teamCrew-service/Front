@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import colors from '../../assets/styles/color';
 import icons from '../../assets/icons';
 
@@ -12,7 +13,8 @@ const FooterLi = styled.li`
   height: 48px;
 `;
 
-function Footer({ page, setPage }: { page: string; setPage: (input: string) => void }): JSX.Element {
+function Footer({ page }: { page: string }): JSX.Element {
+  const navigate = useNavigate();
   return (
     <nav
       style={{
@@ -28,30 +30,22 @@ function Footer({ page, setPage }: { page: string; setPage: (input: string) => v
     >
       <FooterLi
         onClick={() => {
-          setPage('home');
+          navigate('/home');
         }}
       >
         <icons.House stroke={page === 'home' ? `${colors.primary}` : `${colors.gray400}`} />
       </FooterLi>
       <FooterLi
         onClick={() => {
-          setPage('myCrew');
+          navigate('/mycrew');
         }}
       >
         <icons.UsersThree stroke={page === 'myCrew' ? `${colors.primary}` : `${colors.gray400}`} />
       </FooterLi>
-      <FooterLi
-        onClick={() => {
-          setPage('chat');
-        }}
-      >
+      <FooterLi onClick={() => {}}>
         <icons.ChatTeardropDots stroke={page === 'chat' ? `${colors.primary}` : `${colors.gray400}`} />
       </FooterLi>
-      <FooterLi
-        onClick={() => {
-          setPage('myPage');
-        }}
-      >
+      <FooterLi onClick={() => {}}>
         <icons.UserCircle stroke={page === 'myPage' ? `${colors.primary}` : `${colors.gray400}`} />
       </FooterLi>
     </nav>
