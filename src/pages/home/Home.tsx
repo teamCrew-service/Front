@@ -107,7 +107,7 @@ function Home(): JSX.Element {
           <InterestMatrix onClick={handelInterestClick} columns={4} rows={3} />
         </section>
       </main>
-      <footer id="home-footer">
+      <footer className="home-footer">
         <Footer page="home" />
       </footer>
     </>

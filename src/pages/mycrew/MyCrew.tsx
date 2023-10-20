@@ -9,6 +9,8 @@ import WaitingCrew from '../../components/home/mycrew/nav/WaitingCrew';
 import MyCreatedCrew from '../../components/home/mycrew/nav/MyCreatedCrew';
 import Footer from '../../components/home/Footer';
 
+import './style.css';
+
 const TitleDiv = styled.div`
   display: flex;
   justify-content: center;
@@ -41,15 +43,15 @@ function MyCrew(): JSX.Element {
   const [selected, setSelected] = useState('참여중');
   return (
     <>
-      <main id="home-my-crew">
+      <main id="mycrew-main">
         {/* 타이틀 */}
-        <section id="home-my-crew-title">
+        <section id="mycrew-main-title">
           <TitleDiv>
             <heading.BodyLargeBold>내 모임</heading.BodyLargeBold>
           </TitleDiv>
         </section>
         {/* 네비게이션 바 */}
-        <nav id="home-my-crew-nav">
+        <nav id="mycrew-main-nav">
           <NavUl>
             {['참여중', '내가 만든 모임', '대기중인 모임'].map(item => {
               if (selected === item) {
@@ -73,13 +75,13 @@ function MyCrew(): JSX.Element {
           </NavUl>
         </nav>
         {/* 크루 리스트 */}
-        <section id="home-my-crew-content">
+        <section id="mycrew-main-content">
           {selected === '참여중' && <ParticipatedIn />}
           {selected === '내가 만든 모임' && <MyCreatedCrew />}
           {selected === '대기중인 모임' && <WaitingCrew />}
         </section>
       </main>
-      <footer id="home-footer">
+      <footer className="home-footer">
         <Footer page="myCrew" />
       </footer>
     </>
