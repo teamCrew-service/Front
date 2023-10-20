@@ -57,11 +57,11 @@ export interface VoteInfo {
 }
 export interface VoteForm {
   crewId: number;
-  voteContent: string;
-  voteEndDate: string;
+  voteFormContent: string;
+  voteFormEndDate: string;
   voteFormId: string;
-  voteIsDone: number;
-  voteTitle: string;
+  voteFormIsDone: number;
+  voteFormTitle: string;
 }
 // 공지 리스트
 export interface AllNotice {
@@ -140,7 +140,7 @@ export interface MemberDetail extends GuestDetail {
 }
 // -------------------------------
 
-// 크루 생성 양식
+// 크루 생성 양식 -------------------
 export interface MakeCrew {
   createCrewDto: {
     category: string;
@@ -163,6 +163,7 @@ export interface MakeCrew {
     question2: string;
   };
 }
+// -------------------------------
 
 // 다가오는 일정 부분 ---------------------
 // 다가오는 일정
@@ -235,4 +236,20 @@ export interface SignUpForm {
   question1: string;
   question2: string;
   crewId: number;
+}
+
+// 크루원 신청서 양식
+export interface SingUpItemForm {
+  nickname: string;
+  age: number;
+  location: string;
+  myMessage: string;
+  signupId: number;
+  crewId: string;
+  userId: string;
+  answer1: string;
+  answer2: string;
+  permission: null;
+  createdAt: string;
+  interestTopic: string[];
 }

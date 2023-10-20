@@ -36,6 +36,7 @@ import CreateNoticeModal from '../../components/modal/createnotice/CreateNoticeM
 import NoticeDetailModal from '../../components/modal/noticedetail/NoticeDetail';
 import CreateVoteModal from '../../components/modal/createvote/CreateVoteModal';
 import VoteDetailModal from '../../components/modal/votedetail/VoteDetailModal';
+import colors from '../../assets/styles/color';
 
 function Detail(): JSX.Element {
   const [page, setPage] = useState<string>('모임정보');
@@ -52,9 +53,9 @@ function Detail(): JSX.Element {
     id: null,
   });
   const [openCreateVoteModal, setOpenCreateVoteModal] = useState<boolean>(false);
-  const [openVoteDetailModal, setOpenVoteDetailModal] = useState<{ isOpen: boolean; id: string | null }>({
+  const [openVoteDetailModal, setOpenVoteDetailModal] = useState<{ isOpen: boolean; voteFormId: string | null }>({
     isOpen: false,
-    id: null,
+    voteFormId: null,
   });
 
   const { id } = useParams();
@@ -142,14 +143,6 @@ function Detail(): JSX.Element {
   const closeNoticeDetailModalFunc = (): void => {
     setOpenNoticeDetailModal({ isOpen: false, id: null });
   };
-
-  const openVoteDetailModalFunc = (input: string): void => {
-    setOpenVoteDetailModal({ isOpen: true, id: input });
-  };
-  const closeVoteDetailModalFunc = (): void => {
-    setOpenVoteDetailModal({ isOpen: false, id: null });
-  };
-
   const OpenCreateNoticeModalFunc = (): void => {
     setOpenNoticeModal(false);
     setOpenCreateNoticeModal(true);
@@ -164,6 +157,12 @@ function Detail(): JSX.Element {
   };
   const closeCreateVoteModalFunc = (): void => {
     setOpenCreateVoteModal(false);
+  };
+  const openVoteDetailModalFunc = (input: string): void => {
+    setOpenVoteDetailModal({ isOpen: true, voteFormId: input });
+  };
+  const closeVoteDetailModalFunc = (): void => {
+    setOpenVoteDetailModal({ isOpen: false, voteFormId: null });
   };
 
   // nav 변경하는 함수
@@ -242,12 +241,17 @@ function Detail(): JSX.Element {
         />
       )}
       {openCreateVoteModal && (
-        <CreateVoteModal crewInfo={crewInfo!.result} refetch={refetch} closeModal={closeCreateVoteModalFunc} />
+        <CreateVoteModal
+          openVoteDetailModal={openVoteDetailModalFunc}
+          crewInfo={crewInfo!.result}
+          refetch={refetch}
+          closeModal={closeCreateVoteModalFunc}
+        />
       )}
       {openVoteDetailModal.isOpen && (
         <VoteDetailModal
           crewInfo={crewInfo!.result}
-          voteId={openVoteDetailModal.id!}
+          voteFormId={openVoteDetailModal.voteFormId!}
           closeModal={closeVoteDetailModalFunc}
         />
       )}
@@ -351,11 +355,11 @@ function Detail(): JSX.Element {
               <PlusItemContainer onClick={openCreateVoteModalFunc}>
                 <ItemDiv>
                   <heading.BodyBaseMedium>되는 시간 투표</heading.BodyBaseMedium>
-                  <icons.VoteIcon />
+                  <icons.VoteIcon stroke={colors.primary} />
                 </ItemDiv>
                 <ItemDiv onClick={OpenCreateNoticeModalFunc}>
                   <heading.BodyBaseMedium>정모 공지</heading.BodyBaseMedium>
-                  <icons.MegaPhone />
+                  <icons.MegaPhone stroke={colors.primary} />
                 </ItemDiv>
               </PlusItemContainer>
             </>

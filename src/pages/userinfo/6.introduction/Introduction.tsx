@@ -18,7 +18,6 @@ const StyledTextArea = styled.textarea`
   font-size: 14px;
   line-height: 24px;
   letter-spacing: -0.2px;
-  word-spacing: -5px;
   &:focus {
     outline: none;
   }

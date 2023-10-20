@@ -146,10 +146,12 @@ function CreateVoteModal({
   crewInfo,
   refetch,
   closeModal,
+  openVoteDetailModal,
 }: {
   crewInfo: MemberDetail;
   refetch: any;
   closeModal: () => void;
+  openVoteDetailModal: (input: string) => void;
 }): JSX.Element {
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [showTimeList, setShowTimeList] = useState<boolean>(false);
@@ -195,8 +197,9 @@ function CreateVoteModal({
     },
     {
       onSuccess: res => {
-        console.log(res);
+        alert(res.message);
         refetch();
+        openVoteDetailModal(res.voteFormId);
         closeModal();
       },
       onError: err => {

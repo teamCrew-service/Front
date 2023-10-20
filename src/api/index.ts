@@ -92,6 +92,11 @@ export const signUp = {
     const { data } = await instance.post(`api/signup/${signupFormId}/${crewId}/submit`, answer);
     return data;
   },
+  // 제출된 가입서 가져오기
+  getTotalSignUpList: async <T = myInterface.SingUpItemForm[]>(id: string): Promise<T> => {
+    const { data } = await instance.get(`api/signup/${id}`);
+    return data;
+  },
 };
 
 export const myCrew = {

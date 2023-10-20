@@ -21,6 +21,7 @@ import Detail from './pages/detail/Detail';
 import Chat from './pages/detail/nav/Chat';
 import CreateCrew from './pages/createcrew/CreateCrew';
 import MyCrew from './pages/mycrew/MyCrew';
+import Permission from './pages/permission/Permission';
 
 const queryClient = new QueryClient();
 
@@ -48,6 +49,7 @@ function App(): JSX.Element {
               <Route path="/searchbycategory" element=<SearchByCategory /> />
               <Route path="/chat" element=<Chat /> />
               <Route path="/makecrew" element=<CreateCrew /> />
+              <Route path="/permission" element=<Permission /> />
             </Routes>
           </div>
         </div>

@@ -151,12 +151,12 @@ function NoticeContent({
               <heading.BodySmallMedium style={{ color: `${colors.primary}` }}>되는 시간 투표</heading.BodySmallMedium>
             </NoticeTypeDiv>
             <div>
-              <heading.BodyBaseBold>{item.voteTitle}</heading.BodyBaseBold>
-              <ContentText>{item.voteContent}</ContentText>
+              <heading.BodyBaseBold>{item.voteFormTitle}</heading.BodyBaseBold>
+              <ContentText>{item.voteFormContent}</ContentText>
             </div>
             <InfoContainer>
               <icons.Mappin width={16} />
-              <heading.BodySmallMedium>{useCalDate(new Date(item.voteEndDate))}</heading.BodySmallMedium>
+              <heading.BodySmallMedium>{useCalDate(new Date(item.voteFormEndDate))}</heading.BodySmallMedium>
             </InfoContainer>
           </NoticeDiv>
         ))}

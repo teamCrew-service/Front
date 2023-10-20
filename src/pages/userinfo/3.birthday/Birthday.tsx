@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
-import { Mousewheel } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Mousewheel } from 'swiper/modules';
 import ProgressBar from '../../../components/common/ProgressBar';
 import icons from '../../../assets/icons';
 import BodySmallMedium from '../../../styledComponent/heading/BodySmallMedium';
