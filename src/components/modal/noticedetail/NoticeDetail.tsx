@@ -6,9 +6,10 @@ import './style.css';
 
 import heading from '../../../styledComponent/heading';
 import icons from '../../../assets/icons';
-import colors from '../../../assets/styles/color';
 import type { MemberDetail } from '../../../assets/interfaces';
 import { noitce } from '../../../api';
+
+import { ImageDiv, HostDiv } from '../common/styled';
 
 import useCalDate from '../../../util/useCalDate';
 
@@ -20,24 +21,6 @@ const ModalContainer = styled.div`
   height: 100%;
   background-color: white;
   z-index: 2;
-`;
-
-const ImageDiv = styled.div<{ url: string }>`
-  height: 80%;
-  aspect-ratio: 1;
-  background-image: url(${props => props.url});
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  border-radius: 50%;
-`;
-
-const HostDiv = styled.div`
-  background-color: ${colors.primary50};
-  color: ${colors.primary};
-  padding: 4px;
-  border-radius: 4px;
-  margin-left: 4px;
 `;
 
 const AddressDiv = styled.div`
@@ -77,7 +60,7 @@ function NoticeDetailModal({
       <header id="notice-detail-header">
         <icons.close onClick={closeModal} />
         <heading.BodyLargeBold>정모 공지</heading.BodyLargeBold>
-        <icons.ThreeDots fill="black" />
+        {crewInfo.personType === 'captain' ? <icons.ThreeDots fill="black" /> : <div style={{ width: '24px' }} />}
       </header>
       <main id="notice-detail-main">
         <section id="notice-detail-main-host">

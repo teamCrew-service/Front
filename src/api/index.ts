@@ -117,8 +117,20 @@ export const noitce = {
     const { data } = await instance.post(`api/notice/${crewId}/createNotice`, noticeInfo);
     return data;
   },
+
   getNoticeDetail: async <T = myInterface.NoticeInfo>(crewId: string, noticeId: string): Promise<T> => {
     const { data } = await instance.get(`api/notice/${crewId}/${noticeId}`);
+    return data;
+  },
+};
+
+export const voteform = {
+  createVote: async (crewId: string, voteInfo: myInterface.VoteInfo) => {
+    const { data } = await instance.post(`api/voteform/${crewId}/createVoteForm`, voteInfo);
+    return data;
+  },
+  getVoteDetail: async <T = myInterface.VoteInfo>(crewId: string, voteId: string): Promise<T> => {
+    const { data } = await instance.get(`api/voteform/${crewId}/${voteId}`);
     return data;
   },
 };

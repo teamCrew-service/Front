@@ -4,6 +4,7 @@ import { useRecoilState } from 'recoil';
 import reactTextareaAutosize from 'react-textarea-autosize';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Mousewheel } from 'swiper/modules';
+import { useMutation } from 'react-query';
 
 import './style.css';
 
@@ -14,6 +15,8 @@ import colors from '../../../assets/styles/color';
 import { voteDueDate, voteOptionList } from '../../../atoms/createvote';
 
 import Calendar from '../../common/calendar/Calendar';
+import { voteform } from '../../../api';
+import type { MemberDetail, VoteInfo } from '../../../assets/interfaces';
 
 const ModalContainer = styled.div`
   position: absolute;
@@ -139,7 +142,15 @@ const SelectedDiv = styled.div`
   background-color: rgba(116, 116, 128, 0.08);
 `;
 
-function CreateVoteModal({ closeModal }: { closeModal: () => void }): JSX.Element {
+function CreateVoteModal({
+  crewInfo,
+  refetch,
+  closeModal,
+}: {
+  crewInfo: MemberDetail;
+  refetch: any;
+  closeModal: () => void;
+}): JSX.Element {
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [showTimeList, setShowTimeList] = useState<boolean>(false);
 
@@ -162,6 +173,37 @@ function CreateVoteModal({ closeModal }: { closeModal: () => void }): JSX.Elemen
     }
     minutesList.push(String(item));
   }
+
+  const createVoteMutation = useMutation(
+    async () => {
+      const time = date.timeTable === 'PM' ? date.time! + 12 : date.time;
+      const voteDueDateInfo = new Date(date.year!, date.month!, date.date!, time!, date.minutes!);
+      const voteForm: VoteInfo = {
+        voteFormTitle: title,
+        voteFormContent: content,
+        voteFormEndDate: voteDueDateInfo,
+        multipleVotes: checkMultiVote,
+        anonymousVote: checkAnonymousVote,
+        voteFormOption1: optionList[0],
+        voteFormOption2: optionList[1],
+        voteFormOption3: optionList[2] ?? null,
+        voteFormOption4: optionList[3] ?? null,
+        voteFormOption5: optionList[4] ?? null,
+      };
+      const data = voteform.createVote(crewInfo.crew.crew_crewId, voteForm);
+      return data;
+    },
+    {
+      onSuccess: res => {
+        console.log(res);
+        refetch();
+        closeModal();
+      },
+      onError: err => {
+        console.log(err);
+      },
+    },
+  );
 
   const saveOptionValue = (event: any, index: string): void => {
     const newOptionList = optionList.map(item => item);
@@ -196,7 +238,6 @@ function CreateVoteModal({ closeModal }: { closeModal: () => void }): JSX.Elemen
       default:
         break;
     }
-    console.log('변경 후 = ', newOptionList);
     setOptionList(newOptionList);
   };
   const deleteOptionValue = (optionIndex: string): void => {
@@ -269,6 +310,9 @@ function CreateVoteModal({ closeModal }: { closeModal: () => void }): JSX.Elemen
           disabled={
             title === '' || optionList[0] === '' || optionList[1] === '' || content === '' || date.timeTable === ''
           }
+          onClick={() => {
+            createVoteMutation.mutate();
+          }}
         >
           완료
         </CompleteBtn>

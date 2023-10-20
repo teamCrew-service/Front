@@ -37,6 +37,7 @@ function Long({
   saveAddress,
   recentSchedule,
   openNoticeDetailModal,
+  openVoteDetailModal,
 }: {
   page: string;
   changePage: (input: string) => void;
@@ -47,6 +48,7 @@ function Long({
   saveAddress: (input: string) => void;
   recentSchedule: Schedule | null;
   openNoticeDetailModal: (input: string) => void;
+  openVoteDetailModal: (input: string) => void;
 }): JSX.Element {
   const [showCalendarEvent, setShowCalendarEvent] = useState<boolean>(false);
   const [eventInfo, setEventInfo] = useState<Schedule | null>(null);
@@ -287,7 +289,13 @@ function Long({
             </div>
           </>
         )}
-        {page === '공지' && <NoticeContent crewInfo={crewInfo} openNoticeDetailModal={openNoticeDetailModal} />}
+        {page === '공지' && (
+          <NoticeContent
+            crewInfo={crewInfo}
+            openNoticeDetailModal={openNoticeDetailModal}
+            openVoteDetailModal={openVoteDetailModal}
+          />
+        )}
         {page === '일정' && <ScheduleContent crewInfo={crewInfo} />}
         {page === '크루챗' && <Chat />}
       </section>

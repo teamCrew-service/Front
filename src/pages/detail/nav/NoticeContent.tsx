@@ -10,7 +10,6 @@ import heading from '../../../styledComponent/heading';
 import useCalDate from '../../../util/useCalDate';
 
 const NoticeDiv = styled.div`
-  position: relative;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -21,6 +20,7 @@ const NoticeDiv = styled.div`
 `;
 
 const StyledLi = styled.li`
+  display: flex;
   border-radius: 200px;
   background-color: ${colors.gray200};
   padding: 4px 12px;
@@ -46,12 +46,22 @@ const InfoContainer = styled.div`
   color: ${colors.gray500};
 `;
 
+const ContentText = styled(heading.CaptionXS)`
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: ${colors.gray500};
+`;
+
 function NoticeContent({
   crewInfo,
   openNoticeDetailModal,
+  openVoteDetailModal,
 }: {
   crewInfo: MemberDetail;
   openNoticeDetailModal: (input: string) => void;
+  openVoteDetailModal: (input: string) => void;
 }): JSX.Element {
   const [selected, setSelected] = useState<string>('정모 공지');
 
@@ -63,10 +73,12 @@ function NoticeContent({
     <div id="detail-main-content-notice">
       <nav style={{ width: '100%', marginBottom: '9px' }}>
         <ul style={{ display: 'flex', gap: '2.36%' }}>
-          {['정모 공지', '투표'].map(item => {
+          {['정모 공지', '되는 시간 투표'].map(item => {
             if (item === selected) {
               return (
                 <StyledLi key={item} style={{ backgroundColor: `${colors.primary}` }}>
+                  {item === '정모 공지' && <icons.MegaPhone stroke="white" />}
+                  {item === '되는 시간 투표' && <icons.VoteIcon stroke="white" />}
                   <heading.BodySmallBold style={{ color: 'white' }}>{item}</heading.BodySmallBold>
                 </StyledLi>
               );
@@ -78,6 +90,8 @@ function NoticeContent({
                   changeSelectedHandler(item);
                 }}
               >
+                {item === '정모 공지' && <icons.MegaPhone stroke={colors.primary} />}
+                {item === '되는 시간 투표' && <icons.VoteIcon stroke={colors.primary} />}
                 <heading.BodySmallBold>{item}</heading.BodySmallBold>
               </StyledLi>
             );
@@ -100,14 +114,12 @@ function NoticeContent({
             key={item.noticeId}
           >
             <NoticeTypeDiv>
-              <icons.MegaPhone />
+              <icons.MegaPhone stroke={colors.primary} />
               <heading.BodySmallMedium style={{ color: `${colors.primary}` }}>정모 공지</heading.BodySmallMedium>
             </NoticeTypeDiv>
             <div>
               <heading.BodyBaseBold>{item.noticeTitle}</heading.BodyBaseBold>
-              <heading.BodySmallMedium>
-                {item.noticeContent.length < 45 ? item.noticeContent : `${item.noticeContent.substring(0, 45)}...`}
-              </heading.BodySmallMedium>
+              <ContentText>{item.noticeContent}</ContentText>
             </div>
             <div>
               <InfoContainer>
@@ -122,19 +134,30 @@ function NoticeContent({
           </NoticeDiv>
         ))}
       {/* 투표 탭일 경우 */}
-      {selected === '투표' && crewInfo.allNotice.voteForm.length === 0 && <NoticeDiv>투표 없음</NoticeDiv>}{' '}
-      {selected === '투표' &&
+      {selected === '되는 시간 투표' && crewInfo.allNotice.voteForm.length === 0 && (
+        <NoticeDiv>투표 없음</NoticeDiv>
+      )}{' '}
+      {selected === '되는 시간 투표' &&
         crewInfo.allNotice.voteForm.length !== 0 &&
         crewInfo.allNotice.voteForm.map(item => (
-          <NoticeDiv key={item.voteFormId}>
+          <NoticeDiv
+            key={item.voteFormId}
+            onClick={() => {
+              openVoteDetailModal(item.voteFormId);
+            }}
+          >
             <NoticeTypeDiv>
-              <icons.VoteIcon />
-              <heading.CaptionXS>투표</heading.CaptionXS>
+              <icons.VoteIcon stroke={colors.primary} />
+              <heading.BodySmallMedium style={{ color: `${colors.primary}` }}>되는 시간 투표</heading.BodySmallMedium>
             </NoticeTypeDiv>
             <div>
               <heading.BodyBaseBold>{item.voteTitle}</heading.BodyBaseBold>
-              <heading.CaptionXS>{item.voteContent}</heading.CaptionXS>
+              <ContentText>{item.voteContent}</ContentText>
             </div>
+            <InfoContainer>
+              <icons.Mappin width={16} />
+              <heading.BodySmallMedium>{useCalDate(new Date(item.voteEndDate))}</heading.BodySmallMedium>
+            </InfoContainer>
           </NoticeDiv>
         ))}
     </div>

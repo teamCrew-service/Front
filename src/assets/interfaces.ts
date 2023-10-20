@@ -29,13 +29,6 @@ export interface NoticeInfo {
   noticeLatitude: number;
   noticeLongitude: number;
 }
-export interface VoteForm {
-  voteContent: string;
-  voteEndDate: string;
-  voteFormId: number;
-  voteTitle: string;
-  crewId: number;
-}
 export interface CrewNotice {
   createdAt: string;
   noticeAddress: string;
@@ -48,6 +41,27 @@ export interface CrewNotice {
   noticeLongitude: number;
   noticeTitle: string;
   userId: string;
+}
+// 투표 공지 생성 양식
+export interface VoteInfo {
+  voteFormTitle: string;
+  voteFormContent: string;
+  voteFormEndDate: Date;
+  multipleVotes: boolean;
+  anonymousVote: boolean;
+  voteFormOption1: string;
+  voteFormOption2: string;
+  voteFormOption3: string | null;
+  voteFormOption4: string | null;
+  voteFormOption5: string | null;
+}
+export interface VoteForm {
+  crewId: number;
+  voteContent: string;
+  voteEndDate: string;
+  voteFormId: string;
+  voteIsDone: number;
+  voteTitle: string;
 }
 // 공지 리스트
 export interface AllNotice {

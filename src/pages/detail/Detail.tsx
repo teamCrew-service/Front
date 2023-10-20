@@ -35,6 +35,7 @@ import JoinCrewModal from '../../components/modal/joincrew/JoinCrewModal';
 import CreateNoticeModal from '../../components/modal/createnotice/CreateNoticeModal';
 import NoticeDetailModal from '../../components/modal/noticedetail/NoticeDetail';
 import CreateVoteModal from '../../components/modal/createvote/CreateVoteModal';
+import VoteDetailModal from '../../components/modal/votedetail/VoteDetailModal';
 
 function Detail(): JSX.Element {
   const [page, setPage] = useState<string>('모임정보');
@@ -51,6 +52,10 @@ function Detail(): JSX.Element {
     id: null,
   });
   const [openCreateVoteModal, setOpenCreateVoteModal] = useState<boolean>(false);
+  const [openVoteDetailModal, setOpenVoteDetailModal] = useState<{ isOpen: boolean; id: string | null }>({
+    isOpen: false,
+    id: null,
+  });
 
   const { id } = useParams();
 
@@ -136,6 +141,13 @@ function Detail(): JSX.Element {
   };
   const closeNoticeDetailModalFunc = (): void => {
     setOpenNoticeDetailModal({ isOpen: false, id: null });
+  };
+
+  const openVoteDetailModalFunc = (input: string): void => {
+    setOpenVoteDetailModal({ isOpen: true, id: input });
+  };
+  const closeVoteDetailModalFunc = (): void => {
+    setOpenVoteDetailModal({ isOpen: false, id: null });
   };
 
   const OpenCreateNoticeModalFunc = (): void => {
@@ -229,7 +241,16 @@ function Detail(): JSX.Element {
           closeModal={closeNoticeDetailModalFunc}
         />
       )}
-      {openCreateVoteModal && <CreateVoteModal closeModal={closeCreateVoteModalFunc} />}
+      {openCreateVoteModal && (
+        <CreateVoteModal crewInfo={crewInfo!.result} refetch={refetch} closeModal={closeCreateVoteModalFunc} />
+      )}
+      {openVoteDetailModal.isOpen && (
+        <VoteDetailModal
+          crewInfo={crewInfo!.result}
+          voteId={openVoteDetailModal.id!}
+          closeModal={closeVoteDetailModalFunc}
+        />
+      )}
       {/* 헤더 */}
       <header id="detail-header">
         <icons.chevronLeft
@@ -272,6 +293,7 @@ function Detail(): JSX.Element {
             saveAddress={saveAddress}
             recentSchedule={crewInfo.recentSchedule !== undefined ? crewInfo.recentSchedule : null}
             openNoticeDetailModal={openNoticeDetailModalFunc}
+            openVoteDetailModal={openVoteDetailModalFunc}
           />
         )}
         {crewInfo?.result.crew.crew_crewType === '단기' && (
