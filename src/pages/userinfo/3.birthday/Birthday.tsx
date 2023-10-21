@@ -12,7 +12,7 @@ import icons from '../../../assets/icons';
 import colors from '../../../assets/styles/color';
 import heading from '../../../styledComponent/heading';
 
-import { birtYear } from '../../../atoms/login';
+import { userBirtYear } from '../../../atoms/login';
 
 import 'swiper/css';
 import '../style.css';
@@ -51,7 +51,7 @@ function Birthday(): JSX.Element {
   const navigate = useNavigate();
   const yearList = [1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000];
   const [open, setOpen] = useState<boolean>(false);
-  const [myBirthYear, setMyBirthYear] = useRecoilState(birtYear);
+  const [myBirthYear, setMyBirthYear] = useRecoilState(userBirtYear);
 
   const openSelectWindow = (): void => {
     setOpen(true);

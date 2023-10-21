@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 import ProgressBar from '../../../components/common/ProgressBar';
 import icons from '../../../assets/icons';
@@ -10,13 +10,11 @@ import InterestMatrix from '../../../components/common/InterestMatrix';
 import TitleLargeBold from '../../../styledComponent/heading/TitleLargeBold';
 import GoPageBtn from '../components/GoPageBtn';
 
-import { category } from '../../../atoms/login';
+import { userCategory } from '../../../atoms/login';
 
 function Category(): JSX.Element {
   const navigate = useNavigate();
-  const [selectedCategoryList, setSelectedCategoryList] = useState<string[]>([]);
-
-  const setCategory = useSetRecoilState(category);
+  const [selectedCategoryList, setSelectedCategoryList] = useRecoilState(userCategory);
 
   const selectCategory = (input: any): void => {
     // 카테고리가 이미 선택되어 있을 시 제거하는 부분
@@ -30,14 +28,11 @@ function Category(): JSX.Element {
 
   // 선택한 카테고리들 Recoil atom에 저장하는 함수
   const saveSelectedCategory = (): void => {
-    // eslint-disable-next-line array-callback-return
-    const saveItem = selectedCategoryList.reduce((acc, curr) => `${acc},${curr}`);
-    console.log('저장된 카테고리 = ', saveItem);
-    setCategory(saveItem);
+    console.log('저장된 카테고리 = ', selectedCategoryList);
   };
 
   const goLoginPage = (): void => {
-    setCategory('');
+    setSelectedCategoryList([]);
     navigate('/login');
   };
 

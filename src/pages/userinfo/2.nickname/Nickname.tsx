@@ -15,30 +15,30 @@ import { StyledInput } from '../styled';
 import TitleLargeBold from '../../../styledComponent/heading/TitleLargeBold';
 import BodyLargeBold from '../../../styledComponent/heading/BodyLargeBold';
 
-import { nickName } from '../../../atoms/login';
+import { userNickName } from '../../../atoms/login';
 
 import { login } from '../../../api';
 
 function Nickname(): JSX.Element {
   const navigate = useNavigate();
-  const [userNickname, setUserNickname] = useRecoilState(nickName);
+  const [nickname, setNickname] = useRecoilState(userNickName);
 
   const saveNicknameFunc = (event: any): void => {
-    setUserNickname(event.target.value);
+    setNickname(event.target.value);
   };
 
   const saveUserNickname = (): void => {
     login
-      .nickCheck(userNickname)
+      .nickCheck(nickname)
       .then(() => {
-        console.log('저장된 닉네임 = ', userNickname);
+        console.log('저장된 닉네임 = ', nickname);
         navigate('/login/birthday');
       })
       .catch(() => {});
   };
 
   const goPrevPage = (): void => {
-    setUserNickname('');
+    setNickname('');
     navigate('/login/category');
   };
 
@@ -59,11 +59,11 @@ function Nickname(): JSX.Element {
         </section>
         <section>
           <ButtonDiv>
-            <StyledInput value={userNickname} onChange={saveNicknameFunc} required type="text" />
+            <StyledInput value={nickname} onChange={saveNicknameFunc} required type="text" />
           </ButtonDiv>
         </section>
         <section style={{ marginTop: 'auto', marginBottom: '60px' }}>
-          {userNickname !== '' ? (
+          {nickname !== '' ? (
             <ButtonDiv onClick={saveUserNickname}>
               <BodyLargeBold>다음</BodyLargeBold>
             </ButtonDiv>

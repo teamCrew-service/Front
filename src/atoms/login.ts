@@ -1,26 +1,32 @@
 import { atom } from 'recoil';
+import defaultImage from '../assets/images/profile.jpg';
 
-export const category = atom<string>({
-  key: 'loginCategoryState',
+export const userCategory = atom<string[]>({
+  key: 'userCategoryState',
+  default: [],
+});
+
+export const userNickName = atom<string>({
+  key: 'userNickNameState',
   default: '',
 });
 
-export const nickName = atom<string>({
-  key: 'loginNickNameState',
-  default: '',
-});
-
-export const birtYear = atom<string>({
-  key: 'loginBirthYearState',
+export const userBirtYear = atom<string>({
+  key: 'userBirthYearState',
   default: '',
 });
 
 export const userGender = atom<string>({
-  key: 'genderState',
+  key: 'userGenderState',
   default: '',
 });
 
-export const ProfileImage = atom<Blob | null>({
-  key: 'ProfileImageState',
-  default: null,
+export const userProfile = atom<{ url: string; file: Blob | null }>({
+  key: 'userProfileState',
+  default: { url: defaultImage, file: null },
+});
+
+export const userContent = atom<string>({
+  key: 'userContentState',
+  default: '',
 });
