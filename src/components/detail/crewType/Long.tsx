@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import type { MemberDetail, Schedule, VoteResultInfo } from '../../../assets/interfaces';
+import type { MemberDetail, Schedule, VoteCreateInfo, VoteResultInfo } from '../../../assets/interfaces';
 
 import heading from '../../../styledComponent/heading';
 
@@ -49,7 +49,7 @@ function Long({
   saveAddress: (input: string) => void;
   recentSchedule: Schedule | null;
   openNoticeDetailModal: (input: string) => void;
-  openVoteDetailModal: (input: string) => void;
+  openVoteDetailModal: (input: VoteCreateInfo) => void;
   openVoteResultModal: (input: VoteResultInfo) => void;
 }): JSX.Element {
   const [showCalendarEvent, setShowCalendarEvent] = useState<boolean>(false);

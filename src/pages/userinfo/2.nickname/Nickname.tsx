@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+
 import BodySmallMedium from '../../../styledComponent/heading/BodySmallMedium';
 import ButtonDiv from '../../../styledComponent/ButtonDiv';
 
@@ -10,25 +12,38 @@ import colors from '../../../assets/styles/color';
 
 import { StyledInput } from '../styled';
 
-import { login } from '../../../api';
 import TitleLargeBold from '../../../styledComponent/heading/TitleLargeBold';
 import BodyLargeBold from '../../../styledComponent/heading/BodyLargeBold';
+
+import { nickName } from '../../../atoms/login';
+
+import { login } from '../../../api';
 
 function Nickname(): JSX.Element {
   const navigate = useNavigate();
   const [userNickname, setUserNickname] = useState<string>('');
+
+  const setNickName = useSetRecoilState(nickName);
+
   const setNickname = (event: any): void => {
     setUserNickname(event.target.value);
   };
+
   const saveUserNickname = (): void => {
     login
       .nickCheck(userNickname)
       .then(() => {
-        sessionStorage.setItem('nickname', userNickname);
+        setNickName(userNickname);
         navigate('/login/birthday');
       })
       .catch(() => {});
   };
+
+  const goPrevPage = (): void => {
+    setNickName('');
+    navigate('/login/category');
+  };
+
   return (
     <>
       <header>
@@ -36,9 +51,7 @@ function Nickname(): JSX.Element {
       </header>
       <main id="userinfo-main">
         <section style={{ width: 'fit-content', height: 'fit-content' }}>
-          <Link to="/login/category">
-            <icons.chevronLeft style={{ cursor: 'pointer' }} />
-          </Link>
+          <icons.chevronLeft style={{ cursor: 'pointer' }} onClick={goPrevPage} />
         </section>
         <section>
           <TitleLargeBold>닉네임</TitleLargeBold>

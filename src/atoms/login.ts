@@ -1,8 +1,11 @@
 import { atom } from 'recoil';
 
-const category = atom<string[]>({
+export const category = atom<string>({
   key: 'loginCategoryState',
-  default: [],
+  default: '',
 });
 
-export default category;
+export const nickName = atom<string>({
+  key: 'loginNickNameState',
+  default: '',
+});

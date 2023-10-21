@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
 import SmallCardDiv from '../../styledComponent/SmallCardDiv';
-import category from '../../atoms/login';
 import colors from '../../assets/styles/color';
 import widgets from '../../assets/icons/widgets';
 
@@ -19,14 +17,15 @@ const GridDiv = styled.div<{ $columns: number; $rows: number }>`
 
 function InterestMatrix({
   onClick,
+  checkList = [],
   columns,
   rows,
 }: {
   onClick: (input: any) => void;
+  checkList?: string[];
   columns: number;
   rows: number;
 }): JSX.Element {
-  const selectedCategory: string[] = useRecoilValue(category);
   const categoryList = [
     { code: 1, name: '여행', item: widgets.Travel, color: `${colors.gray200}`, border: `${colors.gray500}` },
     { code: 2, name: '운동', item: widgets.Workout, color: '#D1F4FF', border: '#1090B8' },
@@ -44,7 +43,7 @@ function InterestMatrix({
   return (
     <GridDiv $columns={columns} $rows={rows}>
       {categoryList.map(item => {
-        if (selectedCategory.includes(item.name)) {
+        if (checkList.includes(item.name)) {
           return (
             <SmallCardDiv
               style={{ outline: `4px solid ${item.border}` }}

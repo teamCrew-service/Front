@@ -13,7 +13,7 @@ import heading from '../../styledComponent/heading';
 
 import Short from '../../components/detail/crewType/Short';
 
-import type { Schedule, VoteResultInfo } from '../../assets/interfaces';
+import type { Schedule, VoteCreateInfo, VoteResultInfo } from '../../assets/interfaces';
 import Long from '../../components/detail/crewType/Long';
 import {
   SaveCrewThumbnailBtn,
@@ -54,7 +54,7 @@ function Detail(): JSX.Element {
     id: null,
   });
   const [openCreateVoteModal, setOpenCreateVoteModal] = useState<boolean>(false);
-  const [openVoteDetailModal, setOpenVoteDetailModal] = useState<{ isOpen: boolean; voteFormId: string | null }>({
+  const [openVoteDetailModal, setOpenVoteDetailModal] = useState<VoteCreateInfo>({
     isOpen: false,
     voteFormId: null,
   });
@@ -166,8 +166,8 @@ function Detail(): JSX.Element {
   const closeCreateVoteModalFunc = (): void => {
     setOpenCreateVoteModal(false);
   };
-  const openVoteDetailModalFunc = (input: string): void => {
-    setOpenVoteDetailModal({ isOpen: true, voteFormId: input });
+  const openVoteDetailModalFunc = (input: VoteCreateInfo): void => {
+    setOpenVoteDetailModal(input);
   };
   const closeVoteDetailModalFunc = (): void => {
     setOpenVoteDetailModal({ isOpen: false, voteFormId: null });

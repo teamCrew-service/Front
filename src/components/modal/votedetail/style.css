@@ -47,6 +47,11 @@
   height: 48px;
 }
 
+#vote-detail-main-go-btn {
+  width: 100%;
+  height: fit-content;
+}
+
 .margin-8-758 {
   height: 1.06%;
 }

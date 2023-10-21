@@ -32,6 +32,15 @@ const VoteBtn = styled.button`
   }
 `;
 
+const GoResultBtn = styled.div`
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  color: ${colors.gray500};
+`;
+
 function VoteDetailModal({
   crewInfo,
   voteFormId,
@@ -166,6 +175,17 @@ function VoteDetailModal({
           >
             <heading.BodyBaseBold>투표하기</heading.BodyBaseBold>
           </VoteBtn>
+        </section>
+        <div className="margin-8-758" />
+        <section id="vote-detail-main-go-btn">
+          <GoResultBtn
+            onClick={() => {
+              openResultModal({ isOpen: true, crewId: crewInfo.crew.crew_crewId, voteFormId });
+            }}
+          >
+            <heading.BodyBaseBold>투표한 멤버 확인하기</heading.BodyBaseBold>
+            <icons.chevronRight />
+          </GoResultBtn>
         </section>
       </main>
     </ModalContainer>

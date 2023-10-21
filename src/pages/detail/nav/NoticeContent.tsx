@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import type { MemberDetail, VoteResultInfo } from '../../../assets/interfaces';
+import type { MemberDetail, VoteCreateInfo, VoteResultInfo } from '../../../assets/interfaces';
 
 import colors from '../../../assets/styles/color';
 import icons from '../../../assets/icons';
@@ -62,7 +62,7 @@ function NoticeContent({
 }: {
   crewInfo: MemberDetail;
   openNoticeDetailModal: (input: string) => void;
-  openVoteDetailModal: (input: string) => void;
+  openVoteDetailModal: (input: VoteCreateInfo) => void;
   openVoteResultModal: (input: VoteResultInfo) => void;
 }): JSX.Element {
   const [selected, setSelected] = useState<string>('정모 공지');
@@ -145,10 +145,11 @@ function NoticeContent({
           <NoticeDiv
             key={item.voteFormId}
             onClick={() => {
-              if (item.voteFormIsDone === 1) {
+              if (item.alreadyVote === 1) {
                 openVoteResultModal({ isOpen: true, crewId: crewInfo.crew.crew_crewId, voteFormId: item.voteFormId });
+                return;
               }
-              openVoteDetailModal(item.voteFormId);
+              openVoteDetailModal({ isOpen: true, voteFormId: item.voteFormId });
             }}
           >
             <NoticeTypeDiv>

@@ -16,7 +16,7 @@ import { voteDueDate, voteOptionList } from '../../../atoms/createvote';
 
 import Calendar from '../../common/calendar/Calendar';
 import { voteform } from '../../../api';
-import type { MemberDetail, VoteInfo } from '../../../assets/interfaces';
+import type { MemberDetail, VoteCreateInfo, VoteInfo } from '../../../assets/interfaces';
 
 const ModalContainer = styled.div`
   position: absolute;
@@ -151,7 +151,7 @@ function CreateVoteModal({
   crewInfo: MemberDetail;
   refetch: any;
   closeModal: () => void;
-  openVoteDetailModal: (input: string) => void;
+  openVoteDetailModal: (input: VoteCreateInfo) => void;
 }): JSX.Element {
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [showTimeList, setShowTimeList] = useState<boolean>(false);
@@ -199,8 +199,8 @@ function CreateVoteModal({
       onSuccess: res => {
         alert(res.message);
         refetch();
-        openVoteDetailModal(res.voteFormId);
         closeModal();
+        openVoteDetailModal({ isOpen: true, voteFormId: res.voteFormId });
       },
       onError: err => {
         console.log(err);

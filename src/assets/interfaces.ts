@@ -62,6 +62,7 @@ export interface VoteForm {
   voteFormId: string;
   voteFormIsDone: number;
   voteFormTitle: string;
+  alreadyVote: number;
 }
 // 공지 리스트
 export interface AllNotice {
@@ -258,5 +259,11 @@ export interface SingUpItemForm {
 export interface VoteResultInfo {
   isOpen: boolean;
   crewId: string | null;
+  voteFormId: string | null;
+}
+
+// 투표 생성 상태 Type
+export interface VoteCreateInfo {
+  isOpen: boolean;
   voteFormId: string | null;
 }
