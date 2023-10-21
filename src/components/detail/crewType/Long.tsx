@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import type { MemberDetail, Schedule } from '../../../assets/interfaces';
+import type { MemberDetail, Schedule, VoteResultInfo } from '../../../assets/interfaces';
 
 import heading from '../../../styledComponent/heading';
 
@@ -38,6 +38,7 @@ function Long({
   recentSchedule,
   openNoticeDetailModal,
   openVoteDetailModal,
+  openVoteResultModal,
 }: {
   page: string;
   changePage: (input: string) => void;
@@ -49,6 +50,7 @@ function Long({
   recentSchedule: Schedule | null;
   openNoticeDetailModal: (input: string) => void;
   openVoteDetailModal: (input: string) => void;
+  openVoteResultModal: (input: VoteResultInfo) => void;
 }): JSX.Element {
   const [showCalendarEvent, setShowCalendarEvent] = useState<boolean>(false);
   const [eventInfo, setEventInfo] = useState<Schedule | null>(null);
@@ -294,6 +296,7 @@ function Long({
             crewInfo={crewInfo}
             openNoticeDetailModal={openNoticeDetailModal}
             openVoteDetailModal={openVoteDetailModal}
+            openVoteResultModal={openVoteResultModal}
           />
         )}
         {page === '일정' && <ScheduleContent crewInfo={crewInfo} />}

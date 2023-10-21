@@ -253,3 +253,10 @@ export interface SingUpItemForm {
   createdAt: string;
   interestTopic: string[];
 }
+
+// 투표 결과 표시 상태 Type
+export interface VoteResultInfo {
+  isOpen: boolean;
+  crewId: string | null;
+  voteFormId: string | null;
+}

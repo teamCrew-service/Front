@@ -13,7 +13,7 @@ import heading from '../../styledComponent/heading';
 
 import Short from '../../components/detail/crewType/Short';
 
-import type { Schedule } from '../../assets/interfaces';
+import type { Schedule, VoteResultInfo } from '../../assets/interfaces';
 import Long from '../../components/detail/crewType/Long';
 import {
   SaveCrewThumbnailBtn,
@@ -37,6 +37,7 @@ import NoticeDetailModal from '../../components/modal/noticedetail/NoticeDetail'
 import CreateVoteModal from '../../components/modal/createvote/CreateVoteModal';
 import VoteDetailModal from '../../components/modal/votedetail/VoteDetailModal';
 import colors from '../../assets/styles/color';
+import VoteResultModal from '../../components/modal/voteresult/VoteResultModal';
 
 function Detail(): JSX.Element {
   const [page, setPage] = useState<string>('모임정보');
@@ -57,6 +58,11 @@ function Detail(): JSX.Element {
     isOpen: false,
     voteFormId: null,
   });
+  const [openVoteResultModal, setOpenVoteResultModal] = useState<VoteResultInfo>({
+    isOpen: false,
+    voteFormId: null,
+    crewId: null,
+  });
 
   const { id } = useParams();
 
@@ -72,6 +78,7 @@ function Detail(): JSX.Element {
     return null;
   };
 
+  // 크루 상세 정보 가져오는 쿼리 함수
   const {
     status,
     data: crewInfo,
@@ -99,7 +106,7 @@ function Detail(): JSX.Element {
     },
   );
 
-  // 크루 바로 가입 가능 시 작동하는 함수
+  // 크루 바로 가입 가능 쿼리 함수
   const signUpCrew = useMutation(
     async () => {
       const result = await crew.signUp(crewInfo!.result.crew.crew_crewId);
@@ -116,7 +123,7 @@ function Detail(): JSX.Element {
     },
   );
 
-  // 크루 소개 부분 On/Off 함수
+  // 소개 부분 접었다 피는 함수
   const openInfoWindow = (): void => {
     setInfoOpen(true);
   };
@@ -124,12 +131,11 @@ function Detail(): JSX.Element {
     setInfoOpen(false);
   };
 
-  // 크루 가입 여부 묻는 모달 닫는 함수
+  // 각종 모달 On/Off 함수 ------------------------------------
+  // 1. 크루 가입 모달
   const closeJoinModal = (): void => {
     setJoinModalOpen(false);
   };
-
-  // 크루 가입 모달 On/Off 함수
   const openJoinCrewModal = (): void => {
     setJoinCrewModalOpen(true);
   };
@@ -137,6 +143,7 @@ function Detail(): JSX.Element {
     setJoinCrewModalOpen(false);
   };
 
+  // 2. 정모 공지 관련
   const openNoticeDetailModalFunc = (input: string): void => {
     setOpenNoticeDetailModal({ isOpen: true, id: input });
   };
@@ -151,6 +158,7 @@ function Detail(): JSX.Element {
     setOpenCreateNoticeModal(false);
   };
 
+  // 3. 되는 시간 투표 관련
   const openCreateVoteModalFunc = (): void => {
     setOpenNoticeModal(false);
     setOpenCreateVoteModal(true);
@@ -164,6 +172,17 @@ function Detail(): JSX.Element {
   const closeVoteDetailModalFunc = (): void => {
     setOpenVoteDetailModal({ isOpen: false, voteFormId: null });
   };
+  const openVoteResultModalFunc = (input: VoteResultInfo): void => {
+    setOpenVoteResultModal(input);
+  };
+  const closeVoteResultModalFunc = (): void => {
+    setOpenVoteResultModal({
+      isOpen: false,
+      voteFormId: null,
+      crewId: null,
+    });
+  };
+  // ------------------------------------------------------------
 
   // nav 변경하는 함수
   const changePage = (input: string): void => {
@@ -196,17 +215,23 @@ function Detail(): JSX.Element {
         : openJoinCrewModal;
   }
 
+  // 로딩 중일 때 보여주는 화면
   if (status === 'loading') {
     return <div>loading...</div>;
   }
 
+  // 에러시 보여주는 화면
   if (status === 'error') {
     return <div>somthing wrong!</div>;
   }
 
   return (
     <>
-      {/* 모달들 */}
+      {/* 모달들  ---------------------------------------- */}
+      {/* +(생성 버튼)클릭 시 나타나는 검은 모달 화면 */}
+      {openNoticeModal && <NonActiveWindow />}
+
+      {/* 1 - 1. 크루 가입 확인 모달 */}
       {joinModalOpen && (
         <JoinModal
           crewType={crewInfo!.result.crew.crew_crewType}
@@ -216,6 +241,7 @@ function Detail(): JSX.Element {
           }}
         />
       )}
+      {/* 1 - 2. 크루 가입 모달 */}
       {joinCrewModalOpen && (
         <JoinCrewModal
           crewType={crewInfo!.result.crew.crew_crewType}
@@ -224,7 +250,8 @@ function Detail(): JSX.Element {
           crewId={crewInfo!.result.crew.crew_crewId}
         />
       )}
-      {openNoticeModal && <NonActiveWindow />}
+
+      {/* 2 - 1. 정모 공지 생성 모달 */}
       {openCreateNoticeModal && (
         <CreateNoticeModal
           crewInfo={crewInfo!.result}
@@ -233,6 +260,7 @@ function Detail(): JSX.Element {
           refetch={refetch}
         />
       )}
+      {/* 2 - 2. 정모공지 상세 모달 */}
       {openNoticeDetailModal.isOpen && (
         <NoticeDetailModal
           crewInfo={crewInfo!.result}
@@ -240,6 +268,8 @@ function Detail(): JSX.Element {
           closeModal={closeNoticeDetailModalFunc}
         />
       )}
+
+      {/* 3 - 1. 되는 시간 투표 생성 모달 */}
       {openCreateVoteModal && (
         <CreateVoteModal
           openVoteDetailModal={openVoteDetailModalFunc}
@@ -248,13 +278,25 @@ function Detail(): JSX.Element {
           closeModal={closeCreateVoteModalFunc}
         />
       )}
+      {/* 3 - 2. 되는 시간 투표 모달 */}
       {openVoteDetailModal.isOpen && (
         <VoteDetailModal
           crewInfo={crewInfo!.result}
           voteFormId={openVoteDetailModal.voteFormId!}
           closeModal={closeVoteDetailModalFunc}
+          openResultModal={openVoteResultModalFunc}
         />
       )}
+      {/* 3 - 3. 되는 시간 투표 결과 모달 */}
+      {openVoteResultModal.isOpen && (
+        <VoteResultModal
+          crewId={openVoteResultModal.crewId!}
+          voteFormId={openVoteResultModal.voteFormId!}
+          closeModal={closeVoteResultModalFunc}
+        />
+      )}
+      {/* -------------------------------------------- */}
+
       {/* 헤더 */}
       <header id="detail-header">
         <icons.chevronLeft
@@ -298,6 +340,7 @@ function Detail(): JSX.Element {
             recentSchedule={crewInfo.recentSchedule !== undefined ? crewInfo.recentSchedule : null}
             openNoticeDetailModal={openNoticeDetailModalFunc}
             openVoteDetailModal={openVoteDetailModalFunc}
+            openVoteResultModal={openVoteResultModalFunc}
           />
         )}
         {crewInfo?.result.crew.crew_crewType === '단기' && (
@@ -310,7 +353,8 @@ function Detail(): JSX.Element {
           />
         )}
       </main>
-      {/* 참여버튼 */}
+
+      {/* 크루 가입 버튼 */}
       {crewInfo?.result.personType === 'person' && (
         <InteractiveBtnContainer>
           <LikeDiv>
@@ -331,7 +375,8 @@ function Detail(): JSX.Element {
           )}
         </InteractiveBtnContainer>
       )}
-      {/* 공지 추가하는 버튼 */}
+
+      {/* 정모 공지 / 되는 시간 투표 추가 버튼 */}
       {crewInfo?.result.personType === 'captain' && page === '공지' && (
         <PlusBtnContainer>
           {!openNoticeModal && (
@@ -352,8 +397,8 @@ function Detail(): JSX.Element {
               >
                 <icons.CloseBtn />
               </CloseBtn>
-              <PlusItemContainer onClick={openCreateVoteModalFunc}>
-                <ItemDiv>
+              <PlusItemContainer>
+                <ItemDiv onClick={openCreateVoteModalFunc}>
                   <heading.BodyBaseMedium>되는 시간 투표</heading.BodyBaseMedium>
                   <icons.VoteIcon stroke={colors.primary} />
                 </ItemDiv>
@@ -366,7 +411,8 @@ function Detail(): JSX.Element {
           )}
         </PlusBtnContainer>
       )}
-      {/* 일정 추가하는 버튼 */}
+
+      {/* 일정 추가 버튼 */}
       {crewInfo?.result.personType === 'captain' && page === '일정' && (
         <PlusBtnContainer>
           <PlusBtn>

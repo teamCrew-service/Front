@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 
 import icons from '../../../assets/icons';
 import heading from '../../../styledComponent/heading';
 import colors from '../../../assets/styles/color';
 
 import './style.css';
-import type { MemberDetail } from '../../../assets/interfaces';
+import type { MemberDetail, VoteResultInfo } from '../../../assets/interfaces';
 import { ModalContainer, ImageDiv, HostDiv } from '../common/styled';
 
-import { voteform } from '../../../api';
+import { vote, voteform } from '../../../api';
 import OptionItem from './OptionItem';
 
 const VoteContentContainer = styled.div`
@@ -36,22 +36,24 @@ function VoteDetailModal({
   crewInfo,
   voteFormId,
   closeModal,
+  openResultModal,
 }: {
   crewInfo: MemberDetail;
   voteFormId: string;
   closeModal: () => void;
+  openResultModal: (input: VoteResultInfo) => void;
 }): JSX.Element {
   const [selectedOption, setSelectedOption] = useState<string[]>([]);
 
   const { data: voteDetail, isLoading } = useQuery(
-    'getVoteDetail',
+    'getVoteFormDetail',
     async () => {
-      const result = voteform.getVoteDetail(crewInfo.crew.crew_crewId, voteFormId);
+      const result = voteform.getVoteFormDetail(crewInfo.crew.crew_crewId, voteFormId);
       return result;
     },
     {
       onSuccess: res => {
-        console.log('voteDetail = ', res);
+        console.log('voteFormDetail = ', res);
       },
       onError: err => {
         console.log(err);
@@ -60,18 +62,39 @@ function VoteDetailModal({
     },
   );
 
+  const voteChoiceMutation = useMutation(
+    async () => {
+      let choices = selectedOption[0];
+      if (selectedOption.length > 1) {
+        choices = selectedOption.reduce((acc, curr) => `${acc},${curr}`);
+      }
+      const sendChoices = { vote: choices };
+      const result = vote.vote(crewInfo.crew.crew_crewId, voteFormId, sendChoices);
+      return result;
+    },
+    {
+      onSuccess: res => {
+        console.log(res);
+        openResultModal({
+          isOpen: true,
+          crewId: crewInfo.crew.crew_crewId,
+          voteFormId,
+        });
+        closeModal();
+      },
+    },
+  );
+
   const saveSelectedOptionFunc = (input: string): void => {
     if (selectedOption.length === 0 || Number(voteDetail?.multipleVotes) === 0) {
       setSelectedOption([input]);
     }
     if (Number(voteDetail?.multipleVotes) === 1 && selectedOption.length > 0) {
-      console.log('멀티 투표 가능');
       setSelectedOption((prev: string[]) => [...prev, input]);
     }
   };
 
   const unCheckSelectedOptionFunc = (input: string): void => {
-    console.log('삭제');
     setSelectedOption((prev: string[]) => {
       const changedArray = prev.filter(item => item !== input);
       return changedArray;
@@ -120,6 +143,7 @@ function VoteDetailModal({
               if (selectedOption.includes(item!)) {
                 return (
                   <OptionItem
+                    key={item}
                     item={item!}
                     unSelectOption={unCheckSelectedOptionFunc}
                     selectOption={saveSelectedOptionFunc}
@@ -127,14 +151,19 @@ function VoteDetailModal({
                   />
                 );
               }
-              return <OptionItem item={item!} selectOption={saveSelectedOptionFunc} />;
+              return <OptionItem key={item} item={item!} selectOption={saveSelectedOptionFunc} />;
             }
             return null;
           })}
         </section>
         <div className="margin-72-758" />
         <section id="vote-detail-main-btn">
-          <VoteBtn disabled={selectedOption.length === 0}>
+          <VoteBtn
+            disabled={selectedOption.length === 0}
+            onClick={() => {
+              voteChoiceMutation.mutate();
+            }}
+          >
             <heading.BodyBaseBold>투표하기</heading.BodyBaseBold>
           </VoteBtn>
         </section>

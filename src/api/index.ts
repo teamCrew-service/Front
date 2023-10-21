@@ -130,12 +130,23 @@ export const noitce = {
 };
 
 export const voteform = {
-  createVote: async (crewId: string, voteInfo: myInterface.VoteInfo) => {
-    const { data } = await instance.post(`api/voteform/${crewId}/createVoteForm`, voteInfo);
+  createVote: async (crewId: string, voteFormInfo: myInterface.VoteInfo) => {
+    const { data } = await instance.post(`api/voteform/${crewId}/createVoteForm`, voteFormInfo);
     return data;
   },
-  getVoteDetail: async <T = myInterface.VoteInfo>(crewId: string, voteId: string): Promise<T> => {
-    const { data } = await instance.get(`api/voteform/${crewId}/${voteId}`);
+  getVoteFormDetail: async <T = myInterface.VoteInfo>(crewId: string, voteFormId: string): Promise<T> => {
+    const { data } = await instance.get(`api/voteform/${crewId}/${voteFormId}`);
+    return data;
+  },
+};
+
+export const vote = {
+  vote: async (crewId: string, voteFormId: string, choice: { vote: string }) => {
+    const { data } = await instance.post(`api/vote/${crewId}/${voteFormId}`, choice);
+    return data;
+  },
+  getVoteResult: async (crewId: string, voteFormId: string) => {
+    const { data } = await instance.get(`api/vote/${crewId}/${voteFormId}`);
     return data;
   },
 };

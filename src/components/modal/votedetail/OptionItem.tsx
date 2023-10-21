@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import colors from '../../../assets/styles/color';
 import heading from '../../../styledComponent/heading';
+import icons from '../../../assets/icons';
 
 const OptionContainer = styled.div`
   display: flex;
@@ -15,8 +16,16 @@ const OptionContainer = styled.div`
   border-radius: 4px;
 `;
 
-const SelectedContainer = styled(OptionContainer)`
-  background-color: ${colors.primary};
+const CheckBox = styled.div`
+  height: 100%;
+  aspect-ratio: 1;
+  border-radius: 3px;
+  border: 1px solid ${colors.gray700};
+  overflow: hidden;
+`;
+
+const SelectedBox = styled(CheckBox)`
+  border: none;
 `;
 
 function OptionItem({
@@ -32,13 +41,16 @@ function OptionItem({
 }): JSX.Element {
   if (selected) {
     return (
-      <SelectedContainer
+      <OptionContainer
         onClick={() => {
           unSelectOption(item);
         }}
       >
+        <SelectedBox>
+          <icons.CheckBox width="100%" height="100%" />
+        </SelectedBox>
         <heading.BodyLargeBold>{item}</heading.BodyLargeBold>
-      </SelectedContainer>
+      </OptionContainer>
     );
   }
   return (
@@ -47,6 +59,7 @@ function OptionItem({
         selectOption(item);
       }}
     >
+      <CheckBox />
       <heading.BodyLargeBold>{item}</heading.BodyLargeBold>
     </OptionContainer>
   );
