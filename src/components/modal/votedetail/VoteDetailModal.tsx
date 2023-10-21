@@ -45,10 +45,12 @@ function VoteDetailModal({
   crewInfo,
   voteFormId,
   closeModal,
+  refetch,
   openResultModal,
 }: {
   crewInfo: MemberDetail;
   voteFormId: string;
+  refetch: any;
   closeModal: () => void;
   openResultModal: (input: VoteResultInfo) => void;
 }): JSX.Element {
@@ -89,6 +91,7 @@ function VoteDetailModal({
           crewId: crewInfo.crew.crew_crewId,
           voteFormId,
         });
+        refetch();
         closeModal();
       },
     },

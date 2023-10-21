@@ -281,6 +281,7 @@ function Detail(): JSX.Element {
       {/* 3 - 2. 되는 시간 투표 모달 */}
       {openVoteDetailModal.isOpen && (
         <VoteDetailModal
+          refetch={refetch}
           crewInfo={crewInfo!.result}
           voteFormId={openVoteDetailModal.voteFormId!}
           closeModal={closeVoteDetailModalFunc}
