@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 import BodySmallMedium from '../../../styledComponent/heading/BodySmallMedium';
 import ButtonDiv from '../../../styledComponent/ButtonDiv';
@@ -21,11 +21,9 @@ import { login } from '../../../api';
 
 function Nickname(): JSX.Element {
   const navigate = useNavigate();
-  const [userNickname, setUserNickname] = useState<string>('');
+  const [userNickname, setUserNickname] = useRecoilState(nickName);
 
-  const setNickName = useSetRecoilState(nickName);
-
-  const setNickname = (event: any): void => {
+  const saveNicknameFunc = (event: any): void => {
     setUserNickname(event.target.value);
   };
 
@@ -33,14 +31,14 @@ function Nickname(): JSX.Element {
     login
       .nickCheck(userNickname)
       .then(() => {
-        setNickName(userNickname);
+        console.log('저장된 닉네임 = ', userNickname);
         navigate('/login/birthday');
       })
       .catch(() => {});
   };
 
   const goPrevPage = (): void => {
-    setNickName('');
+    setUserNickname('');
     navigate('/login/category');
   };
 
@@ -61,7 +59,7 @@ function Nickname(): JSX.Element {
         </section>
         <section>
           <ButtonDiv>
-            <StyledInput onChange={setNickname} required type="text" />
+            <StyledInput value={userNickname} onChange={saveNicknameFunc} required type="text" />
           </ButtonDiv>
         </section>
         <section style={{ marginTop: 'auto', marginBottom: '60px' }}>

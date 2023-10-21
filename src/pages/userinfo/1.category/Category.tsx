@@ -32,6 +32,7 @@ function Category(): JSX.Element {
   const saveSelectedCategory = (): void => {
     // eslint-disable-next-line array-callback-return
     const saveItem = selectedCategoryList.reduce((acc, curr) => `${acc},${curr}`);
+    console.log('저장된 카테고리 = ', saveItem);
     setCategory(saveItem);
   };
 

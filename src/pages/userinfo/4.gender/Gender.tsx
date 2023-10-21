@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { useRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 import ProgressBar from '../../../components/common/ProgressBar';
 import icons from '../../../assets/icons';
 import ButtonDiv from '../../../styledComponent/ButtonDiv';
@@ -7,9 +8,12 @@ import colors from '../../../assets/styles/color';
 import SmallCardDiv from '../../../styledComponent/SmallCardDiv';
 import BodyLargeBold from '../../../styledComponent/heading/BodyLargeBold';
 import TitleLargeBold from '../../../styledComponent/heading/TitleLargeBold';
+import { userGender } from '../../../atoms/login';
 
 function Gender(): JSX.Element {
-  const [gender, setGender] = useState<string>('');
+  const navigate = useNavigate();
+  const [gender, setGender] = useRecoilState(userGender);
+
   const changeClickedDivStyle = (event: any): void => {
     const { target } = event;
     if (gender === ``) {
@@ -42,9 +46,17 @@ function Gender(): JSX.Element {
       }
     }
   };
-  const saveGender = (): void => {
-    sessionStorage.setItem('gender', gender);
+
+  const goPrevFunc = (): void => {
+    setGender('');
+    navigate('/login/birthday');
   };
+
+  const goNextFunc = (): void => {
+    console.log('저장된 성별 = ', gender);
+    navigate('/login/profile');
+  };
+
   return (
     <>
       <header>
@@ -52,9 +64,7 @@ function Gender(): JSX.Element {
       </header>
       <main id="userinfo-main">
         <section style={{ width: 'fit-content', height: 'fit-content' }}>
-          <Link to="/login/birthday">
-            <icons.chevronLeft style={{ cursor: 'pointer' }} />
-          </Link>
+          <icons.chevronLeft style={{ cursor: 'pointer' }} onClick={goPrevFunc} />
         </section>
         <section>
           <TitleLargeBold>성별</TitleLargeBold>
@@ -70,21 +80,8 @@ function Gender(): JSX.Element {
         </section>
         <section style={{ marginTop: 'auto', marginBottom: '60px' }}>
           {gender !== '' ? (
-            <ButtonDiv onClick={saveGender}>
-              <Link
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  width: '100%',
-                  height: '100%',
-                  color: 'inherit',
-                  textDecoration: 'none',
-                }}
-                to="/login/profile"
-              >
-                <BodyLargeBold>다음</BodyLargeBold>
-              </Link>
+            <ButtonDiv onClick={goNextFunc}>
+              <BodyLargeBold>다음</BodyLargeBold>
             </ButtonDiv>
           ) : (
             <ButtonDiv style={{ backgroundColor: `${colors.gray200}`, color: `${colors.gray400}` }}>

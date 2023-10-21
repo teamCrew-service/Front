@@ -28,21 +28,24 @@ const ImageDiv = styled.div`
 `;
 
 function Profile(): JSX.Element {
-  const [profile, setProfile] = useState<string>(defaultImage);
+  const [profileURL, setProfileURL] = useState<string>(defaultImage);
   const [isProfileSet, setIsProfileSet] = useState<boolean>(false);
-  const sendImageForServer = useRef<File | null>(null);
+
+  const sendImageForServer = useRef<Blob | null>(null);
+
   // file에서 부터 url 추출
   const readURL = (file: File): void => {
     const reader = new FileReader();
-    reader.onload = function () {
+    reader.onload = () => {
       console.log(reader.result);
       if (reader.result === null) return;
       if (typeof reader.result === 'string') {
-        setProfile(reader.result);
+        setProfileURL(reader.result);
       }
     };
     reader.readAsDataURL(file);
   };
+
   // 이미지 변환 시 작동하는 함수
   const changeProfile = (): void => {
     const fileInput = document.createElement('input');
@@ -51,20 +54,19 @@ function Profile(): JSX.Element {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     fileInput.addEventListener('change', async () => {
       if (fileInput.files === null) return;
-      console.log('before file', fileInput.files[0]);
-      console.log('before size', fileInput.files[0].size / 1024);
       const file = await useResizeImage(fileInput.files[0]);
-      console.log('after file', file);
-      console.log('after size', file.size / 1024);
       readURL(file);
+      console.log('Blob파일 = ', file);
       sendImageForServer.current = file;
       setIsProfileSet(true);
     });
     fileInput.click();
   };
+
   const saveProfile = (): void => {
-    sessionStorage.setItem('profile', profile);
+    sessionStorage.setItem('profile', profileURL);
   };
+
   return (
     <>
       <header>
@@ -104,7 +106,7 @@ function Profile(): JSX.Element {
             }}
           >
             <ImageDiv onClick={changeProfile}>
-              <img src={profile} alt="profile" width="100%" height="100%" style={{ borderRadius: '50%' }} />
+              <img src={profileURL} alt="profile" width="100%" height="100%" style={{ borderRadius: '50%' }} />
             </ImageDiv>
             <div style={{ marginTop: '11.36%' }}>
               <TitleLargeBold>김크루</TitleLargeBold>

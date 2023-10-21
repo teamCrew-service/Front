@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Mousewheel } from 'swiper/modules';
+import { useRecoilState } from 'recoil';
 import ProgressBar from '../../../components/common/ProgressBar';
-import icons from '../../../assets/icons';
-import BodySmallMedium from '../../../styledComponent/heading/BodySmallMedium';
-import ButtonDiv from '../../../styledComponent/ButtonDiv';
-import colors from '../../../assets/styles/color';
 
+import ButtonDiv from '../../../styledComponent/ButtonDiv';
+
+import icons from '../../../assets/icons';
+import colors from '../../../assets/styles/color';
+import heading from '../../../styledComponent/heading';
+
+import { birtYear } from '../../../atoms/login';
+
+import 'swiper/css';
 import '../style.css';
-import TitleLargeBold from '../../../styledComponent/heading/TitleLargeBold';
-import BodyLargeBold from '../../../styledComponent/heading/BodyLargeBold';
 
 const StyledContainer = styled.div`
   position: relative;
@@ -44,17 +48,27 @@ const StyleOption = styled.div`
 `;
 
 function Birthday(): JSX.Element {
+  const navigate = useNavigate();
   const yearList = [1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000];
   const [open, setOpen] = useState<boolean>(false);
-  const [birthYear, setBirthYear] = useState<string>('');
+  const [myBirthYear, setMyBirthYear] = useRecoilState(birtYear);
 
   const openSelectWindow = (): void => {
     setOpen(true);
   };
 
   const closeSelectWindow = (): void => {
-    sessionStorage.setItem('birthyear', birthYear);
     setOpen(false);
+  };
+
+  const goPrevFunc = (): void => {
+    setMyBirthYear('');
+    navigate('/login/nickname');
+  };
+
+  const goNextFunc = (): void => {
+    console.log('저장된 출생년도 = ', myBirthYear);
+    navigate('/login/gender');
   };
 
   return (
@@ -64,41 +78,28 @@ function Birthday(): JSX.Element {
       </header>
       <main id="userinfo-main">
         <section style={{ width: 'fit-content', height: 'fit-content' }}>
-          <Link to="/login/nickname">
-            <icons.chevronLeft style={{ cursor: 'pointer' }} />
-          </Link>
+          <icons.chevronLeft style={{ cursor: 'pointer' }} onClick={goPrevFunc} />
         </section>
         <section>
-          <TitleLargeBold>연령대</TitleLargeBold>
-          <BodySmallMedium style={{ color: `${colors.gray700}` }}>정확한 생년월일을 선택해주세요</BodySmallMedium>
+          <heading.TitleLargeBold>연령대</heading.TitleLargeBold>
+          <heading.BodySmallMedium style={{ color: `${colors.gray700}` }}>
+            정확한 생년월일을 선택해주세요
+          </heading.BodySmallMedium>
         </section>
         <section>
           <ButtonDiv onClick={openSelectWindow} style={{ backgroundColor: `${colors.primary50}`, color: 'black' }}>
-            <div style={{ width: 'calc(100% - 16px)' }}>{birthYear}</div>
+            <heading.BodyBaseMedium>{myBirthYear}</heading.BodyBaseMedium>
           </ButtonDiv>
         </section>
         <section style={{ marginTop: 'auto', marginBottom: `${open ? '0px' : '60px'}` }}>
-          {!open && birthYear !== '' && (
-            <ButtonDiv>
-              <Link
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  width: '100%',
-                  height: '100%',
-                  color: 'inherit',
-                  textDecoration: 'none',
-                }}
-                to="/login/gender"
-              >
-                <BodyLargeBold>다음</BodyLargeBold>
-              </Link>
+          {!open && myBirthYear !== '' && (
+            <ButtonDiv onClick={goNextFunc}>
+              <heading.BodyLargeBold>다음</heading.BodyLargeBold>
             </ButtonDiv>
           )}
-          {!open && birthYear === '' && (
+          {!open && myBirthYear === '' && (
             <ButtonDiv style={{ backgroundColor: `${colors.gray200}`, color: `${colors.gray400}` }}>
-              <BodyLargeBold>생년월일을 선택해주세요</BodyLargeBold>
+              <heading.BodyLargeBold>생년월일을 선택해주세요</heading.BodyLargeBold>
             </ButtonDiv>
           )}
         </section>
@@ -124,10 +125,10 @@ function Birthday(): JSX.Element {
                 centeredSlides
                 onSwiper={swiper => {
                   // eslint-disable-next-line no-param-reassign
-                  swiper.activeIndex = swiper.slides.findIndex(slide => slide.innerText === birthYear);
+                  swiper.activeIndex = swiper.slides.findIndex(slide => slide.innerText === myBirthYear);
                 }}
                 onSlideChange={swiper => {
-                  setBirthYear(swiper.slides[swiper.activeIndex].innerText);
+                  setMyBirthYear(swiper.slides[swiper.activeIndex].innerText);
                 }}
               >
                 {yearList.map(item => (

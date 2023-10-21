@@ -59,7 +59,6 @@ function InterestMatrix({
         return (
           <SmallCardDiv
             onClick={() => {
-              console.log(item.name);
               onClick(item.name);
             }}
             key={item.code}
