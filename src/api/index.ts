@@ -105,6 +105,10 @@ export const signUp = {
     const { data } = await instance.get(`api/signup/${id}`);
     return data;
   },
+  permitSignUp: async (signUpId: number, choice: boolean) => {
+    const { data } = await instance.put(`/api/signup/${signUpId}/confirmsignup`, { permission: choice });
+    return data;
+  },
 };
 
 export const myCrew = {

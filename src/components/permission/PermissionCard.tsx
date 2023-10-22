@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { useMutation } from 'react-query';
 import heading from '../../styledComponent/heading';
 import colors from '../../assets/styles/color';
 
 import type { SingUpItemForm } from '../../assets/interfaces';
 import ProfileDiv from '../../styledComponent/ProfileDiv';
+import { signUp } from '../../api';
 
 const CardContainer = styled.div`
   display: flex;
@@ -92,7 +94,28 @@ const AcceptBtn = styled(BtnStyled)`
   color: ${colors.primary};
 `;
 
-function PermissionCard({ signUpItem, index }: { signUpItem: SingUpItemForm; index: number }): JSX.Element {
+function PermissionCard({
+  signUpItem,
+  index,
+  refetch,
+}: {
+  signUpItem: SingUpItemForm;
+  index: number;
+  refetch: any;
+}): JSX.Element {
+  const permitSignUpMutation = useMutation(
+    async (choice: boolean) => {
+      const data = await signUp.permitSignUp(signUpItem.signupId, choice);
+      return data;
+    },
+    {
+      onSuccess: res => {
+        console.log(res);
+        refetch();
+      },
+    },
+  );
+
   return (
     <CardContainer>
       <TitleBox>
@@ -128,10 +151,18 @@ function PermissionCard({ signUpItem, index }: { signUpItem: SingUpItemForm; ind
         </ContentBox>
       </SignUpInfoBox>
       <BtnBox>
-        <DenyBtn>
+        <DenyBtn
+          onClick={() => {
+            permitSignUpMutation.mutate(false);
+          }}
+        >
           <heading.BodySmallBold>거절</heading.BodySmallBold>
         </DenyBtn>
-        <AcceptBtn>
+        <AcceptBtn
+          onClick={() => {
+            permitSignUpMutation.mutate(true);
+          }}
+        >
           <heading.BodySmallBold>수락</heading.BodySmallBold>
         </AcceptBtn>
       </BtnBox>

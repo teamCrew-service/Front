@@ -15,7 +15,11 @@ function Permission(): JSX.Element {
   const navigate = useNavigate();
   const { crewId } = useLocation().state;
 
-  const { data: signUpList, isLoading } = useQuery(
+  const {
+    data: signUpList,
+    isLoading,
+    refetch,
+  } = useQuery(
     'getSignUpList',
     async () => {
       const result = signUp.getTotalSignUpList(crewId);
@@ -43,7 +47,7 @@ function Permission(): JSX.Element {
         <div style={{ width: '24px' }} />
       </header>
       <main id="permission-main">
-        {signUpList?.map((item, index) => <PermissionCard signUpItem={item} index={index} />)}
+        {signUpList?.map((item, index) => <PermissionCard signUpItem={item} index={index} refetch={refetch} />)}
       </main>
     </>
   );
