@@ -294,6 +294,7 @@ function Detail(): JSX.Element {
           crewId={openVoteResultModal.crewId!}
           voteFormId={openVoteResultModal.voteFormId!}
           closeModal={closeVoteResultModalFunc}
+          captainId={crewInfo!.result.crew.captainId}
         />
       )}
       {/* -------------------------------------------- */}

@@ -109,7 +109,7 @@ export const signUp = {
 
 export const myCrew = {
   // 가입한 크루 리스트 가져오기
-  getJoinedCrew: async <T = myInterface.JoinedCrewList>(): Promise<T> => {
+  getJoinedCrew: async <T = myInterface.SearchByCategory[]>(): Promise<T> => {
     const { data } = await instance.get('api/mycrew/joinedcrew');
     return data;
   },
@@ -153,7 +153,7 @@ export const vote = {
     const { data } = await instance.post(`api/vote/${crewId}/${voteFormId}`, choice);
     return data;
   },
-  getVoteResult: async (crewId: string, voteFormId: string) => {
+  getVoteResult: async <T = myInterface.VoteResult>(crewId: string, voteFormId: string): Promise<T> => {
     const { data } = await instance.get(`api/vote/${crewId}/${voteFormId}`);
     return data;
   },

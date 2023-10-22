@@ -63,6 +63,19 @@ export interface VoteForm {
   voteFormTitle: string;
   alreadyVote: number;
 }
+export interface Vote {
+  crewId: string;
+  nickname: string;
+  profileImage: string;
+  userId: string;
+  vote: string;
+  voteFormId: string;
+  voteId: string;
+}
+export interface VoteResult {
+  voteForm: VoteInfo;
+  vote: Vote[];
+}
 // 공지 리스트
 export interface AllNotice {
   // 일반 공지
@@ -219,11 +232,6 @@ export interface Spot extends SearchByCategory {
 // ------------------------------------
 
 // 내 크루 ------------------------------
-// 참여중 크루 리스트
-export interface JoinedCrewList {
-  joinedCrew: SearchByCategory[];
-}
-
 // 내가 만든 크루 리스트
 export interface MyCreatedCrew extends SearchByCategory {
   existSignup: string;
