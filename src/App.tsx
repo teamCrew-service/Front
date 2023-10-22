@@ -22,6 +22,7 @@ import Chat from './pages/detail/nav/Chat';
 import CreateCrew from './pages/createcrew/CreateCrew';
 import MyCrew from './pages/mycrew/MyCrew';
 import Permission from './pages/permission/Permission';
+import MyPage from './pages/mypage/MyPage';
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,7 @@ function App(): JSX.Element {
               <Route path="/login/location" element=<Location /> />
               <Route path="/home" element=<Home /> />
               <Route path="/mycrew" element=<MyCrew /> />
+              <Route path="/mypage" element=<MyPage /> />
               <Route path="/findcrew" element=<FindCrew /> />
               <Route path="/detail/:id" element=<Detail /> />
               <Route path="/upcomingschedule" element=<UpcomingSchedule /> />
