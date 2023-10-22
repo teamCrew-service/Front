@@ -9,8 +9,16 @@ interface Message {
 
 export const login = {
   // 최초 로그인 시 추가 정보 입력
-  firstLogin: async <T = Message>(information: myInterface.Information): Promise<T> => {
-    const { data } = await instance.put<T>('api/auth/info', information);
+  firstLogin: async <T = Message>(file: Blob, information: myInterface.Information): Promise<T> => {
+    const formData = new FormData();
+    formData.append('files', file);
+    formData.append('topicAndInfoDto', JSON.stringify(information));
+    const { data } = await instance.put<T>('api/auth/info', formData, {
+      headers: {
+        Accept: '*/*',
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return data;
   },
   // 닉네임 중복 체크

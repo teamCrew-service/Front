@@ -30,3 +30,8 @@ export const userContent = atom<string>({
   key: 'userContentState',
   default: '',
 });
+
+export const userLocation = atom<{ lat: number; lng: number; location: string }>({
+  key: 'userLocationState',
+  default: { lat: 37.556, lng: 126.9723, location: '' },
+});

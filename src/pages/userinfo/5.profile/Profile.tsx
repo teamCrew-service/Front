@@ -84,12 +84,12 @@ function Profile(): JSX.Element {
       <main id="userinfo-main">
         <section style={{ display: 'flex', justifyContent: 'space-between', width: '100%', height: 'fit-content' }}>
           <icons.chevronLeft style={{ cursor: 'pointer' }} onClick={goPrevFunc} />
-          {profile === null && <StyledP onClick={goNextFunc}>건너뛰기</StyledP>}
+          {profile.file === null && <StyledP onClick={goNextFunc}>건너뛰기</StyledP>}
         </section>
         <section>
-          <TitleLargeBold>{profile === null ? '프로필 사진' : '프로필 미리보기'}</TitleLargeBold>
+          <TitleLargeBold>{profile.file === null ? '프로필 사진' : '프로필 미리보기'}</TitleLargeBold>
           <BodySmallMedium style={{ color: `${colors.gray700}` }}>
-            {profile === null
+            {profile.file === null
               ? '나만의 개성과 취향이 잘 드러나는 사진을 등록해주세요'
               : '다른 친구들이 내 프로필을 클릭했을 때 보게될 프로필입니다'}
           </BodySmallMedium>
