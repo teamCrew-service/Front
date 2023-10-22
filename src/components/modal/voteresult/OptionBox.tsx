@@ -3,6 +3,9 @@ import styled from 'styled-components';
 
 import heading from '../../../styledComponent/heading';
 import colors from '../../../assets/styles/color';
+
+import ProfileDiv from '../../../styledComponent/ProfileDiv';
+
 import type { Vote } from '../../../assets/interfaces';
 
 const OptionContainer = styled.div`
@@ -29,16 +32,6 @@ const UserBox = styled.div`
   width: 100%;
   height: 32px;
   gap: 8px;
-`;
-
-const ImageBox = styled.div<{ profile: string }>`
-  height: 100%;
-  aspect-ratio: 1;
-  background-image: url(${props => props.profile});
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  border-radius: 50%;
 `;
 
 const HostDiv = styled.div`
@@ -112,7 +105,7 @@ function OptionBox({
       </TitleBox>
       {userList.map((item: Vote) => (
         <UserBox key={item.voteId}>
-          <ImageBox profile={item.profileImage} />
+          <ProfileDiv profile={item.profileImage} />
           <heading.BodyBaseBold>{item.nickname}</heading.BodyBaseBold>
           {item.userId === String(captainId) && (
             <HostDiv>

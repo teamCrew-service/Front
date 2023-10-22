@@ -259,7 +259,8 @@ export interface SingUpItemForm {
   answer2: string;
   permission: null;
   createdAt: string;
-  interestTopic: string[];
+  interestTopics: string[];
+  profileImage?: string;
 }
 
 // 투표 결과 표시 상태 Type
