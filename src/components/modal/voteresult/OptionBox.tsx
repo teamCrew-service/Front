@@ -41,6 +41,15 @@ const ImageBox = styled.div<{ profile: string }>`
   border-radius: 50%;
 `;
 
+const HostDiv = styled.div`
+  width: 35px;
+  height: 20px;
+  border-radius: 4px;
+  background-color: ${colors.primary50};
+  color: ${colors.primary};
+  padding: 4px;
+`;
+
 function OptionBox({
   voteResult,
   option,
@@ -105,7 +114,11 @@ function OptionBox({
         <UserBox key={item.voteId}>
           <ImageBox profile={item.profileImage} />
           <heading.BodyBaseBold>{item.nickname}</heading.BodyBaseBold>
-          {item.userId === String(captainId) && <heading.CaptionXS>호스트</heading.CaptionXS>}
+          {item.userId === String(captainId) && (
+            <HostDiv>
+              <heading.CaptionXS>호스트</heading.CaptionXS>
+            </HostDiv>
+          )}
         </UserBox>
       ))}
     </OptionContainer>
