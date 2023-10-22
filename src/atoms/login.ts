@@ -33,5 +33,6 @@ export const userContent = atom<string>({
 
 export const userLocation = atom<{ lat: number; lng: number; location: string }>({
   key: 'userLocationState',
+  // 초기 위치 : 서울역
   default: { lat: 37.556, lng: 126.9723, location: '' },
 });
