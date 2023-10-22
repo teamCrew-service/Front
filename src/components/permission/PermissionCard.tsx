@@ -60,6 +60,12 @@ const ContentBox = styled.div`
 `;
 
 const InterestBox = styled.div`
+  display: flex;
+  gap: 6px;
+  width: fit-content;
+`;
+
+const InterestItem = styled.div`
   width: fit-content;
   height: fit-content;
   padding: 4px 10px;
@@ -99,22 +105,26 @@ function PermissionCard({ signUpItem, index }: { signUpItem: SingUpItemForm; ind
         </heading.BodyLargeBold>
       </TitleBox>
       <SignUpInfoBox>
-        <heading.BodySmallMedium>{signUpItem.location}</heading.BodySmallMedium>
+        <heading.BodySmallMedium style={{ color: `${colors.gray500}` }}>
+          {new Date().getFullYear() - signUpItem.age} {signUpItem.location}
+        </heading.BodySmallMedium>
         <ContentBox>
           <heading.BodySmallBold>자기 소개 또는 가입 동기</heading.BodySmallBold>
-          <heading.BodySmallMedium>{signUpItem.answer1}</heading.BodySmallMedium>
+          <heading.BodySmallMedium style={{ color: `${colors.gray500}` }}>{signUpItem.answer1}</heading.BodySmallMedium>
         </ContentBox>
         <ContentBox>
           <heading.BodySmallBold>나를 표현하는 3가지 형용사</heading.BodySmallBold>
-          <heading.BodySmallMedium>{signUpItem.answer2}</heading.BodySmallMedium>
+          <heading.BodySmallMedium style={{ color: `${colors.gray500}` }}>{signUpItem.answer2}</heading.BodySmallMedium>
         </ContentBox>
         <ContentBox>
           <heading.BodySmallBold>관심사</heading.BodySmallBold>
-          {signUpItem.interestTopics.map(item => (
-            <InterestBox key={item}>
-              <heading.BodySmallMedium>{item}</heading.BodySmallMedium>
-            </InterestBox>
-          ))}
+          <InterestBox>
+            {signUpItem.interestTopics.map(item => (
+              <InterestItem key={item}>
+                <heading.BodySmallMedium>{item}</heading.BodySmallMedium>
+              </InterestItem>
+            ))}
+          </InterestBox>
         </ContentBox>
       </SignUpInfoBox>
       <BtnBox>
