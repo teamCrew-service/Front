@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import type { MemberDetail, Schedule } from '../../../assets/interfaces';
+import type { MemberDetail, Schedule, VoteCreateInfo, VoteResultInfo } from '../../../assets/interfaces';
 
 import heading from '../../../styledComponent/heading';
 
@@ -28,32 +28,33 @@ import NoScheduleCard from '../NoScheduleCard';
 import Location from '../role/Location';
 
 function Long({
+  page,
+  changePage,
   crewInfo,
   infoOpen,
   closeInfoWindow,
   openInfoWindow,
   saveAddress,
   recentSchedule,
+  openNoticeDetailModal,
+  openVoteDetailModal,
+  openVoteResultModal,
 }: {
+  page: string;
+  changePage: (input: string) => void;
   crewInfo: MemberDetail;
   infoOpen: boolean;
   closeInfoWindow: () => void;
   openInfoWindow: () => void;
   saveAddress: (input: string) => void;
   recentSchedule: Schedule | null;
+  openNoticeDetailModal: (input: string) => void;
+  openVoteDetailModal: (input: VoteCreateInfo) => void;
+  openVoteResultModal: (input: VoteResultInfo) => void;
 }): JSX.Element {
-  const [page, setPage] = useState<string>('모임정보');
   const [showCalendarEvent, setShowCalendarEvent] = useState<boolean>(false);
   const [eventInfo, setEventInfo] = useState<Schedule | null>(null);
 
-  const changePage = (goPage: string): void => {
-    if (goPage !== '모임정보' && crewInfo?.personType === 'person') {
-      alert('크루 멤버만 볼 수 있는 페이지 입니다.');
-      return;
-    }
-
-    setPage(goPage);
-  };
   const openCalendarEvent = (input: any): void => {
     setEventInfo(input);
     setShowCalendarEvent(true);
@@ -290,7 +291,14 @@ function Long({
             </div>
           </>
         )}
-        {page === '공지' && <NoticeContent crewInfo={crewInfo} />}
+        {page === '공지' && (
+          <NoticeContent
+            crewInfo={crewInfo}
+            openNoticeDetailModal={openNoticeDetailModal}
+            openVoteDetailModal={openVoteDetailModal}
+            openVoteResultModal={openVoteResultModal}
+          />
+        )}
         {page === '일정' && <ScheduleContent crewInfo={crewInfo} />}
         {page === '크루챗' && <Chat />}
       </section>

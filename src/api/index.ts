@@ -2,15 +2,26 @@ import type { AxiosResponse } from 'axios';
 import type * as myInterface from '../assets/interfaces';
 import instance from './instance';
 
+// 응답 메세지
 interface Message {
   message: string;
 }
 
 export const login = {
-  firstLogin: async <T = Message>(information: myInterface.Information): Promise<T> => {
-    const { data } = await instance.put<T>('api/auth/info', information);
+  // 최초 로그인 시 추가 정보 입력
+  firstLogin: async <T = Message>(file: Blob, information: myInterface.Information): Promise<T> => {
+    const formData = new FormData();
+    formData.append('files', file);
+    formData.append('topicAndInfoDto', JSON.stringify(information));
+    const { data } = await instance.put<T>('api/auth/info', formData, {
+      headers: {
+        Accept: '*/*',
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return data;
   },
+  // 닉네임 중복 체크
   nickCheck: async <T = Message>(nickname: string): Promise<T> => {
     const { data } = await instance.post<T>('api/nickname', { nickname });
     return data;
@@ -18,6 +29,7 @@ export const login = {
 };
 
 export const navermap = {
+  // 내 주변 모임 찾기
   findcrew: async (): Promise<myInterface.Spot[]> => {
     const { data } = await instance.get<myInterface.Spot[]>('api/home/map');
     return data;
@@ -25,14 +37,17 @@ export const navermap = {
 };
 
 export const crew = {
+  // 크루 상세 정보
   getDetail: async <T = myInterface.MemberDetail>(crewId: string): Promise<T> => {
     const { data } = await instance.get<T>(`api/crew/${crewId}`);
     return data;
   },
+  // 모임 가입
   signUp: async <T = Message>(crewId: string): Promise<T> => {
     const { data } = await instance.post<T>(`api/signup/${crewId}`);
     return data;
   },
+  // 모임 생성
   makeCrew: async (file: Blob, payload: myInterface.MakeCrew) => {
     const formData = new FormData();
     formData.append('files', file);
@@ -47,17 +62,8 @@ export const crew = {
   },
 };
 
-export const notice = {
-  getNoticeList: async <T = myInterface.Notice[]>(): Promise<AxiosResponse<T>> =>
-    instance.get<T>('api/notice/comingDate'),
-  getUpcomingList: async (): Promise<myInterface.Notice[]> => {
-    const response: AxiosResponse = await instance.get('api/notice/comingDate');
-    const noticeData: myInterface.Notice[] = response.data;
-    return noticeData;
-  },
-};
-
 export const searchByCategory = {
+  // 관심사별 모임 찾기
   getSearchByCategory: async (category: string): Promise<myInterface.SearchByCategory[]> => {
     const response: AxiosResponse = await instance.get(`api/home/${category}`);
     const searchData: myInterface.SearchByCategory[] = response.data;
@@ -66,14 +72,17 @@ export const searchByCategory = {
 };
 
 export const schedule = {
+  // 일정 생성
   create: async <T = myInterface.Schedule>(crewId: number, info: T): Promise<T> => {
     const { data } = await instance.post<T>(`api/schedule/${crewId}/createSchedule`, info);
     return data;
   },
+  // 다가오는 일정 1개
   getComingDate: async <T = myInterface.ComingDate>(): Promise<T> => {
     const { data } = await instance.get('api/home/comingDate');
     return data;
   },
+  // 다가오는 일정 다가오는/참여 완료 리스트
   getWholeSchedule: async <T = myInterface.WholeComingDate>(): Promise<T> => {
     const { data } = await instance.get('api/home/wholeComingDate');
     return data;
@@ -81,27 +90,71 @@ export const schedule = {
 };
 
 export const signUp = {
+  // 가입 양식 가져오기
   getSignUpForm: async <T = myInterface.SignUpForm>(id: string): Promise<T> => {
     const { data } = await instance.get(`api/signupform/${id}`);
     return data;
   },
+  // 가입서 제출
   postSignUpForm: async (signupFormId: string, crewId: string, answer: { answer1: string; answer2: string }) => {
     const { data } = await instance.post(`api/signup/${signupFormId}/${crewId}/submit`, answer);
+    return data;
+  },
+  // 제출된 가입서 가져오기
+  getTotalSignUpList: async <T = myInterface.SingUpItemForm[]>(id: string): Promise<T> => {
+    const { data } = await instance.get(`api/signup/${id}`);
     return data;
   },
 };
 
 export const myCrew = {
-  getJoinedCrew: async <T = myInterface.JoinedCrewList>(): Promise<T> => {
+  // 가입한 크루 리스트 가져오기
+  getJoinedCrew: async <T = myInterface.SearchByCategory[]>(): Promise<T> => {
     const { data } = await instance.get('api/mycrew/joinedcrew');
     return data;
   },
+  // 대기중인 크루 리스트 가져오기
   getWaitingCrew: async <T = myInterface.SearchByCategory[]>(): Promise<T> => {
     const { data } = await instance.get('api/mycrew/waitingcrew');
     return data;
   },
+  // 내가 생성한 크루 리스트 가져오기
   getMyCreatedCrew: async <T = myInterface.MyCreatedCrew[]>(): Promise<T> => {
     const { data } = await instance.get('api/mycrew/mycreatedcrew');
+    return data;
+  },
+};
+
+export const noitce = {
+  createNotice: async (crewId: string, noticeInfo: myInterface.NoticeInfo) => {
+    const { data } = await instance.post(`api/notice/${crewId}/createNotice`, noticeInfo);
+    return data;
+  },
+
+  getNoticeDetail: async <T = myInterface.NoticeInfo>(crewId: string, noticeId: string): Promise<T> => {
+    const { data } = await instance.get(`api/notice/${crewId}/${noticeId}`);
+    return data;
+  },
+};
+
+export const voteform = {
+  createVote: async (crewId: string, voteFormInfo: myInterface.VoteInfo) => {
+    const { data } = await instance.post(`api/voteform/${crewId}/createVoteForm`, voteFormInfo);
+    return data;
+  },
+  getVoteFormDetail: async <T = myInterface.VoteInfo>(crewId: string, voteFormId: string): Promise<T> => {
+    const { data } = await instance.get(`api/voteform/${crewId}/${voteFormId}`);
+    return data;
+  },
+};
+
+export const vote = {
+  vote: async (crewId: string, voteFormId: string, choice: { vote: string }) => {
+    const { data } = await instance.post(`api/vote/${crewId}/${voteFormId}`, choice);
+    return data;
+  },
+  getVoteResult: async <T = myInterface.VoteResult>(crewId: string, voteFormId: string): Promise<T> => {
+    const { data } = await instance.get(`api/vote/${crewId}/${voteFormId}`);
     return data;
   },
 };

@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+
 import BodySmallMedium from '../../../styledComponent/heading/BodySmallMedium';
 import ButtonDiv from '../../../styledComponent/ButtonDiv';
 
@@ -10,25 +12,36 @@ import colors from '../../../assets/styles/color';
 
 import { StyledInput } from '../styled';
 
-import { login } from '../../../api';
 import TitleLargeBold from '../../../styledComponent/heading/TitleLargeBold';
 import BodyLargeBold from '../../../styledComponent/heading/BodyLargeBold';
 
+import { userNickName } from '../../../atoms/login';
+
+import { login } from '../../../api';
+
 function Nickname(): JSX.Element {
   const navigate = useNavigate();
-  const [userNickname, setUserNickname] = useState<string>('');
-  const setNickname = (event: any): void => {
-    setUserNickname(event.target.value);
+  const [nickname, setNickname] = useRecoilState(userNickName);
+
+  const saveNicknameFunc = (event: any): void => {
+    setNickname(event.target.value);
   };
+
   const saveUserNickname = (): void => {
     login
-      .nickCheck(userNickname)
+      .nickCheck(nickname)
       .then(() => {
-        sessionStorage.setItem('nickname', userNickname);
+        console.log('저장된 닉네임 = ', nickname);
         navigate('/login/birthday');
       })
       .catch(() => {});
   };
+
+  const goPrevPage = (): void => {
+    setNickname('');
+    navigate('/login/category');
+  };
+
   return (
     <>
       <header>
@@ -36,9 +49,7 @@ function Nickname(): JSX.Element {
       </header>
       <main id="userinfo-main">
         <section style={{ width: 'fit-content', height: 'fit-content' }}>
-          <Link to="/login/category">
-            <icons.chevronLeft style={{ cursor: 'pointer' }} />
-          </Link>
+          <icons.chevronLeft style={{ cursor: 'pointer' }} onClick={goPrevPage} />
         </section>
         <section>
           <TitleLargeBold>닉네임</TitleLargeBold>
@@ -48,11 +59,11 @@ function Nickname(): JSX.Element {
         </section>
         <section>
           <ButtonDiv>
-            <StyledInput onChange={setNickname} required type="text" />
+            <StyledInput value={nickname} onChange={saveNicknameFunc} required type="text" />
           </ButtonDiv>
         </section>
         <section style={{ marginTop: 'auto', marginBottom: '60px' }}>
-          {userNickname !== '' ? (
+          {nickname !== '' ? (
             <ButtonDiv onClick={saveUserNickname}>
               <BodyLargeBold>다음</BodyLargeBold>
             </ButtonDiv>

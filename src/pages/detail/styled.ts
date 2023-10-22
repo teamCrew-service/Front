@@ -144,3 +144,63 @@ export const InteractiveBtnContainer = styled.div`
   padding: 0 16px;
   justify-content: space-between;
 `;
+
+export const PlusBtnContainer = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
+export const PlusBtn = styled.div`
+  position: absolute;
+  top: -96px;
+  right: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: ${colors.primary};
+  cursor: pointer;
+  z-index: 1;
+`;
+
+export const CloseBtn = styled(PlusBtn)`
+  z-index: 3;
+`;
+
+export const PlusItemContainer = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  gap: 8px;
+  top: -184px;
+  right: 16px;
+  z-index: 3;
+`;
+
+export const ItemDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: fit-content;
+  height: 36px;
+  gap: 8px;
+  border-radius: 20px;
+  background-color: ${colors.gray100};
+  padding: 8px;
+  &:active {
+    background: linear-gradient(358deg, #ded6ff 29.86%, #ffea7d 48.8%, #e3ffef 78.25%);
+  }
+`;
+
+export const NonActiveWindow = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 2;
+`;

@@ -6,7 +6,6 @@ import { ReactComponent as chevronDown } from './chevronDown.svg';
 import { ReactComponent as chevronUp } from './chevronUp.svg';
 import { ReactComponent as chevronLeft } from './chevronLeft.svg';
 import { ReactComponent as chevronRight } from './chevronRight.svg';
-import { ReactComponent as close } from './close.svg';
 import { ReactComponent as heart } from './heart.svg';
 import { ReactComponent as Calendar } from './Calendar.svg';
 import { ReactComponent as Location } from './Location.svg';
@@ -14,6 +13,9 @@ import { ReactComponent as users } from './users.svg';
 import { ReactComponent as Mappin } from './Mappin.svg';
 import { ReactComponent as NavigationArrow } from './NavigationArrow.svg';
 import { ReactComponent as search } from './search.svg';
+
+import { ReactComponent as close } from './close.svg';
+import { ReactComponent as plus } from './plus.svg';
 
 import { ReactComponent as MeetCount } from './meetCount.svg';
 import { ReactComponent as CrewDuration } from './crewDuration.svg';
@@ -33,6 +35,18 @@ import { ReactComponent as NoSchedule } from './NoSchedule.svg';
 
 import { ReactComponent as MapCloseBtn } from './MapCloseBtn.svg';
 
+import { ReactComponent as PlusBtn } from './PlusBtn.svg';
+
+import { ReactComponent as CloseBtn } from './CloseBtn.svg';
+import { ReactComponent as VoteIcon } from './VoteIcon.svg';
+import { ReactComponent as MegaPhone } from './MegaPhone.svg';
+
+// 공지 상세 페이지
+import { ReactComponent as CalendarBlank } from './CalendarBlank.svg';
+
+// 투표 생성 페이지
+import { ReactComponent as CheckBox } from './CheckBox.svg';
+
 const icons = {
   TeamLogo,
   Kakao,
@@ -43,6 +57,7 @@ const icons = {
   chevronLeft,
   chevronRight,
   close,
+  plus,
   heart,
   Calendar,
   Location,
@@ -62,6 +77,12 @@ const icons = {
   UserCircle,
   NoSchedule,
   MapCloseBtn,
+  PlusBtn,
+  CloseBtn,
+  VoteIcon,
+  MegaPhone,
+  CalendarBlank,
+  CheckBox,
 };
 
 export default icons;

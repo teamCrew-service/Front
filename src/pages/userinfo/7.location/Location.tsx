@@ -1,15 +1,28 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { login } from '../../../api/index';
+
 import ProgressBar from '../../../components/common/ProgressBar';
+
 import icons from '../../../assets/icons';
-import BodySmallMedium from '../../../styledComponent/heading/BodySmallMedium';
+import heading from '../../../styledComponent/heading';
 import colors from '../../../assets/styles/color';
+
 import ButtonDiv from '../../../styledComponent/ButtonDiv';
 import SearchModal from '../../../components/modal/SearchModal';
-import TitleLargeBold from '../../../styledComponent/heading/TitleLargeBold';
+
+import { login } from '../../../api/index';
 import type { Information } from '../../../assets/interfaces';
+import {
+  userBirtYear,
+  userCategory,
+  userContent,
+  userGender,
+  userLocation,
+  userNickName,
+  userProfile,
+} from '../../../atoms/login';
 
 declare global {
   interface Window {
@@ -33,43 +46,56 @@ const StyledDiv = styled.div`
 
 function Location(): JSX.Element {
   const navigate = useNavigate();
-  const [myLatLng, setMyLatLng] = useState<{ lat: number; lng: number }>({ lat: 0, lng: 0 });
-  const [myAddress, setMyAddress] = useState<string>('');
-  // const [staticURL, setStaticURL] = useState<string>('');
+  const [location, setLocation] = useRecoilState(userLocation);
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const geocoder = useRef<typeof kakao.maps.services.Geocoder | null>(null);
+  const interest = useRecoilValue(userCategory);
+  const nickname = useRecoilValue(userNickName);
+  const birthYear = useRecoilValue(userBirtYear);
+  const gender = useRecoilValue(userGender);
+  const profile = useRecoilValue(userProfile);
+  const content = useRecoilValue(userContent);
 
   const openSearchModal = (): void => {
     setIsModalOpen(true);
   };
 
+  /*  result 예시
+    address_name: "전남 여수시 여서동 229-3"
+    category_group_code: "FD6"
+    category_group_name: "음식점"
+    category_name: "음식점 > 한식"
+    distance: ""
+    id: "9568967"
+    phone: ""
+    place_name: "1"
+    place_url: "http://place.map.kakao.com/9568967"
+    road_address_name: "전남 여수시 여문1로 43-13"
+    x: "127.70422781059138"
+    y: "34.75213182043442" 
+  */
+
   const closeSearchModal = (result: any): void => {
     setIsModalOpen(false);
-    if (result === undefined) return;
-    setMyLatLng({
-      lat: Number(result.y),
-      lng: Number(result.x),
-    });
+    setLocation({ lat: result.y, lng: result.x, location: result.place_name });
   };
 
   const saveLocation = (): void => {
-    sessionStorage.setItem('location', myAddress);
+    const interestTopic = interest.reduce((acc, curr) => `${acc},${curr}`);
     const information: Information = {
       addUserInfoDto: {
-        nickname: sessionStorage.getItem('nickname'),
-        age: sessionStorage.getItem('birthyear'),
-        gender: sessionStorage.getItem('gender'),
-        profileImage: sessionStorage.getItem('profile'),
-        myMessage: sessionStorage.getItem('introduction'),
-        location: sessionStorage.getItem('location'),
+        nickname,
+        age: birthYear,
+        gender,
+        myMessage: content,
+        location: location.location,
       },
       topicDto: {
-        interestTopic: sessionStorage.getItem('category'),
+        interestTopic,
       },
     };
-    login.firstLogin(information).then(
+    login.firstLogin(profile.file!, information).then(
       data => {
         console.log(data);
         navigate('/home');
@@ -80,43 +106,33 @@ function Location(): JSX.Element {
     );
   };
 
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(position => {
-      setMyLatLng({
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-      });
-    });
-    geocoder.current = new kakao.maps.services.Geocoder();
-  }, []);
+  const goPrevFunc = (): void => {
+    setLocation({ lat: 37.556, lng: 126.9723, location: '' });
+    navigate('/login/introduction');
+  };
 
   useEffect(() => {
     const staticMapContainer = document.getElementById('staticMap');
-    function saveMyAddress(result: any, status: any): void {
-      if (status === kakao.maps.services.Status.OK) {
-        setMyAddress(result[0].address.address_name);
-      }
-    }
-    if (myLatLng.lat !== 0 && myLatLng.lng !== 0) {
-      const coord = new kakao.maps.LatLng(myLatLng.lat, myLatLng.lng);
-      geocoder.current.coord2Address(coord.getLng(), coord.getLat(), saveMyAddress);
-      const staticMapOption = {
-        center: coord,
-        level: 3,
-        marker: {
-          position: coord,
-        },
-      };
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const staticMap = new kakao.maps.StaticMap(staticMapContainer, staticMapOption);
-    }
+
+    const coord = new kakao.maps.LatLng(location.lat, location.lng);
+
+    const staticMapOption = {
+      center: coord,
+      level: 3,
+      marker: {
+        position: coord,
+      },
+    };
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const staticMap = new kakao.maps.StaticMap(staticMapContainer, staticMapOption);
+
     return () => {
       if (staticMapContainer === null) return;
       if (staticMapContainer.innerHTML !== '') {
         staticMapContainer.innerHTML = '';
       }
     };
-  }, [myLatLng]);
+  }, [location]);
 
   return (
     <>
@@ -132,26 +148,24 @@ function Location(): JSX.Element {
       </header>
       <main id="userinfo-main">
         <section style={{ width: 'fit-content', height: 'fit-content' }}>
-          <Link to="/login/introduction">
-            <icons.chevronLeft style={{ cursor: 'pointer' }} />
-          </Link>
+          <icons.chevronLeft style={{ cursor: 'pointer' }} onClick={goPrevFunc} />
         </section>
         <section>
-          <TitleLargeBold>모임 지역</TitleLargeBold>
-          <BodySmallMedium style={{ color: `${colors.gray700}` }}>
+          <heading.TitleLargeBold>모임 지역</heading.TitleLargeBold>
+          <heading.BodySmallMedium style={{ color: `${colors.gray700}` }}>
             선호하는 모임 지역을 선택해주세요 (위치 변경은 프로필에서 가능합니다)
-          </BodySmallMedium>
+          </heading.BodySmallMedium>
         </section>
         <section>
           <StyledDiv>
             <icons.Mappin />
-            <p>{myAddress}</p>
+            <p>{location.location}</p>
           </StyledDiv>
         </section>
         <section>
           <ButtonDiv onClick={openSearchModal}>
             <icons.NavigationArrow style={{ marginRight: '12px' }} />
-            지도에서 검색하기
+            <heading.BodyLargeBold>지도에서 검색하기</heading.BodyLargeBold>
           </ButtonDiv>
         </section>
         <section
@@ -172,20 +186,7 @@ function Location(): JSX.Element {
          */}
         <section style={{ marginTop: 'auto', marginBottom: '60px' }}>
           <ButtonDiv onClick={saveLocation}>
-            <Link
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '100%',
-                height: '100%',
-                color: 'inherit',
-                textDecoration: 'none',
-              }}
-              to="/login/location"
-            >
-              다음
-            </Link>
+            <heading.BodyLargeBold>다음</heading.BodyLargeBold>
           </ButtonDiv>
         </section>
       </main>

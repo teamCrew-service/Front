@@ -1,5 +1,6 @@
 import React from 'react';
 import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 
 import styled from 'styled-components';
 import { myCrew } from '../../../../api';
@@ -35,6 +36,12 @@ const PermissionBtnDiv = styled.div`
 `;
 
 function MyCreatedCrew(): JSX.Element {
+  const navigate = useNavigate();
+
+  const goPermissionModal = (id: string): void => {
+    navigate('/permission', { state: { crewId: id } });
+  };
+
   const { data: myCreatedCrewList, isLoading } = useQuery('getMyCreatedCrew', myCrew.getMyCreatedCrew, {
     onSuccess: res => {
       console.log('내가 생성한 크루 = ', res);
@@ -54,7 +61,11 @@ function MyCreatedCrew(): JSX.Element {
               <heading.BodySmallMedium style={{ color: `${colors.primary}` }}>
                 대기중인 예비 크루들이 있어요!
               </heading.BodySmallMedium>
-              <PermissionBtnDiv>
+              <PermissionBtnDiv
+                onClick={() => {
+                  goPermissionModal(item.crew_crewId);
+                }}
+              >
                 <heading.BodyBaseBold>확인하기</heading.BodyBaseBold>
               </PermissionBtnDiv>
             </ExistPermissionDiv>

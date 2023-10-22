@@ -1,6 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { styled } from 'styled-components';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import ProgressBar from '../../../components/common/ProgressBar';
 import icons from '../../../assets/icons';
 import BodySmallMedium from '../../../styledComponent/heading/BodySmallMedium';
@@ -10,15 +11,17 @@ import TitleLargeBold from '../../../styledComponent/heading/TitleLargeBold';
 import GoPageBtn from '../components/GoPageBtn';
 
 import useResizeImage from '../../../util/useResizeImage';
+import { userNickName, userProfile } from '../../../atoms/login';
 
-const StyledP = styled.p`
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 22px;
-  letter-spacing: -0.4px;
-  color: ${colors.gray400};
-  cursor: pointer;
-`;
+/* 건너뛰기 비활성화 && 향후 파일 입력이 없어도 될 경우 재사용 예정 */
+// const StyledP = styled.p`
+//   font-size: 16px;
+//   font-weight: 700;
+//   line-height: 22px;
+//   letter-spacing: -0.4px;
+//   color: ${colors.gray400};
+//   cursor: pointer;
+// `;
 
 const ImageDiv = styled.div`
   width: 51%;
@@ -28,43 +31,52 @@ const ImageDiv = styled.div`
 `;
 
 function Profile(): JSX.Element {
-  const [profile, setProfile] = useState<string>(defaultImage);
-  const [isProfileSet, setIsProfileSet] = useState<boolean>(false);
-  const sendImageForServer = useRef<File | null>(null);
+  const navigate = useNavigate();
+
+  const [profile, setProfile] = useRecoilState(userProfile);
+  const nickName = useRecoilValue(userNickName);
+
+  const profileURL = useRef<string>(defaultImage);
+
   // file에서 부터 url 추출
   const readURL = (file: File): void => {
     const reader = new FileReader();
-    reader.onload = function () {
-      console.log(reader.result);
+    reader.onload = () => {
       if (reader.result === null) return;
       if (typeof reader.result === 'string') {
-        setProfile(reader.result);
+        profileURL.current = reader.result;
       }
     };
     reader.readAsDataURL(file);
   };
+
   // 이미지 변환 시 작동하는 함수
   const changeProfile = (): void => {
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
     fileInput.accept = 'image/*';
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    fileInput.addEventListener('change', async () => {
+    fileInput.addEventListener('change', () => {
       if (fileInput.files === null) return;
-      console.log('before file', fileInput.files[0]);
-      console.log('before size', fileInput.files[0].size / 1024);
-      const file = await useResizeImage(fileInput.files[0]);
-      console.log('after file', file);
-      console.log('after size', file.size / 1024);
-      readURL(file);
-      sendImageForServer.current = file;
-      setIsProfileSet(true);
+      readURL(fileInput.files[0]);
+      useResizeImage(fileInput.files[0]).then((res: Blob) => {
+        console.log(res);
+        setProfile({ url: profileURL.current, file: res });
+      });
     });
     fileInput.click();
   };
-  const saveProfile = (): void => {
-    sessionStorage.setItem('profile', profile);
+
+  const goPrevFunc = (): void => {
+    setProfile({ url: defaultImage, file: null });
+    navigate('/login/gender');
   };
+
+  const goNextFunc = (): void => {
+    console.log('저장된 프로필 = ', profile);
+    navigate('/login/introduction');
+  };
+
   return (
     <>
       <header>
@@ -72,19 +84,14 @@ function Profile(): JSX.Element {
       </header>
       <main id="userinfo-main">
         <section style={{ display: 'flex', justifyContent: 'space-between', width: '100%', height: 'fit-content' }}>
-          <Link to="/login/gender">
-            <icons.chevronLeft style={{ cursor: 'pointer' }} />
-          </Link>
-          {!isProfileSet && (
-            <Link onClick={saveProfile} to="/login/introduction" style={{ textDecoration: 'none' }}>
-              <StyledP>건너뛰기</StyledP>
-            </Link>
-          )}
+          <icons.chevronLeft style={{ cursor: 'pointer' }} onClick={goPrevFunc} />
+          {/* 건너뛰기 비활성화 && 향후 파일 입력이 없어도 될 경우 재사용 예정 */}
+          {/* {profile.file === null && <StyledP onClick={goNextFunc}>건너뛰기</StyledP>} */}
         </section>
         <section>
-          <TitleLargeBold>{!isProfileSet ? '프로필 사진' : '프로필 미리보기'}</TitleLargeBold>
+          <TitleLargeBold>{profile.file === null ? '프로필 사진' : '프로필 미리보기'}</TitleLargeBold>
           <BodySmallMedium style={{ color: `${colors.gray700}` }}>
-            {!isProfileSet
+            {profile.file === null
               ? '나만의 개성과 취향이 잘 드러나는 사진을 등록해주세요'
               : '다른 친구들이 내 프로필을 클릭했을 때 보게될 프로필입니다'}
           </BodySmallMedium>
@@ -104,21 +111,21 @@ function Profile(): JSX.Element {
             }}
           >
             <ImageDiv onClick={changeProfile}>
-              <img src={profile} alt="profile" width="100%" height="100%" style={{ borderRadius: '50%' }} />
+              <img src={profile.url} alt="profile" width="100%" height="100%" style={{ borderRadius: '50%' }} />
             </ImageDiv>
             <div style={{ marginTop: '11.36%' }}>
-              <TitleLargeBold>김크루</TitleLargeBold>
+              <TitleLargeBold>{nickName}</TitleLargeBold>
             </div>
           </div>
         </section>
         <GoPageBtn
-          judge={isProfileSet}
+          judge={profile.file !== null && profile.url !== defaultImage}
           path="/login/introduction"
           prevTitle="라이브러리에서 선택"
           prevColor=""
           prevFontColor=""
           prevAction={changeProfile}
-          action={saveProfile}
+          action={goNextFunc}
         />
       </main>
     </>

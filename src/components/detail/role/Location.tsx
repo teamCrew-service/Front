@@ -56,10 +56,18 @@ function Location({
           <div>
             {/* 최근 일정이 없을 경우 : 크루 위치 표시 */}
             {recentSchedule === null && (
-              <heading.BodyLargeBold>{crewInfo?.crew.crew_crewAddress}</heading.BodyLargeBold>
+              <>
+                <heading.BodyLargeBold>{crewInfo?.crew.crew_crewPlaceName}</heading.BodyLargeBold>
+                <heading.CaptionXS>{crewInfo.crew.crew_crewAddress}</heading.CaptionXS>
+              </>
             )}
             {/* 최근 일정이 있을 경우 : 일정 위치 표시 */}
-            {recentSchedule !== null && <heading.BodyLargeBold>{recentSchedule.scheduleAddress}</heading.BodyLargeBold>}
+            {recentSchedule !== null && (
+              <>
+                <heading.BodyLargeBold>{recentSchedule.schedulePlaceName}</heading.BodyLargeBold>
+                <heading.CaptionXS>{recentSchedule.scheduleAddress}</heading.CaptionXS>
+              </>
+            )}
           </div>
         </div>
         <SaveBtn
