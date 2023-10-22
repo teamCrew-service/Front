@@ -56,7 +56,7 @@ function MyCrew(): JSX.Element {
             {['참여중', '내가 만든 모임', '대기중인 모임'].map(item => {
               if (selected === item) {
                 return (
-                  <SelectedLi>
+                  <SelectedLi key={item}>
                     {' '}
                     <heading.BodyBaseBold style={{ color: `${colors.primary}` }}>{item}</heading.BodyBaseBold>
                   </SelectedLi>
@@ -64,6 +64,7 @@ function MyCrew(): JSX.Element {
               }
               return (
                 <NavItemLi
+                  key={item}
                   onClick={() => {
                     setSelected(item);
                   }}
