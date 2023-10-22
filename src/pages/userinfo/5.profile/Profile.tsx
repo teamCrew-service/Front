@@ -13,14 +13,15 @@ import GoPageBtn from '../components/GoPageBtn';
 import useResizeImage from '../../../util/useResizeImage';
 import { userNickName, userProfile } from '../../../atoms/login';
 
-const StyledP = styled.p`
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 22px;
-  letter-spacing: -0.4px;
-  color: ${colors.gray400};
-  cursor: pointer;
-`;
+/* 건너뛰기 비활성화 && 향후 파일 입력이 없어도 될 경우 재사용 예정 */
+// const StyledP = styled.p`
+//   font-size: 16px;
+//   font-weight: 700;
+//   line-height: 22px;
+//   letter-spacing: -0.4px;
+//   color: ${colors.gray400};
+//   cursor: pointer;
+// `;
 
 const ImageDiv = styled.div`
   width: 51%;
@@ -84,7 +85,8 @@ function Profile(): JSX.Element {
       <main id="userinfo-main">
         <section style={{ display: 'flex', justifyContent: 'space-between', width: '100%', height: 'fit-content' }}>
           <icons.chevronLeft style={{ cursor: 'pointer' }} onClick={goPrevFunc} />
-          {profile.file === null && <StyledP onClick={goNextFunc}>건너뛰기</StyledP>}
+          {/* 건너뛰기 비활성화 && 향후 파일 입력이 없어도 될 경우 재사용 예정 */}
+          {/* {profile.file === null && <StyledP onClick={goNextFunc}>건너뛰기</StyledP>} */}
         </section>
         <section>
           <TitleLargeBold>{profile.file === null ? '프로필 사진' : '프로필 미리보기'}</TitleLargeBold>
