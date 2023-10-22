@@ -2,6 +2,8 @@ import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 
+import PermissionCard from '../../components/permission/PermissionCard';
+
 import icons from '../../assets/icons';
 import heading from '../../styledComponent/heading';
 
@@ -38,9 +40,11 @@ function Permission(): JSX.Element {
           }}
         />
         <heading.BodyLargeBold>승인 필요</heading.BodyLargeBold>
+        <div style={{ width: '24px' }} />
       </header>
-      <div>{crewId}</div>
-      <div>{signUpList![0].age}</div>
+      <main id="permission-main">
+        {signUpList?.map((item, index) => <PermissionCard signUpItem={item} index={index} />)}
+      </main>
     </>
   );
 }
