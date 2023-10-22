@@ -3,7 +3,6 @@ export interface AddUserInfoDto {
   nickname: string | null;
   age: string | null;
   gender: string | null;
-  profileImage: string | null;
   myMessage: string | null;
   location: string | null;
 }

@@ -88,7 +88,6 @@ function Location(): JSX.Element {
         nickname,
         age: birthYear,
         gender,
-        profileImage: profile.url,
         myMessage: content,
         location: location.location,
       },
