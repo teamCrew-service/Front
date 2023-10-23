@@ -1,0 +1,17 @@
+/* height:758px */
+#edit-userinfo-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 93.12%;
+  padding: 0px 16px;
+}
+/* height:442px */
+#edit-userinfo-itemlist {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 58.31%;
+}

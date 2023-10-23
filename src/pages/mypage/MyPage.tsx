@@ -10,8 +10,8 @@ import './style.css';
 import Footer from '../../components/home/Footer';
 
 import { mypage } from '../../api';
-import LikedCrewCard from '../../components/mypage/LikedCrewCard';
 import EditUserInfoModal from '../../components/modal/edituserinfo/EditUserInfoModal';
+import CrewCard from '../../components/common/CrewCard';
 
 const ProfileImageBox = styled.div<{ profile?: string }>`
   position: relative;
@@ -98,6 +98,11 @@ const CardBox = styled.div`
   white-space: nowrap;
 `;
 
+const CardItem = styled.div`
+  width: 241px;
+  height: 100%;
+`;
+
 function MyPage(): JSX.Element {
   const [isOpenEditModal, setIsOpenEditModal] = useState<boolean>(false);
 
@@ -116,80 +121,93 @@ function MyPage(): JSX.Element {
     onSuccess: res => {
       console.log(res);
     },
+    refetchOnWindowFocus: false,
   });
 
+  /* 로딩 중 */
   if (isLoading) {
     return <div>loading...</div>;
   }
 
+  /* 에러 발생 */
   if (isError) {
     return <div>somthing wrong</div>;
   }
 
-  return (
-    <>
-      {isOpenEditModal && <EditUserInfoModal closeModal={closeEditModalFunc} />}
-      <header id="mypage-header">
-        <div style={{ width: '24px' }} />
-        <heading.BodyLargeBold>마이페이지</heading.BodyLargeBold>
-        <icons.GearSix />
-      </header>
-      <main id="mypage-main">
-        <section id="mypage-main-profile">
-          <ProfileImageBox profile={myPageInfo?.user.profileImage}>
-            <icons.PencilSimple
-              onClick={openEditModalFunc}
-              style={{ position: 'absolute', bottom: '0px', right: '0px', zIndex: 1 }}
-            />
-          </ProfileImageBox>
-          <UserInfoBox>
-            <heading.TitleLargeBold>{myPageInfo?.user.nickname}</heading.TitleLargeBold>
-            <heading.BodyBaseMedium style={{ color: `${colors.gray500}` }}>
-              {myPageInfo?.user.age}년생 | {myPageInfo?.user.gender}
-            </heading.BodyBaseMedium>
-            <LocationBox>
-              <icons.Mappin width={16} />
+  /* myPageInfo가 존재할 경우 */
+  if (myPageInfo !== undefined) {
+    return (
+      <>
+        {isOpenEditModal && <EditUserInfoModal userInfo={myPageInfo.user} closeModal={closeEditModalFunc} />}
+        <header id="mypage-header">
+          <div style={{ width: '24px' }} />
+          <heading.BodyLargeBold>마이페이지</heading.BodyLargeBold>
+          <icons.GearSix />
+        </header>
+        <main id="mypage-main">
+          <section id="mypage-main-profile">
+            <ProfileImageBox profile={myPageInfo.user.profileImage}>
+              <icons.PencilSimple
+                onClick={openEditModalFunc}
+                style={{ position: 'absolute', bottom: '0px', right: '0px', zIndex: 1 }}
+              />
+            </ProfileImageBox>
+            <UserInfoBox>
+              <heading.TitleLargeBold>{myPageInfo.user.nickname}</heading.TitleLargeBold>
               <heading.BodyBaseMedium style={{ color: `${colors.gray500}` }}>
-                {myPageInfo?.user.location}
+                {myPageInfo?.user.age}년생 | {myPageInfo.user.gender}
               </heading.BodyBaseMedium>
-            </LocationBox>
-            <InterestBox>
-              {myPageInfo?.topic.map(item => (
-                <InterestItem key={item.interestTopic}>
-                  <heading.BodySmallMedium>{item.interestTopic}</heading.BodySmallMedium>
-                </InterestItem>
-              ))}
-            </InterestBox>
-          </UserInfoBox>
-        </section>
-        <div className="margin-50px-706px" />
-        <section id="mypage-main-intro">
-          <heading.BodyLargeBold style={{ color: `${colors.gray500}` }}>자기 소개</heading.BodyLargeBold>
-          <IntroBox>
-            <heading.BodyBaseMedium>{myPageInfo?.user.myMessage}</heading.BodyBaseMedium>
-          </IntroBox>
-        </section>
-        <div className="margin-50px-706px" />
-        <section id="mypage-main-liked-crew">
-          <TitleBox>
-            <TitleItem>
-              <icons.heart fill={colors.gray500} />
-              <heading.BodyLargeBold style={{ color: `${colors.gray500}` }}>찜한 모임</heading.BodyLargeBold>
-            </TitleItem>
-            <heading.BodySmallBold style={{ color: `${colors.gray400}` }}>전체보기</heading.BodySmallBold>
-          </TitleBox>
-          <CardContainer>
-            <CardBox>
-              {myPageInfo?.likedCrew.map(item => <LikedCrewCard key={item.crew_crewId} crewInfo={item} />)}
-            </CardBox>
-          </CardContainer>
-        </section>
-      </main>
-      <footer className="home-footer">
-        <Footer page="myPage" />
-      </footer>
-    </>
-  );
+              <LocationBox>
+                <icons.Mappin width={16} />
+                <heading.BodyBaseMedium style={{ color: `${colors.gray500}` }}>
+                  {myPageInfo?.user.location}
+                </heading.BodyBaseMedium>
+              </LocationBox>
+              <InterestBox>
+                {myPageInfo?.topic.map(item => (
+                  <InterestItem key={item.interestTopic}>
+                    <heading.BodySmallMedium>{item.interestTopic}</heading.BodySmallMedium>
+                  </InterestItem>
+                ))}
+              </InterestBox>
+            </UserInfoBox>
+          </section>
+          <div className="margin-50px-706px" />
+          <section id="mypage-main-intro">
+            <heading.BodyLargeBold style={{ color: `${colors.gray500}` }}>자기 소개</heading.BodyLargeBold>
+            <IntroBox>
+              <heading.BodyBaseMedium>{myPageInfo.user.myMessage}</heading.BodyBaseMedium>
+            </IntroBox>
+          </section>
+          <div className="margin-50px-706px" />
+          <section id="mypage-main-liked-crew">
+            <TitleBox>
+              <TitleItem>
+                <icons.heart fill={colors.gray500} />
+                <heading.BodyLargeBold style={{ color: `${colors.gray500}` }}>찜한 모임</heading.BodyLargeBold>
+              </TitleItem>
+              <heading.BodySmallBold style={{ color: `${colors.gray400}` }}>전체보기</heading.BodySmallBold>
+            </TitleBox>
+            <CardContainer>
+              <CardBox>
+                {myPageInfo?.likedCrew.map(item => (
+                  <CardItem>
+                    <CrewCard key={item.crew_crewId} spot={item} />
+                  </CardItem>
+                ))}
+              </CardBox>
+            </CardContainer>
+          </section>
+        </main>
+        <footer className="home-footer">
+          <Footer page="myPage" />
+        </footer>
+      </>
+    );
+  }
+
+  /* myPageInfo가 undefined일 경우 */
+  return <div>no userInfo...</div>;
 }
 
 export default MyPage;

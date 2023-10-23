@@ -15,7 +15,7 @@ export const ModalHeader = styled.header`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 56px;
+  height: 6.88%;
   padding: 0px 16px;
 `;
 

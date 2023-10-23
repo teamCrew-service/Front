@@ -31,7 +31,6 @@ export const ImageBox = styled.div<{ image: string }>`
   width: 56px;
   height: 56px;
   border-radius: 8px;
-  border: 1px solid black;
   background-image: url(${props => props.image});
   background-size: cover;
   background-repeat: no-repeat;

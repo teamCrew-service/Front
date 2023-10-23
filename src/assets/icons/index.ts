@@ -50,6 +50,7 @@ import { ReactComponent as CheckBox } from './CheckBox.svg';
 // 마이 페이지
 import { ReactComponent as GearSix } from './GearSix.svg';
 import { ReactComponent as PencilSimple } from './PencilSimple.svg';
+import { ReactComponent as Camera } from './Camera.svg';
 
 const icons = {
   TeamLogo,
@@ -89,6 +90,7 @@ const icons = {
   CheckBox,
   GearSix,
   PencilSimple,
+  Camera,
 };
 
 export default icons;
