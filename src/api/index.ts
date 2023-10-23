@@ -162,3 +162,10 @@ export const vote = {
     return data;
   },
 };
+
+export const mypage = {
+  getUserInfo: async <T = myInterface.MyPage>(): Promise<T> => {
+    const { data } = await instance.get('/api/mypage');
+    return data;
+  },
+};
