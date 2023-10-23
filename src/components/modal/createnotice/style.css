@@ -1,9 +1,5 @@
-#create-notice-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 56px;
+#create-notice-main {
+  padding: 0px 16px;
 }
 
 #create-notice-main-title {

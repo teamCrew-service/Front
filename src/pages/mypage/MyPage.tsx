@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
 
@@ -11,6 +11,7 @@ import Footer from '../../components/home/Footer';
 
 import { mypage } from '../../api';
 import LikedCrewCard from '../../components/mypage/LikedCrewCard';
+import EditUserInfoModal from '../../components/modal/edituserinfo/EditUserInfoModal';
 
 const ProfileImageBox = styled.div<{ profile?: string }>`
   position: relative;
@@ -98,6 +99,15 @@ const CardBox = styled.div`
 `;
 
 function MyPage(): JSX.Element {
+  const [isOpenEditModal, setIsOpenEditModal] = useState<boolean>(false);
+
+  const openEditModalFunc = (): void => {
+    setIsOpenEditModal(true);
+  };
+  const closeEditModalFunc = (): void => {
+    setIsOpenEditModal(false);
+  };
+
   const {
     data: myPageInfo,
     isLoading,
@@ -118,6 +128,7 @@ function MyPage(): JSX.Element {
 
   return (
     <>
+      {isOpenEditModal && <EditUserInfoModal closeModal={closeEditModalFunc} />}
       <header id="mypage-header">
         <div style={{ width: '24px' }} />
         <heading.BodyLargeBold>마이페이지</heading.BodyLargeBold>
@@ -126,7 +137,10 @@ function MyPage(): JSX.Element {
       <main id="mypage-main">
         <section id="mypage-main-profile">
           <ProfileImageBox profile={myPageInfo?.user.profileImage}>
-            <icons.PencilSimple style={{ position: 'absolute', bottom: '0px', right: '0px', zIndex: 1 }} />
+            <icons.PencilSimple
+              onClick={openEditModalFunc}
+              style={{ position: 'absolute', bottom: '0px', right: '0px', zIndex: 1 }}
+            />
           </ProfileImageBox>
           <UserInfoBox>
             <heading.TitleLargeBold>{myPageInfo?.user.nickname}</heading.TitleLargeBold>
@@ -141,7 +155,7 @@ function MyPage(): JSX.Element {
             </LocationBox>
             <InterestBox>
               {myPageInfo?.topic.map(item => (
-                <InterestItem>
+                <InterestItem key={item.interestTopic}>
                   <heading.BodySmallMedium>{item.interestTopic}</heading.BodySmallMedium>
                 </InterestItem>
               ))}
@@ -165,7 +179,9 @@ function MyPage(): JSX.Element {
             <heading.BodySmallBold style={{ color: `${colors.gray400}` }}>전체보기</heading.BodySmallBold>
           </TitleBox>
           <CardContainer>
-            <CardBox>{myPageInfo?.likedCrew.map(item => <LikedCrewCard crewInfo={item} />)}</CardBox>
+            <CardBox>
+              {myPageInfo?.likedCrew.map(item => <LikedCrewCard key={item.crew_crewId} crewInfo={item} />)}
+            </CardBox>
           </CardContainer>
         </section>
       </main>
