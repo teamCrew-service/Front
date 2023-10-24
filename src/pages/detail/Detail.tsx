@@ -38,11 +38,13 @@ import CreateVoteModal from '../../components/modal/createvote/CreateVoteModal';
 import VoteDetailModal from '../../components/modal/votedetail/VoteDetailModal';
 import colors from '../../assets/styles/color';
 import VoteResultModal from '../../components/modal/voteresult/VoteResultModal';
+import ThreeDotModal from '../../components/detail/ThreeDotModal';
 
 function Detail(): JSX.Element {
   const [page, setPage] = useState<string>('모임정보');
   // 소개 부분 접었다 펴기
   const [infoOpen, setInfoOpen] = useState<boolean>(true);
+  const [extraOpen, setExtraOpen] = useState<boolean>(false);
 
   // 모달 여닫기
   const [joinModalOpen, setJoinModalOpen] = useState<boolean>(false);
@@ -129,6 +131,10 @@ function Detail(): JSX.Element {
   };
   const closeInfoWindow = (): void => {
     setInfoOpen(false);
+  };
+
+  const controlExtraFunc = (): void => {
+    setExtraOpen(prev => !prev);
   };
 
   // 각종 모달 On/Off 함수 ------------------------------------
@@ -308,7 +314,8 @@ function Detail(): JSX.Element {
         />
         <heading.BodyLargeBold>{crewInfo?.result.crew.crew_crewType}</heading.BodyLargeBold>
         <div style={{ position: 'relative', width: '24px', height: '24px' }}>
-          <icons.ThreeDots fill="#4F4E55" style={{ cursor: 'pointer' }} />
+          {extraOpen && <ThreeDotModal crewId={crewInfo!.result.crew.crew_crewId} controlExtra={controlExtraFunc} />}
+          <icons.ThreeDots fill="#4F4E55" style={{ cursor: 'pointer' }} onClick={controlExtraFunc} />
         </div>
       </header>
       <main id="detail-main">
@@ -316,9 +323,7 @@ function Detail(): JSX.Element {
         <section id="detail-main-thumbnail">
           {crewInfo!.result.crew.crew_thumbnail !== '' ? (
             <ThumbnailDiv $url={crewInfo!.result.crew.crew_thumbnail}>
-              <ThumbnailAbsDiv>
-                <icons.ThreeDots fill="rgba(255,255,255,1)" style={{ cursor: 'pointer' }} />
-              </ThumbnailAbsDiv>
+              <ThumbnailAbsDiv />
             </ThumbnailDiv>
           ) : (
             <ThumbnailDiv $url={CrewThumbnail}>
