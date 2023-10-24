@@ -276,6 +276,7 @@ function EditUserInfoModal({
               <InterestMatrix checkList={myInterest} onClick={saveInterestArrayFunc} columns={4} rows={3} />
             </InterestMatrixContainer>
           </section>
+          <div className="margin-17px-758px" />
         </main>
       </ModalContainer>
     </>
