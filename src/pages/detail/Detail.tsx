@@ -314,8 +314,12 @@ function Detail(): JSX.Element {
         />
         <heading.BodyLargeBold>{crewInfo?.result.crew.crew_crewType}</heading.BodyLargeBold>
         <div style={{ position: 'relative', width: '24px', height: '24px' }}>
-          {extraOpen && <ThreeDotModal crewId={crewInfo!.result.crew.crew_crewId} controlExtra={controlExtraFunc} />}
-          <icons.ThreeDots fill="#4F4E55" style={{ cursor: 'pointer' }} onClick={controlExtraFunc} />
+          {crewInfo?.result.personType === 'captain' && (
+            <>
+              {extraOpen && <ThreeDotModal crewId={crewInfo.result.crew.crew_crewId} controlExtra={controlExtraFunc} />}
+              <icons.ThreeDots fill="#4F4E55" style={{ cursor: 'pointer' }} onClick={controlExtraFunc} />
+            </>
+          )}
         </div>
       </header>
       <main id="detail-main">
