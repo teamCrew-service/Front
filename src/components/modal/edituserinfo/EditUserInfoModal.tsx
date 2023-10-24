@@ -9,12 +9,13 @@ import colors from '../../../assets/styles/color';
 
 import './style.css';
 
-import type { MyInfo } from '../../../assets/interfaces';
+import type { MyInfo, MyTopic } from '../../../assets/interfaces';
 import SearchModal from '../SearchModal';
+import InterestMatrix from '../../common/InterestMatrix';
 
 const ProfileBox = styled.div<{ profile: string }>`
   position: relative;
-  height: 13.19%;
+  height: 100%;
   aspect-ratio: 1;
   border-radius: 50%;
   background-image: url(${props => props.profile});
@@ -23,12 +24,12 @@ const ProfileBox = styled.div<{ profile: string }>`
   background-repeat: no-repeat;
 `;
 
-// height : 76px
 const ItemBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
+  // height : 76px
   height: 17.19%;
 `;
 
@@ -47,8 +48,8 @@ const ItemDiv = styled.div`
   height: 100%;
 `;
 
-// height : 178px
 const IntroBox = styled(ItemBox)`
+  // height : 178px
   height: 40.27%;
 `;
 
@@ -95,10 +96,35 @@ const StyledTextarea = styled.textarea`
   outline: none;
 `;
 
-function EditUserInfoModal({ userInfo, closeModal }: { userInfo: MyInfo; closeModal: () => void }): JSX.Element {
+const InterestMatrixContainer = styled.div`
+  width: 100%;
+  /* height:256px */
+  height: 84.21%;
+`;
+
+function EditUserInfoModal({
+  userInfo,
+  userInterest,
+  closeModal,
+}: {
+  userInfo: MyInfo;
+  userInterest: MyTopic[];
+  closeModal: () => void;
+}): JSX.Element {
   const [isOpenSearchModal, setIsOpenSearchModal] = useState<boolean>(false);
   const [myLocation, setMyLocation] = useState<string>(userInfo.location);
   const [myIntro, setMyIntro] = useState<string>(userInfo.myMessage);
+  const [myInterest, setMyInterest] = useState<string[]>(() => {
+    const myInterestArray = userInterest.map(item => {
+      let returnValue = item.interestTopic.trim();
+      if (item.interestTopic.includes('/')) {
+        returnValue = item.interestTopic.replace('/', '%2F').trim();
+      }
+      return returnValue;
+    });
+    console.log(myInterestArray);
+    return myInterestArray;
+  });
 
   const openSearchModalFunc = (): void => {
     setIsOpenSearchModal(true);
@@ -111,6 +137,14 @@ function EditUserInfoModal({ userInfo, closeModal }: { userInfo: MyInfo; closeMo
     setIsOpenSearchModal(false);
   };
 
+  const saveInterestArrayFunc = (input: any): void => {
+    if (myInterest.includes(input)) {
+      setMyInterest(prev => prev.filter(item => item !== input));
+      return;
+    }
+    setMyInterest(prev => [...prev, input]);
+  };
+
   return (
     <>
       {isOpenSearchModal && <SearchModal closeModal={closeSearchModalFunc} title="위치 검색" />}
@@ -121,9 +155,11 @@ function EditUserInfoModal({ userInfo, closeModal }: { userInfo: MyInfo; closeMo
           <div style={{ width: '24px' }} />
         </ModalHeader>
         <main id="edit-userinfo-main">
-          <ProfileBox profile={userInfo.profileImage}>
-            <icons.Camera style={{ position: 'absolute', bottom: '0px', right: '0px', zIndex: 2 }} />
-          </ProfileBox>
+          <section id="edit-userinfo-profile">
+            <ProfileBox profile={userInfo.profileImage}>
+              <icons.Camera style={{ position: 'absolute', bottom: '0px', right: '0px', zIndex: 2 }} />
+            </ProfileBox>
+          </section>
           <section id="edit-userinfo-itemlist">
             <ItemBox>
               <heading.BodyBaseBold>닉네임</heading.BodyBaseBold>
@@ -173,6 +209,13 @@ function EditUserInfoModal({ userInfo, closeModal }: { userInfo: MyInfo; closeMo
                 <heading.BodyBaseMedium>{myIntro.length}/200</heading.BodyBaseMedium>
               </IntroInsertDiv>
             </IntroBox>
+          </section>
+          <div className="margin-17px-758px" />
+          <section id="edit-userinfo-interest">
+            <heading.BodyBaseBold style={{ color: `${colors.gray400}` }}>관심사</heading.BodyBaseBold>
+            <InterestMatrixContainer>
+              <InterestMatrix checkList={myInterest} onClick={saveInterestArrayFunc} columns={4} rows={3} />
+            </InterestMatrixContainer>
           </section>
         </main>
       </ModalContainer>

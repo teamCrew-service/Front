@@ -138,7 +138,13 @@ function MyPage(): JSX.Element {
   if (myPageInfo !== undefined) {
     return (
       <>
-        {isOpenEditModal && <EditUserInfoModal userInfo={myPageInfo.user} closeModal={closeEditModalFunc} />}
+        {isOpenEditModal && (
+          <EditUserInfoModal
+            userInterest={myPageInfo.topic}
+            userInfo={myPageInfo.user}
+            closeModal={closeEditModalFunc}
+          />
+        )}
         <header id="mypage-header">
           <div style={{ width: '24px' }} />
           <heading.BodyLargeBold>마이페이지</heading.BodyLargeBold>
@@ -191,7 +197,7 @@ function MyPage(): JSX.Element {
             <CardContainer>
               <CardBox>
                 {myPageInfo?.likedCrew.map(item => (
-                  <CardItem>
+                  <CardItem key={item.crew_crewId}>
                     <CrewCard key={item.crew_crewId} spot={item} />
                   </CardItem>
                 ))}

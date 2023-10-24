@@ -15,6 +15,16 @@ const GridDiv = styled.div<{ $columns: number; $rows: number }>`
   grid-template-rows: repeat(${props => props.$rows}, 1fr);
 `;
 
+const BorderDiv = styled.div<{ $borderColor: string }>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 4px solid ${props => props.$borderColor};
+  border-radius: 25.67%;
+`;
+
 function InterestMatrix({
   onClick,
   checkList = [],
@@ -46,14 +56,16 @@ function InterestMatrix({
         if (checkList.includes(item.name)) {
           return (
             <SmallCardDiv
-              style={{ outline: `4px solid ${item.border}` }}
+              // style={{ border: `4px solid ${item.border}` }}
               onClick={() => {
                 onClick(item.name);
               }}
               key={item.code}
               $image={item.item}
               $backColor={item.color}
-            />
+            >
+              <BorderDiv $borderColor={item.border} />
+            </SmallCardDiv>
           );
         }
         return (
