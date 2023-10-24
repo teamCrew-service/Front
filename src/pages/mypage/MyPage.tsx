@@ -156,6 +156,8 @@ function MyPage(): JSX.Element {
               <icons.PencilSimple
                 onClick={openEditModalFunc}
                 style={{ position: 'absolute', bottom: '0px', right: '0px', zIndex: 1 }}
+                width="25%"
+                height="25%"
               />
             </ProfileImageBox>
             <UserInfoBox>

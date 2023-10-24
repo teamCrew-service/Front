@@ -189,6 +189,7 @@ function EditUserInfoModal({
           <div style={{ width: '24px' }} />
         </ModalHeader>
         <main id="edit-userinfo-main">
+          <div className="margin-17px-758px" />
           <section id="edit-userinfo-profile">
             <ProfileBox profile={userInfo.profileImage}>
               <icons.Camera style={{ position: 'absolute', bottom: '0px', right: '0px', zIndex: 2 }} />
