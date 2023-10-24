@@ -220,6 +220,7 @@ export interface SearchByCategory {
   crew_crewTitle: string;
   crew_crewType: string;
   crew_thumbnail: string;
+  crew_crewPlaceName: string;
 }
 
 // 내 주변 모임 찾기 ----------------------
@@ -274,4 +275,28 @@ export interface VoteResultInfo {
 export interface VoteCreateInfo {
   isOpen: boolean;
   voteFormId: string | null;
+}
+
+/* 마이 페이지 */
+export interface MyInfo {
+  userId: string;
+  provider: string;
+  email: string;
+  nickname: string;
+  profileImage: string;
+  age: number;
+  gender: string;
+  myMessage: string;
+  location: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+export interface MyTopic {
+  userId: string;
+  interestTopic: string;
+}
+export interface MyPage {
+  user: MyInfo;
+  topic: MyTopic[];
+  likedCrew: SearchByCategory[];
 }
