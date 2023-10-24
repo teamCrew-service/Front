@@ -64,6 +64,17 @@ export const crew = {
     const { data } = await instance.delete(`/api/crew/${crewId}/delete`);
     return data;
   },
+  editCrewThumbnail: async (file: Blob, crewId: string) => {
+    const formData = new FormData();
+    formData.append('files', file);
+    const { data } = await instance.put(`/api/crew/${crewId}/editThumbnail`, formData, {
+      headers: {
+        Accept: '*/*',
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return data;
+  },
 };
 
 export const searchByCategory = {
