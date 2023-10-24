@@ -112,6 +112,10 @@ function EditUserInfoModal({
   closeModal: () => void;
 }): JSX.Element {
   const [isOpenSearchModal, setIsOpenSearchModal] = useState<boolean>(false);
+
+  const [myNickname, setMyNickname] = useState<string>(userInfo.nickname);
+  const [myBithYear, setMyBirthYear] = useState<number>(userInfo.age);
+  const [myGender, setMyGender] = useState<string>(userInfo.gender);
   const [myLocation, setMyLocation] = useState<string>(userInfo.location);
   const [myIntro, setMyIntro] = useState<string>(userInfo.myMessage);
   const [myInterest, setMyInterest] = useState<string[]>(() => {
@@ -135,6 +139,36 @@ function EditUserInfoModal({
       setMyLocation(result.place_name);
     }
     setIsOpenSearchModal(false);
+  };
+
+  const saveMyInfo = (e: React.ChangeEvent<HTMLInputElement>, value: string): void => {
+    if (value === 'nickname') {
+      setMyNickname(e.target.value);
+    }
+    if (value === 'birthyear') {
+      setMyBirthYear(Number(e.target.value));
+    }
+    if (value === 'gender') {
+      setMyGender(e.target.value);
+    }
+  };
+
+  const clearMyInfo = (value: string): void => {
+    if (value === 'nickname') {
+      if (myNickname === userInfo.nickname) {
+        setMyNickname('');
+      }
+    }
+    if (value === 'birthyear') {
+      if (myBithYear === userInfo.age) {
+        setMyBirthYear(0);
+      }
+    }
+    if (value === 'gender') {
+      if (myGender === userInfo.gender) {
+        setMyGender('');
+      }
+    }
   };
 
   const saveInterestArrayFunc = (input: any): void => {
@@ -164,20 +198,45 @@ function EditUserInfoModal({
             <ItemBox>
               <heading.BodyBaseBold>닉네임</heading.BodyBaseBold>
               <InsertDiv>
-                <StyledInput placeholder={userInfo.nickname} />
+                <StyledInput
+                  value={myNickname}
+                  onClick={() => {
+                    clearMyInfo('nickname');
+                  }}
+                  onChange={e => {
+                    saveMyInfo(e, 'nickname');
+                  }}
+                />
               </InsertDiv>
             </ItemBox>
             <TwoItemBox>
               <ItemDiv>
                 <heading.BodyBaseBold>출생년도</heading.BodyBaseBold>
                 <InsertDiv>
-                  <StyledInput placeholder={String(userInfo.age)} />
+                  <StyledInput
+                    type="number"
+                    value={myBithYear === 0 ? '' : myBithYear}
+                    onClick={() => {
+                      clearMyInfo('birthyear');
+                    }}
+                    onChange={e => {
+                      saveMyInfo(e, 'birthyear');
+                    }}
+                  />
                 </InsertDiv>
               </ItemDiv>
               <ItemDiv>
                 <heading.BodyBaseBold>성별</heading.BodyBaseBold>
                 <InsertDiv>
-                  <StyledInput placeholder={userInfo.gender} />
+                  <StyledInput
+                    value={myGender}
+                    onClick={() => {
+                      clearMyInfo('gender');
+                    }}
+                    onChange={e => {
+                      saveMyInfo(e, 'gender');
+                    }}
+                  />
                 </InsertDiv>
               </ItemDiv>
             </TwoItemBox>
