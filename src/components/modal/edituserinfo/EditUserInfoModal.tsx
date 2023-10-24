@@ -271,7 +271,7 @@ function EditUserInfoModal({
           </section>
           <div className="margin-17px-758px" />
           <section id="edit-userinfo-interest">
-            <heading.BodyBaseBold style={{ color: `${colors.gray400}` }}>관심사</heading.BodyBaseBold>
+            <heading.BodyBaseBold>관심사</heading.BodyBaseBold>
             <InterestMatrixContainer>
               <InterestMatrix checkList={myInterest} onClick={saveInterestArrayFunc} columns={4} rows={3} />
             </InterestMatrixContainer>
