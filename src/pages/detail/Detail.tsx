@@ -316,7 +316,13 @@ function Detail(): JSX.Element {
         <div style={{ position: 'relative', width: '24px', height: '24px' }}>
           {crewInfo?.result.personType === 'captain' && (
             <>
-              {extraOpen && <ThreeDotModal crewId={crewInfo.result.crew.crew_crewId} controlExtra={controlExtraFunc} />}
+              {extraOpen && (
+                <ThreeDotModal
+                  refetch={refetch}
+                  crewId={crewInfo.result.crew.crew_crewId}
+                  controlExtra={controlExtraFunc}
+                />
+              )}
               <icons.ThreeDots fill="#4F4E55" style={{ cursor: 'pointer' }} onClick={controlExtraFunc} />
             </>
           )}

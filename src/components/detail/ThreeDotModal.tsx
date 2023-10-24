@@ -6,6 +6,8 @@ import heading from '../../styledComponent/heading';
 import colors from '../../assets/styles/color';
 import { crew } from '../../api';
 
+import useResizeImage from '../../util/useResizeImage';
+
 const NavContainer = styled.div`
   position: absolute;
   bottom: -96px;
@@ -29,8 +31,17 @@ const NavItem = styled.div`
   color: ${colors.gray700};
 `;
 
-function ThreeDotModal({ crewId, controlExtra }: { crewId: string; controlExtra: () => void }): JSX.Element {
+function ThreeDotModal({
+  crewId,
+  controlExtra,
+  refetch,
+}: {
+  crewId: string;
+  controlExtra: () => void;
+  refetch: any;
+}): JSX.Element {
   const navigate = useNavigate();
+
   const deleteCrew = (): void => {
     crew
       .deleteCrew(crewId)
@@ -43,13 +54,35 @@ function ThreeDotModal({ crewId, controlExtra }: { crewId: string; controlExtra:
       });
   };
 
+  const changeThumbnail = (): void => {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files === null) return;
+      useResizeImage(fileInput.files[0]).then((res: Blob) => {
+        console.log(res);
+        crew
+          .editCrewThumbnail(res, crewId)
+          .then(() => {
+            refetch();
+            controlExtra();
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      });
+    });
+    fileInput.click();
+  };
   return (
     <NavContainer>
       <NavItem>
         <heading.BodySmallBold onClick={deleteCrew}>모임 삭제</heading.BodySmallBold>
       </NavItem>
       <NavItem>
-        <heading.BodySmallBold>썸네일 수정하기</heading.BodySmallBold>
+        <heading.BodySmallBold onClick={changeThumbnail}>썸네일 수정하기</heading.BodySmallBold>
       </NavItem>
       <NavItem onClick={controlExtra}>
         <heading.BodySmallBold style={{ color: `${colors.errorRed}` }}>취소</heading.BodySmallBold>
