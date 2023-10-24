@@ -60,6 +60,10 @@ export const crew = {
     });
     return data;
   },
+  deleteCrew: async <T = Message>(crewId: string): Promise<T> => {
+    const { data } = await instance.delete(`/api/crew/${crewId}/delete`);
+    return data;
+  },
 };
 
 export const searchByCategory = {
