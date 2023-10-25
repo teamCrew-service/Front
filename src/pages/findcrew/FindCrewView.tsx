@@ -30,6 +30,7 @@ function FindCrewView({
   list,
 }: PropsType): JSX.Element {
   console.log('re-render');
+  console.log(list);
   return loading ? (
     <main>
       {categoryOpen && <CategoryModal categorySelectClose={categorySelectClose} selectCategory={selectCategory} />}
@@ -73,7 +74,7 @@ function FindCrewView({
           }}
         >
           {list.length !== 0 ? (
-            list.map(spot => <CrewCard spot={spot} />)
+            list.map(spot => <CrewCard key={spot.crew_crewId} spot={spot} />)
           ) : (
             <div
               style={{

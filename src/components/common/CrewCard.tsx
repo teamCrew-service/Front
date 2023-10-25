@@ -9,11 +9,11 @@ function CrewCard({ spot }: { spot: any }): JSX.Element {
   return (
     <CrewCardLink to={`/detail/${spot.crew_crewId}`} key={spot.crew_crewId}>
       <div style={{ display: 'flex', gap: '4px' }}>
-        <TagDiv $color="rgb(255, 234, 125, 0.5)">
-          <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot.crew_category}</p>
+        <TagDiv $color={colors.yellow}>
+          <heading.BodySmallMedium>{spot.crew_category}</heading.BodySmallMedium>
         </TagDiv>
         <TagDiv $color={spot.crew_crewType === '장기' ? colors.primary100 : colors.point100}>
-          <p style={{ fontSize: '10px', lineHeight: '14px' }}>{spot.crew_crewType}</p>
+          <heading.BodySmallMedium>{spot.crew_crewType}</heading.BodySmallMedium>
         </TagDiv>
       </div>
       <div>
@@ -24,9 +24,10 @@ function CrewCard({ spot }: { spot: any }): JSX.Element {
       </div>
       <div>
         {spot.crew_thumbnail !== undefined ? (
-          <ImageBox image={spot.crew_thumbnail} />
+          <ImageBox $image={spot.crew_thumbnail} />
         ) : (
-          <ImageBox image="">no image</ImageBox>
+          // 없을 때 이미지 필요
+          <ImageBox $image="">no image</ImageBox>
         )}
       </div>
       <div>
@@ -40,7 +41,7 @@ function CrewCard({ spot }: { spot: any }): JSX.Element {
         )}
         <div style={{ display: 'flex', gap: '2px' }}>
           <icons.Location />
-          <heading.BodySmallMedium>{spot.crew_crewAddress} 근처</heading.BodySmallMedium>
+          <heading.BodySmallMedium>{spot.crew_crewAddress}</heading.BodySmallMedium>
         </div>
       </div>
       <div
@@ -60,7 +61,7 @@ function CrewCard({ spot }: { spot: any }): JSX.Element {
         </p>
       </div>
       <div style={{ position: 'absolute', top: '16px', right: '16px', zIndex: 102 }}>
-        <icons.heart style={{ cursor: 'pointer' }} />
+        <icons.heart fill="black" />
       </div>
     </CrewCardLink>
   );

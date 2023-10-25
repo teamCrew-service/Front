@@ -67,11 +67,11 @@ function useMarkerClustering(spots: any[], map?: naver.maps.Map): any {
 
   const newCluster = new MarkerClustering({
     minClusterSize: 2, // 클러스터가 표시될 최소 마커 수
-    maxZoom: 14, // maxZoom보다 작을 경우 클러스터 표시
+    maxZoom: 15, // maxZoom보다 작을 경우 클러스터 표시
     map, // 클러스터가 표시될 맵
     markers, // 클러스터링 될 마커들
     disableClickZoom: false, // 더블클릭하여 확대할건지에 대한 여부
-    gridSize: 120, // px단위, gridSize로 정의된 그리드 크기 내에서 마커들을 그룹화하여 하나의 클러스터로 표시
+    gridSize: 40, // px단위, gridSize로 정의된 그리드 크기 내에서 마커들을 그룹화하여 하나의 클러스터로 표시
     icons: [htmlMarker1],
     indexGenerator: [100],
     stylingFunction: (clusterMarker: any, count: any) => {

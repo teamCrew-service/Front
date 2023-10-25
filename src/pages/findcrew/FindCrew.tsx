@@ -72,9 +72,13 @@ function FindCrew(): JSX.Element {
   };
 
   // 카테고리 선택
-  const selectCategory = (input: any): void => {
-    setCategory(input);
-    setList(spots.current.filter(spot => spot.crew_category === input));
+  const selectCategory = (input: string): void => {
+    let selectedCategory = input;
+    if (input.includes('%2F')) {
+      selectedCategory = input.replace('%2F', '/');
+    }
+    setCategory(selectedCategory);
+    setList(spots.current.filter(spot => spot.crew_category === selectedCategory));
     setCategoryOpen(false);
   };
 
@@ -104,27 +108,23 @@ function FindCrew(): JSX.Element {
     // console.log(data);
 
     if (map !== null) {
-      // 네이버 이벤트 : 처음 맵 표시되었을 때
-      naver.maps.Event.once(map, 'init', () => {
-        // console.log('first-event');
-        const currentBound = map.getBounds();
-        setList(
-          data.filter(spot => currentBound.hasPoint(new naver.maps.LatLng(spot.crew_latitude, spot.crew_longtitude))),
-        );
-      });
+      let currentBound = map.getBounds();
+      setList(
+        data.filter(spot => currentBound.hasPoint(new naver.maps.LatLng(spot.crew_latitude, spot.crew_longtitude))),
+      );
 
-      // 네이버 이벤트 2 : 드래그 완료 시
+      // 네이버 이벤트 1 : 드래그 완료 시
       listener.current = naver.maps.Event.addListener(map, 'dragend', () => {
-        const currentBound = map.getBounds();
+        currentBound = map.getBounds();
         // console.log('dragend');
         setList(
           data.filter(spot => currentBound.hasPoint(new naver.maps.LatLng(spot.crew_latitude, spot.crew_longtitude))),
         );
       });
 
-      // 네이버 이벤트 3 : 줌 레벨 변경 시
+      // 네이버 이벤트 2 : 줌 레벨 변경 시
       naver.maps.Event.addListener(map, 'zoom_changed', () => {
-        const currentBound = map.getBounds();
+        currentBound = map.getBounds();
         // console.log('zoomchanged');
         setList(
           data.filter(spot => currentBound.hasPoint(new naver.maps.LatLng(spot.crew_latitude, spot.crew_longtitude))),
