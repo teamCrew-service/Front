@@ -123,7 +123,7 @@ function SearchByCategory(): JSX.Element {
         <section id="interest-list-box">
           <ListBox>
             {filteredList.length !== 0 ? (
-              filteredList.map(spot => <CrewCard key={spot?.crew_crewId} spot={spot} />)
+              filteredList.map(spot => <CrewCard key={spot?.crew_crewId} spot={spot} page="searchbycategory" />)
             ) : (
               <div
                 style={{

@@ -5,7 +5,18 @@ import icons from '../../assets/icons';
 import colors from '../../assets/styles/color';
 import useCalDate from '../../util/useCalDate';
 
-function CrewCard({ spot }: { spot: any }): JSX.Element {
+function CrewCard({ spot, page }: { spot: any; page: string }): JSX.Element {
+  const showHeart = !!(page === 'findcrew' || page === 'searchbycategory' || page === 'mypage');
+
+  let heartComp = null;
+
+  if (showHeart) {
+    heartComp = <icons.ActiveHeart />;
+    if ((page === 'findcrew' || page === 'searchbycategory') && spot.likeCheck === '0') {
+      heartComp = <icons.heart fill="black" />;
+    }
+  }
+
   return (
     <CrewCardLink to={`/detail/${spot.crew_crewId}`} key={spot.crew_crewId}>
       <div style={{ display: 'flex', gap: '4px' }}>
@@ -60,9 +71,7 @@ function CrewCard({ spot }: { spot: any }): JSX.Element {
           {spot.crewAttendedMember}/{spot.crew_crewMaxMember}
         </p>
       </div>
-      <div style={{ position: 'absolute', top: '16px', right: '16px', zIndex: 102 }}>
-        <icons.heart fill="black" />
-      </div>
+      <div style={{ position: 'absolute', top: '16px', right: '16px', zIndex: 102 }}>{heartComp}</div>
     </CrewCardLink>
   );
 }

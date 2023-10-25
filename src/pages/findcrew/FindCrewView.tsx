@@ -73,7 +73,7 @@ function FindCrewView({
           }}
         >
           {list.length !== 0 ? (
-            list.map(spot => <CrewCard key={spot.crew_crewId} spot={spot} />)
+            list.map(spot => <CrewCard key={spot.crew_crewId} spot={spot} page="findcrew" />)
           ) : (
             <div
               style={{

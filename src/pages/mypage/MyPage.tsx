@@ -200,7 +200,7 @@ function MyPage(): JSX.Element {
               <CardBox>
                 {myPageInfo?.likedCrew.map(item => (
                   <CardItem key={item.crew_crewId}>
-                    <CrewCard key={item.crew_crewId} spot={item} />
+                    <CrewCard key={item.crew_crewId} spot={item} page="mypage" />
                   </CardItem>
                 ))}
               </CardBox>
