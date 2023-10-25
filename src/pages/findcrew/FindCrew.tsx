@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import useMarkerClustering from '../../util/useMarkerClustering';
-// import spots from './mockData';
+
 import FindCrewView from './FindCrewView';
 import { navermap } from '../../api';
 import type { Spot } from '../../assets/interfaces';
+import Loading from '../../components/common/Loading';
 
 function FindCrew(): JSX.Element {
   // 위치 정보 로딩 여부
   const [loading, setLoading] = useState<boolean>(false);
+  const [getData, setGetData] = useState<boolean>(false);
 
   // 현재 위치 정보, getlocation
   const spots = useRef<Spot[]>([]);
@@ -18,11 +20,11 @@ function FindCrew(): JSX.Element {
     navermap
       .findcrew()
       .then(res => {
-        console.log(res);
+        console.log('크루 리스트 = ', res);
         if (res.length !== 0) {
-          spots.current = [...res];
+          spots.current = res;
         }
-        // console.log(res);
+        setGetData(true);
       })
       .catch(error => {
         alert(error);
@@ -32,7 +34,6 @@ function FindCrew(): JSX.Element {
     navigator.geolocation.getCurrentPosition(position => {
       latlng.lat = position.coords.latitude;
       latlng.lng = position.coords.longitude;
-      // console.log('complete get my location');
       // 3. loading 완료
       setLoading(true);
     });
@@ -153,6 +154,10 @@ function FindCrew(): JSX.Element {
       }
     };
   }, [map, category]);
+
+  if (!getData || !loading) {
+    return <Loading />;
+  }
 
   return (
     <FindCrewView
