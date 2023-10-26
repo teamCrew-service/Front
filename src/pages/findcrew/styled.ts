@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import colors from '../../assets/styles/color';
 
-export const CrewCardLink = styled(Link)`
+export const CrewCardDiv = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;

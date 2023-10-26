@@ -184,3 +184,14 @@ export const mypage = {
     return data;
   },
 };
+
+export const like = {
+  postLike: async (crewId: string) => {
+    const { data } = await instance.post(`/api/like/${crewId}`);
+    return data;
+  },
+  deleteLike: async (crewId: string) => {
+    const { data } = await instance.delete(`/api/like/${crewId}`);
+    return data;
+  },
+};

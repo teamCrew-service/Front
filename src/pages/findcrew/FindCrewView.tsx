@@ -29,7 +29,6 @@ function FindCrewView({
   mapDiv,
   list,
 }: PropsType): JSX.Element {
-  console.log('맵 내 크루들 = ', list);
   return loading ? (
     <main>
       {categoryOpen && <CategoryModal categorySelectClose={categorySelectClose} selectCategory={selectCategory} />}

@@ -117,6 +117,7 @@ function MyPage(): JSX.Element {
     data: myPageInfo,
     isLoading,
     isError,
+    refetch,
   } = useQuery('getUserInfo', mypage.getUserInfo, {
     onSuccess: res => {
       console.log(res);
@@ -200,7 +201,7 @@ function MyPage(): JSX.Element {
               <CardBox>
                 {myPageInfo?.likedCrew.map(item => (
                   <CardItem key={item.crew_crewId}>
-                    <CrewCard key={item.crew_crewId} spot={item} page="mypage" />
+                    <CrewCard key={item.crew_crewId} spot={item} page="mypage" refetch={refetch} />
                   </CardItem>
                 ))}
               </CardBox>
