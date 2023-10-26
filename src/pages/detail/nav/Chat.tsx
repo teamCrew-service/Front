@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { io } from 'socket.io-client';
+import type { Socket } from 'socket.io-client';
 import '../style.css';
 
 interface Message {
@@ -7,6 +9,16 @@ interface Message {
   time: Date;
   thumbnail: string;
   location: string;
+}
+
+interface ServerToClient {
+  noArg: () => void;
+  message: (userId: number, content: string) => void;
+}
+
+interface ClientToServer {
+  noArg: () => void;
+  sendMessage: (roomId: number, userId: number, content: string) => void;
 }
 
 function Chat(): JSX.Element {
@@ -98,7 +110,36 @@ function Chat(): JSX.Element {
   useEffect(() => {
     const sortedData = [...rawMockData].sort((a, b) => a.time.getTime() - b.time.getTime());
     setMockData(sortedData);
+
+    const socket: Socket<ServerToClient, ClientToServer> = io(process.env.REACT_APP_SERVER_URL as string);
+
+    socket.on('message', (userId: number, content: string) => {
+      const newMessage: Message = {
+        user: `user${userId}`,
+        message: content,
+        time: new Date(),
+        thumbnail: '',
+        location: '',
+      };
+
+      setMockData(prevData => [...prevData, newMessage]);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
   }, []);
+
+  // 채팅 창
+  const chatWindow = useRef<HTMLDivElement>(null);
+
+  // 새 메시지가 도착하면, 스크롤을 아래로 이동
+  useEffect(() => {
+    if (chatWindow.current !== null) {
+      chatWindow.current.scrollTop = chatWindow.current.scrollHeight;
+    }
+    return () => {};
+  }, [mockData]);
 
   function renderDateSeparator(prevDate: Date, currDate: Date): JSX.Element | null {
     if (prevDate.getDate() !== currDate.getDate()) {
