@@ -84,9 +84,9 @@ const CardContainer = styled.div`
   width: 100%;
   height: 88.89%;
   overflow-x: auto;
-  &::-webkit-scrollbar {
+  /* &::-webkit-scrollbar {
     display: none;
-  }
+  } */
 `;
 
 const CardBox = styled.div`
