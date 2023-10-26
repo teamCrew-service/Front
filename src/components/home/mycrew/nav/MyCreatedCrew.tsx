@@ -55,7 +55,7 @@ function MyCreatedCrew(): JSX.Element {
     <ListBox>
       {myCreatedCrewList?.map(item => (
         <StyledDiv key={item.crew_crewId}>
-          <CrewCard key={item.crew_crewId} spot={item} />
+          <CrewCard key={item.crew_crewId} spot={item} page="mycrew" />
           {item.existSignup !== '0' && (
             <ExistPermissionDiv>
               <heading.BodySmallMedium style={{ color: `${colors.primary}` }}>

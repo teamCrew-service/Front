@@ -6,7 +6,11 @@ import { ReactComponent as chevronDown } from './chevronDown.svg';
 import { ReactComponent as chevronUp } from './chevronUp.svg';
 import { ReactComponent as chevronLeft } from './chevronLeft.svg';
 import { ReactComponent as chevronRight } from './chevronRight.svg';
+
+// CrewCard
 import { ReactComponent as heart } from './heart.svg';
+import { ReactComponent as ActiveHeart } from './ActiveHeart.svg';
+
 import { ReactComponent as Calendar } from './Calendar.svg';
 import { ReactComponent as Location } from './Location.svg';
 import { ReactComponent as users } from './users.svg';
@@ -64,6 +68,7 @@ const icons = {
   close,
   plus,
   heart,
+  ActiveHeart,
   Calendar,
   Location,
   users,

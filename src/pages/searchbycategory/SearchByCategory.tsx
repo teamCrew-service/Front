@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useQuery } from 'react-query';
 import colors from '../../assets/styles/color';
 import icons from '../../assets/icons';
 import './style.css';
@@ -12,8 +13,8 @@ import type { SearchByCategory as CategoryInterface } from '../../assets/interfa
 function SearchByCategory(): JSX.Element {
   const navigate = useNavigate();
   // 선택된 카테고리
-  const location = useLocation();
-  const { interest } = location.state ?? {};
+  const { interest }: { interest: string } = useLocation().state;
+  // const { interest } = location.state ?? {};
 
   // 검색 시 사용되는 항목
   const [searchTerm, setSearchTerm] = useState('');
@@ -22,48 +23,50 @@ function SearchByCategory(): JSX.Element {
   // 검색으로 보여지는 리스트
   const [filteredList, setFilteredList] = useState<Partial<CategoryInterface[]>>([]);
 
-  async function fetchData(
-    search: string,
-    typeFilter: string,
-    category: string,
-  ): Promise<Partial<CategoryInterface[]>> {
-    try {
-      // 카테고리로 api 요청
-      let crews = await searchByCategory.getSearchByCategory(category);
-      console.log(crews);
-
-      // 검색 항목으로 리스트 찾기
-      if (search !== '') {
-        crews = crews.filter(crew => crew.crew_crewTitle.includes(search));
+  const {
+    data: crewList,
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery(
+    'getCrewByCategory',
+    async () => {
+      let category = interest;
+      if (interest.includes('%2F')) {
+        category = interest.replace('%2F', '/');
       }
+      const result = await searchByCategory.getSearchByCategory(category);
+      return result;
+    },
+    {
+      onSuccess: res => {
+        console.log('카테고리별 크루 = ', res);
+      },
+      onError: err => {
+        console.log('카테고리별 크루 에러 ', err);
+      },
+      refetchOnWindowFocus: false,
+    },
+  );
 
-      if (typeFilter !== '') {
-        crews = crews.filter(crew => crew.crew_crewType === typeFilter || typeFilter === '전체');
-      }
-
-      if (category !== '') {
-        let newCategory = category;
-        if (category.includes('%2F')) {
-          newCategory = category.replace('%2F', '/');
-        }
-        crews = crews.filter(crew => crew.crew_category === newCategory);
-      }
-
-      return crews;
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      throw error;
+  function fetchData(search: string, typeFilter: string): any {
+    let crews = crewList!;
+    // 검색 항목으로 리스트 찾기
+    if (search !== '') {
+      crews = crews.filter(crew => crew.crew_crewTitle.includes(search));
     }
+
+    if (typeFilter !== '') {
+      crews = crews.filter(crew => crew.crew_crewType === typeFilter || typeFilter === '전체');
+    }
+    return crews;
   }
 
   useEffect(() => {
-    fetchData(searchTerm, crewTypeFilter, interest)
-      .then(crews => {
-        setFilteredList(crews);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    if (!isLoading && !isError) {
+      const searchedCrewList = fetchData(searchTerm, crewTypeFilter);
+      setFilteredList(searchedCrewList);
+    }
   }, [searchTerm, crewTypeFilter]);
 
   return (
@@ -76,7 +79,7 @@ function SearchByCategory(): JSX.Element {
           style={{ cursor: 'pointer' }}
         />
         <heading.BodyLargeBold>
-          {interest.includes('%2F') === true ? interest.replace('%2F', '/') : interest}
+          {interest.includes('%2F') ? interest.replace('%2F', '/') : interest}
         </heading.BodyLargeBold>
         <div style={{ width: '24px' }} />
       </header>
@@ -123,7 +126,9 @@ function SearchByCategory(): JSX.Element {
         <section id="interest-list-box">
           <ListBox>
             {filteredList.length !== 0 ? (
-              filteredList.map(spot => <CrewCard key={spot?.crew_crewId} spot={spot} />)
+              filteredList.map(spot => (
+                <CrewCard key={spot?.crew_crewId} spot={spot} page="searchbycategory" refetch={refetch} />
+              ))
             ) : (
               <div
                 style={{

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import colors from '../../assets/styles/color';
 
-export const CrewCardLink = styled(Link)`
+export const CrewCardDiv = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -18,20 +18,18 @@ export const CrewCardLink = styled(Link)`
 
 export const TagDiv = styled.div<{ $color: string }>`
   width: fit-content;
-  height: 18px;
+  height: fit-content;
   background-color: ${props => props.$color};
-  padding: 2px 8px;
+  padding: 4px 10px;
   border-radius: 200px;
 `;
 
-export const ImageBox = styled.div<{ image: string }>`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+export const ImageBox = styled.div<{ $image: string }>`
   width: 56px;
   height: 56px;
   border-radius: 8px;
-  background-image: url(${props => props.image});
+  background-image: url(${props => props.$image});
+  background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
 `;
