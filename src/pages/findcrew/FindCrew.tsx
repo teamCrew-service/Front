@@ -52,8 +52,8 @@ function FindCrew(): JSX.Element {
     isLoading,
     refetch,
   } = useQuery('getMapCrewList', navermap.findcrew, {
-    onSuccess: res => {
-      console.log('맵 전체 크루 리스트 = ', res);
+    onSuccess: () => {
+      console.log('api 요청 성공');
     },
     refetchOnWindowFocus: false,
   });
@@ -77,6 +77,13 @@ function FindCrew(): JSX.Element {
     setCategory(selectedCategory);
     setList(crewList!.filter(spot => spot.crew_category === selectedCategory));
     setCategoryOpen(false);
+    refetch()
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   // 3. loading 완료 -> 네이버 맵 설정
@@ -99,22 +106,27 @@ function FindCrew(): JSX.Element {
   /* 4. 맵 설정 -> 네이버 맵에 이벤트 등록
               -> 클러스터 생성        */
   useEffect(() => {
-    // console.log(spots.current, map, category);
-    // category 설정에 따른 data 값 변경
-    if (!isLoading && !isError) {
-      const data = category === '관심사' ? crewList! : crewList!.filter(spot => spot.crew_category === category);
+    // 카테고리 변경 시 일어나는 일
 
+    if (!isLoading && !isError && crewList !== undefined) {
       if (map !== null) {
+        // 1. 카테고리 별 List 설정
         let currentBound = map.getBounds();
+        const crewListByCategory =
+          category === '관심사' ? crewList : crewList.filter(spot => spot.crew_category === category);
         setList(
-          data.filter(spot => currentBound.hasPoint(new naver.maps.LatLng(spot.crew_latitude, spot.crew_longtitude))),
+          crewListByCategory.filter(spot =>
+            currentBound.hasPoint(new naver.maps.LatLng(spot.crew_latitude, spot.crew_longtitude)),
+          ),
         );
 
-        // 네이버 이벤트 1 : 드래그 완료 시
+        // 2. 네이버 이벤트 등록 : 드래그 완료 시
         listener.current = naver.maps.Event.addListener(map, 'dragend', async () => {
           currentBound = map.getBounds();
           // console.log('dragend');
-          const { data: newData } = await refetch();
+          const { data: refetchedData } = await refetch();
+          const newData =
+            category === '관심사' ? refetchedData! : refetchedData?.filter(item => item.crew_category === category);
           if (newData !== undefined) {
             setList(
               newData.filter(spot =>
@@ -124,28 +136,36 @@ function FindCrew(): JSX.Element {
           }
         });
 
-        // 네이버 이벤트 2 : 줌 레벨 변경 시
-        naver.maps.Event.addListener(map, 'zoom_changed', () => {
+        // 3. 네이버 이벤트 등록 : 줌 레벨 변경 시
+        naver.maps.Event.addListener(map, 'zoom_changed', async () => {
           currentBound = map.getBounds();
           // console.log('zoomchanged');
-          setList(
-            data.filter(spot => currentBound.hasPoint(new naver.maps.LatLng(spot.crew_latitude, spot.crew_longtitude))),
-          );
+          const { data: refetchedData } = await refetch();
+          const newData =
+            category === '관심사' ? refetchedData! : refetchedData?.filter(item => item.crew_category === category);
+          if (newData !== undefined) {
+            setList(
+              newData.filter(spot =>
+                currentBound.hasPoint(new naver.maps.LatLng(spot.crew_latitude, spot.crew_longtitude)),
+              ),
+            );
+          }
         });
 
-        // 클러스터 설정
+        // 4. 클러스터 설정
         if (newCluster.current === null) {
           // console.log('create cluster', data);
-          newCluster.current = useMarkerClustering(data, map);
+          newCluster.current = useMarkerClustering(crewListByCategory, map);
         } else {
           // console.log('change cluster', data);
           newCluster.current.setMap(null);
-          newCluster.current = useMarkerClustering(data, map);
+          newCluster.current = useMarkerClustering(crewListByCategory, map);
         }
       }
     }
-    // 카테고리 변경 시 현재 이벤트 제거 후 새로 등록을 위한 clean up
+
     return () => {
+      // 카테고리 변경 시 현재 이벤트 제거 후 새로 등록을 위한 clean up
       if (map !== null) {
         if (naver.maps.Event.hasListener(map, 'dragend')) {
           naver.maps.Event.removeListener(listener.current);
