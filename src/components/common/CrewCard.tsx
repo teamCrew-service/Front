@@ -13,34 +13,17 @@ function CrewCard({ spot, page, refetch = () => {} }: { spot: any; page: string;
   const showHeart = !!(page === 'findcrew' || page === 'searchbycategory' || page === 'mypage');
   const isLikeCrew = spot.likeCheck;
 
-  const checkLike = (event: React.MouseEvent<SVGSVGElement, MouseEvent>): void => {
-    event.stopPropagation();
-    if (page === 'mypage') {
-      like
-        .postLike(spot.crew_crewId)
-        .then(res => {
-          console.log('좋아요 성공 유무 = ', res);
-          refetch();
-        })
-        .catch(err => {
-          console.log('좋아요 실패! ', err);
-        });
-    }
-  };
-
   const unCheckLike = (event: React.MouseEvent<SVGSVGElement, MouseEvent>): void => {
     event.stopPropagation();
-    if (page === 'mypage') {
-      like
-        .deleteLike(spot.crew_crewId)
-        .then(res => {
-          console.log('좋아요 성공 유무 = ', res);
-          refetch();
-        })
-        .catch(err => {
-          console.log('좋아요 실패! ', err);
-        });
-    }
+    like
+      .deleteLike(spot.crew_crewId)
+      .then(res => {
+        console.log('좋아요 성공 유무 = ', res);
+        refetch();
+      })
+      .catch(err => {
+        console.log('좋아요 실패! ', err);
+      });
   };
 
   return (
@@ -104,8 +87,8 @@ function CrewCard({ spot, page, refetch = () => {} }: { spot: any; page: string;
       </div>
       {showHeart && (
         <div style={{ position: 'absolute', top: '16px', right: '16px', zIndex: 102 }}>
-          {isLikeCrew === '1' && <icons.ActiveHeart onClick={unCheckLike} />}
-          {isLikeCrew === '0' && <icons.heart fill="black" onClick={checkLike} />}
+          {isLikeCrew === '1' && <icons.ActiveHeart />}
+          {isLikeCrew === '0' && <icons.heart fill="black" />}
           {page === 'mypage' && <icons.ActiveHeart onClick={unCheckLike} />}
         </div>
       )}
