@@ -29,6 +29,7 @@ function FindCrewView({
   mapDiv,
   list,
 }: PropsType): JSX.Element {
+  console.log('현재 list = ', list);
   return loading ? (
     <main>
       {categoryOpen && <CategoryModal categorySelectClose={categorySelectClose} selectCategory={selectCategory} />}

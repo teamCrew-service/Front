@@ -143,6 +143,8 @@ export interface GuestDetail {
   crew: Crew;
   member: Member[];
   personType: string;
+  myUserId: string;
+  likeCheck: boolean;
   likeCount: number;
 }
 

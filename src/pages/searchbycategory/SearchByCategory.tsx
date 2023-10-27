@@ -9,12 +9,12 @@ import heading from '../../styledComponent/heading';
 import { SearchingDiv, SearchingInput, SearchingNav, NavItem, ListBox } from './styled';
 import { searchByCategory } from '../../api';
 import type { SearchByCategory as CategoryInterface } from '../../assets/interfaces';
+import Loading from '../../components/common/Loading';
 
 function SearchByCategory(): JSX.Element {
   const navigate = useNavigate();
   // 선택된 카테고리
   const { interest }: { interest: string } = useLocation().state;
-  // const { interest } = location.state ?? {};
 
   // 검색 시 사용되는 항목
   const [searchTerm, setSearchTerm] = useState('');
@@ -27,7 +27,6 @@ function SearchByCategory(): JSX.Element {
     data: crewList,
     isLoading,
     isError,
-    refetch,
   } = useQuery(
     'getCrewByCategory',
     async () => {
@@ -67,7 +66,11 @@ function SearchByCategory(): JSX.Element {
       const searchedCrewList = fetchData(searchTerm, crewTypeFilter);
       setFilteredList(searchedCrewList);
     }
-  }, [searchTerm, crewTypeFilter]);
+  }, [searchTerm, crewTypeFilter, isLoading]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -126,9 +129,7 @@ function SearchByCategory(): JSX.Element {
         <section id="interest-list-box">
           <ListBox>
             {filteredList.length !== 0 ? (
-              filteredList.map(spot => (
-                <CrewCard key={spot?.crew_crewId} spot={spot} page="searchbycategory" refetch={refetch} />
-              ))
+              filteredList.map(spot => <CrewCard key={spot?.crew_crewId} spot={spot} page="searchbycategory" />)
             ) : (
               <div
                 style={{

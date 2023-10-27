@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useQuery, useMutation } from 'react-query';
 import { useParams } from 'react-router-dom';
 
-import { crew } from '../../api';
+import { crew, like } from '../../api';
 
 import icons from '../../assets/icons';
 import CrewThumbnail from '../../assets/icons/CrewThumbnail.svg';
@@ -211,7 +211,6 @@ function Detail(): JSX.Element {
 
   // 크루 가입 양식에 맞춘 크루 가입 함수 설정
   let joinCrewFunc = (): void => {};
-
   if (status !== 'loading' && status !== 'error') {
     joinCrewFunc =
       crewInfo?.result.crew.crew_crewSignup === 0
@@ -219,6 +218,32 @@ function Detail(): JSX.Element {
             signUpCrew.mutate();
           }
         : openJoinCrewModal;
+  }
+
+  // 현재 좋아요 상태에 따른 좋아요 버튼 클릭 시 실행되는 함수 설정
+  let likeCrewFunc: () => void = (): void => {};
+  if (status !== 'loading' && status !== 'error') {
+    if (crewInfo !== undefined) {
+      if (!crewInfo.result.likeCheck) {
+        likeCrewFunc = () => {
+          like
+            .postLike(crewInfo.result.crew.crew_crewId)
+            .then(refetch)
+            .catch(err => {
+              console.log(err);
+            });
+        };
+      } else {
+        likeCrewFunc = () => {
+          like
+            .deleteLike(crewInfo.result.crew.crew_crewId)
+            .then(refetch)
+            .catch(err => {
+              console.log(err);
+            });
+        };
+      }
+    }
   }
 
   // 로딩 중일 때 보여주는 화면
@@ -374,8 +399,9 @@ function Detail(): JSX.Element {
       {/* 크루 가입 버튼 */}
       {crewInfo?.result.personType === 'person' && (
         <InteractiveBtnContainer>
-          <LikeDiv>
-            <icons.heart />
+          <LikeDiv onClick={likeCrewFunc}>
+            {!crewInfo.result.likeCheck && <icons.heart fill={colors.primary} />}
+            {crewInfo.result.likeCheck && <icons.ActiveHeart />}
             <heading.BodyBaseBold>
               {crewInfo.result.likeCount > 99 ? '99+' : crewInfo.result.likeCount}
             </heading.BodyBaseBold>

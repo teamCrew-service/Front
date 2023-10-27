@@ -50,7 +50,6 @@ function FindCrew(): JSX.Element {
     data: crewList,
     isError,
     isLoading,
-    refetch,
   } = useQuery('getMapCrewList', navermap.findcrew, {
     onSuccess: () => {
       console.log('api 요청 성공');
@@ -77,13 +76,6 @@ function FindCrew(): JSX.Element {
     setCategory(selectedCategory);
     setList(crewList!.filter(spot => spot.crew_category === selectedCategory));
     setCategoryOpen(false);
-    refetch()
-      .then(res => {
-        console.log(res.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
   };
 
   // 3. loading 완료 -> 네이버 맵 설정
@@ -124,32 +116,22 @@ function FindCrew(): JSX.Element {
         listener.current = naver.maps.Event.addListener(map, 'dragend', async () => {
           currentBound = map.getBounds();
           // console.log('dragend');
-          const { data: refetchedData } = await refetch();
-          const newData =
-            category === '관심사' ? refetchedData! : refetchedData?.filter(item => item.crew_category === category);
-          if (newData !== undefined) {
-            setList(
-              newData.filter(spot =>
-                currentBound.hasPoint(new naver.maps.LatLng(spot.crew_latitude, spot.crew_longtitude)),
-              ),
-            );
-          }
+          setList(
+            crewListByCategory.filter(spot =>
+              currentBound.hasPoint(new naver.maps.LatLng(spot.crew_latitude, spot.crew_longtitude)),
+            ),
+          );
         });
 
         // 3. 네이버 이벤트 등록 : 줌 레벨 변경 시
         naver.maps.Event.addListener(map, 'zoom_changed', async () => {
           currentBound = map.getBounds();
           // console.log('zoomchanged');
-          const { data: refetchedData } = await refetch();
-          const newData =
-            category === '관심사' ? refetchedData! : refetchedData?.filter(item => item.crew_category === category);
-          if (newData !== undefined) {
-            setList(
-              newData.filter(spot =>
-                currentBound.hasPoint(new naver.maps.LatLng(spot.crew_latitude, spot.crew_longtitude)),
-              ),
-            );
-          }
+          setList(
+            crewListByCategory.filter(spot =>
+              currentBound.hasPoint(new naver.maps.LatLng(spot.crew_latitude, spot.crew_longtitude)),
+            ),
+          );
         });
 
         // 4. 클러스터 설정
