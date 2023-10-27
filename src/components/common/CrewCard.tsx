@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CrewCardDiv, TagDiv, ImageBox } from '../../pages/findcrew/styled';
 import heading from '../../styledComponent/heading';
@@ -10,43 +10,37 @@ import { like } from '../../api';
 function CrewCard({ spot, page, refetch = () => {} }: { spot: any; page: string; refetch?: any }): JSX.Element {
   const navigate = useNavigate();
 
-  const [isLikeCrew, setIsLikeCrew] = useState<'noShow' | 'like' | 'unLike'>(() => {
-    const showHeart = !!(page === 'findcrew' || page === 'searchbycategory' || page === 'mypage');
-    if (showHeart) {
-      if ((page === 'findcrew' || page === 'searchbycategory') && spot.likeCheck === '0') {
-        return 'unLike';
-      }
-      return 'like';
-    }
-    return 'noShow';
-  });
+  const showHeart = !!(page === 'findcrew' || page === 'searchbycategory' || page === 'mypage');
+  const isLikeCrew = spot.likeCheck;
 
   const checkLike = (event: React.MouseEvent<SVGSVGElement, MouseEvent>): void => {
     event.stopPropagation();
-    like
-      .postLike(spot.crew_crewId)
-      .then(res => {
-        console.log('좋아요 성공 유무 = ', res);
-        refetch();
-        setIsLikeCrew('like');
-      })
-      .catch(err => {
-        console.log('좋아요 실패! ', err);
-      });
+    if (page === 'mypage') {
+      like
+        .postLike(spot.crew_crewId)
+        .then(res => {
+          console.log('좋아요 성공 유무 = ', res);
+          refetch();
+        })
+        .catch(err => {
+          console.log('좋아요 실패! ', err);
+        });
+    }
   };
 
   const unCheckLike = (event: React.MouseEvent<SVGSVGElement, MouseEvent>): void => {
     event.stopPropagation();
-    like
-      .deleteLike(spot.crew_crewId)
-      .then(res => {
-        console.log('좋아요 성공 유무 = ', res);
-        refetch();
-        setIsLikeCrew('unLike');
-      })
-      .catch(err => {
-        console.log('좋아요 실패! ', err);
-      });
+    if (page === 'mypage') {
+      like
+        .deleteLike(spot.crew_crewId)
+        .then(res => {
+          console.log('좋아요 성공 유무 = ', res);
+          refetch();
+        })
+        .catch(err => {
+          console.log('좋아요 실패! ', err);
+        });
+    }
   };
 
   return (
@@ -108,10 +102,13 @@ function CrewCard({ spot, page, refetch = () => {} }: { spot: any; page: string;
           {spot.crewAttendedMember}/{spot.crew_crewMaxMember}
         </p>
       </div>
-      <div style={{ position: 'absolute', top: '16px', right: '16px', zIndex: 102 }}>
-        {isLikeCrew === 'like' && <icons.ActiveHeart onClick={unCheckLike} />}
-        {isLikeCrew === 'unLike' && <icons.heart fill="black" onClick={checkLike} />}
-      </div>
+      {showHeart && (
+        <div style={{ position: 'absolute', top: '16px', right: '16px', zIndex: 102 }}>
+          {isLikeCrew === '1' && <icons.ActiveHeart onClick={unCheckLike} />}
+          {isLikeCrew === '0' && <icons.heart fill="black" onClick={checkLike} />}
+          {page === 'mypage' && <icons.ActiveHeart onClick={unCheckLike} />}
+        </div>
+      )}
     </CrewCardDiv>
   );
 }
