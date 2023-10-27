@@ -250,4 +250,43 @@
   margin-bottom: 16px;
 }
 
+.input-container {
+  display: flex;
+  padding: 0 16px;
+  padding-bottom: 0px;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  background: #fff;
+}
+
+.input-form-container {
+  display: flex;
+  width: 100%;
+  padding: 8px 16px;
+  align-items: center;
+  border-radius: 100px;
+  border: 1px solid var(--gray-400, #b9b7c2);
+  background: var(--sky-white, #fff);
+}
+
+.input-form {
+  width: 90%;
+  height: 16px;
+  color: #4f4e55;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 142.857% */
+  letter-spacing: 0.14px;
+  border: none;
+  resize: none;
+  overflow-wrap: break-word;
+}
+
+.input-form::placeholder {
+  color: var(--gray-400, #b9b7c2);
+}
+
 /* ------------------------ 채팅 ------------------------- */

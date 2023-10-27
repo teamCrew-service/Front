@@ -47,6 +47,9 @@ import { ReactComponent as CalendarBlank } from './CalendarBlank.svg';
 // 투표 생성 페이지
 import { ReactComponent as CheckBox } from './CheckBox.svg';
 
+// 채팅 페이지
+import { ReactComponent as ArrowUp } from './arrow-up.svg';
+
 const icons = {
   TeamLogo,
   Kakao,
@@ -83,6 +86,7 @@ const icons = {
   MegaPhone,
   CalendarBlank,
   CheckBox,
+  ArrowUp,
 };
 
 export default icons;

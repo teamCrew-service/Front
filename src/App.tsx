@@ -18,7 +18,6 @@ import Location from './pages/userinfo/7.location/Location';
 import UpcomingSchedule from './pages/upcomingschedule/UpcomingSchedule';
 import SearchByCategory from './pages/searchbycategory/SearchByCategory';
 import Detail from './pages/detail/Detail';
-import Chat from './pages/detail/nav/Chat';
 import CreateCrew from './pages/createcrew/CreateCrew';
 import MyCrew from './pages/mycrew/MyCrew';
 import Permission from './pages/permission/Permission';
@@ -47,7 +46,6 @@ function App(): JSX.Element {
               <Route path="/detail/:id" element=<Detail /> />
               <Route path="/upcomingschedule" element=<UpcomingSchedule /> />
               <Route path="/searchbycategory" element=<SearchByCategory /> />
-              <Route path="/chat" element=<Chat /> />
               <Route path="/makecrew" element=<CreateCrew /> />
               <Route path="/permission" element=<Permission /> />
             </Routes>
