@@ -1,28 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import colors from '../../assets/styles/color';
 import icons from '../../assets/icons';
 import './style.css';
 import CrewCard from '../../components/common/CrewCard';
 import heading from '../../styledComponent/heading';
 import { SearchingDiv, SearchingInput, SearchingNav, NavItem, ListBox } from './styled';
 import { searchByCategory } from '../../api';
-import type { SearchByCategory as CategoryInterface } from '../../assets/interfaces';
+// import type { SearchByCategory as CategoryInterface } from '../../assets/interfaces';
 import Loading from '../../components/common/Loading';
 
 function SearchByCategory(): JSX.Element {
   const navigate = useNavigate();
   // 선택된 카테고리
   const { interest }: { interest: string } = useLocation().state;
-  console.log(interest);
+
+  // 크루 타입 nav
+  const [crewTypeFilter, setCrewTypeFilter] = useState('전체');
 
   // 검색 시 사용되는 항목
   const [searchTerm, setSearchTerm] = useState('');
-  const [crewTypeFilter, setCrewTypeFilter] = useState('전체');
-
-  // 검색으로 보여지는 리스트
-  const [filteredList, setFilteredList] = useState<CategoryInterface[]>([]);
 
   const {
     data: crewList,
@@ -32,12 +29,14 @@ function SearchByCategory(): JSX.Element {
     'getCrewByCategory',
     async () => {
       const result = await searchByCategory.getSearchByCategory(interest);
-      return result;
+      const all = result;
+      const long = result.filter(item => item.crew_crewType === '장기');
+      const short = result.filter(item => item.crew_crewType === '단기');
+      return { all, long, short };
     },
     {
       onSuccess: res => {
         console.log('카테고리별 크루 = ', res);
-        setFilteredList(res);
       },
       onError: err => {
         console.log('카테고리별 크루 에러 ', err);
@@ -45,26 +44,6 @@ function SearchByCategory(): JSX.Element {
       refetchOnWindowFocus: false,
     },
   );
-
-  function fetchData(search: string, typeFilter: string): any {
-    let crews = crewList!;
-    // 검색 항목으로 리스트 찾기
-    if (search !== '') {
-      crews = crews.filter(crew => crew.crew_crewTitle.includes(search));
-    }
-
-    if (typeFilter !== '') {
-      crews = crews.filter(crew => crew.crew_crewType === typeFilter);
-    }
-    return crews;
-  }
-
-  useEffect(() => {
-    if (searchTerm !== '' || crewTypeFilter !== '전체') {
-      const searchedCrewList = fetchData(searchTerm, crewTypeFilter);
-      setFilteredList(searchedCrewList);
-    }
-  }, [searchTerm, crewTypeFilter]);
 
   if (isLoading) {
     return <Loading />;
@@ -130,23 +109,37 @@ function SearchByCategory(): JSX.Element {
         {/* 리스트 박스 */}
         <section id="interest-list-box">
           <ListBox>
-            {filteredList.length !== 0 ? (
-              filteredList.map(spot => <CrewCard key={spot?.crew_crewId} spot={spot} page="searchbycategory" />)
-            ) : (
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: '100%',
-                  color: `${colors.gray400}`,
-                }}
-              >
-                <p style={{ fontWeight: 700, fontSize: '16px', lineHeight: '22px', letterSpacing: '-0.4px' }}>
-                  검색 결과가 없습니다.
-                </p>
-              </div>
+            {searchTerm === '' && (
+              <>
+                {crewTypeFilter === '전체' &&
+                  crewList?.all.length !== 0 &&
+                  crewList?.all.map(spot => <CrewCard key={spot?.crew_crewId} spot={spot} page="searchbycategory" />)}
+                {crewTypeFilter === '장기' &&
+                  crewList?.long.length !== 0 &&
+                  crewList?.long.map(spot => <CrewCard key={spot?.crew_crewId} spot={spot} page="searchbycategory" />)}
+                {crewTypeFilter === '단기' &&
+                  crewList?.short.length !== 0 &&
+                  crewList?.short.map(spot => <CrewCard key={spot?.crew_crewId} spot={spot} page="searchbycategory" />)}
+              </>
+            )}
+            {searchTerm !== '' && (
+              <>
+                {crewTypeFilter === '전체' &&
+                  crewList?.all.length !== 0 &&
+                  crewList?.all
+                    .filter(spot => spot.crew_crewTitle.includes(searchTerm))
+                    .map(spot => <CrewCard key={spot?.crew_crewId} spot={spot} page="searchbycategory" />)}
+                {crewTypeFilter === '장기' &&
+                  crewList?.long.length !== 0 &&
+                  crewList?.long
+                    .filter(spot => spot.crew_crewTitle.includes(searchTerm))
+                    .map(spot => <CrewCard key={spot?.crew_crewId} spot={spot} page="searchbycategory" />)}
+                {crewTypeFilter === '단기' &&
+                  crewList?.short.length !== 0 &&
+                  crewList?.short
+                    .filter(spot => spot.crew_crewTitle.includes(searchTerm))
+                    .map(spot => <CrewCard key={spot?.crew_crewId} spot={spot} page="searchbycategory" />)}
+              </>
             )}
           </ListBox>
         </section>
