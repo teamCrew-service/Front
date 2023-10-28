@@ -15,13 +15,14 @@ function SearchByCategory(): JSX.Element {
   const navigate = useNavigate();
   // 선택된 카테고리
   const { interest }: { interest: string } = useLocation().state;
+  console.log(interest);
 
   // 검색 시 사용되는 항목
   const [searchTerm, setSearchTerm] = useState('');
   const [crewTypeFilter, setCrewTypeFilter] = useState('전체');
 
   // 검색으로 보여지는 리스트
-  const [filteredList, setFilteredList] = useState<Partial<CategoryInterface[]>>([]);
+  const [filteredList, setFilteredList] = useState<CategoryInterface[]>([]);
 
   const {
     data: crewList,
@@ -30,16 +31,13 @@ function SearchByCategory(): JSX.Element {
   } = useQuery(
     'getCrewByCategory',
     async () => {
-      let category = interest;
-      if (interest.includes('%2F')) {
-        category = interest.replace('%2F', '/');
-      }
-      const result = await searchByCategory.getSearchByCategory(category);
+      const result = await searchByCategory.getSearchByCategory(interest);
       return result;
     },
     {
       onSuccess: res => {
         console.log('카테고리별 크루 = ', res);
+        setFilteredList(res);
       },
       onError: err => {
         console.log('카테고리별 크루 에러 ', err);
@@ -56,20 +54,24 @@ function SearchByCategory(): JSX.Element {
     }
 
     if (typeFilter !== '') {
-      crews = crews.filter(crew => crew.crew_crewType === typeFilter || typeFilter === '전체');
+      crews = crews.filter(crew => crew.crew_crewType === typeFilter);
     }
     return crews;
   }
 
   useEffect(() => {
-    if (!isLoading && !isError) {
+    if (searchTerm !== '' || crewTypeFilter !== '전체') {
       const searchedCrewList = fetchData(searchTerm, crewTypeFilter);
       setFilteredList(searchedCrewList);
     }
-  }, [searchTerm, crewTypeFilter, isLoading]);
+  }, [searchTerm, crewTypeFilter]);
 
   if (isLoading) {
     return <Loading />;
+  }
+
+  if (isError) {
+    return <div>somthing wrong!</div>;
   }
 
   return (
