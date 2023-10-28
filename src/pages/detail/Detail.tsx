@@ -14,7 +14,7 @@ import heading from '../../styledComponent/heading';
 import Short from '../../components/detail/crewType/Short';
 
 import type { Schedule, VoteCreateInfo, VoteResultInfo } from '../../assets/interfaces';
-import Long from '../../components/detail/crewType/Long';
+import Long from '../../components/detail/crewType/long/Long';
 import {
   SaveCrewThumbnailBtn,
   ThumbnailAbsDiv,

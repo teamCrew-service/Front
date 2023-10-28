@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-import type { MemberDetail, Schedule, VoteCreateInfo, VoteResultInfo } from '../../../assets/interfaces';
+import type { MemberDetail, Schedule, VoteCreateInfo, VoteResultInfo } from '../../../../assets/interfaces';
 
-import heading from '../../../styledComponent/heading';
+import heading from '../../../../styledComponent/heading';
 
 import {
   CrewIntroQuestionContainer,
@@ -13,19 +13,19 @@ import {
   SeparateDiv,
   SeparateBar,
   BlockDiv,
-} from '../../../pages/detail/styled';
+} from '../../../../pages/detail/styled';
 
-import icons from '../../../assets/icons';
-import colors from '../../../assets/styles/color';
+import icons from '../../../../assets/icons';
+import colors from '../../../../assets/styles/color';
 
-import NoticeContent from '../../../pages/detail/nav/NoticeContent';
-import ScheduleContent from '../../../pages/detail/nav/ScheduleContent';
-import Chat from '../../../pages/detail/nav/Chat';
-import ScheduleCard from '../ScheduleCard';
-import MemberBox from '../MemberBox';
-import Calendar from '../../common/calendar/Calendar';
-import NoScheduleCard from '../NoScheduleCard';
-import Location from '../role/Location';
+import NoticeContent from './nav/NoticeContent';
+import ScheduleContent from './nav/ScheduleContent';
+import Chat from './nav/Chat';
+import ScheduleCard from '../../ScheduleCard';
+import MemberBox from '../../MemberBox';
+import Calendar from '../../../common/calendar/Calendar';
+import NoScheduleCard from '../../NoScheduleCard';
+import Location from '../../role/Location';
 
 function Long({
   page,
@@ -136,13 +136,11 @@ function Long({
                   <div id="detail-main-content-context">
                     <CrewIntroQuestionContainer>
                       <QuestionDiv>
-                        <heading.BodyLargeBold>
-                          <span style={{ fontWeight: 700 }}>&middot;</span>&nbsp;&nbsp; 우리 모임 사람들의 특징은?
-                        </heading.BodyLargeBold>
+                        <heading.BodyLargeBold>&middot;&nbsp;&nbsp; 우리 모임 사람들의 특징은?</heading.BodyLargeBold>
                         <heading.BodyBaseMedium>{crewInfo?.crew.crew_crewMemberInfo}</heading.BodyBaseMedium>
                       </QuestionDiv>
                       <QuestionDiv>
-                        <heading.BodyLargeBold>&nbsp;&nbsp;&middot; 우리 모임 사람들의 연령대는?</heading.BodyLargeBold>
+                        <heading.BodyLargeBold>&middot;&nbsp;&nbsp; 우리 모임 사람들의 연령대는?</heading.BodyLargeBold>
                         <heading.BodyBaseMedium>{crewInfo?.crew.crew_crewAgeInfo}</heading.BodyBaseMedium>
                       </QuestionDiv>
                     </CrewIntroQuestionContainer>

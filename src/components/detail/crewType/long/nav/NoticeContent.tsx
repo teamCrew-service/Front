@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import type { MemberDetail, VoteCreateInfo, VoteResultInfo } from '../../../assets/interfaces';
+import type { MemberDetail, VoteCreateInfo, VoteResultInfo } from '../../../../../assets/interfaces';
 
-import colors from '../../../assets/styles/color';
-import icons from '../../../assets/icons';
-import heading from '../../../styledComponent/heading';
+import colors from '../../../../../assets/styles/color';
+import icons from '../../../../../assets/icons';
+import heading from '../../../../../styledComponent/heading';
 
-import useCalDate from '../../../util/useCalDate';
+import useCalDate from '../../../../../util/useCalDate';
 
 const NoticeDiv = styled.div`
   display: flex;

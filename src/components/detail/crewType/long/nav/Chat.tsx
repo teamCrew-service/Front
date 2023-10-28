@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import '../style.css';
 
 interface Message {
   user: string;
