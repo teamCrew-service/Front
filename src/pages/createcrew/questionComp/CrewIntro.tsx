@@ -27,9 +27,8 @@ import {
   thumbnailFile,
   titleStr,
   typeStr,
-} from '../../../atoms/makecrew';
+} from '../../../atoms/createcrew';
 import BodyBaseBold from '../../../styledComponent/heading/BodyBaseBold';
-import Detail from '../../detail/Detail';
 import { crew } from '../../../api';
 
 const TextAreaBox = styled.div`

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { stepNum } from '../../../../atoms/makecrew';
+import { stepNum } from '../../../../atoms/createcrew';
 
 import CrewRecommendMember from '../CrewRecommendMember';
 import CrewTime from '../CrewTime';

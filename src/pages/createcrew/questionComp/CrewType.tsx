@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { typeStr, stepNum } from '../../../atoms/makecrew';
+import { typeStr, stepNum } from '../../../atoms/createcrew';
 
 import { QuestionBox, OptionBox } from '../styled';
 import BodyBaseBold from '../../../styledComponent/heading/BodyBaseBold';

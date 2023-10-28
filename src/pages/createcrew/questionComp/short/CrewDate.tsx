@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 
-import { dateDate, stepNum } from '../../../../atoms/makecrew';
+import { dateDate, stepNum } from '../../../../atoms/createcrew';
 
 import AnswerBox from '../common/AnswerBox';
 import CalendarModal from '../../../../components/modal/CalendarModal';
@@ -13,10 +13,12 @@ const StyleSection = styled.section``;
 function CrewDate(): JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
   const [date, setDate] = useRecoilState(dateDate);
-  const setStep = useSetRecoilState(stepNum);
+  const [step, setStep] = useRecoilState(stepNum);
 
   const openModal = (): void => {
-    setIsModalOpen(true);
+    if (step === 3) {
+      setIsModalOpen(true);
+    }
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -29,6 +31,12 @@ function CrewDate(): JSX.Element {
     setDate(input);
     setStep(prev => prev + 1);
   };
+
+  useEffect(() => {
+    if (step === 3) {
+      setIsModalOpen(true);
+    }
+  }, [step]);
 
   return (
     <>

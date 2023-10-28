@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { categoryStr, stepNum } from '../../../atoms/makecrew';
+import { categoryStr, stepNum } from '../../../atoms/createcrew';
 
 import InterestMatrix from '../../../components/common/InterestMatrix';
 import AnswerBox from './common/AnswerBox';

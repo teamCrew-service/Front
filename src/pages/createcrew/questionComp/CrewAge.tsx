@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
-import { ageStr, stepNum } from '../../../atoms/makecrew';
+import { ageStr, stepNum } from '../../../atoms/createcrew';
 
 import AnswerBox from './common/AnswerBox';
 import { QuestionBox } from '../styled';
