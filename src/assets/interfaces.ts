@@ -89,7 +89,9 @@ export interface AllNotice {
 // 1. 크루 정보
 export interface Crew {
   captainId: number;
+  captainAge: number;
   captainLocation: string;
+  captainMessage: string;
   captainNickname: string;
   captainProfileImage: string;
   crewAttendedMember: string;
@@ -139,6 +141,7 @@ export interface Schedule {
 }
 // 게스트일 경우
 export interface GuestDetail {
+  captainTopics: string[];
   createdCrewPeriod: number;
   crew: Crew;
   member: Member[];

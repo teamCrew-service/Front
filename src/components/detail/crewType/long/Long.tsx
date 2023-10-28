@@ -52,12 +52,17 @@ function Long({
   openVoteDetailModal: (input: VoteCreateInfo) => void;
   openVoteResultModal: (input: VoteResultInfo) => void;
 }): JSX.Element {
+  const [showHostInfo, setShowHostInfo] = useState<boolean>(false);
   const [showCalendarEvent, setShowCalendarEvent] = useState<boolean>(false);
   const [eventInfo, setEventInfo] = useState<Schedule | null>(null);
 
   const openCalendarEvent = (input: any): void => {
     setEventInfo(input);
     setShowCalendarEvent(true);
+  };
+
+  const showHostInfoFunc = (): void => {
+    setShowHostInfo(prev => !prev);
   };
 
   return (
@@ -246,7 +251,7 @@ function Long({
                   <SubTitle>
                     <heading.BodyLargeBold>호스트</heading.BodyLargeBold>
                   </SubTitle>
-                  <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <MemberBox
                       key={crewInfo.crew.captainId}
                       url={crewInfo.crew.captainProfileImage}
@@ -254,7 +259,22 @@ function Long({
                       isHost
                       crewType={crewInfo.crew.crew_crewType}
                     />
+                    {showHostInfo ? (
+                      <icons.chevronUp onClick={showHostInfoFunc} />
+                    ) : (
+                      <icons.chevronDown onClick={showHostInfoFunc} />
+                    )}
                   </div>
+                  {showHostInfo && (
+                    <div>
+                      <p>{crewInfo.crew.captainLocation}</p>
+                      <p>{crewInfo.crew.captainMessage}</p>
+                      <p>{new Date().getFullYear() - crewInfo.crew.captainAge + 1}세</p>
+                      {crewInfo.captainTopics.map(item => (
+                        <p>{item}</p>
+                      ))}
+                    </div>
+                  )}
                 </BlockDiv>
               )}
 

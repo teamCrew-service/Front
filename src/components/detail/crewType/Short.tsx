@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import heading from '../../../styledComponent/heading';
 
@@ -34,6 +34,12 @@ function short({
   closeInfoWindow: () => void;
   saveAddress: (address: string) => void;
 }): JSX.Element {
+  const [showHostInfo, setShowHostInfo] = useState<boolean>(false);
+
+  const showHostInfoFunc = (): void => {
+    setShowHostInfo(prev => !prev);
+  };
+
   return (
     <section id="detail-main-content">
       <div id="detail-main-content-crewinfo">
@@ -111,13 +117,14 @@ function short({
           <heading.BodyLargeBold>사진</heading.BodyLargeBold>
         </SubTitle>
         <div style={{ width: '100%', aspectRatio: 0.95, border: '1px solid black', borderRadius: '8px' }} />
+
         {/* 호스트 : 게스트만 보여주는 것 */}
         {crewInfo.personType === 'person' && (
           <BlockDiv>
             <SubTitle>
               <heading.BodyLargeBold>호스트</heading.BodyLargeBold>
             </SubTitle>
-            <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <MemberBox
                 key={crewInfo.crew.captainId}
                 url={crewInfo.crew.captainProfileImage}
@@ -125,7 +132,22 @@ function short({
                 isHost
                 crewType={crewInfo.crew.crew_crewType}
               />
+              {showHostInfo ? (
+                <icons.chevronUp onClick={showHostInfoFunc} />
+              ) : (
+                <icons.chevronDown onClick={showHostInfoFunc} />
+              )}
             </div>
+            {showHostInfo && (
+              <div>
+                <p>{crewInfo.crew.captainLocation}</p>
+                <p>{crewInfo.crew.captainMessage}</p>
+                <p>{new Date().getFullYear() - crewInfo.crew.captainAge + 1}세</p>
+                {crewInfo.captainTopics.map(item => (
+                  <p>{item}</p>
+                ))}
+              </div>
+            )}
           </BlockDiv>
         )}
 

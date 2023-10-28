@@ -30,7 +30,7 @@ function MemberBox({
     borderColor = `${colors.point}`;
   }
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '2%' }}>
+    <div style={{ display: 'flex', width: '100%', alignItems: 'center', gap: '2%' }}>
       <div
         style={{
           width: '8%',

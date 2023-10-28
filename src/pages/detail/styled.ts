@@ -143,6 +143,7 @@ export const InteractiveBtnContainer = styled.div`
   width: 100%;
   padding: 0 16px;
   justify-content: space-between;
+  z-index: 200;
 `;
 
 export const PlusBtnContainer = styled.div`
