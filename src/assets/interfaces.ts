@@ -141,7 +141,7 @@ export interface Schedule {
 }
 // 게스트일 경우
 export interface GuestDetail {
-  captainTopics: string[];
+  captainTopics: Array<{ userId: string; interestTopic: string }>;
   createdCrewPeriod: number;
   crew: Crew;
   member: Member[];

@@ -271,7 +271,7 @@ function Long({
                       <p>{crewInfo.crew.captainMessage}</p>
                       <p>{new Date().getFullYear() - crewInfo.crew.captainAge + 1}세</p>
                       {crewInfo.captainTopics.map(item => (
-                        <p>{item}</p>
+                        <p key={item.interestTopic}>{item.interestTopic}</p>
                       ))}
                     </div>
                   )}
