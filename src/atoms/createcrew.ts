@@ -77,15 +77,15 @@ export const titleStr = atom<string>({
   default: '',
 });
 
-// 단기 9. 썸네일
-// 장기 8.
+// 단기 10. 썸네일
+// 장기 9.
 export const thumbnailFile = atom<Blob | null>({
   key: 'thumbnailState',
   default: null,
 });
 
-// 단기 10. 모임 소개
-// 장기 9.
+// 단기 11. 모임 소개
+// 장기 10.
 export const introStr = atom<string>({
   key: 'introState',
   default: '',

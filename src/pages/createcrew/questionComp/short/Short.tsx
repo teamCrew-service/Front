@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { stepNum } from '../../../../atoms/makecrew';
+import { stepNum } from '../../../../atoms/createcrew';
 
 import CrewDate from './CrewDate';
 import CrewRecommendMember from '../CrewRecommendMember';
@@ -13,6 +13,7 @@ import CrewThumbnail from '../CrewThumbnail';
 
 function Short({ crewType }: { crewType: '장기' | '단기' }): JSX.Element {
   const step = useRecoilValue(stepNum);
+  console.log('short step = ', step);
 
   return (
     <>

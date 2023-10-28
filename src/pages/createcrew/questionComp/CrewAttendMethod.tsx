@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import AnswerBox from './common/AnswerBox';
-import { attendMethodBool, stepNum } from '../../../atoms/makecrew';
+import { attendMethodBool, stepNum } from '../../../atoms/createcrew';
 import { OptionBox, QuestionBox } from '../styled';
 import TitleLargeBold from '../../../styledComponent/heading/TitleLargeBold';
 

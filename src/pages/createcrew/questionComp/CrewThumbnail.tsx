@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import useResizeImage from '../../../util/useResizeImage';
 
-import { thumbnailFile, stepNum } from '../../../atoms/makecrew';
+import { thumbnailFile, stepNum } from '../../../atoms/createcrew';
 
 import AnswerBox from './common/AnswerBox';
 import { QuestionBox } from '../styled';
 import TitleLargeBold from '../../../styledComponent/heading/TitleLargeBold';
 import colors from '../../../assets/styles/color';
-import BodyLargeBold from '../../../styledComponent/heading/BodyLargeBold';
+// import BodyLargeBold from '../../../styledComponent/heading/BodyLargeBold';
 
 const StyledInput = styled.input`
   width: 100%;
@@ -20,39 +20,48 @@ const StyledInput = styled.input`
   font-size: 14px;
 `;
 
-const StyledBtn = styled.button`
-  width: 100%;
-  height: 56px;
-  border-radius: 4px;
-  border: none;
-  background-color: ${colors.primary};
-  color: white;
-  &:disabled {
-    background-color: ${colors.gray200};
-    color: ${colors.gray500};
-  }
-`;
+// const StyledBtn = styled.button`
+//   width: 100%;
+//   height: 56px;
+//   border-radius: 4px;
+//   border: none;
+//   background-color: ${colors.primary};
+//   color: white;
+//   &:disabled {
+//     background-color: ${colors.gray200};
+//     color: ${colors.gray500};
+//   }
+// `;
 
 function CrewThumbnail({ crewType }: { crewType: '장기' | '단기' }): JSX.Element {
   const [thumbnail, setThumbnail] = useRecoilState(thumbnailFile);
   const setStep = useSetRecoilState(stepNum);
   const thumb = useRef<HTMLInputElement | null>(null);
-  const saveValue = (input: any): void => {
-    console.log('저장된 썸네일', input);
-    setThumbnail(input);
-    setStep(prev => prev + 1);
-  };
+  // const saveValue = (input: any): void => {
+  //   console.log('저장된 썸네일', input);
+  //   setThumbnail(input);
+  //   setStep(prev => prev + 1);
+  // };
+
   useEffect(() => {
-    if (thumb.current === null) return;
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    thumb.current.addEventListener('change', async () => {
+    const changeThumbnail = async (): Promise<void> => {
       if (thumb.current!.files === null) return;
       const file: Blob = await useResizeImage(thumb.current!.files[0]);
-      console.log('크루 썸네일 변환 후', file);
+      console.log('저장될 썸네일', file);
       setThumbnail(file);
       setStep(prev => prev + 1);
-    });
-  }, []);
+    };
+    if (thumb.current !== null) {
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      thumb.current.addEventListener('change', changeThumbnail);
+    }
+    return () => {
+      if (thumb.current !== null) {
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        thumb.current.removeEventListener('change', changeThumbnail);
+      }
+    };
+  }, [thumbnail]);
   return (
     <section>
       <AnswerBox title={`${crewType === '장기' ? '09' : '10'} 썸네일`} value={thumbnail === null ? '' : 'registered'} />
@@ -60,14 +69,14 @@ function CrewThumbnail({ crewType }: { crewType: '장기' | '단기' }): JSX.Ele
         <QuestionBox>
           <TitleLargeBold>크루를 대표할 썸네일을 설정해주세요</TitleLargeBold>
           <StyledInput type="file" accept="image/*" ref={thumb} />
-          <StyledBtn
+          {/* <StyledBtn
             onClick={() => {
               saveValue(thumbnail);
             }}
             disabled={thumbnail === null}
           >
             <BodyLargeBold>다음</BodyLargeBold>
-          </StyledBtn>
+          </StyledBtn> */}
         </QuestionBox>
       )}
     </section>

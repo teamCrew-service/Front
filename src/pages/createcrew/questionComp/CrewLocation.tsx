@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
-import { latLngNum, locationStr, stepNum } from '../../../atoms/makecrew';
+import { latLngNum, locationStr, stepNum } from '../../../atoms/createcrew';
 
 import AnswerBox from './common/AnswerBox';
 import SearchModal from '../../../components/modal/SearchModal';
@@ -10,14 +10,17 @@ import SearchModal from '../../../components/modal/SearchModal';
 const StyledSection = styled.section``;
 
 function CrewLocation(): JSX.Element {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
   const [location, setLocation] = useRecoilState(locationStr);
   const setLatLng = useSetRecoilState(latLngNum);
-  const setStep = useSetRecoilState(stepNum);
+  const [step, setStep] = useRecoilState(stepNum);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
 
   const openModal = (): void => {
-    setIsModalOpen(true);
+    if (step === 2) {
+      setIsModalOpen(true);
+    }
   };
+
   const closeModal = (result: any): void => {
     if (result !== undefined) {
       console.log(result);
@@ -34,6 +37,13 @@ function CrewLocation(): JSX.Element {
     }
     setIsModalOpen(false);
   };
+
+  useEffect(() => {
+    if (step === 2) {
+      setIsModalOpen(true);
+    }
+  }, [step]);
+
   return (
     <>
       {isModalOpen && <SearchModal title="지역 위치" closeModal={closeModal} />}

@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import Calendar from '../common/calendar/Calendar';
-import { dateDate, stepNum } from '../../atoms/makecrew';
+import { dateDate, stepNum } from '../../atoms/createcrew';
 import colors from '../../assets/styles/color';
 import BodyLargeBold from '../../styledComponent/heading/BodyLargeBold';
 import TitleLargeBold from '../../styledComponent/heading/TitleLargeBold';
