@@ -250,13 +250,14 @@ function EditUserInfoModal({
                   {['남성', '여성'].map(item => {
                     if (myGender === item) {
                       return (
-                        <SelectedClickItem>
+                        <SelectedClickItem key={item}>
                           <heading.BodyLargeBold>{item}</heading.BodyLargeBold>
                         </SelectedClickItem>
                       );
                     }
                     return (
                       <ClickItem
+                        key={item}
                         onClick={() => {
                           saveMyGender(item);
                         }}
