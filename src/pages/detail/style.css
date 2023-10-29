@@ -17,6 +17,9 @@
   overflow-x: hidden;
   overflow-y: auto;
 }
+#detail-main::-webkit-scrollbar {
+  display: none;
+}
 
 /* 메인 - 썸네일 */
 #detail-main-thumbnail {
@@ -26,10 +29,13 @@
 
 /* 메인 - 메뉴 */
 #detail-main-menu {
+  /* position: fixed;
+  top: 7.32%; */
   width: 100%;
   height: 6.77%;
   padding: 0px 16px;
   border-bottom: 0.3px solid #dadada;
+  background-color: white;
 }
 #detail-main-menu-ul {
   display: flex;
@@ -45,13 +51,7 @@
   height: calc(93.23% - 375px);
   padding: 0px 16px;
   padding-bottom: 100px;
-  overflow-x: hidden;
-  overflow-y: auto;
 }
-#detail-main-content::-webkit-scrollbar {
-  display: none;
-}
-
 #detail-main-content-crewinfo {
   display: flex;
   flex-direction: column;

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useQuery, useMutation } from 'react-query';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
@@ -72,6 +72,8 @@ function Detail(): JSX.Element {
     voteFormId: null,
     crewId: null,
   });
+
+  const scrollDiv = useRef<HTMLElement>(null);
 
   const { id } = useParams();
 
@@ -364,7 +366,7 @@ function Detail(): JSX.Element {
           )}
         </div>
       </header>
-      <main id="detail-main">
+      <main id="detail-main" ref={scrollDiv}>
         {/* 크루 썸네일 */}
         <section id="detail-main-thumbnail">
           {crewInfo!.result.crew.crew_thumbnail !== '' ? (
@@ -383,6 +385,7 @@ function Detail(): JSX.Element {
         {/* 장기 / 단기 별 컨텐츠 */}
         {crewInfo?.result.crew.crew_crewType === '장기' && (
           <Long
+            scrollDiv={scrollDiv}
             page={page}
             changePage={changePage}
             crewInfo={crewInfo.result}

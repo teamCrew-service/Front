@@ -212,7 +212,7 @@ function EditUserInfoModal({
   return (
     <>
       {isOpenSearchModal && <SearchModal closeModal={closeSearchModalFunc} title="위치 검색" />}
-      <ModalContainer style={{ backgroundColor: 'white' }}>
+      <ModalContainer style={{ backgroundColor: 'white', zIndex: 103 }}>
         <ModalHeader>
           <icons.chevronLeft onClick={closeModal} />
           <heading.BodyLargeBold>프로필 수정하기</heading.BodyLargeBold>
