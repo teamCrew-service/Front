@@ -36,7 +36,7 @@ const ItemBox = styled.div`
 const TwoItemBox = styled.div`
   display: flex;
   justify-content: space-between;
-  gap: 20px;
+  gap: 10px;
   width: 100%;
   height: 17.19%;
 `;
@@ -62,6 +62,28 @@ const InsertDiv = styled.div`
   padding: 12px;
   border: 1px solid ${colors.primary};
   border-radius: 4px;
+`;
+const ClickDiv = styled.div`
+  display: flex;
+  width: 100%;
+  height: 63.16%;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 6px;
+  background-color: ${colors.gray100};
+`;
+
+const ClickItem = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+`;
+const SelectedClickItem = styled(ClickItem)`
+  background-color: ${colors.primary100};
+  color: ${colors.primary};
 `;
 
 const IntroInsertDiv = styled(InsertDiv)`
@@ -148,9 +170,10 @@ function EditUserInfoModal({
     if (value === 'birthyear') {
       setMyBirthYear(Number(e.target.value));
     }
-    if (value === 'gender') {
-      setMyGender(e.target.value);
-    }
+  };
+
+  const saveMyGender = (gender: string): void => {
+    setMyGender(gender);
   };
 
   const clearMyInfo = (value: string): void => {
@@ -162,11 +185,6 @@ function EditUserInfoModal({
     if (value === 'birthyear') {
       if (myBithYear === userInfo.age) {
         setMyBirthYear(0);
-      }
-    }
-    if (value === 'gender') {
-      if (myGender === userInfo.gender) {
-        setMyGender('');
       }
     }
   };
@@ -228,17 +246,26 @@ function EditUserInfoModal({
               </ItemDiv>
               <ItemDiv>
                 <heading.BodyBaseBold>성별</heading.BodyBaseBold>
-                <InsertDiv>
-                  <StyledInput
-                    value={myGender}
-                    onClick={() => {
-                      clearMyInfo('gender');
-                    }}
-                    onChange={e => {
-                      saveMyInfo(e, 'gender');
-                    }}
-                  />
-                </InsertDiv>
+                <ClickDiv>
+                  {['남성', '여성'].map(item => {
+                    if (myGender === item) {
+                      return (
+                        <SelectedClickItem>
+                          <heading.BodyLargeBold>{item}</heading.BodyLargeBold>
+                        </SelectedClickItem>
+                      );
+                    }
+                    return (
+                      <ClickItem
+                        onClick={() => {
+                          saveMyGender(item);
+                        }}
+                      >
+                        <heading.BodyLargeBold>{item}</heading.BodyLargeBold>
+                      </ClickItem>
+                    );
+                  })}
+                </ClickDiv>
               </ItemDiv>
             </TwoItemBox>
             <ItemBox>
