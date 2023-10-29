@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AnswerBoxStyle } from '../../styled';
+import { AnswerBoxStyle } from '../../../../pages/createcrew/styled';
 import BodyLargeBold from '../../../../styledComponent/heading/BodyLargeBold';
 
 import colors from '../../../../assets/styles/color';

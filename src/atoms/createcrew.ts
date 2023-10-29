@@ -19,9 +19,9 @@ export const categoryStr = atom<string>({
 });
 
 // 공통 3. 위치
-export const locationStr = atom<string>({
+export const locationStr = atom<{ address: string; placeName: string }>({
   key: 'locationState',
-  default: '',
+  default: { address: '', placeName: '' },
 });
 
 export const latLngNum = atom<{ lat: number; lng: number }>({

@@ -2,7 +2,7 @@ import React from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { categoryStr, stepNum } from '../../../atoms/createcrew';
 
-import InterestMatrix from '../../../components/common/InterestMatrix';
+import InterestMatrix from '../../common/InterestMatrix';
 import AnswerBox from './common/AnswerBox';
 
 function CrewCategory(): JSX.Element {

@@ -2,7 +2,7 @@ import React from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { typeStr, stepNum } from '../../../atoms/createcrew';
 
-import { QuestionBox, OptionBox } from '../styled';
+import { QuestionBox, OptionBox } from '../../../pages/createcrew/styled';
 import BodyBaseBold from '../../../styledComponent/heading/BodyBaseBold';
 import AnswerBox from './common/AnswerBox';
 

@@ -9,11 +9,11 @@ import './style.css';
 import icons from '../../assets/icons';
 
 import ProgressBar from '../../components/common/ProgressBar';
-import CrewType from './questionComp/CrewType';
-import CrewCategory from './questionComp/CrewCategory';
-import CrewLocation from './questionComp/CrewLocation';
-import Short from './questionComp/short/Short';
-import Long from './questionComp/long/Long';
+import CrewType from '../../components/createcrew/questionComp/CrewType';
+import CrewCategory from '../../components/createcrew/questionComp/CrewCategory';
+import CrewLocation from '../../components/createcrew/questionComp/CrewLocation';
+import Short from '../../components/createcrew/questionComp/short/Short';
+import Long from '../../components/createcrew/questionComp/long/Long';
 import { ModalHeader } from '../../components/modal/common/styled';
 
 function CreateCrew(): JSX.Element {
@@ -46,7 +46,7 @@ function CreateCrew(): JSX.Element {
         setCategory('');
         break;
       case 3:
-        setLocation('');
+        setLocation({ address: '', placeName: '' });
         break;
       // 여기부터 작업...
       case 4:
@@ -115,13 +115,12 @@ function CreateCrew(): JSX.Element {
     }
   };
 
-  useEffect(() => {
-    console.log('yess');
-    return () => {
+  useEffect(
+    () => () => {
       setStep(0);
       setCrewType('');
       setCategory('');
-      setLocation('');
+      setLocation({ address: '', placeName: '' });
       setLatLng({ lat: 0, lng: 0 });
       setDate({ year: null, month: null, date: null, timeTable: '', time: null, minutes: null });
       setRecommend('');
@@ -135,8 +134,9 @@ function CreateCrew(): JSX.Element {
       setActivity('');
       setRule('');
       setMaxMember(null);
-    };
-  }, []);
+    },
+    [],
+  );
 
   return (
     <>

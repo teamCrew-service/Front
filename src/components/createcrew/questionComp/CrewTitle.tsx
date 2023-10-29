@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
-import { recommendStr, stepNum } from '../../../atoms/createcrew';
+import { stepNum, titleStr } from '../../../atoms/createcrew';
 
 import AnswerBox from './common/AnswerBox';
-import { QuestionBox } from '../styled';
+import { QuestionBox } from '../../../pages/createcrew/styled';
 import TitleLargeBold from '../../../styledComponent/heading/TitleLargeBold';
 import colors from '../../../assets/styles/color';
 import BodyLargeBold from '../../../styledComponent/heading/BodyLargeBold';
@@ -32,29 +32,29 @@ const StyledBtn = styled.button`
   }
 `;
 
-function CrewRecommendMember({ crewType }: { crewType: '장기' | '단기' }): JSX.Element {
+function CrewTitle({ crewType }: { crewType: '장기' | '단기' }): JSX.Element {
   const [inputValue, setInputValue] = useState<string>('');
-  const [recommend, setRecommend] = useRecoilState(recommendStr);
+  const [crewTitle, setCrewTitle] = useRecoilState(titleStr);
   const setStep = useSetRecoilState(stepNum);
-  const saveRecommend = (input: any): void => {
-    setRecommend(input);
+  const saveValue = (input: any): void => {
+    setCrewTitle(input);
     setStep(prev => prev + 1);
   };
   return (
     <section>
-      <AnswerBox title={`${crewType === '장기' ? '04' : '05'} 선호하는 멤버`} value={recommend} />
-      {recommend === '' && (
+      <AnswerBox title={`${crewType === '장기' ? '08' : '09'} 모임 이름`} value={crewTitle} />
+      {crewTitle === '' && (
         <QuestionBox>
-          <TitleLargeBold>선호하는 크루 멤버는 어떤 분일까요?</TitleLargeBold>
+          <TitleLargeBold>우리 모임의 이름을 정해주세요</TitleLargeBold>
           <StyledInput
             onChange={event => {
               setInputValue(event.target.value);
             }}
-            placeholder="예) 공감을 잘 해주시는 분, 주 1회 참석 가능하신 분"
+            placeholder="예) 함께 성장해요!, 퇴근 후 운동모, 책사모"
           />
           <StyledBtn
             onClick={() => {
-              saveRecommend(inputValue);
+              saveValue(inputValue);
             }}
             disabled={inputValue.length === 0}
           >
@@ -66,4 +66,4 @@ function CrewRecommendMember({ crewType }: { crewType: '장기' | '단기' }): J
   );
 }
 
-export default CrewRecommendMember;
+export default CrewTitle;

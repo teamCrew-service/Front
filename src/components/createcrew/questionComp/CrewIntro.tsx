@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import BodyLargeBold from '../../../styledComponent/heading/BodyLargeBold';
-import { AnswerBoxStyle, QuestionBox } from '../styled';
+import { AnswerBoxStyle, QuestionBox } from '../../../pages/createcrew/styled';
 import TitleLargeBold from '../../../styledComponent/heading/TitleLargeBold';
 import colors from '../../../assets/styles/color';
 import BodySmallMedium from '../../../styledComponent/heading/BodySmallMedium';
@@ -121,7 +121,7 @@ function CrewIntro({ crewType }: { crewType: '장기' | '단기' }): JSX.Element
     setStep(prev => prev + 1);
   };
 
-  const makeCrew = (): void => {
+  const createCrew = (): void => {
     const crewTime = crewDate.timeTable === '오전' ? crewDate.time : crewDate.time! + 12;
 
     const crewDDay =
@@ -136,7 +136,8 @@ function CrewIntro({ crewType }: { crewType: '장기' | '단기' }): JSX.Element
       .makeCrew(crewThumbnail!, {
         createCrewDto: {
           category: crewCategory,
-          crewAddress,
+          crewAddress: crewAddress.address,
+          crewPlaceName: crewAddress.placeName,
           crewType,
           crewDDay,
           crewMemberInfo: crewRecommend,
@@ -157,7 +158,7 @@ function CrewIntro({ crewType }: { crewType: '장기' | '단기' }): JSX.Element
       })
       .then(res => {
         alert(res.message);
-        navigate(`/detail/${res.crewId}`);
+        navigate(`/detail/${res.crewId}`, { state: { isCreated: true } });
       })
       .catch(error => {
         console.log(error);
@@ -266,7 +267,7 @@ function CrewIntro({ crewType }: { crewType: '장기' | '단기' }): JSX.Element
               <DetailContent>{crewMaxMember}명</DetailContent>
             </div>
           </CompleteDiv>
-          <ButtonDiv onClick={makeCrew}>
+          <ButtonDiv onClick={createCrew}>
             <BodyBaseBold>모임 생성</BodyBaseBold>
           </ButtonDiv>
         </>

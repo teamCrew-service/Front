@@ -159,10 +159,11 @@ export interface MemberDetail extends GuestDetail {
 // -------------------------------
 
 // 크루 생성 양식 -------------------
-export interface MakeCrew {
+export interface CreateCrew {
   createCrewDto: {
     category: string;
     crewAddress: string;
+    crewPlaceName: string;
     crewType: string;
     crewDDay: Date | null;
     crewMemberInfo: string;

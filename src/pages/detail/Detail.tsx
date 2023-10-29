@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useState } from 'react';
 import { useQuery, useMutation } from 'react-query';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { crew, like } from '../../api';
 
@@ -41,6 +41,13 @@ import VoteResultModal from '../../components/modal/voteresult/VoteResultModal';
 import ThreeDotModal from '../../components/detail/ThreeDotModal';
 
 function Detail(): JSX.Element {
+  let isCreated: boolean = false;
+  if (useLocation().state !== null) {
+    isCreated = useLocation().state.isCreated;
+  }
+
+  const navigate = useNavigate();
+
   const [page, setPage] = useState<string>('모임정보');
   // 소개 부분 접었다 펴기
   const [infoOpen, setInfoOpen] = useState<boolean>(true);
@@ -334,6 +341,10 @@ function Detail(): JSX.Element {
       <header id="detail-header">
         <icons.chevronLeft
           onClick={() => {
+            if (isCreated) {
+              navigate('/home');
+              return;
+            }
             window.history.back();
           }}
         />

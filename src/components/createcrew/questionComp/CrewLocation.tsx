@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { latLngNum, locationStr, stepNum } from '../../../atoms/createcrew';
 
 import AnswerBox from './common/AnswerBox';
-import SearchModal from '../../../components/modal/SearchModal';
+import SearchModal from '../../modal/SearchModal';
 
 const StyledSection = styled.section``;
 
@@ -25,9 +25,9 @@ function CrewLocation(): JSX.Element {
     if (result !== undefined) {
       console.log(result);
       if (result.road_address_name === '') {
-        setLocation(result.address_name);
+        setLocation({ address: result.address_name, placeName: result.place_name });
       } else {
-        setLocation(result.road_address_name);
+        setLocation({ address: result.road_address_name, placeName: result.place_name });
       }
       setLatLng({
         lat: result.y,
@@ -48,7 +48,7 @@ function CrewLocation(): JSX.Element {
     <>
       {isModalOpen && <SearchModal title="지역 위치" closeModal={closeModal} />}
       <StyledSection onClick={openModal}>
-        <AnswerBox title="03 위치" value={location} />
+        <AnswerBox title="03 위치" value={location.placeName} />
       </StyledSection>
     </>
   );
