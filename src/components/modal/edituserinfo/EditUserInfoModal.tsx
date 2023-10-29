@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+// import { useMutation } from 'react-query';
 
 import { ModalContainer, ModalHeader } from '../common/styled';
 
@@ -124,6 +125,15 @@ const InterestMatrixContainer = styled.div`
   height: 84.21%;
 `;
 
+const EditButton = styled.button`
+  background-color: white;
+  border: none;
+  color: ${colors.primary};
+  &:disabled {
+    color: ${colors.gray500};
+  }
+`;
+
 function EditUserInfoModal({
   userInfo,
   userInterest,
@@ -133,6 +143,7 @@ function EditUserInfoModal({
   userInterest: MyTopic[];
   closeModal: () => void;
 }): JSX.Element {
+  const [isChanged, setIsChanged] = useState<boolean>(false);
   const [isOpenSearchModal, setIsOpenSearchModal] = useState<boolean>(false);
 
   const [myNickname, setMyNickname] = useState<string>(userInfo.nickname);
@@ -165,6 +176,7 @@ function EditUserInfoModal({
 
   const saveMyInfo = (e: React.ChangeEvent<HTMLInputElement>, value: string): void => {
     if (value === 'nickname') {
+      setIsChanged(true);
       setMyNickname(e.target.value);
     }
     if (value === 'birthyear') {
@@ -204,7 +216,9 @@ function EditUserInfoModal({
         <ModalHeader>
           <icons.chevronLeft onClick={closeModal} />
           <heading.BodyLargeBold>프로필 수정하기</heading.BodyLargeBold>
-          <div style={{ width: '24px' }} />
+          <EditButton disabled={!isChanged}>
+            <heading.BodyBaseBold>완료</heading.BodyBaseBold>
+          </EditButton>
         </ModalHeader>
         <main id="edit-userinfo-main">
           <div className="margin-17px-758px" />

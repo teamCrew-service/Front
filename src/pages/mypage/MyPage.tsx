@@ -12,6 +12,7 @@ import Footer from '../../components/home/Footer';
 import { mypage } from '../../api';
 import EditUserInfoModal from '../../components/modal/edituserinfo/EditUserInfoModal';
 import CrewCard from '../../components/common/CrewCard';
+import MyInfoModal from '../../components/modal/myinfo/MyInfoModal';
 
 const ProfileImageBox = styled.div<{ profile?: string }>`
   position: relative;
@@ -105,7 +106,14 @@ const CardItem = styled.div`
 
 function MyPage(): JSX.Element {
   const [isOpenEditModal, setIsOpenEditModal] = useState<boolean>(false);
+  const [isOpenMyInfoModal, setIsOpenMyInfoModal] = useState<boolean>(false);
 
+  const openMyInfoModalFunc = (): void => {
+    setIsOpenMyInfoModal(true);
+  };
+  const closeMyInfoModalFunc = (): void => {
+    setIsOpenMyInfoModal(false);
+  };
   const openEditModalFunc = (): void => {
     setIsOpenEditModal(true);
   };
@@ -146,10 +154,11 @@ function MyPage(): JSX.Element {
             closeModal={closeEditModalFunc}
           />
         )}
+        {isOpenMyInfoModal && <MyInfoModal userInfo={myPageInfo} closeModal={closeMyInfoModalFunc} />}
         <header id="mypage-header">
           <div style={{ width: '24px' }} />
           <heading.BodyLargeBold>마이페이지</heading.BodyLargeBold>
-          <icons.GearSix />
+          <icons.GearSix onClick={openMyInfoModalFunc} />
         </header>
         <main id="mypage-main">
           <section id="mypage-main-profile">
