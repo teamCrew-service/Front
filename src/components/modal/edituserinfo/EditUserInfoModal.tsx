@@ -293,7 +293,9 @@ function EditUserInfoModal({
                     alert('200자를 넘겼습니다!');
                   }}
                 />
-                <heading.BodyBaseMedium>{myIntro.length}/200</heading.BodyBaseMedium>
+                <heading.BodyBaseMedium style={{ color: `${colors.gray400}` }}>
+                  {myIntro.length}/200
+                </heading.BodyBaseMedium>
               </IntroInsertDiv>
             </IntroBox>
           </section>
