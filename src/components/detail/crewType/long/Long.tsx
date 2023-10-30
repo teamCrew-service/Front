@@ -1,4 +1,4 @@
-import React, { type RefObject, useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 
 import type { MemberDetail, Schedule, VoteCreateInfo, VoteResultInfo } from '../../../../assets/interfaces';
 
@@ -28,7 +28,6 @@ import NoScheduleCard from '../../NoScheduleCard';
 import Location from '../../role/Location';
 
 function Long({
-  scrollDiv,
   page,
   changePage,
   crewInfo,
@@ -41,7 +40,6 @@ function Long({
   openVoteDetailModal,
   openVoteResultModal,
 }: {
-  scrollDiv: RefObject<HTMLElement>;
   page: string;
   changePage: (input: string) => void;
   crewInfo: MemberDetail;
@@ -58,8 +56,6 @@ function Long({
   const [showCalendarEvent, setShowCalendarEvent] = useState<boolean>(false);
   const [eventInfo, setEventInfo] = useState<Schedule | null>(null);
 
-  const navBar = useRef<HTMLElement>(null);
-
   const openCalendarEvent = (input: any): void => {
     setEventInfo(input);
     setShowCalendarEvent(true);
@@ -69,24 +65,9 @@ function Long({
     setShowHostInfo(prev => !prev);
   };
 
-  useEffect(() => {
-    const handleScroll = (): void => {
-      if (navBar.current === null) return;
-      if (scrollDiv.current!.scrollTop > 375) {
-        // 스크롤 위치가 100px 이상이면
-        navBar.current.style.position = 'fixed';
-        navBar.current.style.top = '7.32%';
-        navBar.current.style.zIndex = '103';
-      } else {
-        navBar.current.style.position = 'static';
-      }
-    };
-    scrollDiv.current!.addEventListener('scroll', handleScroll);
-  }, []);
-
   return (
     <>
-      <nav id="detail-main-menu" ref={navBar}>
+      <nav id="detail-main-menu">
         <ul id="detail-main-menu-ul">
           {['모임정보', '공지', '일정', '크루챗'].map(item => {
             if (page === item) {

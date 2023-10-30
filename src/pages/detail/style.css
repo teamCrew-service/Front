@@ -29,13 +29,14 @@
 
 /* 메인 - 메뉴 */
 #detail-main-menu {
-  /* position: fixed;
-  top: 7.32%; */
+  position: sticky;
+  top: 0;
   width: 100%;
   height: 6.77%;
   padding: 0px 16px;
   border-bottom: 0.3px solid #dadada;
   background-color: white;
+  z-index: 103;
 }
 #detail-main-menu-ul {
   display: flex;
