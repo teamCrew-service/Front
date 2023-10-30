@@ -137,7 +137,7 @@ export const LikeDiv = styled.div`
 `;
 
 export const InteractiveBtnContainer = styled.div`
-  position: sticky;
+  position: absolute;
   bottom: 34px;
   display: flex;
   width: 100%;

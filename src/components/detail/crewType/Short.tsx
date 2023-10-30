@@ -120,7 +120,7 @@ function short({
 
         {/* 호스트 : 게스트만 보여주는 것 */}
         {crewInfo.personType === 'person' && (
-          <BlockDiv>
+          <BlockDiv style={{ marginBottom: '34px' }}>
             <SubTitle>
               <heading.BodyLargeBold>호스트</heading.BodyLargeBold>
             </SubTitle>
@@ -153,7 +153,7 @@ function short({
 
         {/* 참여중인 크루 : 멤버들에게 보여주는 것 */}
         {crewInfo.personType !== 'person' && (
-          <BlockDiv>
+          <BlockDiv style={{ marginBottom: '34px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1%' }}>
               <heading.BodyLargeBold>참여중인 크루</heading.BodyLargeBold>
               <heading.BodySmallBold style={{ color: `${colors.point}` }}>
