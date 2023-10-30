@@ -6,7 +6,7 @@ import { useRecoilState } from 'recoil';
 import { dateDate, stepNum } from '../../../../atoms/createcrew';
 
 import AnswerBox from '../common/AnswerBox';
-import CalendarModal from '../../../../components/modal/CalendarModal';
+import CalendarModal from '../../../modal/CalendarModal';
 
 const StyleSection = styled.section``;
 

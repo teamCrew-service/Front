@@ -6,7 +6,7 @@ import useResizeImage from '../../../util/useResizeImage';
 import { thumbnailFile, stepNum } from '../../../atoms/createcrew';
 
 import AnswerBox from './common/AnswerBox';
-import { QuestionBox } from '../styled';
+import { QuestionBox } from '../../../pages/createcrew/styled';
 import TitleLargeBold from '../../../styledComponent/heading/TitleLargeBold';
 import colors from '../../../assets/styles/color';
 // import BodyLargeBold from '../../../styledComponent/heading/BodyLargeBold';

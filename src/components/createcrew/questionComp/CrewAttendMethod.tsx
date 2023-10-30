@@ -2,7 +2,7 @@ import React from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import AnswerBox from './common/AnswerBox';
 import { attendMethodBool, stepNum } from '../../../atoms/createcrew';
-import { OptionBox, QuestionBox } from '../styled';
+import { OptionBox, QuestionBox } from '../../../pages/createcrew/styled';
 import TitleLargeBold from '../../../styledComponent/heading/TitleLargeBold';
 
 function CrewAttendMethod({ crewType }: { crewType: '장기' | '단기' }): JSX.Element {

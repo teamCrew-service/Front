@@ -48,7 +48,7 @@ export const crew = {
     return data;
   },
   // 모임 생성
-  makeCrew: async (file: Blob, payload: myInterface.MakeCrew) => {
+  makeCrew: async (file: Blob, payload: myInterface.CreateCrew) => {
     const formData = new FormData();
     formData.append('files', file);
     formData.append('JoinCreateCrewDto', JSON.stringify(payload));

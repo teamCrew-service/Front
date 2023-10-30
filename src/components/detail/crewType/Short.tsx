@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import heading from '../../../styledComponent/heading';
 
-import { SubTitle, BlockDiv } from '../../../pages/detail/styled';
+import {
+  SubTitle,
+  BlockDiv,
+  QuestionDiv,
+  CrewIntroQuestionContainer,
+  SeparateDiv,
+  SeparateBar,
+} from '../../../pages/detail/styled';
 import MemberBox from '../MemberBox';
 
 import Location from '../role/Location';
@@ -27,9 +34,15 @@ function short({
   closeInfoWindow: () => void;
   saveAddress: (address: string) => void;
 }): JSX.Element {
+  const [showHostInfo, setShowHostInfo] = useState<boolean>(false);
+
+  const showHostInfoFunc = (): void => {
+    setShowHostInfo(prev => !prev);
+  };
+
   return (
-    <section id="short-detail-main-content">
-      <div id="short-detail-main-content-crewinfo">
+    <section id="detail-main-content">
+      <div id="detail-main-content-crewinfo">
         {/* 크루제목 */}
         <heading.TitleLargeBold>{crewInfo.crew.crew_crewTitle}</heading.TitleLargeBold>
         {/* 크루정보 */}
@@ -61,6 +74,9 @@ function short({
             </heading.BodySmallMedium>
           </div>
         </div>
+      </div>
+
+      <div id="detail-main-content-crewinfo-2">
         {/* 소개 */}
         <div id="detail-main-content-intro">
           <SubTitle>
@@ -72,30 +88,26 @@ function short({
             )}
           </SubTitle>
         </div>
+        {/* 소개 - 접었다 피는 부분 */}
         {infoOpen && (
-          <>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '10px',
-                borderBottom: '0.3px solid black',
-                padding: '10px 0px',
-              }}
-            >
-              <div>
-                <heading.BodyBaseMedium>&nbsp;&nbsp;&middot; 우리 모임 사람들의 특징은?</heading.BodyBaseMedium>
+          <div id="detail-main-content-context">
+            <CrewIntroQuestionContainer>
+              <QuestionDiv>
+                <heading.BodyBaseMedium>&middot;&nbsp;&nbsp; 우리 모임 사람들의 특징은?</heading.BodyBaseMedium>
                 <heading.BodyBaseMedium>{crewInfo?.crew.crew_crewMemberInfo}</heading.BodyBaseMedium>
-              </div>
-              <div>
-                <heading.BodyBaseMedium>&nbsp;&nbsp;&middot; 우리 모임 사람들의 연령대는?</heading.BodyBaseMedium>
+              </QuestionDiv>
+              <QuestionDiv>
+                <heading.BodyBaseMedium>&middot;&nbsp;&nbsp; 우리 모임 사람들의 연령대는?</heading.BodyBaseMedium>
                 <heading.BodyBaseMedium>{crewInfo?.crew.crew_crewAgeInfo}</heading.BodyBaseMedium>
-              </div>
-            </div>
+              </QuestionDiv>
+            </CrewIntroQuestionContainer>
+            <SeparateDiv>
+              <SeparateBar />
+            </SeparateDiv>
             <heading.BodyBaseMedium style={{ padding: '10px 0px' }}>
               {crewInfo?.crew.crew_crewContent}
             </heading.BodyBaseMedium>
-          </>
+          </div>
         )}
         {/* 위치 */}
         <Location crewInfo={crewInfo} recentSchedule={null} saveAddress={saveAddress} />
@@ -105,13 +117,14 @@ function short({
           <heading.BodyLargeBold>사진</heading.BodyLargeBold>
         </SubTitle>
         <div style={{ width: '100%', aspectRatio: 0.95, border: '1px solid black', borderRadius: '8px' }} />
+
         {/* 호스트 : 게스트만 보여주는 것 */}
         {crewInfo.personType === 'person' && (
-          <BlockDiv>
+          <BlockDiv style={{ marginBottom: '34px' }}>
             <SubTitle>
               <heading.BodyLargeBold>호스트</heading.BodyLargeBold>
             </SubTitle>
-            <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <MemberBox
                 key={crewInfo.crew.captainId}
                 url={crewInfo.crew.captainProfileImage}
@@ -119,13 +132,28 @@ function short({
                 isHost
                 crewType={crewInfo.crew.crew_crewType}
               />
+              {showHostInfo ? (
+                <icons.chevronUp onClick={showHostInfoFunc} />
+              ) : (
+                <icons.chevronDown onClick={showHostInfoFunc} />
+              )}
             </div>
+            {showHostInfo && (
+              <div>
+                <p>{crewInfo.crew.captainLocation}</p>
+                <p>{crewInfo.crew.captainMessage}</p>
+                <p>{new Date().getFullYear() - crewInfo.crew.captainAge + 1}세</p>
+                {crewInfo.captainTopics.map(item => (
+                  <p key={item.interestTopic}>{item.interestTopic}</p>
+                ))}
+              </div>
+            )}
           </BlockDiv>
         )}
 
         {/* 참여중인 크루 : 멤버들에게 보여주는 것 */}
         {crewInfo.personType !== 'person' && (
-          <BlockDiv>
+          <BlockDiv style={{ marginBottom: '34px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1%' }}>
               <heading.BodyLargeBold>참여중인 크루</heading.BodyLargeBold>
               <heading.BodySmallBold style={{ color: `${colors.point}` }}>

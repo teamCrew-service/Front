@@ -18,7 +18,7 @@ import Location from './pages/userinfo/7.location/Location';
 import UpcomingSchedule from './pages/upcomingschedule/UpcomingSchedule';
 import SearchByCategory from './pages/searchbycategory/SearchByCategory';
 import Detail from './pages/detail/Detail';
-import Chat from './pages/detail/nav/Chat';
+import Chat from './components/detail/crewType/long/nav/Chat';
 import CreateCrew from './pages/createcrew/CreateCrew';
 import MyCrew from './pages/mycrew/MyCrew';
 import Permission from './pages/permission/Permission';

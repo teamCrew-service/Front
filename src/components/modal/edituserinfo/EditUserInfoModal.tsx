@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+// import { useMutation } from 'react-query';
 
 import { ModalContainer, ModalHeader } from '../common/styled';
 
@@ -36,7 +37,7 @@ const ItemBox = styled.div`
 const TwoItemBox = styled.div`
   display: flex;
   justify-content: space-between;
-  gap: 20px;
+  gap: 10px;
   width: 100%;
   height: 17.19%;
 `;
@@ -62,6 +63,28 @@ const InsertDiv = styled.div`
   padding: 12px;
   border: 1px solid ${colors.primary};
   border-radius: 4px;
+`;
+const ClickDiv = styled.div`
+  display: flex;
+  width: 100%;
+  height: 63.16%;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 6px;
+  background-color: ${colors.gray100};
+`;
+
+const ClickItem = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+`;
+const SelectedClickItem = styled(ClickItem)`
+  background-color: ${colors.primary100};
+  color: ${colors.primary};
 `;
 
 const IntroInsertDiv = styled(InsertDiv)`
@@ -102,6 +125,15 @@ const InterestMatrixContainer = styled.div`
   height: 84.21%;
 `;
 
+const EditButton = styled.button`
+  background-color: white;
+  border: none;
+  color: ${colors.primary};
+  &:disabled {
+    color: ${colors.gray500};
+  }
+`;
+
 function EditUserInfoModal({
   userInfo,
   userInterest,
@@ -111,6 +143,7 @@ function EditUserInfoModal({
   userInterest: MyTopic[];
   closeModal: () => void;
 }): JSX.Element {
+  const [isChanged, setIsChanged] = useState<boolean>(false);
   const [isOpenSearchModal, setIsOpenSearchModal] = useState<boolean>(false);
 
   const [myNickname, setMyNickname] = useState<string>(userInfo.nickname);
@@ -143,14 +176,16 @@ function EditUserInfoModal({
 
   const saveMyInfo = (e: React.ChangeEvent<HTMLInputElement>, value: string): void => {
     if (value === 'nickname') {
+      setIsChanged(true);
       setMyNickname(e.target.value);
     }
     if (value === 'birthyear') {
       setMyBirthYear(Number(e.target.value));
     }
-    if (value === 'gender') {
-      setMyGender(e.target.value);
-    }
+  };
+
+  const saveMyGender = (gender: string): void => {
+    setMyGender(gender);
   };
 
   const clearMyInfo = (value: string): void => {
@@ -162,11 +197,6 @@ function EditUserInfoModal({
     if (value === 'birthyear') {
       if (myBithYear === userInfo.age) {
         setMyBirthYear(0);
-      }
-    }
-    if (value === 'gender') {
-      if (myGender === userInfo.gender) {
-        setMyGender('');
       }
     }
   };
@@ -182,11 +212,13 @@ function EditUserInfoModal({
   return (
     <>
       {isOpenSearchModal && <SearchModal closeModal={closeSearchModalFunc} title="위치 검색" />}
-      <ModalContainer style={{ backgroundColor: 'white' }}>
+      <ModalContainer style={{ backgroundColor: 'white', zIndex: 103 }}>
         <ModalHeader>
           <icons.chevronLeft onClick={closeModal} />
           <heading.BodyLargeBold>프로필 수정하기</heading.BodyLargeBold>
-          <div style={{ width: '24px' }} />
+          <EditButton disabled={!isChanged}>
+            <heading.BodyBaseBold>완료</heading.BodyBaseBold>
+          </EditButton>
         </ModalHeader>
         <main id="edit-userinfo-main">
           <div className="margin-17px-758px" />
@@ -228,17 +260,27 @@ function EditUserInfoModal({
               </ItemDiv>
               <ItemDiv>
                 <heading.BodyBaseBold>성별</heading.BodyBaseBold>
-                <InsertDiv>
-                  <StyledInput
-                    value={myGender}
-                    onClick={() => {
-                      clearMyInfo('gender');
-                    }}
-                    onChange={e => {
-                      saveMyInfo(e, 'gender');
-                    }}
-                  />
-                </InsertDiv>
+                <ClickDiv>
+                  {['남성', '여성'].map(item => {
+                    if (myGender === item) {
+                      return (
+                        <SelectedClickItem key={item}>
+                          <heading.BodyLargeBold>{item}</heading.BodyLargeBold>
+                        </SelectedClickItem>
+                      );
+                    }
+                    return (
+                      <ClickItem
+                        key={item}
+                        onClick={() => {
+                          saveMyGender(item);
+                        }}
+                      >
+                        <heading.BodyLargeBold>{item}</heading.BodyLargeBold>
+                      </ClickItem>
+                    );
+                  })}
+                </ClickDiv>
               </ItemDiv>
             </TwoItemBox>
             <ItemBox>
@@ -266,7 +308,9 @@ function EditUserInfoModal({
                     alert('200자를 넘겼습니다!');
                   }}
                 />
-                <heading.BodyBaseMedium>{myIntro.length}/200</heading.BodyBaseMedium>
+                <heading.BodyBaseMedium style={{ color: `${colors.gray400}` }}>
+                  {myIntro.length}/200
+                </heading.BodyBaseMedium>
               </IntroInsertDiv>
             </IntroBox>
           </section>
