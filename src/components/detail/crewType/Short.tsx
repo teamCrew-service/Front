@@ -2,8 +2,7 @@ import React from 'react';
 
 import heading from '../../../styledComponent/heading';
 
-import { SubTitle, BlockDiv } from '../../../pages/detail/styled';
-import MemberBox from '../MemberBox';
+import { SubTitle } from '../../../pages/detail/styled';
 
 import Location from '../role/Location';
 
@@ -15,6 +14,7 @@ import type { MemberDetail } from '../../../assets/interfaces';
 import useCalDate from '../../../util/useCalDate';
 import CrewIntro from '../role/CrewIntro';
 import GuestView from '../role/GuestView';
+import MemberView from '../role/MemberView';
 
 function short({
   crewInfo,
@@ -80,33 +80,7 @@ function short({
         {crewInfo.personType === 'person' && <GuestView crewInfo={crewInfo} />}
 
         {/* 참여중인 크루 : 멤버들에게 보여주는 것 */}
-        {crewInfo.personType !== 'person' && (
-          <BlockDiv style={{ marginBottom: '34px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1%' }}>
-              <heading.BodyLargeBold>참여중인 크루</heading.BodyLargeBold>
-              <heading.BodySmallBold style={{ color: `${colors.point}` }}>
-                {crewInfo?.member.length}명 (호스트 제외)
-              </heading.BodySmallBold>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', width: '100%', gap: '7px' }}>
-              <MemberBox
-                key={crewInfo.crew.captainId}
-                url={crewInfo.crew.captainProfileImage}
-                name={crewInfo.crew.captainNickname}
-                isHost
-                crewType={crewInfo.crew.crew_crewType}
-              />
-              {crewInfo?.member.map(person => (
-                <MemberBox
-                  key={person.member_memberId}
-                  url={person.users_profileImage}
-                  name={person.users_nickname}
-                  crewType={crewInfo.crew.crew_crewType}
-                />
-              ))}
-            </div>
-          </BlockDiv>
-        )}
+        {crewInfo.personType !== 'person' && <MemberView crewInfo={crewInfo} />}
       </div>
     </section>
   );
