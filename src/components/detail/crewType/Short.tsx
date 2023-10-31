@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import heading from '../../../styledComponent/heading';
 
@@ -13,8 +13,8 @@ import colors from '../../../assets/styles/color';
 import type { MemberDetail } from '../../../assets/interfaces';
 
 import useCalDate from '../../../util/useCalDate';
-import CaptainInfo from '../CaptainInfo';
 import CrewIntro from '../role/CrewIntro';
+import GuestView from '../role/GuestView';
 
 function short({
   crewInfo,
@@ -23,12 +23,6 @@ function short({
   crewInfo: MemberDetail;
   saveAddress: (address: string) => void;
 }): JSX.Element {
-  const [showHostInfo, setShowHostInfo] = useState<boolean>(false);
-
-  const showHostInfoFunc = (): void => {
-    setShowHostInfo(prev => !prev);
-  };
-
   return (
     <section id="detail-main-content">
       <div id="detail-main-content-crewinfo">
@@ -83,35 +77,7 @@ function short({
         <div style={{ width: '100%', aspectRatio: 0.95, border: '1px solid black', borderRadius: '8px' }} />
 
         {/* 호스트 : 게스트만 보여주는 것 */}
-        {crewInfo.personType === 'person' && (
-          <BlockDiv style={{ marginBottom: '34px' }}>
-            <SubTitle>
-              <heading.BodyLargeBold>호스트</heading.BodyLargeBold>
-            </SubTitle>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <MemberBox
-                key={crewInfo.crew.captainId}
-                url={crewInfo.crew.captainProfileImage}
-                name={crewInfo.crew.captainNickname}
-                isHost
-                crewType={crewInfo.crew.crew_crewType}
-              />
-              {showHostInfo ? (
-                <icons.chevronUp onClick={showHostInfoFunc} />
-              ) : (
-                <icons.chevronDown onClick={showHostInfoFunc} />
-              )}
-            </div>
-            {showHostInfo && (
-              <CaptainInfo
-                age={crewInfo.crew.captainAge}
-                location={crewInfo.crew.captainLocation}
-                message={crewInfo.crew.captainMessage}
-                topics={crewInfo.captainTopics}
-              />
-            )}
-          </BlockDiv>
-        )}
+        {crewInfo.personType === 'person' && <GuestView crewInfo={crewInfo} />}
 
         {/* 참여중인 크루 : 멤버들에게 보여주는 것 */}
         {crewInfo.personType !== 'person' && (
