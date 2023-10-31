@@ -49,8 +49,6 @@ function Detail(): JSX.Element {
   const navigate = useNavigate();
 
   const [page, setPage] = useState<string>('모임정보');
-  // 소개 부분 접었다 펴기
-  const [infoOpen, setInfoOpen] = useState<boolean>(true);
   const [extraOpen, setExtraOpen] = useState<boolean>(false);
 
   // 모달 여닫기
@@ -134,14 +132,6 @@ function Detail(): JSX.Element {
       },
     },
   );
-
-  // 소개 부분 접었다 피는 함수
-  const openInfoWindow = (): void => {
-    setInfoOpen(true);
-  };
-  const closeInfoWindow = (): void => {
-    setInfoOpen(false);
-  };
 
   const controlExtraFunc = (): void => {
     setExtraOpen(prev => !prev);
@@ -407,9 +397,6 @@ function Detail(): JSX.Element {
             page={page}
             changePage={changePage}
             crewInfo={crewInfo.result}
-            infoOpen={infoOpen}
-            closeInfoWindow={closeInfoWindow}
-            openInfoWindow={openInfoWindow}
             saveAddress={saveAddress}
             recentSchedule={crewInfo.recentSchedule !== undefined ? crewInfo.recentSchedule : null}
             openNoticeDetailModal={openNoticeDetailModalFunc}
@@ -418,13 +405,7 @@ function Detail(): JSX.Element {
           />
         )}
         {crewInfo?.result.crew.crew_crewType === '단기' && (
-          <Short
-            crewInfo={crewInfo.result}
-            infoOpen={infoOpen}
-            closeInfoWindow={closeInfoWindow}
-            openInfoWindow={openInfoWindow}
-            saveAddress={saveAddress}
-          />
+          <Short crewInfo={crewInfo.result} saveAddress={saveAddress} />
         )}
       </main>
 

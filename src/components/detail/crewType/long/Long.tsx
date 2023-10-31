@@ -4,16 +4,7 @@ import type { MemberDetail, Schedule, VoteCreateInfo, VoteResultInfo } from '../
 
 import heading from '../../../../styledComponent/heading';
 
-import {
-  CrewIntroQuestionContainer,
-  DetailMenuLi,
-  CrewInfoContext,
-  SubTitle,
-  QuestionDiv,
-  SeparateDiv,
-  SeparateBar,
-  BlockDiv,
-} from '../../../../pages/detail/styled';
+import { DetailMenuLi, CrewInfoContext, SubTitle, BlockDiv } from '../../../../pages/detail/styled';
 
 import icons from '../../../../assets/icons';
 import colors from '../../../../assets/styles/color';
@@ -27,14 +18,12 @@ import Calendar from '../../../common/calendar/Calendar';
 import NoScheduleCard from '../../NoScheduleCard';
 import Location from '../../role/Location';
 import CaptainInfo from '../../CaptainInfo';
+import CrewIntro from '../../role/CrewIntro';
 
 function Long({
   page,
   changePage,
   crewInfo,
-  infoOpen,
-  closeInfoWindow,
-  openInfoWindow,
   saveAddress,
   recentSchedule,
   openNoticeDetailModal,
@@ -44,9 +33,6 @@ function Long({
   page: string;
   changePage: (input: string) => void;
   crewInfo: MemberDetail;
-  infoOpen: boolean;
-  closeInfoWindow: () => void;
-  openInfoWindow: () => void;
   saveAddress: (input: string) => void;
   recentSchedule: Schedule | null;
   openNoticeDetailModal: (input: string) => void;
@@ -126,39 +112,11 @@ function Long({
 
             <div id="detail-main-content-crewinfo-2">
               {/* 소개 */}
-              <BlockDiv>
-                <div id="detail-main-content-intro">
-                  <SubTitle>
-                    <heading.BodyLargeBold>소개</heading.BodyLargeBold>
-                    {infoOpen ? (
-                      <icons.chevronUp style={{ cursor: 'pointer' }} onClick={closeInfoWindow} />
-                    ) : (
-                      <icons.chevronDown style={{ cursor: 'pointer' }} onClick={openInfoWindow} />
-                    )}
-                  </SubTitle>
-                </div>
-                {/* 소개 - 접었다 피는 부분 */}
-                {infoOpen && (
-                  <div id="detail-main-content-context">
-                    <CrewIntroQuestionContainer>
-                      <QuestionDiv>
-                        <heading.BodyLargeBold>&middot;&nbsp;&nbsp; 우리 모임 사람들의 특징은?</heading.BodyLargeBold>
-                        <heading.BodyBaseMedium>{crewInfo?.crew.crew_crewMemberInfo}</heading.BodyBaseMedium>
-                      </QuestionDiv>
-                      <QuestionDiv>
-                        <heading.BodyLargeBold>&middot;&nbsp;&nbsp; 우리 모임 사람들의 연령대는?</heading.BodyLargeBold>
-                        <heading.BodyBaseMedium>{crewInfo?.crew.crew_crewAgeInfo}</heading.BodyBaseMedium>
-                      </QuestionDiv>
-                    </CrewIntroQuestionContainer>
-                    <SeparateDiv>
-                      <SeparateBar />
-                    </SeparateDiv>
-                    <heading.BodyBaseMedium style={{ padding: '10px 0px' }}>
-                      {crewInfo?.crew.crew_crewContent}
-                    </heading.BodyBaseMedium>
-                  </div>
-                )}
-              </BlockDiv>
+              <CrewIntro
+                crewMemberInfo={crewInfo.crew.crew_crewMemberInfo}
+                crewAgeInfo={crewInfo.crew.crew_crewAgeInfo}
+                crewContent={crewInfo.crew.crew_crewContent}
+              />
 
               {/* 일정 */}
               {crewInfo?.personType !== 'person' && (

@@ -2,14 +2,7 @@ import React, { useState } from 'react';
 
 import heading from '../../../styledComponent/heading';
 
-import {
-  SubTitle,
-  BlockDiv,
-  QuestionDiv,
-  CrewIntroQuestionContainer,
-  SeparateDiv,
-  SeparateBar,
-} from '../../../pages/detail/styled';
+import { SubTitle, BlockDiv } from '../../../pages/detail/styled';
 import MemberBox from '../MemberBox';
 
 import Location from '../role/Location';
@@ -21,18 +14,13 @@ import type { MemberDetail } from '../../../assets/interfaces';
 
 import useCalDate from '../../../util/useCalDate';
 import CaptainInfo from '../CaptainInfo';
+import CrewIntro from '../role/CrewIntro';
 
 function short({
   crewInfo,
-  infoOpen,
-  openInfoWindow,
-  closeInfoWindow,
   saveAddress,
 }: {
   crewInfo: MemberDetail;
-  infoOpen: boolean;
-  openInfoWindow: () => void;
-  closeInfoWindow: () => void;
   saveAddress: (address: string) => void;
 }): JSX.Element {
   const [showHostInfo, setShowHostInfo] = useState<boolean>(false);
@@ -79,37 +67,12 @@ function short({
 
       <div id="detail-main-content-crewinfo-2">
         {/* 소개 */}
-        <div id="detail-main-content-intro">
-          <SubTitle>
-            <heading.BodyLargeBold>소개</heading.BodyLargeBold>
-            {infoOpen ? (
-              <icons.chevronUp style={{ cursor: 'pointer' }} onClick={closeInfoWindow} />
-            ) : (
-              <icons.chevronDown style={{ cursor: 'pointer' }} onClick={openInfoWindow} />
-            )}
-          </SubTitle>
-        </div>
-        {/* 소개 - 접었다 피는 부분 */}
-        {infoOpen && (
-          <div id="detail-main-content-context">
-            <CrewIntroQuestionContainer>
-              <QuestionDiv>
-                <heading.BodyBaseMedium>&middot;&nbsp;&nbsp; 우리 모임 사람들의 특징은?</heading.BodyBaseMedium>
-                <heading.BodyBaseMedium>{crewInfo?.crew.crew_crewMemberInfo}</heading.BodyBaseMedium>
-              </QuestionDiv>
-              <QuestionDiv>
-                <heading.BodyBaseMedium>&middot;&nbsp;&nbsp; 우리 모임 사람들의 연령대는?</heading.BodyBaseMedium>
-                <heading.BodyBaseMedium>{crewInfo?.crew.crew_crewAgeInfo}</heading.BodyBaseMedium>
-              </QuestionDiv>
-            </CrewIntroQuestionContainer>
-            <SeparateDiv>
-              <SeparateBar />
-            </SeparateDiv>
-            <heading.BodyBaseMedium style={{ padding: '10px 0px' }}>
-              {crewInfo?.crew.crew_crewContent}
-            </heading.BodyBaseMedium>
-          </div>
-        )}
+        <CrewIntro
+          crewMemberInfo={crewInfo.crew.crew_crewMemberInfo}
+          crewAgeInfo={crewInfo.crew.crew_crewAgeInfo}
+          crewContent={crewInfo.crew.crew_crewContent}
+        />
+
         {/* 위치 */}
         <Location crewInfo={crewInfo} recentSchedule={null} saveAddress={saveAddress} />
 
