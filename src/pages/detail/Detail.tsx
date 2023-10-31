@@ -261,9 +261,9 @@ function Detail(): JSX.Element {
       if (joinCrewBtn.current === null || scrollDiv.current === null) return;
       const currentHeight = scrollDiv.current.scrollTop;
       const totalHeight = scrollDiv.current.scrollHeight;
-      const browserHeight = scrollDiv.current.clientHeight;
-      console.log(scrollDiv.current.scrollTop, scrollDiv.current.scrollHeight - scrollDiv.current.clientHeight);
-      if (totalHeight - browserHeight + 34 >= currentHeight && currentHeight >= totalHeight - browserHeight) {
+      const browserHeight = window.innerHeight;
+      console.log(browserHeight);
+      if (currentHeight >= totalHeight - browserHeight) {
         joinCrewBtn.current.style.position = 'static';
       } else {
         joinCrewBtn.current.style.position = 'absolute';
@@ -438,16 +438,11 @@ function Detail(): JSX.Element {
               {crewInfo.result.likeCount > 99 ? '99+' : crewInfo.result.likeCount}
             </heading.BodyBaseBold>
           </LikeDiv>
-          {crewInfo?.result.crew.crew_crewType === '장기' && (
-            <JoinDiv onClick={joinCrewFunc}>
-              <heading.BodyBaseBold>정모 가입하기</heading.BodyBaseBold>
-            </JoinDiv>
-          )}
-          {crewInfo?.result.crew.crew_crewType === '단기' && (
-            <JoinDiv onClick={joinCrewFunc}>
-              <heading.BodyBaseBold>단기 모임 참여하기</heading.BodyBaseBold>
-            </JoinDiv>
-          )}
+          <JoinDiv onClick={joinCrewFunc}>
+            <heading.BodyBaseBold>
+              {crewInfo?.result.crew.crew_crewType === '장기' ? '정모 가입하기' : '단기 모임 참여하기'}
+            </heading.BodyBaseBold>
+          </JoinDiv>
         </InteractiveBtnContainer>
       )}
 

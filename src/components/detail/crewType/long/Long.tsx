@@ -26,6 +26,7 @@ import MemberBox from '../../MemberBox';
 import Calendar from '../../../common/calendar/Calendar';
 import NoScheduleCard from '../../NoScheduleCard';
 import Location from '../../role/Location';
+import CaptainInfo from '../../CaptainInfo';
 
 function Long({
   page,
@@ -266,14 +267,12 @@ function Long({
                     )}
                   </div>
                   {showHostInfo && (
-                    <div>
-                      <p>{crewInfo.crew.captainLocation}</p>
-                      <p>{crewInfo.crew.captainMessage}</p>
-                      <p>{new Date().getFullYear() - crewInfo.crew.captainAge + 1}세</p>
-                      {crewInfo.captainTopics.map(item => (
-                        <p key={item.interestTopic}>{item.interestTopic}</p>
-                      ))}
-                    </div>
+                    <CaptainInfo
+                      age={crewInfo.crew.captainAge}
+                      location={crewInfo.crew.captainLocation}
+                      message={crewInfo.crew.captainMessage}
+                      topics={crewInfo.captainTopics}
+                    />
                   )}
                 </BlockDiv>
               )}

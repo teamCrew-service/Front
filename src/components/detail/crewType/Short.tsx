@@ -20,6 +20,7 @@ import colors from '../../../assets/styles/color';
 import type { MemberDetail } from '../../../assets/interfaces';
 
 import useCalDate from '../../../util/useCalDate';
+import CaptainInfo from '../CaptainInfo';
 
 function short({
   crewInfo,
@@ -139,14 +140,12 @@ function short({
               )}
             </div>
             {showHostInfo && (
-              <div>
-                <p>{crewInfo.crew.captainLocation}</p>
-                <p>{crewInfo.crew.captainMessage}</p>
-                <p>{new Date().getFullYear() - crewInfo.crew.captainAge + 1}세</p>
-                {crewInfo.captainTopics.map(item => (
-                  <p key={item.interestTopic}>{item.interestTopic}</p>
-                ))}
-              </div>
+              <CaptainInfo
+                age={crewInfo.crew.captainAge}
+                location={crewInfo.crew.captainLocation}
+                message={crewInfo.crew.captainMessage}
+                topics={crewInfo.captainTopics}
+              />
             )}
           </BlockDiv>
         )}
