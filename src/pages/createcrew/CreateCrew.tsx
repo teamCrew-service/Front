@@ -12,8 +12,8 @@ import ProgressBar from '../../components/common/ProgressBar';
 import CrewType from '../../components/createcrew/questionComp/CrewType';
 import CrewCategory from '../../components/createcrew/questionComp/CrewCategory';
 import CrewLocation from '../../components/createcrew/questionComp/CrewLocation';
-import Short from '../../components/createcrew/questionComp/short/Short';
-import Long from '../../components/createcrew/questionComp/long/Long';
+import Short from '../../components/createcrew/crewType/Short';
+import Long from '../../components/createcrew/crewType/Long';
 import { ModalHeader } from '../../components/modal/common/styled';
 
 function CreateCrew(): JSX.Element {

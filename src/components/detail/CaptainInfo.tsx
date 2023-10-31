@@ -67,7 +67,7 @@ function CaptainInfo({
           {topics.map((item, index) => {
             if (index < 4) {
               return (
-                <InterestDiv>
+                <InterestDiv key={item.interestTopic}>
                   <heading.BodySmallMedium key={item.interestTopic}>
                     {item.interestTopic.includes('%2F') ? item.interestTopic.replace('%2F', '/') : item.interestTopic}
                   </heading.BodySmallMedium>

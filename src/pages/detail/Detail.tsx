@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useQuery, useMutation } from 'react-query';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
@@ -39,6 +39,7 @@ import VoteDetailModal from '../../components/modal/votedetail/VoteDetailModal';
 import colors from '../../assets/styles/color';
 import VoteResultModal from '../../components/modal/voteresult/VoteResultModal';
 import ThreeDotModal from '../../components/detail/ThreeDotModal';
+import { Header, Main, ThumbnailContainer } from '../../layouts/detail/detail-layout';
 
 function Detail(): JSX.Element {
   let isCreated: boolean = false;
@@ -70,9 +71,6 @@ function Detail(): JSX.Element {
     voteFormId: null,
     crewId: null,
   });
-
-  const scrollDiv = useRef<HTMLDivElement>(null);
-  const joinCrewBtn = useRef<HTMLDivElement>(null);
 
   const { id } = useParams();
 
@@ -246,24 +244,6 @@ function Detail(): JSX.Element {
     }
   }
 
-  useEffect(() => {
-    const scrollHandler = (): void => {
-      if (joinCrewBtn.current === null || scrollDiv.current === null) return;
-      const currentHeight = scrollDiv.current.scrollTop;
-      const totalHeight = scrollDiv.current.scrollHeight;
-      const browserHeight = window.innerHeight;
-      console.log(browserHeight);
-      if (currentHeight >= totalHeight - browserHeight) {
-        joinCrewBtn.current.style.position = 'static';
-      } else {
-        joinCrewBtn.current.style.position = 'absolute';
-      }
-    };
-    if (scrollDiv.current !== null) {
-      scrollDiv.current.addEventListener('scroll', scrollHandler);
-    }
-  }, []);
-
   // 로딩 중일 때 보여주는 화면
   if (status === 'loading') {
     return <div>loading...</div>;
@@ -348,8 +328,7 @@ function Detail(): JSX.Element {
       )}
       {/* -------------------------------------------- */}
 
-      {/* 헤더 */}
-      <header id="detail-header">
+      <Header>
         <icons.chevronLeft
           onClick={() => {
             if (isCreated) {
@@ -374,10 +353,10 @@ function Detail(): JSX.Element {
             </>
           )}
         </div>
-      </header>
-      <main id="detail-main" ref={scrollDiv}>
-        {/* 크루 썸네일 */}
-        <section id="detail-main-thumbnail">
+      </Header>
+
+      <Main>
+        <ThumbnailContainer>
           {crewInfo!.result.crew.crew_thumbnail !== '' ? (
             <ThumbnailDiv $url={crewInfo!.result.crew.crew_thumbnail}>
               <ThumbnailAbsDiv />
@@ -389,7 +368,7 @@ function Detail(): JSX.Element {
               </SaveCrewThumbnailBtn>
             </ThumbnailDiv>
           )}
-        </section>
+        </ThumbnailContainer>
 
         {/* 장기 / 단기 별 컨텐츠 */}
         {crewInfo?.result.crew.crew_crewType === '장기' && (
@@ -407,11 +386,11 @@ function Detail(): JSX.Element {
         {crewInfo?.result.crew.crew_crewType === '단기' && (
           <Short crewInfo={crewInfo.result} saveAddress={saveAddress} />
         )}
-      </main>
+      </Main>
 
       {/* 크루 가입 버튼 */}
       {crewInfo?.result.personType === 'person' && (
-        <InteractiveBtnContainer ref={joinCrewBtn}>
+        <InteractiveBtnContainer>
           <LikeDiv onClick={likeCrewFunc}>
             {!crewInfo.result.likeCheck && <icons.heart fill={colors.primary} />}
             {crewInfo.result.likeCheck && <icons.ActiveHeart />}

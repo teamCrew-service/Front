@@ -12,6 +12,8 @@ import {
   SubTitle,
 } from '../../../pages/detail/styled';
 
+import { IntroContent, IntroTitle } from '../../../layouts/detail/detail-layout';
+
 function CrewIntro({
   crewMemberInfo,
   crewAgeInfo,
@@ -27,7 +29,7 @@ function CrewIntro({
   };
   return (
     <BlockDiv>
-      <div id="detail-main-content-intro">
+      <IntroTitle>
         <SubTitle>
           <heading.BodyLargeBold>소개</heading.BodyLargeBold>
           {infoOpen ? (
@@ -36,10 +38,10 @@ function CrewIntro({
             <icons.chevronDown style={{ cursor: 'pointer' }} onClick={infoOpenHandler} />
           )}
         </SubTitle>
-      </div>
+      </IntroTitle>
       {/* 소개 - 접었다 피는 부분 */}
       {infoOpen && (
-        <div id="detail-main-content-context">
+        <IntroContent>
           <CrewIntroQuestionContainer>
             <QuestionDiv>
               <heading.BodyLargeBold>&middot;&nbsp;&nbsp; 우리 모임 사람들의 특징은?</heading.BodyLargeBold>
@@ -54,7 +56,7 @@ function CrewIntro({
             <SeparateBar />
           </SeparateDiv>
           <heading.BodyBaseMedium style={{ padding: '10px 0px' }}>{crewContent}</heading.BodyBaseMedium>
-        </div>
+        </IntroContent>
       )}
     </BlockDiv>
   );

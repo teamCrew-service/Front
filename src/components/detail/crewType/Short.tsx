@@ -15,6 +15,13 @@ import useCalDate from '../../../util/useCalDate';
 import CrewIntro from '../role/CrewIntro';
 import GuestView from '../role/GuestView';
 import MemberView from '../role/MemberView';
+import {
+  ContentContainer,
+  DetailInfoContainer,
+  SummaryInfoContainer,
+  SummaryInfoDiv,
+  SummaryInfoItem,
+} from '../../../layouts/detail/detail-layout';
 
 function short({
   crewInfo,
@@ -24,42 +31,31 @@ function short({
   saveAddress: (address: string) => void;
 }): JSX.Element {
   return (
-    <section id="detail-main-content">
-      <div id="detail-main-content-crewinfo">
+    <ContentContainer>
+      <SummaryInfoContainer>
         {/* 크루제목 */}
         <heading.TitleLargeBold>{crewInfo.crew.crew_crewTitle}</heading.TitleLargeBold>
         {/* 크루정보 */}
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            height: 'fit-content',
-            padding: '12px',
-            gap: '4px',
-            backgroundColor: `${colors.point50}`,
-            borderRadius: '12px',
-          }}
-        >
-          <div style={{ display: 'flex', gap: '4px' }}>
+        <SummaryInfoDiv>
+          <SummaryInfoItem>
             <icons.Calendar />
             <heading.BodySmallMedium>{useCalDate(new Date(crewInfo.crew.crew_crewDDay))}</heading.BodySmallMedium>
-          </div>
-          <div style={{ display: 'flex', gap: '4px' }}>
+          </SummaryInfoItem>
+          <SummaryInfoItem>
             <icons.Location />
             <heading.BodySmallMedium>{crewInfo.crew.crew_crewAddress}</heading.BodySmallMedium>
-          </div>
-          <div style={{ display: 'flex', gap: '4px' }}>
+          </SummaryInfoItem>
+          <SummaryInfoItem>
             <icons.users />
             <heading.BodySmallMedium>
               <span style={{ color: `${colors.point}` }}>{crewInfo.member.length}</span>/
               {crewInfo.crew.crew_crewMaxMember}
             </heading.BodySmallMedium>
-          </div>
-        </div>
-      </div>
+          </SummaryInfoItem>
+        </SummaryInfoDiv>
+      </SummaryInfoContainer>
 
-      <div id="detail-main-content-crewinfo-2">
+      <DetailInfoContainer>
         {/* 소개 */}
         <CrewIntro
           crewMemberInfo={crewInfo.crew.crew_crewMemberInfo}
@@ -81,8 +77,8 @@ function short({
 
         {/* 참여중인 크루 : 멤버들에게 보여주는 것 */}
         {crewInfo.personType !== 'person' && <MemberView crewInfo={crewInfo} />}
-      </div>
-    </section>
+      </DetailInfoContainer>
+    </ContentContainer>
   );
 }
 

@@ -19,6 +19,14 @@ import Location from '../../role/Location';
 import CrewIntro from '../../role/CrewIntro';
 import GuestView from '../../role/GuestView';
 import MemberView from '../../role/MemberView';
+import {
+  CalendarContainer,
+  ContentContainer,
+  DetailInfoContainer,
+  LongNavContainer,
+  LongNavItem,
+  SummaryInfoContainer,
+} from '../../../../layouts/detail/detail-layout';
 
 function Long({
   page,
@@ -49,8 +57,8 @@ function Long({
 
   return (
     <>
-      <nav id="detail-main-menu">
-        <ul id="detail-main-menu-ul">
+      <LongNavContainer>
+        <LongNavItem>
           {['모임정보', '공지', '일정', '크루챗'].map(item => {
             if (page === item) {
               return (
@@ -73,13 +81,13 @@ function Long({
               </DetailMenuLi>
             );
           })}
-        </ul>
-      </nav>
+        </LongNavItem>
+      </LongNavContainer>
 
-      <section id="detail-main-content">
+      <ContentContainer>
         {page === '모임정보' && (
           <>
-            <div id="detail-main-content-crewinfo">
+            <SummaryInfoContainer>
               <heading.TitleLargeBold>{crewInfo?.crew.crew_crewTitle}</heading.TitleLargeBold>
               <CrewInfoContext>
                 <icons.users />
@@ -103,9 +111,9 @@ function Long({
                   번
                 </heading.BodySmallBold>
               </CrewInfoContext>
-            </div>
+            </SummaryInfoContainer>
 
-            <div id="detail-main-content-crewinfo-2">
+            <DetailInfoContainer>
               {/* 소개 */}
               <CrewIntro
                 crewMemberInfo={crewInfo.crew.crew_crewMemberInfo}
@@ -115,7 +123,7 @@ function Long({
 
               {/* 일정 */}
               {crewInfo?.personType !== 'person' && (
-                <div id="detail-main-content-schedule">
+                <CalendarContainer>
                   <SubTitle>
                     <heading.BodyLargeBold>일정</heading.BodyLargeBold>
                     <heading.BodySmallBold
@@ -129,7 +137,7 @@ function Long({
                   </SubTitle>
                   {recentSchedule !== null && <ScheduleCard crewInfo={crewInfo}>{recentSchedule}</ScheduleCard>}
                   {recentSchedule === null && <NoScheduleCard />}
-                </div>
+                </CalendarContainer>
               )}
 
               {/* 위치 */}
@@ -138,48 +146,44 @@ function Long({
               {/* 캘린더 */}
               {crewInfo.personType !== 'person' && (
                 <BlockDiv>
-                  {crewInfo?.personType !== 'person' && (
-                    <>
-                      <SubTitle>
-                        <heading.BodyLargeBold>캘린더</heading.BodyLargeBold>
-                      </SubTitle>
-                      <div style={{ position: 'relative', width: '100%', height: '322px' }}>
-                        {/* 달력 이벤트 모달 */}
-                        {showCalendarEvent && (
-                          // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-                          <div
-                            onClick={() => {
-                              setShowCalendarEvent(false);
-                            }}
-                            style={{
-                              position: 'absolute',
-                              display: 'flex',
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                              width: '100%',
-                              height: '100%',
-                              top: '0px',
-                              left: '0px',
-                              backgroundColor: 'rgba(0,0,0,0.25)',
-                            }}
-                          >
-                            <div
-                              style={{
-                                width: '50%',
-                                height: '50%',
-                                backgroundColor: 'white',
-                              }}
-                            >
-                              <p>{eventInfo!.scheduleTitle}</p>
-                              <p>{eventInfo!.scheduleContent}</p>
-                            </div>
-                          </div>
-                        )}
-                        {/* 달력 */}
-                        <Calendar showEvent eventAction schedule={crewInfo.schedule} onClick={openCalendarEvent} />
+                  <SubTitle>
+                    <heading.BodyLargeBold>캘린더</heading.BodyLargeBold>
+                  </SubTitle>
+                  <div style={{ position: 'relative', width: '100%', height: '322px' }}>
+                    {/* 달력 이벤트 모달 */}
+                    {showCalendarEvent && (
+                      // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+                      <div
+                        onClick={() => {
+                          setShowCalendarEvent(false);
+                        }}
+                        style={{
+                          position: 'absolute',
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          width: '100%',
+                          height: '100%',
+                          top: '0px',
+                          left: '0px',
+                          backgroundColor: 'rgba(0,0,0,0.25)',
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: '50%',
+                            height: '50%',
+                            backgroundColor: 'white',
+                          }}
+                        >
+                          <p>{eventInfo!.scheduleTitle}</p>
+                          <p>{eventInfo!.scheduleContent}</p>
+                        </div>
                       </div>
-                    </>
-                  )}
+                    )}
+                    {/* 달력 */}
+                    <Calendar showEvent eventAction schedule={crewInfo.schedule} onClick={openCalendarEvent} />
+                  </div>
                 </BlockDiv>
               )}
 
@@ -204,7 +208,10 @@ function Long({
 
               {/* 참여중인 크루 : 멤버들에게 보여주는 것 */}
               {crewInfo.personType !== 'person' && <MemberView crewInfo={crewInfo} />}
-            </div>
+
+              {/* 크루 가입 버튼에 가리는 부분 제거하기 위해 추가 */}
+              {crewInfo.personType === 'person' && <div style={{ height: '34px' }} />}
+            </DetailInfoContainer>
           </>
         )}
         {page === '공지' && (
@@ -217,7 +224,7 @@ function Long({
         )}
         {page === '일정' && <ScheduleContent crewInfo={crewInfo} />}
         {page === '크루챗' && <Chat />}
-      </section>
+      </ContentContainer>
     </>
   );
 }
