@@ -3,10 +3,10 @@ import styled from 'styled-components';
 
 import { useRecoilState } from 'recoil';
 
-import { dateDate, stepNum } from '../../../../atoms/createcrew';
+import { dateDate, stepNum } from '../../../atoms/createcrew';
 
-import AnswerBox from '../common/AnswerBox';
-import CalendarModal from '../../../modal/CalendarModal';
+import AnswerBox from './common/AnswerBox';
+import CalendarModal from '../../modal/CalendarModal';
 
 const StyleSection = styled.section``;
 

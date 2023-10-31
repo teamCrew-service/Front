@@ -4,16 +4,7 @@ import type { MemberDetail, Schedule, VoteCreateInfo, VoteResultInfo } from '../
 
 import heading from '../../../../styledComponent/heading';
 
-import {
-  CrewIntroQuestionContainer,
-  DetailMenuLi,
-  CrewInfoContext,
-  SubTitle,
-  QuestionDiv,
-  SeparateDiv,
-  SeparateBar,
-  BlockDiv,
-} from '../../../../pages/detail/styled';
+import { DetailMenuLi, CrewInfoContext, SubTitle, BlockDiv } from '../../../../pages/detail/styled';
 
 import icons from '../../../../assets/icons';
 import colors from '../../../../assets/styles/color';
@@ -22,18 +13,27 @@ import NoticeContent from './nav/NoticeContent';
 import ScheduleContent from './nav/ScheduleContent';
 import Chat from './nav/Chat';
 import ScheduleCard from '../../ScheduleCard';
-import MemberBox from '../../MemberBox';
 import Calendar from '../../../common/calendar/Calendar';
 import NoScheduleCard from '../../NoScheduleCard';
 import Location from '../../role/Location';
+import CrewIntro from '../../role/CrewIntro';
+import GuestView from '../../role/GuestView';
+import MemberView from '../../role/MemberView';
+import {
+  RecentScheduleContainer,
+  ContentContainer,
+  DetailInfoContainer,
+  LongNavContainer,
+  LongNavItem,
+  SummaryInfoContainer,
+  CalendarContainer,
+} from '../../../../layouts/detail/detail-layout';
+import CalendarEventModal from '../../../modal/CalendarEventModal';
 
 function Long({
   page,
   changePage,
   crewInfo,
-  infoOpen,
-  closeInfoWindow,
-  openInfoWindow,
   saveAddress,
   recentSchedule,
   openNoticeDetailModal,
@@ -43,16 +43,12 @@ function Long({
   page: string;
   changePage: (input: string) => void;
   crewInfo: MemberDetail;
-  infoOpen: boolean;
-  closeInfoWindow: () => void;
-  openInfoWindow: () => void;
   saveAddress: (input: string) => void;
   recentSchedule: Schedule | null;
   openNoticeDetailModal: (input: string) => void;
   openVoteDetailModal: (input: VoteCreateInfo) => void;
   openVoteResultModal: (input: VoteResultInfo) => void;
 }): JSX.Element {
-  const [showHostInfo, setShowHostInfo] = useState<boolean>(false);
   const [showCalendarEvent, setShowCalendarEvent] = useState<boolean>(false);
   const [eventInfo, setEventInfo] = useState<Schedule | null>(null);
 
@@ -61,14 +57,14 @@ function Long({
     setShowCalendarEvent(true);
   };
 
-  const showHostInfoFunc = (): void => {
-    setShowHostInfo(prev => !prev);
+  const closeCalendarEvent = (): void => {
+    setShowCalendarEvent(false);
   };
 
   return (
     <>
-      <nav id="detail-main-menu">
-        <ul id="detail-main-menu-ul">
+      <LongNavContainer>
+        <LongNavItem>
           {['모임정보', '공지', '일정', '크루챗'].map(item => {
             if (page === item) {
               return (
@@ -91,13 +87,13 @@ function Long({
               </DetailMenuLi>
             );
           })}
-        </ul>
-      </nav>
+        </LongNavItem>
+      </LongNavContainer>
 
-      <section id="detail-main-content">
+      <ContentContainer>
         {page === '모임정보' && (
           <>
-            <div id="detail-main-content-crewinfo">
+            <SummaryInfoContainer>
               <heading.TitleLargeBold>{crewInfo?.crew.crew_crewTitle}</heading.TitleLargeBold>
               <CrewInfoContext>
                 <icons.users />
@@ -121,47 +117,17 @@ function Long({
                   번
                 </heading.BodySmallBold>
               </CrewInfoContext>
-            </div>
+            </SummaryInfoContainer>
 
-            <div id="detail-main-content-crewinfo-2">
-              {/* 소개 */}
-              <BlockDiv>
-                <div id="detail-main-content-intro">
-                  <SubTitle>
-                    <heading.BodyLargeBold>소개</heading.BodyLargeBold>
-                    {infoOpen ? (
-                      <icons.chevronUp style={{ cursor: 'pointer' }} onClick={closeInfoWindow} />
-                    ) : (
-                      <icons.chevronDown style={{ cursor: 'pointer' }} onClick={openInfoWindow} />
-                    )}
-                  </SubTitle>
-                </div>
-                {/* 소개 - 접었다 피는 부분 */}
-                {infoOpen && (
-                  <div id="detail-main-content-context">
-                    <CrewIntroQuestionContainer>
-                      <QuestionDiv>
-                        <heading.BodyLargeBold>&middot;&nbsp;&nbsp; 우리 모임 사람들의 특징은?</heading.BodyLargeBold>
-                        <heading.BodyBaseMedium>{crewInfo?.crew.crew_crewMemberInfo}</heading.BodyBaseMedium>
-                      </QuestionDiv>
-                      <QuestionDiv>
-                        <heading.BodyLargeBold>&middot;&nbsp;&nbsp; 우리 모임 사람들의 연령대는?</heading.BodyLargeBold>
-                        <heading.BodyBaseMedium>{crewInfo?.crew.crew_crewAgeInfo}</heading.BodyBaseMedium>
-                      </QuestionDiv>
-                    </CrewIntroQuestionContainer>
-                    <SeparateDiv>
-                      <SeparateBar />
-                    </SeparateDiv>
-                    <heading.BodyBaseMedium style={{ padding: '10px 0px' }}>
-                      {crewInfo?.crew.crew_crewContent}
-                    </heading.BodyBaseMedium>
-                  </div>
-                )}
-              </BlockDiv>
+            <DetailInfoContainer>
+              <CrewIntro
+                crewMemberInfo={crewInfo.crew.crew_crewMemberInfo}
+                crewAgeInfo={crewInfo.crew.crew_crewAgeInfo}
+                crewContent={crewInfo.crew.crew_crewContent}
+              />
 
-              {/* 일정 */}
               {crewInfo?.personType !== 'person' && (
-                <div id="detail-main-content-schedule">
+                <RecentScheduleContainer>
                   <SubTitle>
                     <heading.BodyLargeBold>일정</heading.BodyLargeBold>
                     <heading.BodySmallBold
@@ -175,7 +141,7 @@ function Long({
                   </SubTitle>
                   {recentSchedule !== null && <ScheduleCard crewInfo={crewInfo}>{recentSchedule}</ScheduleCard>}
                   {recentSchedule === null && <NoScheduleCard />}
-                </div>
+                </RecentScheduleContainer>
               )}
 
               {/* 위치 */}
@@ -184,48 +150,18 @@ function Long({
               {/* 캘린더 */}
               {crewInfo.personType !== 'person' && (
                 <BlockDiv>
-                  {crewInfo?.personType !== 'person' && (
-                    <>
-                      <SubTitle>
-                        <heading.BodyLargeBold>캘린더</heading.BodyLargeBold>
-                      </SubTitle>
-                      <div style={{ position: 'relative', width: '100%', height: '322px' }}>
-                        {/* 달력 이벤트 모달 */}
-                        {showCalendarEvent && (
-                          // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-                          <div
-                            onClick={() => {
-                              setShowCalendarEvent(false);
-                            }}
-                            style={{
-                              position: 'absolute',
-                              display: 'flex',
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                              width: '100%',
-                              height: '100%',
-                              top: '0px',
-                              left: '0px',
-                              backgroundColor: 'rgba(0,0,0,0.25)',
-                            }}
-                          >
-                            <div
-                              style={{
-                                width: '50%',
-                                height: '50%',
-                                backgroundColor: 'white',
-                              }}
-                            >
-                              <p>{eventInfo!.scheduleTitle}</p>
-                              <p>{eventInfo!.scheduleContent}</p>
-                            </div>
-                          </div>
-                        )}
-                        {/* 달력 */}
-                        <Calendar showEvent eventAction schedule={crewInfo.schedule} onClick={openCalendarEvent} />
-                      </div>
-                    </>
-                  )}
+                  <SubTitle>
+                    <heading.BodyLargeBold>캘린더</heading.BodyLargeBold>
+                  </SubTitle>
+                  <CalendarContainer>
+                    {/* 달력 이벤트 모달 */}
+                    {showCalendarEvent && (
+                      // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+                      <CalendarEventModal closeModal={closeCalendarEvent} eventInfo={eventInfo} />
+                    )}
+                    {/* 달력 */}
+                    <Calendar showEvent eventAction schedule={crewInfo.schedule} onClick={openCalendarEvent} />
+                  </CalendarContainer>
                 </BlockDiv>
               )}
 
@@ -246,67 +182,14 @@ function Long({
               )}
 
               {/* 호스트 : 게스트만 보여주는 것 */}
-              {crewInfo.personType === 'person' && (
-                <BlockDiv style={{ marginBottom: '34px' }}>
-                  <SubTitle>
-                    <heading.BodyLargeBold>호스트</heading.BodyLargeBold>
-                  </SubTitle>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <MemberBox
-                      key={crewInfo.crew.captainId}
-                      url={crewInfo.crew.captainProfileImage}
-                      name={crewInfo.crew.captainNickname}
-                      isHost
-                      crewType={crewInfo.crew.crew_crewType}
-                    />
-                    {showHostInfo ? (
-                      <icons.chevronUp onClick={showHostInfoFunc} />
-                    ) : (
-                      <icons.chevronDown onClick={showHostInfoFunc} />
-                    )}
-                  </div>
-                  {showHostInfo && (
-                    <div>
-                      <p>{crewInfo.crew.captainLocation}</p>
-                      <p>{crewInfo.crew.captainMessage}</p>
-                      <p>{new Date().getFullYear() - crewInfo.crew.captainAge + 1}세</p>
-                      {crewInfo.captainTopics.map(item => (
-                        <p key={item.interestTopic}>{item.interestTopic}</p>
-                      ))}
-                    </div>
-                  )}
-                </BlockDiv>
-              )}
+              {crewInfo.personType === 'person' && <GuestView crewInfo={crewInfo} />}
 
               {/* 참여중인 크루 : 멤버들에게 보여주는 것 */}
-              {crewInfo.personType !== 'person' && (
-                <BlockDiv style={{ marginBottom: '34px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1%' }}>
-                    <heading.BodyLargeBold>참여중인 크루</heading.BodyLargeBold>
-                    <heading.BodySmallBold style={{ color: `${colors.primary}` }}>
-                      {crewInfo?.member.length}명 (호스트 제외)
-                    </heading.BodySmallBold>
-                  </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', width: '100%', gap: '7px' }}>
-                    <MemberBox
-                      key={crewInfo.crew.captainId}
-                      url={crewInfo.crew.captainProfileImage}
-                      name={crewInfo.crew.captainNickname}
-                      isHost
-                      crewType={crewInfo.crew.crew_crewType}
-                    />
-                    {crewInfo?.member.map(person => (
-                      <MemberBox
-                        key={person.member_memberId}
-                        url={person.users_profileImage}
-                        name={person.users_nickname}
-                        crewType={crewInfo.crew.crew_crewType}
-                      />
-                    ))}
-                  </div>
-                </BlockDiv>
-              )}
-            </div>
+              {crewInfo.personType !== 'person' && <MemberView crewInfo={crewInfo} />}
+
+              {/* 크루 가입 버튼에 가리는 부분 제거하기 위해 추가 */}
+              {crewInfo.personType === 'person' && <div style={{ height: '34px' }} />}
+            </DetailInfoContainer>
           </>
         )}
         {page === '공지' && (
@@ -319,7 +202,7 @@ function Long({
         )}
         {page === '일정' && <ScheduleContent crewInfo={crewInfo} />}
         {page === '크루챗' && <Chat />}
-      </section>
+      </ContentContainer>
     </>
   );
 }

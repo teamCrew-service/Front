@@ -1,14 +1,14 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { stepNum } from '../../../../atoms/createcrew';
+import { stepNum } from '../../../atoms/createcrew';
 
-import CrewRecommendMember from '../CrewRecommendMember';
-import CrewTime from '../CrewTime';
-import CrewAge from '../CrewAge';
-import CrewAttendMethod from '../CrewAttendMethod';
-import CrewTitle from '../CrewTitle';
-import CrewIntro from '../CrewIntro';
-import CrewThumbnail from '../CrewThumbnail';
+import CrewRecommendMember from '../questionComp/CrewRecommendMember';
+import CrewTime from '../questionComp/CrewTime';
+import CrewAge from '../questionComp/CrewAge';
+import CrewAttendMethod from '../questionComp/CrewAttendMethod';
+import CrewTitle from '../questionComp/CrewTitle';
+import CrewIntro from '../questionComp/CrewIntro';
+import CrewThumbnail from '../questionComp/CrewThumbnail';
 
 function Long({ crewType }: { crewType: '장기' | '단기' }): JSX.Element {
   const step = useRecoilValue(stepNum);
