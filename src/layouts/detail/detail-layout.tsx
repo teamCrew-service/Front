@@ -4,6 +4,7 @@ import colors from '../../assets/styles/color';
 
 // 전체 높이 : 814px
 
+// 공통
 /* 56px */
 export const Header = styled.header`
   display: flex;
@@ -82,7 +83,7 @@ export const LongNavItem = styled.ul`
   align-items: center;
 `;
 /* 282px */
-export const CalendarContainer = styled.div`
+export const RecentScheduleContainer = styled.div`
   width: 100%;
   height: 276px;
   display: flex;
@@ -90,7 +91,14 @@ export const CalendarContainer = styled.div`
   gap: 12px;
   margin-top: 12px;
 `;
-export const RecentScheduleContainer = styled.div`
+export const CalendarContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 322px;
+`;
+
+// 장기 - 공지 탭
+export const NoticeContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;

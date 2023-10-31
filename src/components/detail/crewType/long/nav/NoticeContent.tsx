@@ -8,7 +8,7 @@ import icons from '../../../../../assets/icons';
 import heading from '../../../../../styledComponent/heading';
 
 import useCalDate from '../../../../../util/useCalDate';
-import { RecentScheduleContainer } from '../../../../../layouts/detail/detail-layout';
+import { NoticeContainer } from '../../../../../layouts/detail/detail-layout';
 
 const NoticeDiv = styled.div`
   display: flex;
@@ -73,7 +73,7 @@ function NoticeContent({
   };
 
   return (
-    <RecentScheduleContainer>
+    <NoticeContainer>
       <nav style={{ width: '100%', marginBottom: '9px' }}>
         <ul style={{ display: 'flex', gap: '2.36%' }}>
           {['정모 공지', '되는 시간 투표'].map(item => {
@@ -167,7 +167,7 @@ function NoticeContent({
             </InfoContainer>
           </NoticeDiv>
         ))}
-    </RecentScheduleContainer>
+    </NoticeContainer>
   );
 }
 

@@ -20,13 +20,15 @@ import CrewIntro from '../../role/CrewIntro';
 import GuestView from '../../role/GuestView';
 import MemberView from '../../role/MemberView';
 import {
-  CalendarContainer,
+  RecentScheduleContainer,
   ContentContainer,
   DetailInfoContainer,
   LongNavContainer,
   LongNavItem,
   SummaryInfoContainer,
+  CalendarContainer,
 } from '../../../../layouts/detail/detail-layout';
+import CalendarEventModal from '../../../modal/CalendarEventModal';
 
 function Long({
   page,
@@ -53,6 +55,10 @@ function Long({
   const openCalendarEvent = (input: any): void => {
     setEventInfo(input);
     setShowCalendarEvent(true);
+  };
+
+  const closeCalendarEvent = (): void => {
+    setShowCalendarEvent(false);
   };
 
   return (
@@ -114,16 +120,14 @@ function Long({
             </SummaryInfoContainer>
 
             <DetailInfoContainer>
-              {/* 소개 */}
               <CrewIntro
                 crewMemberInfo={crewInfo.crew.crew_crewMemberInfo}
                 crewAgeInfo={crewInfo.crew.crew_crewAgeInfo}
                 crewContent={crewInfo.crew.crew_crewContent}
               />
 
-              {/* 일정 */}
               {crewInfo?.personType !== 'person' && (
-                <CalendarContainer>
+                <RecentScheduleContainer>
                   <SubTitle>
                     <heading.BodyLargeBold>일정</heading.BodyLargeBold>
                     <heading.BodySmallBold
@@ -137,7 +141,7 @@ function Long({
                   </SubTitle>
                   {recentSchedule !== null && <ScheduleCard crewInfo={crewInfo}>{recentSchedule}</ScheduleCard>}
                   {recentSchedule === null && <NoScheduleCard />}
-                </CalendarContainer>
+                </RecentScheduleContainer>
               )}
 
               {/* 위치 */}
@@ -149,41 +153,15 @@ function Long({
                   <SubTitle>
                     <heading.BodyLargeBold>캘린더</heading.BodyLargeBold>
                   </SubTitle>
-                  <div style={{ position: 'relative', width: '100%', height: '322px' }}>
+                  <CalendarContainer>
                     {/* 달력 이벤트 모달 */}
                     {showCalendarEvent && (
                       // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-                      <div
-                        onClick={() => {
-                          setShowCalendarEvent(false);
-                        }}
-                        style={{
-                          position: 'absolute',
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          width: '100%',
-                          height: '100%',
-                          top: '0px',
-                          left: '0px',
-                          backgroundColor: 'rgba(0,0,0,0.25)',
-                        }}
-                      >
-                        <div
-                          style={{
-                            width: '50%',
-                            height: '50%',
-                            backgroundColor: 'white',
-                          }}
-                        >
-                          <p>{eventInfo!.scheduleTitle}</p>
-                          <p>{eventInfo!.scheduleContent}</p>
-                        </div>
-                      </div>
+                      <CalendarEventModal closeModal={closeCalendarEvent} eventInfo={eventInfo} />
                     )}
                     {/* 달력 */}
                     <Calendar showEvent eventAction schedule={crewInfo.schedule} onClick={openCalendarEvent} />
-                  </div>
+                  </CalendarContainer>
                 </BlockDiv>
               )}
 
