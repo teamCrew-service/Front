@@ -122,10 +122,15 @@ export interface Member {
   users_profileImage: string;
   users_location: string;
 }
+// 3 - 1. 일정 참여자 리스트
+export interface Participants {
+  participantProfileImage: string;
+  participantUerId: number;
+}
 // 3. 크루 일정
 export interface Schedule {
   createdAt: string;
-  participate: number;
+  participants: Participants[];
   scheduleAddress: string;
   schedulePlaceName: string;
   scheduleAttendedMember: string;
@@ -139,11 +144,19 @@ export interface Schedule {
   scheduleTitle: string;
   userId: string;
 }
+// 4. 크루 사진첩 이미지
+export interface Image {
+  imageId: string;
+  crewId: string;
+  userId: string;
+  image: string;
+}
 // 게스트일 경우
 export interface GuestDetail {
   captainTopics: Array<{ userId: string; interestTopic: string }>;
   createdCrewPeriod: number;
   crew: Crew;
+  image: Image[];
   member: Member[];
   personType: string;
   myUserId: string;
