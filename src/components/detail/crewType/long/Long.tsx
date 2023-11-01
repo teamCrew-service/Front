@@ -126,6 +126,7 @@ function Long({
                 crewContent={crewInfo.crew.crew_crewContent}
               />
 
+              {/* 최신 일정 */}
               {crewInfo?.personType !== 'person' && (
                 <RecentScheduleContainer>
                   <SubTitle>

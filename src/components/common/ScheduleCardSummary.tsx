@@ -28,7 +28,7 @@ const GoDiv = styled.div`
   cursor: pointer;
 `;
 
-function ScheduleCard({
+export default function ScheduleCardSummary({
   scheduleOne,
   cardRole = 'upcoming',
 }: {
@@ -83,5 +83,3 @@ function ScheduleCard({
     </ScheduleCardDiv>
   );
 }
-
-export default ScheduleCard;
