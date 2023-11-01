@@ -163,11 +163,11 @@ export const PlusBtn = styled.div`
   border-radius: 50%;
   background-color: ${colors.primary};
   cursor: pointer;
-  z-index: 1;
+  z-index: 199;
 `;
 
 export const CloseBtn = styled(PlusBtn)`
-  z-index: 3;
+  z-index: 201;
 `;
 
 export const PlusItemContainer = styled.div`
@@ -178,7 +178,7 @@ export const PlusItemContainer = styled.div`
   gap: 8px;
   top: -184px;
   right: 16px;
-  z-index: 3;
+  z-index: 201;
 `;
 
 export const ItemDiv = styled.div`
@@ -203,5 +203,5 @@ export const NonActiveWindow = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
-  z-index: 2;
+  z-index: 200;
 `;

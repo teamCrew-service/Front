@@ -77,6 +77,9 @@ function short({
 
         {/* 참여중인 크루 : 멤버들에게 보여주는 것 */}
         {crewInfo.personType !== 'person' && <MemberView crewInfo={crewInfo} />}
+
+        {/* 크루 가입 버튼에 가리는 부분 제거하기 위해 추가 */}
+        {crewInfo.personType === 'person' && <div style={{ height: '34px' }} />}
       </DetailInfoContainer>
     </ContentContainer>
   );

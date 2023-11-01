@@ -17,14 +17,7 @@ import { voteDueDate, voteOptionList } from '../../../atoms/createvote';
 import Calendar from '../../common/calendar/Calendar';
 import { voteform } from '../../../api';
 import type { MemberDetail, VoteCreateInfo, VoteInfo } from '../../../assets/interfaces';
-
-const ModalContainer = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: white;
-  z-index: 2;
-`;
+import { ModalContainer } from '../common/styled';
 
 const CompleteBtn = styled.button`
   display: flex;
@@ -305,7 +298,7 @@ function CreateVoteModal({
   );
 
   return (
-    <ModalContainer>
+    <ModalContainer style={{ backgroundColor: 'white' }}>
       <header id="create-vote-header">
         <icons.close onClick={closeModal} />
         <heading.BodyLargeBold>되는 시간 투표</heading.BodyLargeBold>
