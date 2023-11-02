@@ -102,7 +102,7 @@ export const ListBox = styled.div`
   flex-direction: column;
   gap: 12px;
   width: 100%;
-  height: 100%;
+  height: fit-content;
   overflow-y: auto;
   overflow-x: hidden;
 `;
