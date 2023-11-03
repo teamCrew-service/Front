@@ -39,6 +39,7 @@ function Long({
   openNoticeDetailModal,
   openVoteDetailModal,
   openVoteResultModal,
+  refetch,
 }: {
   page: string;
   changePage: (input: string) => void;
@@ -48,6 +49,7 @@ function Long({
   openNoticeDetailModal: (input: string) => void;
   openVoteDetailModal: (input: VoteCreateInfo) => void;
   openVoteResultModal: (input: VoteResultInfo) => void;
+  refetch: any;
 }): JSX.Element {
   const [showCalendarEvent, setShowCalendarEvent] = useState<boolean>(false);
   const [eventInfo, setEventInfo] = useState<Schedule | null>(null);
@@ -140,7 +142,11 @@ function Long({
                       전체보기
                     </heading.BodySmallBold>
                   </SubTitle>
-                  {recentSchedule !== null && <ScheduleCard crewInfo={crewInfo}>{recentSchedule}</ScheduleCard>}
+                  {recentSchedule !== null && (
+                    <ScheduleCard crewInfo={crewInfo} refetch={refetch}>
+                      {recentSchedule}
+                    </ScheduleCard>
+                  )}
                   {recentSchedule === null && <NoScheduleCard />}
                 </RecentScheduleContainer>
               )}
@@ -174,7 +180,18 @@ function Long({
                     <heading.BodySmallBold style={{ cursor: 'pointer' }}>전체보기</heading.BodySmallBold>
                   </SubTitle>
                   <div style={{ display: 'flex', gap: '2%', width: '100%', aspectRatio: 5 }}>
-                    <div style={{ width: '25%', height: '100%', border: '1px solid black' }}>사진첩</div>
+                    {crewInfo.image[0] !== undefined && (
+                      <div
+                        style={{
+                          width: '25%',
+                          height: '100%',
+                          border: '1px solid black',
+                          backgroundImage: `url(${crewInfo.image[0].image})`,
+                        }}
+                      >
+                        사진첩
+                      </div>
+                    )}
                     <div style={{ width: '25%', height: '100%', border: '1px solid black' }}>사진첩</div>
                     <div style={{ width: '25%', height: '100%', border: '1px solid black' }}>사진첩</div>
                     <div style={{ width: '25%', height: '100%', border: '1px solid black' }}>사진첩</div>

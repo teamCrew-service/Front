@@ -381,6 +381,7 @@ function Detail(): JSX.Element {
             openNoticeDetailModal={openNoticeDetailModalFunc}
             openVoteDetailModal={openVoteDetailModalFunc}
             openVoteResultModal={openVoteResultModalFunc}
+            refetch={refetch}
           />
         )}
         {crewInfo?.result.crew.crew_crewType === '단기' && (

@@ -190,7 +190,7 @@ function CreateNoticeModal({
         noticePlaceName: place,
       };
       console.log('before create', data);
-      const result = noitce.createNotice(crewInfo.crew.crew_crewId, data);
+      const result = await noitce.createNotice(crewInfo.crew.crew_crewId, data);
       return result;
     },
     {

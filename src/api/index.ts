@@ -102,6 +102,14 @@ export const schedule = {
     const { data } = await instance.get('api/home/wholeComingDate');
     return data;
   },
+  signUpSchedule: async (crewId: string, scheduleId: string) => {
+    const { data } = await instance.post(`api/schedule/participate/${crewId}/${scheduleId}`);
+    return data;
+  },
+  cancelSchedule: async (crewId: string, scheduleId: string) => {
+    const { data } = await instance.delete(`api/schedule/cancelParticipate/${crewId}/${scheduleId}`);
+    return data;
+  },
 };
 
 export const signUp = {
