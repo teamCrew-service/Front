@@ -13,10 +13,11 @@ export const CrewCardDiv = styled.div<{ $image: string }>`
   padding: 16px;
   text-decoration: none;
   color: inherit;
-  background-image: url(${props => props.$image});
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 43.04%, rgba(0, 0, 0, 0) 70.92%, rgba(0, 0, 0, 0.6) 99.77%),
+    url(${props => props.$image});
   background-position: center center;
-  background-size: cover;
   background-repeat: no-repeat;
+  background-size: cover;
 `;
 
 export const TagDiv = styled.div<{ $color: string }>`
