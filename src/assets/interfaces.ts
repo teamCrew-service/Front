@@ -144,6 +144,7 @@ export interface GuestDetail {
   member: Member[];
   personType: string;
   likeCount: number;
+  myUserId: string;
 }
 
 // 멤버일 경우
