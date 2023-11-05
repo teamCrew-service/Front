@@ -111,6 +111,7 @@ function Detail(): JSX.Element {
         console.log('크루 상세정보 = ', res);
       },
       refetchOnWindowFocus: false,
+      cacheTime: 0,
     },
   );
 
