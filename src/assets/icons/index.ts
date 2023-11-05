@@ -51,6 +51,8 @@ import { ReactComponent as CalendarBlank } from './CalendarBlank.svg';
 // 투표 생성 페이지
 import { ReactComponent as CheckBox } from './CheckBox.svg';
 
+// 채팅 페이지
+import { ReactComponent as ArrowUp } from './arrow-up.svg';
 // 마이 페이지
 import { ReactComponent as GearSix } from './GearSix.svg';
 import { ReactComponent as PencilSimple } from './PencilSimple.svg';
@@ -93,6 +95,7 @@ const icons = {
   MegaPhone,
   CalendarBlank,
   CheckBox,
+  ArrowUp,
   GearSix,
   PencilSimple,
   Camera,
