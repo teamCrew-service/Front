@@ -122,15 +122,16 @@ export interface Member {
   users_profileImage: string;
   users_location: string;
 }
-// 3 - 1. 일정 참여자 리스트
-export interface Participants {
+
+// 3 - 1. 참여자 목록
+export interface Participant {
   participantProfileImage: string;
-  participantUerId: number;
+  participantUserId: number;
 }
 // 3. 크루 일정
 export interface Schedule {
   createdAt: string;
-  participants: Participants[];
+  participants: Participant[];
   scheduleAddress: string;
   schedulePlaceName: string;
   scheduleAttendedMember: string;

@@ -8,12 +8,12 @@ import { crew } from '../../api';
 
 import useResizeImage from '../../util/useResizeImage';
 
-const NavContainer = styled.div`
+const NavContainer = styled.div<{ personType: string }>`
   position: absolute;
-  bottom: -96px;
+  bottom: ${props => (props.personType === 'captain' ? '-96px' : '-64px')};
   right: 0;
   width: 119px;
-  height: 96px;
+  height: fit-content;
   background-color: ${colors.gray50};
   border-radius: 8px;
   z-index: 2;
@@ -33,10 +33,12 @@ const NavItem = styled.div`
 
 function ThreeDotModal({
   crewId,
+  personType,
   controlExtra,
   refetch,
 }: {
   crewId: string;
+  personType: string;
   controlExtra: () => void;
   refetch: any;
 }): JSX.Element {
@@ -45,6 +47,18 @@ function ThreeDotModal({
   const deleteCrew = (): void => {
     crew
       .deleteCrew(crewId)
+      .then(res => {
+        console.log(res);
+        navigate('/home');
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const withDrawCrew = (): void => {
+    crew
+      .exitCrew(crewId)
       .then(res => {
         console.log(res);
         navigate('/home');
@@ -77,13 +91,22 @@ function ThreeDotModal({
     fileInput.click();
   };
   return (
-    <NavContainer>
-      <NavItem>
-        <heading.BodySmallBold onClick={deleteCrew}>모임 삭제</heading.BodySmallBold>
-      </NavItem>
-      <NavItem>
-        <heading.BodySmallBold onClick={changeThumbnail}>썸네일 수정하기</heading.BodySmallBold>
-      </NavItem>
+    <NavContainer personType={personType}>
+      {personType === 'captain' && (
+        <>
+          <NavItem>
+            <heading.BodySmallBold onClick={deleteCrew}>모임 삭제</heading.BodySmallBold>
+          </NavItem>
+          <NavItem>
+            <heading.BodySmallBold onClick={changeThumbnail}>썸네일 수정하기</heading.BodySmallBold>
+          </NavItem>
+        </>
+      )}
+      {personType === 'member' && (
+        <NavItem>
+          <heading.BodySmallBold onClick={withDrawCrew}>모임 탈퇴</heading.BodySmallBold>
+        </NavItem>
+      )}
       <NavItem onClick={controlExtra}>
         <heading.BodySmallBold style={{ color: `${colors.errorRed}` }}>취소</heading.BodySmallBold>
       </NavItem>

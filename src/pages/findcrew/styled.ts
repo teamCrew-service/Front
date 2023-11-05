@@ -2,18 +2,22 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import colors from '../../assets/styles/color';
 
-export const CrewCardDiv = styled.div`
+export const CrewCardDiv = styled.div<{ $image: string }>`
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  justify-content: space-between;
   width: 100%;
-  height: fit-content;
-  border-radius: 8px;
+  height: 262px;
+  border-radius: 12px;
   padding: 16px;
-  background-color: ${colors.gray100};
   text-decoration: none;
   color: inherit;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 43.04%, rgba(0, 0, 0, 0) 70.92%, rgba(0, 0, 0, 0.6) 99.77%),
+    url(${props => props.$image});
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
 `;
 
 export const TagDiv = styled.div<{ $color: string }>`
@@ -22,16 +26,6 @@ export const TagDiv = styled.div<{ $color: string }>`
   background-color: ${props => props.$color};
   padding: 4px 10px;
   border-radius: 200px;
-`;
-
-export const ImageBox = styled.div<{ $image: string }>`
-  width: 56px;
-  height: 56px;
-  border-radius: 8px;
-  background-image: url(${props => props.$image});
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
 `;
 
 export const CategoryDiv = styled.div`

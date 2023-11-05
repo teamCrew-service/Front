@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import './style.css';
 import { useNavigate } from 'react-router-dom';
-import ScheduleCard from '../../components/common/ScheduleCard';
+import ScheduleCardSummary from '../../components/common/ScheduleCardSummary';
 import { type ComingDateSchedule } from '../../assets/interfaces';
 import icons from '../../assets/icons';
 import heading from '../../styledComponent/heading';
@@ -87,13 +87,13 @@ function UpcomingSchedule(): JSX.Element {
           {selected === '다가오는' &&
             scheduleList?.comingSchedule.map((item: ComingDateSchedule) => (
               <ScheduleCardContainer>
-                <ScheduleCard key={item.schedule.scheduleId} scheduleOne={item} cardRole="goDetail" />
+                <ScheduleCardSummary key={item.schedule.scheduleId} scheduleOne={item} cardRole="goDetail" />
               </ScheduleCardContainer>
             ))}
           {selected === '참여 완료' &&
             scheduleList?.participateSchedule.map((item: ComingDateSchedule) => (
               <ScheduleCardContainer>
-                <ScheduleCard key={item.schedule.scheduleId} scheduleOne={item} cardRole="goDetail" />
+                <ScheduleCardSummary key={item.schedule.scheduleId} scheduleOne={item} cardRole="goDetail" />
               </ScheduleCardContainer>
             ))}
         </section>
