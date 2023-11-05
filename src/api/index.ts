@@ -42,11 +42,13 @@ export const crew = {
     const { data } = await instance.get<T>(`api/crew/${crewId}`);
     return data;
   },
+
   // 모임 가입
   signUp: async <T = Message>(crewId: string): Promise<T> => {
     const { data } = await instance.post<T>(`api/signup/${crewId}`);
     return data;
   },
+
   // 모임 생성
   makeCrew: async (file: Blob, payload: myInterface.CreateCrew) => {
     const formData = new FormData();
@@ -60,10 +62,14 @@ export const crew = {
     });
     return data;
   },
+
+  // 크루 삭제
   deleteCrew: async <T = Message>(crewId: string): Promise<T> => {
     const { data } = await instance.delete(`/api/crew/${crewId}/delete`);
     return data;
   },
+
+  // 크루 썸네일 수정
   editCrewThumbnail: async (file: Blob, crewId: string) => {
     const formData = new FormData();
     formData.append('files', file);
@@ -73,6 +79,12 @@ export const crew = {
         'Content-Type': 'multipart/form-data',
       },
     });
+    return data;
+  },
+
+  // 크루 탈퇴하기
+  exitCrew: async (crewId: string) => {
+    const data = await instance.post(`/api/exitCrew/${crewId}`);
     return data;
   },
 };

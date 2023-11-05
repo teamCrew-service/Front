@@ -340,12 +340,13 @@ function Detail(): JSX.Element {
         />
         <heading.BodyLargeBold>{crewInfo?.result.crew.crew_crewType}</heading.BodyLargeBold>
         <div style={{ position: 'relative', width: '24px', height: '24px' }}>
-          {crewInfo?.result.personType === 'captain' && (
+          {crewInfo?.result.personType !== 'person' && (
             <>
               {extraOpen && (
                 <ThreeDotModal
                   refetch={refetch}
-                  crewId={crewInfo.result.crew.crew_crewId}
+                  crewId={crewInfo!.result.crew.crew_crewId}
+                  personType={crewInfo!.result.personType}
                   controlExtra={controlExtraFunc}
                 />
               )}
