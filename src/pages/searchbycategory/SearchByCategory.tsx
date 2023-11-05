@@ -1,70 +1,57 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import colors from '../../assets/styles/color';
+import { useQuery } from 'react-query';
 import icons from '../../assets/icons';
 import './style.css';
 import CrewCard from '../../components/common/CrewCard';
 import heading from '../../styledComponent/heading';
 import { SearchingDiv, SearchingInput, SearchingNav, NavItem, ListBox } from './styled';
 import { searchByCategory } from '../../api';
-import type { SearchByCategory as CategoryInterface } from '../../assets/interfaces';
+// import type { SearchByCategory as CategoryInterface } from '../../assets/interfaces';
+import Loading from '../../components/common/Loading';
 
 function SearchByCategory(): JSX.Element {
   const navigate = useNavigate();
   // 선택된 카테고리
-  const location = useLocation();
-  const { interest } = location.state ?? {};
+  const { interest }: { interest: string } = useLocation().state;
+
+  // 크루 타입 nav
+  const [crewTypeFilter, setCrewTypeFilter] = useState('전체');
 
   // 검색 시 사용되는 항목
   const [searchTerm, setSearchTerm] = useState('');
-  const [crewTypeFilter, setCrewTypeFilter] = useState('전체');
 
-  // 검색으로 보여지는 리스트
-  const [filteredList, setFilteredList] = useState<Partial<CategoryInterface[]>>([]);
+  const {
+    data: crewList,
+    isLoading,
+    isError,
+  } = useQuery(
+    'getCrewByCategory',
+    async () => {
+      const result = await searchByCategory.getSearchByCategory(interest);
+      const all = result;
+      const long = result.filter(item => item.crew_crewType === '장기');
+      const short = result.filter(item => item.crew_crewType === '단기');
+      return { all, long, short };
+    },
+    {
+      onSuccess: res => {
+        console.log('카테고리별 크루 = ', res);
+      },
+      onError: err => {
+        console.log('카테고리별 크루 에러 ', err);
+      },
+      refetchOnWindowFocus: false,
+    },
+  );
 
-  async function fetchData(
-    search: string,
-    typeFilter: string,
-    category: string,
-  ): Promise<Partial<CategoryInterface[]>> {
-    try {
-      // 카테고리로 api 요청
-      let crews = await searchByCategory.getSearchByCategory(category);
-      console.log(crews);
-
-      // 검색 항목으로 리스트 찾기
-      if (search !== '') {
-        crews = crews.filter(crew => crew.crew_crewTitle.includes(search));
-      }
-
-      if (typeFilter !== '') {
-        crews = crews.filter(crew => crew.crew_crewType === typeFilter || typeFilter === '전체');
-      }
-
-      if (category !== '') {
-        let newCategory = category;
-        if (category.includes('%2F')) {
-          newCategory = category.replace('%2F', '/');
-        }
-        crews = crews.filter(crew => crew.crew_category === newCategory);
-      }
-
-      return crews;
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      throw error;
-    }
+  if (isLoading) {
+    return <Loading />;
   }
 
-  useEffect(() => {
-    fetchData(searchTerm, crewTypeFilter, interest)
-      .then(crews => {
-        setFilteredList(crews);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, [searchTerm, crewTypeFilter]);
+  if (isError) {
+    return <div>somthing wrong!</div>;
+  }
 
   return (
     <>
@@ -76,7 +63,7 @@ function SearchByCategory(): JSX.Element {
           style={{ cursor: 'pointer' }}
         />
         <heading.BodyLargeBold>
-          {interest.includes('%2F') === true ? interest.replace('%2F', '/') : interest}
+          {interest.includes('%2F') ? interest.replace('%2F', '/') : interest}
         </heading.BodyLargeBold>
         <div style={{ width: '24px' }} />
       </header>
@@ -122,23 +109,37 @@ function SearchByCategory(): JSX.Element {
         {/* 리스트 박스 */}
         <section id="interest-list-box">
           <ListBox>
-            {filteredList.length !== 0 ? (
-              filteredList.map(spot => <CrewCard key={spot?.crew_crewId} spot={spot} />)
-            ) : (
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: '100%',
-                  color: `${colors.gray400}`,
-                }}
-              >
-                <p style={{ fontWeight: 700, fontSize: '16px', lineHeight: '22px', letterSpacing: '-0.4px' }}>
-                  검색 결과가 없습니다.
-                </p>
-              </div>
+            {searchTerm === '' && (
+              <>
+                {crewTypeFilter === '전체' &&
+                  crewList?.all.length !== 0 &&
+                  crewList?.all.map(spot => <CrewCard key={spot?.crew_crewId} spot={spot} page="searchbycategory" />)}
+                {crewTypeFilter === '장기' &&
+                  crewList?.long.length !== 0 &&
+                  crewList?.long.map(spot => <CrewCard key={spot?.crew_crewId} spot={spot} page="searchbycategory" />)}
+                {crewTypeFilter === '단기' &&
+                  crewList?.short.length !== 0 &&
+                  crewList?.short.map(spot => <CrewCard key={spot?.crew_crewId} spot={spot} page="searchbycategory" />)}
+              </>
+            )}
+            {searchTerm !== '' && (
+              <>
+                {crewTypeFilter === '전체' &&
+                  crewList?.all.length !== 0 &&
+                  crewList?.all
+                    .filter(spot => spot.crew_crewTitle.includes(searchTerm))
+                    .map(spot => <CrewCard key={spot?.crew_crewId} spot={spot} page="searchbycategory" />)}
+                {crewTypeFilter === '장기' &&
+                  crewList?.long.length !== 0 &&
+                  crewList?.long
+                    .filter(spot => spot.crew_crewTitle.includes(searchTerm))
+                    .map(spot => <CrewCard key={spot?.crew_crewId} spot={spot} page="searchbycategory" />)}
+                {crewTypeFilter === '단기' &&
+                  crewList?.short.length !== 0 &&
+                  crewList?.short
+                    .filter(spot => spot.crew_crewTitle.includes(searchTerm))
+                    .map(spot => <CrewCard key={spot?.crew_crewId} spot={spot} page="searchbycategory" />)}
+              </>
             )}
           </ListBox>
         </section>

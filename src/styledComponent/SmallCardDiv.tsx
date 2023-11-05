@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 const SmallCardDiv = styled.div<{ $image?: any; $backColor: string }>`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -89,7 +89,9 @@ export interface AllNotice {
 // 1. 크루 정보
 export interface Crew {
   captainId: number;
+  captainAge: number;
   captainLocation: string;
+  captainMessage: string;
   captainNickname: string;
   captainProfileImage: string;
   crewAttendedMember: string;
@@ -120,10 +122,16 @@ export interface Member {
   users_profileImage: string;
   users_location: string;
 }
+
+// 3 - 1. 참여자 목록
+export interface Participant {
+  participantProfileImage: string;
+  participantUserId: number;
+}
 // 3. 크루 일정
 export interface Schedule {
   createdAt: string;
-  participate: number;
+  participants: Participant[];
   scheduleAddress: string;
   schedulePlaceName: string;
   scheduleAttendedMember: string;
@@ -137,14 +145,24 @@ export interface Schedule {
   scheduleTitle: string;
   userId: string;
 }
+// 4. 크루 사진첩 이미지
+export interface Image {
+  imageId: string;
+  crewId: string;
+  userId: string;
+  image: string;
+}
 // 게스트일 경우
 export interface GuestDetail {
+  captainTopics: Array<{ userId: string; interestTopic: string }>;
   createdCrewPeriod: number;
   crew: Crew;
+  image: Image[];
   member: Member[];
   personType: string;
-  likeCount: number;
   myUserId: string;
+  likeCheck: boolean;
+  likeCount: number;
 }
 
 // 멤버일 경우
@@ -155,10 +173,11 @@ export interface MemberDetail extends GuestDetail {
 // -------------------------------
 
 // 크루 생성 양식 -------------------
-export interface MakeCrew {
+export interface CreateCrew {
   createCrewDto: {
     category: string;
     crewAddress: string;
+    crewPlaceName: string;
     crewType: string;
     crewDDay: Date | null;
     crewMemberInfo: string;
@@ -221,6 +240,7 @@ export interface SearchByCategory {
   crew_crewTitle: string;
   crew_crewType: string;
   crew_thumbnail: string;
+  crew_crewPlaceName: string;
 }
 
 // 내 주변 모임 찾기 ----------------------
@@ -275,4 +295,28 @@ export interface VoteResultInfo {
 export interface VoteCreateInfo {
   isOpen: boolean;
   voteFormId: string | null;
+}
+
+/* 마이 페이지 */
+export interface MyInfo {
+  userId: string;
+  provider: string;
+  email: string;
+  nickname: string;
+  profileImage: string;
+  age: number;
+  gender: string;
+  myMessage: string;
+  location: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+export interface MyTopic {
+  userId: string;
+  interestTopic: string;
+}
+export interface MyPage {
+  user: MyInfo;
+  topic: MyTopic[];
+  likedCrew: SearchByCategory[];
 }

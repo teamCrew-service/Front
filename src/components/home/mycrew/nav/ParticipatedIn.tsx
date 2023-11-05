@@ -1,5 +1,6 @@
 import React from 'react';
 import { useQuery } from 'react-query';
+
 import { myCrew } from '../../../../api';
 import CrewCard from '../../../common/CrewCard';
 import { ListBox } from '../../../../pages/searchbycategory/styled';
@@ -14,7 +15,9 @@ function ParticipatedIn(): JSX.Element {
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  return <ListBox>{joinedCrewList?.map(item => <CrewCard key={item.crew_crewId} spot={item} />)}</ListBox>;
+  return (
+    <ListBox>{joinedCrewList?.map(item => <CrewCard key={item.crew_crewId} spot={item} page="mycrew" />)}</ListBox>
+  );
 }
 
 export default ParticipatedIn;

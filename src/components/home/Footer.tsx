@@ -45,7 +45,11 @@ function Footer({ page }: { page: string }): JSX.Element {
       <FooterLi onClick={() => {}}>
         <icons.ChatTeardropDots stroke={page === 'chat' ? `${colors.primary}` : `${colors.gray400}`} />
       </FooterLi>
-      <FooterLi onClick={() => {}}>
+      <FooterLi
+        onClick={() => {
+          navigate('/mypage');
+        }}
+      >
         <icons.UserCircle stroke={page === 'myPage' ? `${colors.primary}` : `${colors.gray400}`} />
       </FooterLi>
     </nav>

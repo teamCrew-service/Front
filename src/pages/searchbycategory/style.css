@@ -37,5 +37,7 @@
 #interest-list-box {
   width: 100%;
   height: 87.34%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 /* 메인 */

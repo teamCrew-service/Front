@@ -1,0 +1,45 @@
+/* height: 56px */
+#mypage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 6.88%;
+  padding: 0px 16px;
+}
+/* height: 706px */
+#mypage-main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 86.74%;
+  padding: 0px 16px;
+}
+/* height: 104px */
+#mypage-main-profile {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  width: 100%;
+  height: 14.73%;
+}
+/* height: 118px */
+#mypage-main-intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 16.71%;
+}
+/* height: 306px */
+#mypage-main-liked-crew {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 43.34%;
+}
+/* 50 / 706 */
+.margin-50px-706px {
+  height: 7.08%;
+}

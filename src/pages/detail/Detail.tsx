@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useState } from 'react';
 import { useQuery, useMutation } from 'react-query';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
-import { crew } from '../../api';
+import { crew, like } from '../../api';
 
 import icons from '../../assets/icons';
 import CrewThumbnail from '../../assets/icons/CrewThumbnail.svg';
@@ -14,7 +14,7 @@ import heading from '../../styledComponent/heading';
 import Short from '../../components/detail/crewType/Short';
 
 import type { Schedule, VoteCreateInfo, VoteResultInfo } from '../../assets/interfaces';
-import Long from '../../components/detail/crewType/Long';
+import Long from '../../components/detail/crewType/long/Long';
 import {
   SaveCrewThumbnailBtn,
   ThumbnailAbsDiv,
@@ -38,11 +38,19 @@ import CreateVoteModal from '../../components/modal/createvote/CreateVoteModal';
 import VoteDetailModal from '../../components/modal/votedetail/VoteDetailModal';
 import colors from '../../assets/styles/color';
 import VoteResultModal from '../../components/modal/voteresult/VoteResultModal';
+import ThreeDotModal from '../../components/detail/ThreeDotModal';
+import { Header, Main, ThumbnailContainer } from '../../layouts/detail/detail-layout';
 
 function Detail(): JSX.Element {
+  let isCreated: boolean = false;
+  if (useLocation().state !== null) {
+    isCreated = useLocation().state.isCreated;
+  }
+
+  const navigate = useNavigate();
+
   const [page, setPage] = useState<string>('모임정보');
-  // 소개 부분 접었다 펴기
-  const [infoOpen, setInfoOpen] = useState<boolean>(true);
+  const [extraOpen, setExtraOpen] = useState<boolean>(false);
 
   // 모달 여닫기
   const [joinModalOpen, setJoinModalOpen] = useState<boolean>(false);
@@ -103,6 +111,7 @@ function Detail(): JSX.Element {
         console.log('크루 상세정보 = ', res);
       },
       refetchOnWindowFocus: false,
+      cacheTime: 0,
     },
   );
 
@@ -123,12 +132,8 @@ function Detail(): JSX.Element {
     },
   );
 
-  // 소개 부분 접었다 피는 함수
-  const openInfoWindow = (): void => {
-    setInfoOpen(true);
-  };
-  const closeInfoWindow = (): void => {
-    setInfoOpen(false);
+  const controlExtraFunc = (): void => {
+    setExtraOpen(prev => !prev);
   };
 
   // 각종 모달 On/Off 함수 ------------------------------------
@@ -205,7 +210,6 @@ function Detail(): JSX.Element {
 
   // 크루 가입 양식에 맞춘 크루 가입 함수 설정
   let joinCrewFunc = (): void => {};
-
   if (status !== 'loading' && status !== 'error') {
     joinCrewFunc =
       crewInfo?.result.crew.crew_crewSignup === 0
@@ -213,6 +217,32 @@ function Detail(): JSX.Element {
             signUpCrew.mutate();
           }
         : openJoinCrewModal;
+  }
+
+  // 현재 좋아요 상태에 따른 좋아요 버튼 클릭 시 실행되는 함수 설정
+  let likeCrewFunc: () => void = (): void => {};
+  if (status !== 'loading' && status !== 'error') {
+    if (crewInfo !== undefined) {
+      if (!crewInfo.result.likeCheck) {
+        likeCrewFunc = () => {
+          like
+            .postLike(crewInfo.result.crew.crew_crewId)
+            .then(refetch)
+            .catch(err => {
+              console.log(err);
+            });
+        };
+      } else {
+        likeCrewFunc = () => {
+          like
+            .deleteLike(crewInfo.result.crew.crew_crewId)
+            .then(refetch)
+            .catch(err => {
+              console.log(err);
+            });
+        };
+      }
+    }
   }
 
   // 로딩 중일 때 보여주는 화면
@@ -299,26 +329,39 @@ function Detail(): JSX.Element {
       )}
       {/* -------------------------------------------- */}
 
-      {/* 헤더 */}
-      <header id="detail-header">
+      <Header>
         <icons.chevronLeft
           onClick={() => {
+            if (isCreated) {
+              navigate('/home');
+              return;
+            }
             window.history.back();
           }}
         />
         <heading.BodyLargeBold>{crewInfo?.result.crew.crew_crewType}</heading.BodyLargeBold>
         <div style={{ position: 'relative', width: '24px', height: '24px' }}>
-          <icons.ThreeDots fill="#4F4E55" style={{ cursor: 'pointer' }} />
+          {crewInfo?.result.personType !== 'person' && (
+            <>
+              {extraOpen && (
+                <ThreeDotModal
+                  refetch={refetch}
+                  crewId={crewInfo!.result.crew.crew_crewId}
+                  personType={crewInfo!.result.personType}
+                  controlExtra={controlExtraFunc}
+                />
+              )}
+              <icons.ThreeDots fill="#4F4E55" style={{ cursor: 'pointer' }} onClick={controlExtraFunc} />
+            </>
+          )}
         </div>
-      </header>
-      <main id="detail-main">
-        {/* 크루 썸네일 */}
-        <section id="detail-main-thumbnail">
+      </Header>
+
+      <Main>
+        <ThumbnailContainer>
           {crewInfo!.result.crew.crew_thumbnail !== '' ? (
             <ThumbnailDiv $url={crewInfo!.result.crew.crew_thumbnail}>
-              <ThumbnailAbsDiv>
-                <icons.ThreeDots fill="rgba(255,255,255,1)" style={{ cursor: 'pointer' }} />
-              </ThumbnailAbsDiv>
+              <ThumbnailAbsDiv />
             </ThumbnailDiv>
           ) : (
             <ThumbnailDiv $url={CrewThumbnail}>
@@ -327,7 +370,7 @@ function Detail(): JSX.Element {
               </SaveCrewThumbnailBtn>
             </ThumbnailDiv>
           )}
-        </section>
+        </ThumbnailContainer>
 
         {/* 장기 / 단기 별 컨텐츠 */}
         {crewInfo?.result.crew.crew_crewType === '장기' && (
@@ -335,46 +378,34 @@ function Detail(): JSX.Element {
             page={page}
             changePage={changePage}
             crewInfo={crewInfo.result}
-            infoOpen={infoOpen}
-            closeInfoWindow={closeInfoWindow}
-            openInfoWindow={openInfoWindow}
             saveAddress={saveAddress}
             recentSchedule={crewInfo.recentSchedule !== undefined ? crewInfo.recentSchedule : null}
             openNoticeDetailModal={openNoticeDetailModalFunc}
             openVoteDetailModal={openVoteDetailModalFunc}
             openVoteResultModal={openVoteResultModalFunc}
+            refetch={refetch}
           />
         )}
         {crewInfo?.result.crew.crew_crewType === '단기' && (
-          <Short
-            crewInfo={crewInfo.result}
-            infoOpen={infoOpen}
-            closeInfoWindow={closeInfoWindow}
-            openInfoWindow={openInfoWindow}
-            saveAddress={saveAddress}
-          />
+          <Short crewInfo={crewInfo.result} saveAddress={saveAddress} />
         )}
-      </main>
+      </Main>
 
       {/* 크루 가입 버튼 */}
       {crewInfo?.result.personType === 'person' && (
         <InteractiveBtnContainer>
-          <LikeDiv>
-            <icons.heart />
+          <LikeDiv onClick={likeCrewFunc}>
+            {!crewInfo.result.likeCheck && <icons.heart fill={colors.primary} />}
+            {crewInfo.result.likeCheck && <icons.ActiveHeart />}
             <heading.BodyBaseBold>
               {crewInfo.result.likeCount > 99 ? '99+' : crewInfo.result.likeCount}
             </heading.BodyBaseBold>
           </LikeDiv>
-          {crewInfo?.result.crew.crew_crewType === '장기' && (
-            <JoinDiv onClick={joinCrewFunc}>
-              <heading.BodyBaseBold>정모 가입하기</heading.BodyBaseBold>
-            </JoinDiv>
-          )}
-          {crewInfo?.result.crew.crew_crewType === '단기' && (
-            <JoinDiv onClick={joinCrewFunc}>
-              <heading.BodyBaseBold>단기 모임 참여하기</heading.BodyBaseBold>
-            </JoinDiv>
-          )}
+          <JoinDiv onClick={joinCrewFunc}>
+            <heading.BodyBaseBold>
+              {crewInfo?.result.crew.crew_crewType === '장기' ? '정모 가입하기' : '단기 모임 참여하기'}
+            </heading.BodyBaseBold>
+          </JoinDiv>
         </InteractiveBtnContainer>
       )}
 

@@ -25,19 +25,12 @@ import Calendar from '../../common/calendar/Calendar';
 import { noitce } from '../../../api';
 
 import type { MemberDetail } from '../../../assets/interfaces';
+import { ModalContainer, ModalHeader } from '../common/styled';
 
-const ModalContainer = styled.div`
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  background-color: white;
-  padding: 0px 16px;
-`;
+// const ModalContainer = styled.div`
+//   background-color: white;
+//   padding: 0px 16px;
+// `;
 
 const CloseBtn = styled.div`
   width: 24px;
@@ -197,7 +190,7 @@ function CreateNoticeModal({
         noticePlaceName: place,
       };
       console.log('before create', data);
-      const result = noitce.createNotice(crewInfo.crew.crew_crewId, data);
+      const result = await noitce.createNotice(crewInfo.crew.crew_crewId, data);
       return result;
     },
     {
@@ -227,8 +220,8 @@ function CreateNoticeModal({
   return (
     <>
       {openSearchLocationModal && <SearchModal title="지역 위치" closeModal={closeSearchModal} />}
-      <ModalContainer>
-        <header id="create-notice-header">
+      <ModalContainer style={{ backgroundColor: 'white' }}>
+        <ModalHeader>
           <CloseBtn onClick={closeModal}>
             <icons.close />
           </CloseBtn>
@@ -241,8 +234,8 @@ function CreateNoticeModal({
           >
             <heading.BodyBaseBold>완료</heading.BodyBaseBold>
           </CompleteBtn>
-        </header>
-        <main>
+        </ModalHeader>
+        <main id="create-notice-main">
           <section id="create-notice-main-title">
             <TitleInput
               autoFocus

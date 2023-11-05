@@ -1,0 +1,39 @@
+/* height:758px */
+#edit-userinfo-main {
+  width: 100%;
+  height: 93.12%;
+  padding: 0px 16px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+#edit-userinfo-main::-webkit-scrollbar {
+  display: none;
+}
+/* height:100px */
+#edit-userinfo-profile {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 13.19%;
+  margin-bottom: 24px;
+}
+/* height:442px */
+#edit-userinfo-itemlist {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 58.31%;
+}
+/* height:304px */
+#edit-userinfo-interest {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 40.1%;
+}
+
+.margin-17px-758px {
+  height: 2.24%;
+}

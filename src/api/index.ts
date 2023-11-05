@@ -42,13 +42,15 @@ export const crew = {
     const { data } = await instance.get<T>(`api/crew/${crewId}`);
     return data;
   },
+
   // 모임 가입
   signUp: async <T = Message>(crewId: string): Promise<T> => {
     const { data } = await instance.post<T>(`api/signup/${crewId}`);
     return data;
   },
+
   // 모임 생성
-  makeCrew: async (file: Blob, payload: myInterface.MakeCrew) => {
+  makeCrew: async (file: Blob, payload: myInterface.CreateCrew) => {
     const formData = new FormData();
     formData.append('files', file);
     formData.append('JoinCreateCrewDto', JSON.stringify(payload));
@@ -58,6 +60,31 @@ export const crew = {
         'Content-Type': 'multipart/form-data',
       },
     });
+    return data;
+  },
+
+  // 크루 삭제
+  deleteCrew: async <T = Message>(crewId: string): Promise<T> => {
+    const { data } = await instance.delete(`/api/crew/${crewId}/delete`);
+    return data;
+  },
+
+  // 크루 썸네일 수정
+  editCrewThumbnail: async (file: Blob, crewId: string) => {
+    const formData = new FormData();
+    formData.append('files', file);
+    const { data } = await instance.put(`/api/crew/${crewId}/editThumbnail`, formData, {
+      headers: {
+        Accept: '*/*',
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return data;
+  },
+
+  // 크루 탈퇴하기
+  exitCrew: async (crewId: string) => {
+    const data = await instance.post(`/api/exitCrew/${crewId}`);
     return data;
   },
 };
@@ -85,6 +112,14 @@ export const schedule = {
   // 다가오는 일정 다가오는/참여 완료 리스트
   getWholeSchedule: async <T = myInterface.WholeComingDate>(): Promise<T> => {
     const { data } = await instance.get('api/home/wholeComingDate');
+    return data;
+  },
+  signUpSchedule: async (crewId: string, scheduleId: string) => {
+    const { data } = await instance.post(`api/schedule/participate/${crewId}/${scheduleId}`);
+    return data;
+  },
+  cancelSchedule: async (crewId: string, scheduleId: string) => {
+    const { data } = await instance.delete(`api/schedule/cancelParticipate/${crewId}/${scheduleId}`);
     return data;
   },
 };
@@ -159,6 +194,24 @@ export const vote = {
   },
   getVoteResult: async <T = myInterface.VoteResult>(crewId: string, voteFormId: string): Promise<T> => {
     const { data } = await instance.get(`api/vote/${crewId}/${voteFormId}`);
+    return data;
+  },
+};
+
+export const mypage = {
+  getUserInfo: async <T = myInterface.MyPage>(): Promise<T> => {
+    const { data } = await instance.get('/api/mypage');
+    return data;
+  },
+};
+
+export const like = {
+  postLike: async (crewId: string) => {
+    const { data } = await instance.post(`/api/like/${crewId}`);
+    return data;
+  },
+  deleteLike: async (crewId: string) => {
+    const { data } = await instance.delete(`/api/like/${crewId}`);
     return data;
   },
 };

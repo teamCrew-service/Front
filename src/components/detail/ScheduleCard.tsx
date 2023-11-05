@@ -1,20 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useMutation } from 'react-query';
+import { type AxiosError } from 'axios';
 import useCalDate from '../../util/useCalDate';
 import icons from '../../assets/icons';
 import colors from '../../assets/styles/color';
 import heading from '../../styledComponent/heading';
 
 import type { MemberDetail, Schedule } from '../../assets/interfaces';
-
-import profile from '../../assets/images/profile.jpg';
+import { schedule } from '../../api';
 
 const ScheduleDiv = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
   width: 100%;
-  height: 236px;
+  height: fit-content;
   border-radius: 12px;
   background-color: ${colors.primary50};
   padding: 16px;
@@ -30,7 +31,60 @@ const ImageDiv = styled.div`
   background-repeat: no-repeat;
 `;
 
-function ScheduleCard({ children, crewInfo }: { children?: Schedule; crewInfo: MemberDetail }): JSX.Element {
+function ScheduleCard({
+  children,
+  crewInfo,
+  refetch,
+}: {
+  children?: Schedule;
+  crewInfo: MemberDetail;
+  refetch?: any;
+}): JSX.Element {
+  let memberList: number[] = [];
+  if (children !== undefined) {
+    memberList = children?.participants.map(item => item.participantUserId);
+  }
+
+  console.log('멤버리스트 = ', memberList);
+
+  const signUpMutation = useMutation(
+    async () => {
+      if (children === undefined) return null;
+      const data = await schedule.signUpSchedule(crewInfo.crew.crew_crewId, children.scheduleId);
+      return data;
+    },
+    {
+      onSuccess: res => {
+        alert(res.message);
+        if (refetch !== undefined) {
+          refetch();
+        }
+      },
+      onError: (err: AxiosError<{ message: string }>) => {
+        alert(err.response?.data.message);
+      },
+    },
+  );
+
+  const cancelMutation = useMutation(
+    async () => {
+      if (children === undefined) return null;
+      const data = await schedule.cancelSchedule(crewInfo.crew.crew_crewId, children.scheduleId);
+      return data;
+    },
+    {
+      onSuccess: res => {
+        alert(res.message);
+        if (refetch !== undefined) {
+          refetch();
+        }
+      },
+      onError: (err: AxiosError<{ message: string }>) => {
+        alert(err.response?.data.message);
+      },
+    },
+  );
+
   return (
     <ScheduleDiv>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -39,11 +93,11 @@ function ScheduleCard({ children, crewInfo }: { children?: Schedule; crewInfo: M
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
         <div style={{ display: 'flex', gap: '6px' }}>
-          <icons.Calendar />
+          <icons.Calendar stroke={colors.gray700} />
           <heading.BodySmallMedium>{useCalDate(new Date(children!.scheduleDDay))}</heading.BodySmallMedium>
         </div>
         <div style={{ display: 'flex', gap: '6px' }}>
-          <icons.Location />
+          <icons.Location stroke={colors.gray700} />
           <heading.BodySmallMedium>{children!.schedulePlaceName}</heading.BodySmallMedium>
         </div>
         <div style={{ display: 'flex', gap: '6px' }}>
@@ -57,21 +111,61 @@ function ScheduleCard({ children, crewInfo }: { children?: Schedule; crewInfo: M
         </div>
       </div>
       <div style={{ display: 'inline-flex', alignItems: 'center' }}>
-        <ImageDiv style={{ backgroundImage: `url(${profile})` }} />
-        <ImageDiv style={{ translate: '-15%', backgroundImage: `url(${profile})` }} />
-        <ImageDiv style={{ translate: '-30%', backgroundImage: `url(${profile})` }} />
-        <ImageDiv style={{ translate: '-45%', backgroundImage: `url(${profile})` }} />
-        <ImageDiv style={{ translate: '-60%', backgroundImage: `url(${profile})` }} />
-        <div style={{ translate: '-45%' }}>
-          <heading.BodySmallMedium style={{ color: `${colors.gray500}` }}>&#43;1</heading.BodySmallMedium>
-        </div>
+        {children?.participants[0] !== undefined && (
+          <ImageDiv style={{ backgroundImage: `url(${children?.participants[0].participantProfileImage})` }} />
+        )}
+        {children?.participants[1] !== undefined && (
+          <ImageDiv
+            style={{ translate: '-15%', backgroundImage: `url(${children.participants[1].participantProfileImage})` }}
+          />
+        )}
+        {children?.participants[2] !== undefined && (
+          <ImageDiv
+            style={{ translate: '-30%', backgroundImage: `url(${children.participants[2].participantProfileImage})` }}
+          />
+        )}
+        {children?.participants[3] !== undefined && (
+          <ImageDiv
+            style={{ translate: '-45%', backgroundImage: `url(${children.participants[3].participantProfileImage})` }}
+          />
+        )}
+        {children?.participants[4] !== undefined && (
+          <ImageDiv
+            style={{ translate: '-60%', backgroundImage: `url(${children.participants[4].participantProfileImage})` }}
+          />
+        )}
+        {children !== undefined && children.participants.length > 5 && (
+          <div style={{ translate: '-45%' }}>
+            <heading.BodySmallMedium style={{ color: `${colors.gray500}` }}>&#43;1</heading.BodySmallMedium>
+          </div>
+        )}
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'end' }}>
-        <button type="button" style={{ backgroundColor: 'black', padding: '12px 24px', borderRadius: '8px' }}>
-          <heading.BodyBaseBold style={{ color: 'white' }}>참여하기</heading.BodyBaseBold>
-        </button>
-      </div>
+      {children !== undefined && crewInfo.personType !== 'captain' && (
+        <div style={{ display: 'flex', justifyContent: 'end' }}>
+          {memberList.includes(Number(crewInfo.myUserId)) ? (
+            <button
+              onClick={() => {
+                cancelMutation.mutate();
+              }}
+              type="button"
+              style={{ backgroundColor: 'black', padding: '12px 24px', borderRadius: '8px' }}
+            >
+              <heading.BodyBaseBold style={{ color: 'white' }}>취소하기</heading.BodyBaseBold>
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                signUpMutation.mutate();
+              }}
+              type="button"
+              style={{ backgroundColor: 'black', padding: '12px 24px', borderRadius: '8px' }}
+            >
+              <heading.BodyBaseBold style={{ color: 'white' }}>참여하기</heading.BodyBaseBold>
+            </button>
+          )}
+        </div>
+      )}
     </ScheduleDiv>
   );
 }

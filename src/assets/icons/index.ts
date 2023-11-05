@@ -6,7 +6,11 @@ import { ReactComponent as chevronDown } from './chevronDown.svg';
 import { ReactComponent as chevronUp } from './chevronUp.svg';
 import { ReactComponent as chevronLeft } from './chevronLeft.svg';
 import { ReactComponent as chevronRight } from './chevronRight.svg';
+
+// CrewCard
 import { ReactComponent as heart } from './heart.svg';
+import { ReactComponent as ActiveHeart } from './ActiveHeart.svg';
+
 import { ReactComponent as Calendar } from './Calendar.svg';
 import { ReactComponent as Location } from './Location.svg';
 import { ReactComponent as users } from './users.svg';
@@ -49,6 +53,10 @@ import { ReactComponent as CheckBox } from './CheckBox.svg';
 
 // 채팅 페이지
 import { ReactComponent as ArrowUp } from './arrow-up.svg';
+// 마이 페이지
+import { ReactComponent as GearSix } from './GearSix.svg';
+import { ReactComponent as PencilSimple } from './PencilSimple.svg';
+import { ReactComponent as Camera } from './Camera.svg';
 
 const icons = {
   TeamLogo,
@@ -62,6 +70,7 @@ const icons = {
   close,
   plus,
   heart,
+  ActiveHeart,
   Calendar,
   Location,
   users,
@@ -87,6 +96,9 @@ const icons = {
   CalendarBlank,
   CheckBox,
   ArrowUp,
+  GearSix,
+  PencilSimple,
+  Camera,
 };
 
 export default icons;

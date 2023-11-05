@@ -15,7 +15,9 @@ function WaitingCrew(): JSX.Element {
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  return <ListBox>{waitingCrewList?.map(item => <CrewCard key={item.crew_crewId} spot={item} />)}</ListBox>;
+  return (
+    <ListBox>{waitingCrewList?.map(item => <CrewCard key={item.crew_crewId} spot={item} page="mycrew" />)}</ListBox>
+  );
 }
 
 export default WaitingCrew;
