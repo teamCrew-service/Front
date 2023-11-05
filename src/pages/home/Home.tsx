@@ -11,7 +11,7 @@ import heading from '../../styledComponent/heading';
 import LargeCardDiv from '../../styledComponent/LargeCardDiv';
 
 import NoScheduleCard from '../../components/home/NoScheduleCard';
-import ScheduleCard from '../../components/common/ScheduleCardSummary';
+import ScheduleCardSummary from '../../components/common/ScheduleCardSummary';
 import InterestMatrix from '../../components/common/InterestMatrix';
 
 import './style.css';
@@ -73,7 +73,7 @@ function Home(): JSX.Element {
 
         <section id="home-upcoming">
           {comingDate?.schedule === undefined && <NoScheduleCard />}
-          {comingDate?.schedule !== undefined && <ScheduleCard scheduleOne={comingDate?.schedule} />}
+          {comingDate?.schedule !== undefined && <ScheduleCardSummary scheduleOne={comingDate?.schedule} />}
         </section>
 
         <div id="margin-2" />
