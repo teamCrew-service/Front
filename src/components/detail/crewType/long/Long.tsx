@@ -219,7 +219,7 @@ function Long({
           />
         )}
         {page === '일정' && <ScheduleContent crewInfo={crewInfo} />}
-        {page === '크루챗' && <Chat />}
+        {page === '크루챗' && <Chat crewInfo={crewInfo} />}
       </ContentContainer>
     </>
   );

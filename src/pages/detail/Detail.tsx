@@ -8,7 +8,6 @@ import { crew, like } from '../../api';
 import icons from '../../assets/icons';
 import CrewThumbnail from '../../assets/icons/CrewThumbnail.svg';
 
-import './style.css';
 import heading from '../../styledComponent/heading';
 
 import Short from '../../components/detail/crewType/Short';

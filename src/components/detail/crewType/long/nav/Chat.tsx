@@ -3,7 +3,7 @@ import { io } from 'socket.io-client';
 import type { Socket } from 'socket.io-client';
 import icons from '../../../../../assets/icons';
 import type { MemberDetail } from '../../../../../assets/interfaces';
-import '../style.css';
+import './style.css';
 
 interface Message {
   user: string;
@@ -290,6 +290,7 @@ function Chat({ crewInfo }: { crewInfo: MemberDetail }): JSX.Element {
   }, [messages.length]);
 
   // 페이지 렌더링
+  /* eslint-disable jsx-a11y/control-has-associated-label */
   return (
     <>
       {/* 채팅 표시 컨테이너 */}
