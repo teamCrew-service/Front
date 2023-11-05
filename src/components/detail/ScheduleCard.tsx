@@ -15,7 +15,7 @@ const ScheduleDiv = styled.div`
   flex-direction: column;
   gap: 12px;
   width: 100%;
-  height: 236px;
+  height: fit-content;
   border-radius: 12px;
   background-color: ${colors.primary50};
   padding: 16px;
@@ -141,7 +141,7 @@ function ScheduleCard({
         )}
       </div>
 
-      {children !== undefined && (
+      {children !== undefined && crewInfo.personType !== 'captain' && (
         <div style={{ display: 'flex', justifyContent: 'end' }}>
           {memberList.includes(Number(crewInfo.myUserId)) ? (
             <button
