@@ -2,10 +2,20 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useQuery } from 'react-query';
 import useMarkerClustering from '../../util/useMarkerClustering';
 
-import FindCrewView from './FindCrewView';
+import icons from '../../assets/icons';
+import colors from '../../assets/styles/color';
+import heading from '../../styledComponent/heading';
+
+import { BackLink, CategoryDiv } from './styled';
+
+import CrewCard from '../../components/common/CrewCard';
+
+import CategoryModal from '../../components/modal/CategoryModal';
 import { navermap } from '../../api';
 import type { Spot } from '../../assets/interfaces';
 import Loading from '../../components/common/Loading';
+
+import './style.css';
 
 function FindCrew(): JSX.Element {
   // 위치 정보 로딩 여부
@@ -78,6 +88,10 @@ function FindCrew(): JSX.Element {
     setCategoryOpen(false);
   };
 
+  useEffect(() => {
+    console.log(mapDiv.current);
+  }, []);
+
   // 3. loading 완료 -> 네이버 맵 설정
   useEffect(() => {
     if (isGetMyLocation) {
@@ -101,7 +115,9 @@ function FindCrew(): JSX.Element {
     // 카테고리 변경 시 일어나는 일
 
     if (!isLoading && !isError && crewList !== undefined) {
+      console.log('progress..');
       if (map !== null) {
+        console.log('setting');
         // 1. 카테고리 별 List 설정
         let currentBound = map.getBounds();
         const crewListByCategory =
@@ -157,23 +173,80 @@ function FindCrew(): JSX.Element {
         }
       }
     };
-  }, [map, category]);
+  }, [isLoading, map, category]);
 
-  if (isLoading || !isGetMyLocation) {
-    return <Loading />;
-  }
+  // if (isLoading) {
+  //   console.log(crewList);
+  //   return <Loading />;
+  // }
 
   return (
-    <FindCrewView
-      loading={isGetMyLocation}
-      categoryOpen={categoryOpen}
-      category={category}
-      categorySelectClose={categorySelectClose}
-      categorySelectOpen={categorySelectOpen}
-      selectCategory={selectCategory}
-      mapDiv={mapDiv}
-      list={list}
-    />
+    <main>
+      {(isLoading || !isGetMyLocation) && <Loading />}
+      {categoryOpen && <CategoryModal categorySelectClose={categorySelectClose} selectCategory={selectCategory} />}
+      <BackLink to="/home">
+        <icons.chevronLeft />
+      </BackLink>
+      <section ref={mapDiv} id="findcrew-map" />
+      <section id="findcrew-absolute-div">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+          <heading.TitleLargeMedium>내 주변 크루</heading.TitleLargeMedium>
+          <div
+            style={{
+              width: 'fit-content',
+              height: 'fit-const first = useContext(second)',
+              backgroundColor: `${colors.gray200}`,
+              textAlign: 'center',
+              borderRadius: '200px',
+              padding: '2px 8px',
+            }}
+          >
+            + {list.length}
+          </div>
+        </div>
+        <CategoryDiv
+          onClick={() => {
+            categorySelectOpen();
+          }}
+        >
+          <p style={{ fontSize: '12px', lineHeight: '18px', letterSpacing: '-0.4px', fontWeight: 700 }}>{category}</p>
+          <icons.chevronDown />
+        </CategoryDiv>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '12px',
+            width: '100%',
+            height: '100%',
+            overflowY: 'scroll',
+            overflowX: 'hidden',
+          }}
+        >
+          {list.length !== 0 ? (
+            list.map(spot => <CrewCard key={spot.crew_crewId} spot={spot} page="findcrew" />)
+          ) : (
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100%',
+                color: `${colors.gray200}`,
+              }}
+            >
+              <p style={{ fontWeight: 700, fontSize: '16px', lineHeight: '22px', letterSpacing: '-0.4px' }}>
+                이 지역에 결과가 없습니다.
+              </p>
+              <p style={{ fontWeight: 700, fontSize: '12px', lineHeight: '18px', letterSpacing: '-0.4px' }}>
+                지도를 축소해서 재검색 해주세요
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
+    </main>
   );
 }
 

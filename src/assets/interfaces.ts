@@ -122,6 +122,7 @@ export interface Member {
   users_profileImage: string;
   users_location: string;
 }
+
 // 3 - 1. 참여자 목록
 export interface Participant {
   participantProfileImage: string;
@@ -144,12 +145,12 @@ export interface Schedule {
   scheduleTitle: string;
   userId: string;
 }
-// 4. 이미지
+// 4. 크루 사진첩 이미지
 export interface Image {
-  crewId: string;
-  image: string;
   imageId: string;
+  crewId: string;
   userId: string;
+  image: string;
 }
 // 게스트일 경우
 export interface GuestDetail {
