@@ -179,7 +179,7 @@ function Long({
                     <heading.BodyLargeBold>사진첩</heading.BodyLargeBold>
                     <heading.BodySmallBold style={{ cursor: 'pointer' }}>전체보기</heading.BodySmallBold>
                   </SubTitle>
-                  <div style={{ display: 'flex', gap: '2%', width: '100%', aspectRatio: 5 }}>
+                  {/* <div style={{ display: 'flex', gap: '2%', width: '100%', aspectRatio: 5 }}>
                     {crewInfo.image[0] !== undefined && (
                       <div
                         style={{
@@ -195,7 +195,7 @@ function Long({
                     <div style={{ width: '25%', height: '100%', border: '1px solid black' }}>사진첩</div>
                     <div style={{ width: '25%', height: '100%', border: '1px solid black' }}>사진첩</div>
                     <div style={{ width: '25%', height: '100%', border: '1px solid black' }}>사진첩</div>
-                  </div>
+                  </div> */}
                 </BlockDiv>
               )}
 
