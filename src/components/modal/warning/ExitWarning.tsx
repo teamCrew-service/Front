@@ -6,6 +6,7 @@ import icons from '../../../assets/icons';
 import heading from '../../../styledComponent/heading';
 import colors from '../../../assets/styles/color';
 import { login, unsubscribe } from '../../../api';
+import useDeleteCookie from '../../../util/useDeleteCookie';
 
 const TotalContainer = styled.div`
   position: absolute;
@@ -86,6 +87,7 @@ export default function ExitWarning({
       res => {
         alert(res.message);
         closeModal();
+        useDeleteCookie('authorization', '/');
         navigate('/login');
       },
       error => {

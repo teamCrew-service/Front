@@ -37,6 +37,10 @@ export const unsubscribe = {
     const { data } = await instance.post(`api/unsubscribe`);
     return data;
   },
+  deleteUnsubscribe: async () => {
+    const { data } = await instance.delete(`api/deleteUnsubscribe`);
+    return data;
+  },
 };
 
 export const navermap = {
