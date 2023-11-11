@@ -86,7 +86,7 @@ function Location(): JSX.Element {
     const information: Information = {
       addUserInfoDto: {
         nickname,
-        age: birthYear,
+        age: Number(birthYear),
         gender,
         myMessage: content,
         location: location.location,

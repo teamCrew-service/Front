@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState, useRef } from 'react';
 // import { useMutation } from 'react-query';
 
 import { ModalContainer, ModalHeader } from '../common/styled';
@@ -10,156 +9,96 @@ import colors from '../../../assets/styles/color';
 
 import './style.css';
 
-import type { MyInfo, MyTopic } from '../../../assets/interfaces';
+import type { EditProfile, MyInfo, MyTopic } from '../../../assets/interfaces';
 import SearchModal from '../SearchModal';
 import InterestMatrix from '../../common/InterestMatrix';
-import useCheckIsChanged from '../../../util/useCheckIsChanged';
 
-const ProfileBox = styled.div<{ profile: string }>`
-  position: relative;
-  height: 100%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background-image: url(${props => props.profile});
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
-`;
+import warning from '../warning';
 
-const ItemBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
-  // height : 76px
-  height: 17.19%;
-`;
+import useResizeImage from '../../../util/useResizeImage';
 
-const TwoItemBox = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  width: 100%;
-  height: 17.19%;
-`;
-const ItemDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
-  height: 100%;
-`;
-
-const IntroBox = styled(ItemBox)`
-  // height : 178px
-  height: 40.27%;
-`;
-
-const InsertDiv = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  height: 63.16%;
-  padding: 12px;
-  border: 1px solid ${colors.primary};
-  border-radius: 4px;
-`;
-const ClickDiv = styled.div`
-  display: flex;
-  width: 100%;
-  height: 63.16%;
-  gap: 4px;
-  padding: 4px;
-  border-radius: 6px;
-  background-color: ${colors.gray100};
-`;
-
-const ClickItem = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  border-radius: 4px;
-`;
-const SelectedClickItem = styled(ClickItem)`
-  background-color: ${colors.primary100};
-  color: ${colors.primary};
-`;
-
-const IntroInsertDiv = styled(InsertDiv)`
-  flex-direction: column;
-  gap: 0px;
-  justify-content: space-between;
-  align-items: end;
-  height: 84.27%;
-`;
-
-const StyledInput = styled.input`
-  font-family: Pretendard;
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 20px;
-  letter-spacing: 0.16px;
-  width: 100%;
-  height: 100%;
-  border: none;
-`;
-
-const StyledTextarea = styled.textarea`
-  font-family: Pretendard;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
-  letter-spacing: 0.14px;
-  resize: none;
-  width: 100%;
-  height: 84.13%;
-  border: none;
-  outline: none;
-`;
-
-const InterestMatrixContainer = styled.div`
-  width: 100%;
-  /* height:256px */
-  height: 84.21%;
-`;
-
-const EditButton = styled.button`
-  background-color: white;
-  border: none;
-  color: ${colors.primary};
-  &:disabled {
-    color: ${colors.gray500};
-  }
-`;
+import {
+  EditButton,
+  ProfileBox,
+  ItemDiv,
+  ItemBox,
+  InsertDiv,
+  StyledInput,
+  TwoItemBox,
+  ClickDiv,
+  SelectedClickItem,
+  ClickItem,
+  IntroBox,
+  IntroInsertDiv,
+  StyledTextarea,
+  InterestMatrixContainer,
+} from './styled';
+import { mypage } from '../../../api';
 
 function EditUserInfoModal({
   userInfo,
   userInterest,
   closeModal,
+  refetch,
 }: {
   userInfo: MyInfo;
   userInterest: MyTopic[];
   closeModal: () => void;
+  refetch: any;
 }): JSX.Element {
-  // 유저 프로필 내용 변경 확인하는 상태들
-  const [isNicknameChanged, setIsNicknameChanged] = useState<boolean>(false);
-  const [isBirthYearChanged, setIsBirthYearChanged] = useState<boolean>(false);
-  const [isGenderChanged, setIsGenderChanged] = useState<boolean>(false);
-  const [isLocationChanged, setIsLocationChanged] = useState<boolean>(false);
-  const [isContentChanged, setIsContentChanged] = useState<boolean>(false);
+  // 경고창 모달
+  const [isOpenWarningModal, setIsOpenWarningModal] = useState<boolean>(false);
+  const openWarningModalFunc = (): void => {
+    setIsOpenWarningModal(true);
+  };
+  const closeWaringModalFunc = (): void => {
+    setIsOpenWarningModal(false);
+  };
 
   // 위치 검색 모달 관련 상태
   const [isOpenSearchModal, setIsOpenSearchModal] = useState<boolean>(false);
-
-  // 변경된 프로필 내용 관련 상태들
-  const [myNickname, setMyNickname] = useState<string>(userInfo.nickname);
-  const [myBithYear, setMyBirthYear] = useState<number>(userInfo.age);
-  const [myGender, setMyGender] = useState<string>(userInfo.gender);
+  // 위치
   const [myLocation, setMyLocation] = useState<string>(userInfo.location);
+  const openSearchModalFunc = (): void => {
+    setIsOpenSearchModal(true);
+  };
+  const closeSearchModalFunc = (result: any): void => {
+    if (result !== undefined) {
+      setMyLocation(result.place_name);
+    }
+    setIsOpenSearchModal(false);
+  };
+
+  // 닉네임
+  const [myNickname, setMyNickname] = useState<string>(userInfo.nickname);
+  // 출생년도
+  const [myBithYear, setMyBirthYear] = useState<number>(userInfo.age);
+  const saveMyInfo = (e: React.ChangeEvent<HTMLInputElement>, value: string): void => {
+    if (value === 'nickname') {
+      setMyNickname(e.target.value);
+    }
+    if (value === 'birthyear') {
+      setMyBirthYear(Number(e.target.value));
+    }
+  };
+
+  // 소개글
   const [myIntro, setMyIntro] = useState<string>(userInfo.myMessage);
+  const saveMyContent = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
+    if (e.target.value.length <= 200) {
+      setMyIntro(e.target.value);
+      return;
+    }
+    alert('200자를 넘겼습니다!');
+  };
+
+  // 성별
+  const [myGender, setMyGender] = useState<string>(userInfo.gender);
+  const saveMyGender = (gender: string): void => {
+    setMyGender(gender);
+  };
+
+  // 관심사
   const [myInterest, setMyInterest] = useState<string[]>(() => {
     const myInterestArray = userInterest.map(item => {
       let returnValue = item.interestTopic.trim();
@@ -171,44 +110,6 @@ function EditUserInfoModal({
     console.log(myInterestArray);
     return myInterestArray;
   });
-
-  const openSearchModalFunc = (): void => {
-    setIsOpenSearchModal(true);
-  };
-
-  const closeSearchModalFunc = (result: any): void => {
-    if (result !== undefined) {
-      useCheckIsChanged(userInfo.location, result.place_name, setIsLocationChanged);
-      setMyLocation(result.place_name);
-    }
-    setIsOpenSearchModal(false);
-  };
-
-  const saveMyInfo = (e: React.ChangeEvent<HTMLInputElement>, value: string): void => {
-    if (value === 'nickname') {
-      useCheckIsChanged(userInfo.nickname, e.target.value, setIsNicknameChanged);
-      setMyNickname(e.target.value);
-    }
-    if (value === 'birthyear') {
-      useCheckIsChanged(userInfo.age, Number(e.target.value), setIsBirthYearChanged);
-      setMyBirthYear(Number(e.target.value));
-    }
-  };
-
-  const saveMyContent = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
-    if (e.target.value.length <= 200) {
-      useCheckIsChanged(userInfo.myMessage, e.target.value, setIsContentChanged);
-      setMyIntro(e.target.value);
-      return;
-    }
-    alert('200자를 넘겼습니다!');
-  };
-
-  const saveMyGender = (gender: string): void => {
-    useCheckIsChanged(userInfo.gender, gender, setIsGenderChanged);
-    setMyGender(gender);
-  };
-
   const saveInterestArrayFunc = (input: any): void => {
     if (myInterest.includes(input)) {
       setMyInterest(prev => prev.filter(item => item !== input));
@@ -217,26 +118,93 @@ function EditUserInfoModal({
     setMyInterest(prev => [...prev, input]);
   };
 
+  // 프로필
+  const [profile, setProfile] = useState<{ url: string; file: any }>({ url: userInfo.profileImage, file: null });
+  const profileURL = useRef<string>(userInfo.profileImage);
+  // file에서 부터 url 추출
+  const readURL = (file: File): void => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.result === null) return;
+      if (typeof reader.result === 'string') {
+        profileURL.current = reader.result;
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+  // 이미지 변환 시 작동하는 함수
+  const changeProfile = (): void => {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files === null) return;
+      readURL(fileInput.files[0]);
+      useResizeImage(fileInput.files[0]).then((res: Blob) => {
+        console.log(res);
+        setProfile({ url: profileURL.current, file: res });
+      });
+    });
+    fileInput.click();
+  };
+
+  // 프로필 수정 api
+  const sendChangedValue = (): void => {
+    const interestTopic = myInterest.reduce((acc, curr) => `${acc},${curr}`);
+    const sendData: EditProfile = {
+      editUserInfoDto: {
+        nickname: myNickname,
+        age: myBithYear,
+        gender: myGender,
+        myMessage: myIntro,
+        location: myLocation,
+      },
+      editTopicDto: {
+        interestTopic,
+      },
+    };
+    console.log('data = ', sendData);
+    mypage.editUserInfo(profile.file, sendData).then(
+      data => {
+        console.log(data);
+        refetch();
+        closeModal();
+      },
+      error => {
+        console.log(error);
+      },
+    );
+  };
+
   return (
     <>
       {isOpenSearchModal && <SearchModal closeModal={closeSearchModalFunc} title="위치 검색" />}
       <ModalContainer style={{ backgroundColor: 'white', zIndex: 103 }}>
+        {isOpenWarningModal && (
+          <warning.EditProfile
+            closeModal={closeWaringModalFunc}
+            exitModal={() => {
+              closeWaringModalFunc();
+              closeModal();
+            }}
+          />
+        )}
         <ModalHeader>
-          <icons.chevronLeft onClick={closeModal} />
+          <icons.chevronLeft onClick={openWarningModalFunc} />
           <heading.BodyLargeBold>프로필 수정하기</heading.BodyLargeBold>
-          <EditButton
-            disabled={
-              !isNicknameChanged && !isBirthYearChanged && !isGenderChanged && !isLocationChanged && !isContentChanged
-            }
-          >
+          <EditButton onClick={sendChangedValue}>
             <heading.BodyBaseBold>완료</heading.BodyBaseBold>
           </EditButton>
         </ModalHeader>
         <main id="edit-userinfo-main">
           <div className="margin-17px-758px" />
           <section id="edit-userinfo-profile">
-            <ProfileBox profile={userInfo.profileImage}>
-              <icons.Camera style={{ position: 'absolute', bottom: '0px', right: '0px', zIndex: 2 }} />
+            <ProfileBox profile={profile.url}>
+              <icons.Camera
+                onClick={changeProfile}
+                style={{ position: 'absolute', bottom: '0px', right: '0px', zIndex: 2 }}
+              />
             </ProfileBox>
           </section>
           <section id="edit-userinfo-itemlist">

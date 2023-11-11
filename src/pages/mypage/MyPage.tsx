@@ -152,6 +152,7 @@ function MyPage(): JSX.Element {
             userInterest={myPageInfo.topic}
             userInfo={myPageInfo.user}
             closeModal={closeEditModalFunc}
+            refetch={refetch}
           />
         )}
         {isOpenMyInfoModal && <MyInfoModal userInfo={myPageInfo} closeModal={closeMyInfoModalFunc} />}
@@ -182,11 +183,25 @@ function MyPage(): JSX.Element {
                 </heading.BodyBaseMedium>
               </LocationBox>
               <InterestBox>
-                {myPageInfo?.topic.map(item => (
-                  <InterestItem key={item.interestTopic}>
-                    <heading.BodySmallMedium>{item.interestTopic}</heading.BodySmallMedium>
+                {myPageInfo?.topic.map((item, index) => {
+                  if (index < 3) {
+                    return (
+                      <InterestItem key={item.interestTopic}>
+                        <heading.BodySmallMedium>
+                          {item.interestTopic.includes('%2F')
+                            ? item.interestTopic.replace('%2F', '/')
+                            : item.interestTopic}
+                        </heading.BodySmallMedium>
+                      </InterestItem>
+                    );
+                  }
+                  return null;
+                })}
+                {myPageInfo.topic.length > 3 && (
+                  <InterestItem>
+                    <heading.BodySmallMedium>+ {myPageInfo.topic.length - 3}</heading.BodySmallMedium>
                   </InterestItem>
-                ))}
+                )}
               </InterestBox>
             </UserInfoBox>
           </section>

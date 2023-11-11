@@ -57,6 +57,7 @@ import { ReactComponent as ArrowUp } from './arrow-up.svg';
 import { ReactComponent as GearSix } from './GearSix.svg';
 import { ReactComponent as PencilSimple } from './PencilSimple.svg';
 import { ReactComponent as Camera } from './Camera.svg';
+import { ReactComponent as Warning } from './Mypage_warning.svg';
 
 const icons = {
   TeamLogo,
@@ -99,6 +100,7 @@ const icons = {
   GearSix,
   PencilSimple,
   Camera,
+  Warning,
 };
 
 export default icons;
