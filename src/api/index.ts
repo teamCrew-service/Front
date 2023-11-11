@@ -203,6 +203,20 @@ export const mypage = {
     const { data } = await instance.get('/api/mypage');
     return data;
   },
+  editUserInfo: async <T = Message>(file: Blob | null, userInfo: myInterface.EditProfile): Promise<T> => {
+    const formData = new FormData();
+    if (file !== null) {
+      formData.append('files', file);
+    }
+    formData.append('editTopicAndInfoDto', JSON.stringify(userInfo));
+    const { data } = await instance.put<T>('api/mypage/edit', formData, {
+      headers: {
+        Accept: '*/*',
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return data;
+  },
 };
 
 export const like = {

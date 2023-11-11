@@ -9,7 +9,7 @@ import colors from '../../../assets/styles/color';
 
 import './style.css';
 
-import type { MyInfo, MyTopic } from '../../../assets/interfaces';
+import type { EditProfile, MyInfo, MyTopic } from '../../../assets/interfaces';
 import SearchModal from '../SearchModal';
 import InterestMatrix from '../../common/InterestMatrix';
 
@@ -33,28 +33,72 @@ import {
   StyledTextarea,
   InterestMatrixContainer,
 } from './styled';
+import { mypage } from '../../../api';
 
 function EditUserInfoModal({
   userInfo,
   userInterest,
   closeModal,
+  refetch,
 }: {
   userInfo: MyInfo;
   userInterest: MyTopic[];
   closeModal: () => void;
+  refetch: any;
 }): JSX.Element {
-  // 위치 검색 모달 관련 상태
-  const [isOpenSearchModal, setIsOpenSearchModal] = useState<boolean>(false);
-
   // 경고창 모달
   const [isOpenWarningModal, setIsOpenWarningModal] = useState<boolean>(false);
+  const openWarningModalFunc = (): void => {
+    setIsOpenWarningModal(true);
+  };
+  const closeWaringModalFunc = (): void => {
+    setIsOpenWarningModal(false);
+  };
 
-  // 변경된 프로필 내용 관련 상태들
-  const [myNickname, setMyNickname] = useState<string>(userInfo.nickname);
-  const [myBithYear, setMyBirthYear] = useState<number>(userInfo.age);
-  const [myGender, setMyGender] = useState<string>(userInfo.gender);
+  // 위치 검색 모달 관련 상태
+  const [isOpenSearchModal, setIsOpenSearchModal] = useState<boolean>(false);
+  // 위치
   const [myLocation, setMyLocation] = useState<string>(userInfo.location);
+  const openSearchModalFunc = (): void => {
+    setIsOpenSearchModal(true);
+  };
+  const closeSearchModalFunc = (result: any): void => {
+    if (result !== undefined) {
+      setMyLocation(result.place_name);
+    }
+    setIsOpenSearchModal(false);
+  };
+
+  // 닉네임
+  const [myNickname, setMyNickname] = useState<string>(userInfo.nickname);
+  // 출생년도
+  const [myBithYear, setMyBirthYear] = useState<number>(userInfo.age);
+  const saveMyInfo = (e: React.ChangeEvent<HTMLInputElement>, value: string): void => {
+    if (value === 'nickname') {
+      setMyNickname(e.target.value);
+    }
+    if (value === 'birthyear') {
+      setMyBirthYear(Number(e.target.value));
+    }
+  };
+
+  // 소개글
   const [myIntro, setMyIntro] = useState<string>(userInfo.myMessage);
+  const saveMyContent = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
+    if (e.target.value.length <= 200) {
+      setMyIntro(e.target.value);
+      return;
+    }
+    alert('200자를 넘겼습니다!');
+  };
+
+  // 성별
+  const [myGender, setMyGender] = useState<string>(userInfo.gender);
+  const saveMyGender = (gender: string): void => {
+    setMyGender(gender);
+  };
+
+  // 관심사
   const [myInterest, setMyInterest] = useState<string[]>(() => {
     const myInterestArray = userInterest.map(item => {
       let returnValue = item.interestTopic.trim();
@@ -66,45 +110,6 @@ function EditUserInfoModal({
     console.log(myInterestArray);
     return myInterestArray;
   });
-
-  const openSearchModalFunc = (): void => {
-    setIsOpenSearchModal(true);
-  };
-  const closeSearchModalFunc = (result: any): void => {
-    if (result !== undefined) {
-      setMyLocation(result.place_name);
-    }
-    setIsOpenSearchModal(false);
-  };
-
-  const openWarningModalFunc = (): void => {
-    setIsOpenWarningModal(true);
-  };
-  const closeWaringModalFunc = (): void => {
-    setIsOpenWarningModal(false);
-  };
-
-  const saveMyInfo = (e: React.ChangeEvent<HTMLInputElement>, value: string): void => {
-    if (value === 'nickname') {
-      setMyNickname(e.target.value);
-    }
-    if (value === 'birthyear') {
-      setMyBirthYear(Number(e.target.value));
-    }
-  };
-
-  const saveMyContent = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
-    if (e.target.value.length <= 200) {
-      setMyIntro(e.target.value);
-      return;
-    }
-    alert('200자를 넘겼습니다!');
-  };
-
-  const saveMyGender = (gender: string): void => {
-    setMyGender(gender);
-  };
-
   const saveInterestArrayFunc = (input: any): void => {
     if (myInterest.includes(input)) {
       setMyInterest(prev => prev.filter(item => item !== input));
@@ -113,10 +118,9 @@ function EditUserInfoModal({
     setMyInterest(prev => [...prev, input]);
   };
 
+  // 프로필
   const [profile, setProfile] = useState<{ url: string; file: any }>({ url: userInfo.profileImage, file: null });
-
   const profileURL = useRef<string>(userInfo.profileImage);
-
   // file에서 부터 url 추출
   const readURL = (file: File): void => {
     const reader = new FileReader();
@@ -128,7 +132,6 @@ function EditUserInfoModal({
     };
     reader.readAsDataURL(file);
   };
-
   // 이미지 변환 시 작동하는 함수
   const changeProfile = (): void => {
     const fileInput = document.createElement('input');
@@ -146,17 +149,32 @@ function EditUserInfoModal({
     fileInput.click();
   };
 
+  // 프로필 수정 api
   const sendChangedValue = (): void => {
-    const sendData = {
-      profile: profile.file,
-      nickname: myNickname,
-      birthyear: myBithYear,
-      gender: myGender,
-      location: myLocation,
-      intro: myIntro,
-      interest: myInterest,
+    const interestTopic = myInterest.reduce((acc, curr) => `${acc},${curr}`);
+    const sendData: EditProfile = {
+      editUserInfoDto: {
+        nickname: myNickname,
+        age: myBithYear,
+        gender: myGender,
+        myMessage: myIntro,
+        location: myLocation,
+      },
+      editTopicDto: {
+        interestTopic,
+      },
     };
     console.log('data = ', sendData);
+    mypage.editUserInfo(profile.file, sendData).then(
+      data => {
+        console.log(data);
+        refetch();
+        closeModal();
+      },
+      error => {
+        console.log(error);
+      },
+    );
   };
 
   return (

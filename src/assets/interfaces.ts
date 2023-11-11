@@ -1,7 +1,7 @@
 // 로그인 관련 -----------------
-export interface AddUserInfoDto {
+export interface UserInfoDto {
   nickname: string | null;
-  age: string | null;
+  age: number | null;
   gender: string | null;
   myMessage: string | null;
   location: string | null;
@@ -9,7 +9,7 @@ export interface AddUserInfoDto {
 // 최초 유저 정보 입력 양식
 export interface Information {
   // 유저 정보
-  addUserInfoDto: AddUserInfoDto;
+  addUserInfoDto: UserInfoDto;
   // 관심사
   topicDto: {
     interestTopic: string | null;
@@ -319,4 +319,10 @@ export interface MyPage {
   user: MyInfo;
   topic: MyTopic[];
   likedCrew: SearchByCategory[];
+}
+export interface EditProfile {
+  editUserInfoDto: UserInfoDto;
+  editTopicDto: {
+    interestTopic: string | null;
+  };
 }
