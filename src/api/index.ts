@@ -26,6 +26,10 @@ export const login = {
     const { data } = await instance.post<T>('api/nickname', { nickname });
     return data;
   },
+  logout: async () => {
+    const { data } = await instance.get(`api/auth/logout`);
+    return data;
+  },
 };
 
 export const navermap = {
