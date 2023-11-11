@@ -13,7 +13,6 @@ import './style.css';
 import type { MyInfo, MyTopic } from '../../../assets/interfaces';
 import SearchModal from '../SearchModal';
 import InterestMatrix from '../../common/InterestMatrix';
-import useCheckIsChanged from '../../../util/useCheckIsChanged';
 
 import warning from '../warning';
 
@@ -146,13 +145,6 @@ function EditUserInfoModal({
   userInterest: MyTopic[];
   closeModal: () => void;
 }): JSX.Element {
-  // 유저 프로필 내용 변경 확인하는 상태들
-  const [isNicknameChanged, setIsNicknameChanged] = useState<boolean>(false);
-  const [isBirthYearChanged, setIsBirthYearChanged] = useState<boolean>(false);
-  const [isGenderChanged, setIsGenderChanged] = useState<boolean>(false);
-  const [isLocationChanged, setIsLocationChanged] = useState<boolean>(false);
-  const [isContentChanged, setIsContentChanged] = useState<boolean>(false);
-
   // 위치 검색 모달 관련 상태
   const [isOpenSearchModal, setIsOpenSearchModal] = useState<boolean>(false);
 
@@ -182,7 +174,6 @@ function EditUserInfoModal({
   };
   const closeSearchModalFunc = (result: any): void => {
     if (result !== undefined) {
-      useCheckIsChanged(userInfo.location, result.place_name, setIsLocationChanged);
       setMyLocation(result.place_name);
     }
     setIsOpenSearchModal(false);
@@ -197,18 +188,15 @@ function EditUserInfoModal({
 
   const saveMyInfo = (e: React.ChangeEvent<HTMLInputElement>, value: string): void => {
     if (value === 'nickname') {
-      useCheckIsChanged(userInfo.nickname, e.target.value, setIsNicknameChanged);
       setMyNickname(e.target.value);
     }
     if (value === 'birthyear') {
-      useCheckIsChanged(userInfo.age, Number(e.target.value), setIsBirthYearChanged);
       setMyBirthYear(Number(e.target.value));
     }
   };
 
   const saveMyContent = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
     if (e.target.value.length <= 200) {
-      useCheckIsChanged(userInfo.myMessage, e.target.value, setIsContentChanged);
       setMyIntro(e.target.value);
       return;
     }
@@ -216,7 +204,6 @@ function EditUserInfoModal({
   };
 
   const saveMyGender = (gender: string): void => {
-    useCheckIsChanged(userInfo.gender, gender, setIsGenderChanged);
     setMyGender(gender);
   };
 
@@ -244,11 +231,7 @@ function EditUserInfoModal({
         <ModalHeader>
           <icons.chevronLeft onClick={openWarningModalFunc} />
           <heading.BodyLargeBold>프로필 수정하기</heading.BodyLargeBold>
-          <EditButton
-            disabled={
-              !isNicknameChanged && !isBirthYearChanged && !isGenderChanged && !isLocationChanged && !isContentChanged
-            }
-          >
+          <EditButton>
             <heading.BodyBaseBold>완료</heading.BodyBaseBold>
           </EditButton>
         </ModalHeader>
