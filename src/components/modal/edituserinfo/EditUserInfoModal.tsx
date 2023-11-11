@@ -15,6 +15,8 @@ import SearchModal from '../SearchModal';
 import InterestMatrix from '../../common/InterestMatrix';
 import useCheckIsChanged from '../../../util/useCheckIsChanged';
 
+import warning from '../warning';
+
 const ProfileBox = styled.div<{ profile: string }>`
   position: relative;
   height: 100%;
@@ -154,6 +156,9 @@ function EditUserInfoModal({
   // 위치 검색 모달 관련 상태
   const [isOpenSearchModal, setIsOpenSearchModal] = useState<boolean>(false);
 
+  // 경고창 모달
+  const [isOpenWarningModal, setIsOpenWarningModal] = useState<boolean>(false);
+
   // 변경된 프로필 내용 관련 상태들
   const [myNickname, setMyNickname] = useState<string>(userInfo.nickname);
   const [myBithYear, setMyBirthYear] = useState<number>(userInfo.age);
@@ -175,13 +180,19 @@ function EditUserInfoModal({
   const openSearchModalFunc = (): void => {
     setIsOpenSearchModal(true);
   };
-
   const closeSearchModalFunc = (result: any): void => {
     if (result !== undefined) {
       useCheckIsChanged(userInfo.location, result.place_name, setIsLocationChanged);
       setMyLocation(result.place_name);
     }
     setIsOpenSearchModal(false);
+  };
+
+  const openWarningModalFunc = (): void => {
+    setIsOpenWarningModal(true);
+  };
+  const closeWaringModalFunc = (): void => {
+    setIsOpenWarningModal(false);
   };
 
   const saveMyInfo = (e: React.ChangeEvent<HTMLInputElement>, value: string): void => {
@@ -221,8 +232,17 @@ function EditUserInfoModal({
     <>
       {isOpenSearchModal && <SearchModal closeModal={closeSearchModalFunc} title="위치 검색" />}
       <ModalContainer style={{ backgroundColor: 'white', zIndex: 103 }}>
+        {isOpenWarningModal && (
+          <warning.EditProfile
+            closeModal={closeWaringModalFunc}
+            exitModal={() => {
+              closeWaringModalFunc();
+              closeModal();
+            }}
+          />
+        )}
         <ModalHeader>
-          <icons.chevronLeft onClick={closeModal} />
+          <icons.chevronLeft onClick={openWarningModalFunc} />
           <heading.BodyLargeBold>프로필 수정하기</heading.BodyLargeBold>
           <EditButton
             disabled={
