@@ -3,7 +3,7 @@ import { io } from 'socket.io-client';
 import type { Socket } from 'socket.io-client';
 import icons from '../../../../../assets/icons';
 import type { MemberDetail } from '../../../../../assets/interfaces';
-import '../style.css';
+import './style.css';
 
 interface Message {
   user: string;
@@ -270,26 +270,18 @@ function Chat({ crewInfo }: { crewInfo: MemberDetail }): JSX.Element {
     };
   }, [socket, crewInfo]);
 
-  console.log('크루 정보 props', crewInfo);
-
-  // console.log('message', messages.length);
   // 채팅 창 HTML를 useRef 훅으로 참조
   const chatWindow = useRef<HTMLDivElement>(null);
   // 새 메시지가 도착하면, 스크롤을 아래로 이동
-  // need fix: 과거 내역을 더 보기 위해 스크롤업 할 때 update되는 경우는 scroll 위치 변경 제외해야 하는 개선 필요
-  // solution?: dependency를 socket message emit과 내가 작성한 경우에 한정한 state를 만들어서 사용하면 될 것 같음
   useEffect(() => {
-    // console.log('chatWindow.current:', chatWindow.current);
-
     if (chatWindow.current !== null) {
-      // console.log('chatWindow.current.scrollTop:', chatWindow.current.scrollTop);
-      // console.log('chatWindow.current.scrollheight:', chatWindow.current.scrollHeight);
-      chatWindow.current.scrollTop = chatWindow.current.scrollHeight;
+      chatWindow.current.scrollTop = chatWindow.current.scrollHeight;      
     }
     return () => {};
   }, [messages.length]);
 
   // 페이지 렌더링
+  /* eslint-disable jsx-a11y/control-has-associated-label */
   return (
     <>
       {/* 채팅 표시 컨테이너 */}
