@@ -22,12 +22,12 @@ function MyInfoModal({ userInfo, closeModal }: { userInfo: MyPage; closeModal: (
     setIsOpenLogoutModal(false);
   };
 
-  const [isOpenWithdrawalModal, setIsOpenWithdrawalModal] = useState<boolean>(false);
-  const openWithdrawalModalFunc = (): void => {
-    setIsOpenWithdrawalModal(true);
+  const [isOpenUnsubscribeModal, setIsOpenUnsubscribeModal] = useState<boolean>(false);
+  const openUnsubscribeModalFunc = (): void => {
+    setIsOpenUnsubscribeModal(true);
   };
-  const closeWithdrawalModalFunc = (): void => {
-    setIsOpenWithdrawalModal(false);
+  const closeUnsubscribeModalFunc = (): void => {
+    setIsOpenUnsubscribeModal(false);
   };
 
   return (
@@ -39,7 +39,7 @@ function MyInfoModal({ userInfo, closeModal }: { userInfo: MyPage; closeModal: (
           closeModal={closeLogoutModalFunc}
         />
       )}
-      {isOpenWithdrawalModal && (
+      {isOpenUnsubscribeModal && (
         <warning.ExitWarning
           question={[
             '크루 앱 내에 정보가 전부 삭제됩니다',
@@ -47,7 +47,7 @@ function MyInfoModal({ userInfo, closeModal }: { userInfo: MyPage; closeModal: (
             '(7일 이내 접속시, 복구 가능합니다.)',
           ]}
           executeText="탈퇴하기"
-          closeModal={closeWithdrawalModalFunc}
+          closeModal={closeUnsubscribeModalFunc}
         />
       )}
       <ModalHeader>
@@ -78,7 +78,7 @@ function MyInfoModal({ userInfo, closeModal }: { userInfo: MyPage; closeModal: (
               로그아웃
             </heading.BodyBaseBold>
             <heading.BodyBaseBold
-              onClick={openWithdrawalModalFunc}
+              onClick={openUnsubscribeModalFunc}
               style={{ color: `${colors.gray400}`, textDecoration: 'underline' }}
             >
               회원 탈퇴
