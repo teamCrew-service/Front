@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import icons from '../../../assets/icons';
 import heading from '../../../styledComponent/heading';
 import colors from '../../../assets/styles/color';
-import { login } from '../../../api';
+import { login, unsubscribe } from '../../../api';
 
 const TotalContainer = styled.div`
   position: absolute;
@@ -67,8 +67,22 @@ export default function ExitWarning({
   closeModal: () => void;
 }): JSX.Element {
   const navigate = useNavigate();
+
   const logout = (): void => {
     login.logout().then(
+      res => {
+        alert(res.message);
+        closeModal();
+        navigate('/login');
+      },
+      error => {
+        console.log(error);
+      },
+    );
+  };
+
+  const unsubscribeFunc = (): void => {
+    unsubscribe.unsubscribe().then(
       res => {
         alert(res.message);
         closeModal();
@@ -90,7 +104,7 @@ export default function ExitWarning({
           ))}
         </TextContainer>
         <BtnContainer>
-          <ExecuteBtn onClick={logout}>
+          <ExecuteBtn onClick={executeText === '로그아웃' ? logout : unsubscribeFunc}>
             <heading.BodyBaseBold>{executeText}</heading.BodyBaseBold>
           </ExecuteBtn>
           <CancelBtn onClick={closeModal}>
