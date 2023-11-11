@@ -13,6 +13,7 @@ import './style.css';
 import type { MyInfo, MyTopic } from '../../../assets/interfaces';
 import SearchModal from '../SearchModal';
 import InterestMatrix from '../../common/InterestMatrix';
+import useCheckIsChanged from '../../../util/useCheckIsChanged';
 
 const ProfileBox = styled.div<{ profile: string }>`
   position: relative;
@@ -143,9 +144,17 @@ function EditUserInfoModal({
   userInterest: MyTopic[];
   closeModal: () => void;
 }): JSX.Element {
-  const [isChanged, setIsChanged] = useState<boolean>(false);
+  // 유저 프로필 내용 변경 확인하는 상태들
+  const [isNicknameChanged, setIsNicknameChanged] = useState<boolean>(false);
+  const [isBirthYearChanged, setIsBirthYearChanged] = useState<boolean>(false);
+  const [isGenderChanged, setIsGenderChanged] = useState<boolean>(false);
+  const [isLocationChanged, setIsLocationChanged] = useState<boolean>(false);
+  const [isContentChanged, setIsContentChanged] = useState<boolean>(false);
+
+  // 위치 검색 모달 관련 상태
   const [isOpenSearchModal, setIsOpenSearchModal] = useState<boolean>(false);
 
+  // 변경된 프로필 내용 관련 상태들
   const [myNickname, setMyNickname] = useState<string>(userInfo.nickname);
   const [myBithYear, setMyBirthYear] = useState<number>(userInfo.age);
   const [myGender, setMyGender] = useState<string>(userInfo.gender);
@@ -169,6 +178,7 @@ function EditUserInfoModal({
 
   const closeSearchModalFunc = (result: any): void => {
     if (result !== undefined) {
+      useCheckIsChanged(userInfo.location, result.place_name, setIsLocationChanged);
       setMyLocation(result.place_name);
     }
     setIsOpenSearchModal(false);
@@ -176,29 +186,27 @@ function EditUserInfoModal({
 
   const saveMyInfo = (e: React.ChangeEvent<HTMLInputElement>, value: string): void => {
     if (value === 'nickname') {
-      setIsChanged(true);
+      useCheckIsChanged(userInfo.nickname, e.target.value, setIsNicknameChanged);
       setMyNickname(e.target.value);
     }
     if (value === 'birthyear') {
+      useCheckIsChanged(userInfo.age, Number(e.target.value), setIsBirthYearChanged);
       setMyBirthYear(Number(e.target.value));
     }
   };
 
-  const saveMyGender = (gender: string): void => {
-    setMyGender(gender);
+  const saveMyContent = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
+    if (e.target.value.length <= 200) {
+      useCheckIsChanged(userInfo.myMessage, e.target.value, setIsContentChanged);
+      setMyIntro(e.target.value);
+      return;
+    }
+    alert('200자를 넘겼습니다!');
   };
 
-  const clearMyInfo = (value: string): void => {
-    if (value === 'nickname') {
-      if (myNickname === userInfo.nickname) {
-        setMyNickname('');
-      }
-    }
-    if (value === 'birthyear') {
-      if (myBithYear === userInfo.age) {
-        setMyBirthYear(0);
-      }
-    }
+  const saveMyGender = (gender: string): void => {
+    useCheckIsChanged(userInfo.gender, gender, setIsGenderChanged);
+    setMyGender(gender);
   };
 
   const saveInterestArrayFunc = (input: any): void => {
@@ -216,7 +224,11 @@ function EditUserInfoModal({
         <ModalHeader>
           <icons.chevronLeft onClick={closeModal} />
           <heading.BodyLargeBold>프로필 수정하기</heading.BodyLargeBold>
-          <EditButton disabled={!isChanged}>
+          <EditButton
+            disabled={
+              !isNicknameChanged && !isBirthYearChanged && !isGenderChanged && !isLocationChanged && !isContentChanged
+            }
+          >
             <heading.BodyBaseBold>완료</heading.BodyBaseBold>
           </EditButton>
         </ModalHeader>
@@ -233,9 +245,6 @@ function EditUserInfoModal({
               <InsertDiv>
                 <StyledInput
                   value={myNickname}
-                  onClick={() => {
-                    clearMyInfo('nickname');
-                  }}
                   onChange={e => {
                     saveMyInfo(e, 'nickname');
                   }}
@@ -249,9 +258,6 @@ function EditUserInfoModal({
                   <StyledInput
                     type="number"
                     value={myBithYear === 0 ? '' : myBithYear}
-                    onClick={() => {
-                      clearMyInfo('birthyear');
-                    }}
                     onChange={e => {
                       saveMyInfo(e, 'birthyear');
                     }}
@@ -293,21 +299,7 @@ function EditUserInfoModal({
             <IntroBox>
               <heading.BodyBaseBold>소개</heading.BodyBaseBold>
               <IntroInsertDiv>
-                <StyledTextarea
-                  value={myIntro}
-                  onClick={() => {
-                    if (myIntro === userInfo.myMessage) {
-                      setMyIntro('');
-                    }
-                  }}
-                  onChange={e => {
-                    if (e.target.value.length <= 200) {
-                      setMyIntro(e.target.value);
-                      return;
-                    }
-                    alert('200자를 넘겼습니다!');
-                  }}
-                />
+                <StyledTextarea value={myIntro} onChange={saveMyContent} />
                 <heading.BodyBaseMedium style={{ color: `${colors.gray400}` }}>
                   {myIntro.length}/200
                 </heading.BodyBaseMedium>
