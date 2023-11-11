@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState, useRef } from 'react';
 // import { useMutation } from 'react-query';
 
 import { ModalContainer, ModalHeader } from '../common/styled';
@@ -16,125 +15,24 @@ import InterestMatrix from '../../common/InterestMatrix';
 
 import warning from '../warning';
 
-const ProfileBox = styled.div<{ profile: string }>`
-  position: relative;
-  height: 100%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background-image: url(${props => props.profile});
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
-`;
+import useResizeImage from '../../../util/useResizeImage';
 
-const ItemBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
-  // height : 76px
-  height: 17.19%;
-`;
-
-const TwoItemBox = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  width: 100%;
-  height: 17.19%;
-`;
-const ItemDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
-  height: 100%;
-`;
-
-const IntroBox = styled(ItemBox)`
-  // height : 178px
-  height: 40.27%;
-`;
-
-const InsertDiv = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  height: 63.16%;
-  padding: 12px;
-  border: 1px solid ${colors.primary};
-  border-radius: 4px;
-`;
-const ClickDiv = styled.div`
-  display: flex;
-  width: 100%;
-  height: 63.16%;
-  gap: 4px;
-  padding: 4px;
-  border-radius: 6px;
-  background-color: ${colors.gray100};
-`;
-
-const ClickItem = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  border-radius: 4px;
-`;
-const SelectedClickItem = styled(ClickItem)`
-  background-color: ${colors.primary100};
-  color: ${colors.primary};
-`;
-
-const IntroInsertDiv = styled(InsertDiv)`
-  flex-direction: column;
-  gap: 0px;
-  justify-content: space-between;
-  align-items: end;
-  height: 84.27%;
-`;
-
-const StyledInput = styled.input`
-  font-family: Pretendard;
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 20px;
-  letter-spacing: 0.16px;
-  width: 100%;
-  height: 100%;
-  border: none;
-`;
-
-const StyledTextarea = styled.textarea`
-  font-family: Pretendard;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
-  letter-spacing: 0.14px;
-  resize: none;
-  width: 100%;
-  height: 84.13%;
-  border: none;
-  outline: none;
-`;
-
-const InterestMatrixContainer = styled.div`
-  width: 100%;
-  /* height:256px */
-  height: 84.21%;
-`;
-
-const EditButton = styled.button`
-  background-color: white;
-  border: none;
-  color: ${colors.primary};
-  &:disabled {
-    color: ${colors.gray500};
-  }
-`;
+import {
+  EditButton,
+  ProfileBox,
+  ItemDiv,
+  ItemBox,
+  InsertDiv,
+  StyledInput,
+  TwoItemBox,
+  ClickDiv,
+  SelectedClickItem,
+  ClickItem,
+  IntroBox,
+  IntroInsertDiv,
+  StyledTextarea,
+  InterestMatrixContainer,
+} from './styled';
 
 function EditUserInfoModal({
   userInfo,
@@ -215,6 +113,52 @@ function EditUserInfoModal({
     setMyInterest(prev => [...prev, input]);
   };
 
+  const [profile, setProfile] = useState<{ url: string; file: any }>({ url: userInfo.profileImage, file: null });
+
+  const profileURL = useRef<string>(userInfo.profileImage);
+
+  // file에서 부터 url 추출
+  const readURL = (file: File): void => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.result === null) return;
+      if (typeof reader.result === 'string') {
+        profileURL.current = reader.result;
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // 이미지 변환 시 작동하는 함수
+  const changeProfile = (): void => {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files === null) return;
+      readURL(fileInput.files[0]);
+      useResizeImage(fileInput.files[0]).then((res: Blob) => {
+        console.log(res);
+        setProfile({ url: profileURL.current, file: res });
+      });
+    });
+    fileInput.click();
+  };
+
+  const sendChangedValue = (): void => {
+    const sendData = {
+      profile: profile.file,
+      nickname: myNickname,
+      birthyear: myBithYear,
+      gender: myGender,
+      location: myLocation,
+      intro: myIntro,
+      interest: myInterest,
+    };
+    console.log('data = ', sendData);
+  };
+
   return (
     <>
       {isOpenSearchModal && <SearchModal closeModal={closeSearchModalFunc} title="위치 검색" />}
@@ -231,15 +175,18 @@ function EditUserInfoModal({
         <ModalHeader>
           <icons.chevronLeft onClick={openWarningModalFunc} />
           <heading.BodyLargeBold>프로필 수정하기</heading.BodyLargeBold>
-          <EditButton>
+          <EditButton onClick={sendChangedValue}>
             <heading.BodyBaseBold>완료</heading.BodyBaseBold>
           </EditButton>
         </ModalHeader>
         <main id="edit-userinfo-main">
           <div className="margin-17px-758px" />
           <section id="edit-userinfo-profile">
-            <ProfileBox profile={userInfo.profileImage}>
-              <icons.Camera style={{ position: 'absolute', bottom: '0px', right: '0px', zIndex: 2 }} />
+            <ProfileBox profile={profile.url}>
+              <icons.Camera
+                onClick={changeProfile}
+                style={{ position: 'absolute', bottom: '0px', right: '0px', zIndex: 2 }}
+              />
             </ProfileBox>
           </section>
           <section id="edit-userinfo-itemlist">
