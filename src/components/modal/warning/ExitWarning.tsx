@@ -71,6 +71,7 @@ export default function ExitWarning({
     login.logout().then(
       res => {
         alert(res.message);
+        closeModal();
         navigate('/login');
       },
       error => {
