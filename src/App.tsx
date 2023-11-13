@@ -22,6 +22,7 @@ import CreateCrew from './pages/createcrew/CreateCrew';
 import MyCrew from './pages/mycrew/MyCrew';
 import Permission from './pages/permission/Permission';
 import MyPage from './pages/mypage/MyPage';
+import ReSubscribe from './pages/resubscribe/ReSubscribe';
 
 const queryClient = new QueryClient();
 
@@ -50,6 +51,7 @@ function App(): JSX.Element {
               <Route path="/searchbycategory" element=<SearchByCategory /> />
               <Route path="/makecrew" element=<CreateCrew /> />
               <Route path="/permission" element=<Permission /> />
+              <Route path="/resubscribe" element=<ReSubscribe /> />
             </Routes>
           </div>
         </div>

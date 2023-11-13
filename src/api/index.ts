@@ -32,6 +32,17 @@ export const login = {
   },
 };
 
+export const unsubscribe = {
+  unsubscribe: async () => {
+    const { data } = await instance.post(`api/unsubscribe`);
+    return data;
+  },
+  deleteUnsubscribe: async () => {
+    const { data } = await instance.delete(`api/deleteUnsubscribe`);
+    return data;
+  },
+};
+
 export const navermap = {
   // 내 주변 모임 찾기
   findcrew: async (): Promise<myInterface.Spot[]> => {
